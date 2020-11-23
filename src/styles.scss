@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'app/my-tree-configuration';
+@import '~ng-tournament-tree/styles/ngtt-styles';
+
+body {
+  background-color: $ngtt-background-primary;
+  font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1 {
+  padding: 50px 0;
+  font-size: 150%;
+}

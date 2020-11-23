@@ -3,14 +3,18 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatchComponent } from './match/match.component';
+import { NgTournamentTreeModule } from 'ng-tournament-tree';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MatchComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgTournamentTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
