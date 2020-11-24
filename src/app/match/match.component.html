@@ -1,7 +1,7 @@
 <div class="ngtt__match-wrapper">
   <ng-container *ngFor="let team of match.teams">
     <div class="ngtt__team-wrapper">
-      <div class="ngtt__team-avatar"></div>
+      <div class="ngtt__team-avatar" (click)="click(team)"></div>
       <h6 class="ngtt__team-title">{{team.name}}</h6>
       <div class="ngtt__team-score">{{team.score}}</div>
     </div>

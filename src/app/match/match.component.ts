@@ -14,4 +14,8 @@ export class MatchComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  click(match): void{
+    console.log(match);
+  }
+
 }
