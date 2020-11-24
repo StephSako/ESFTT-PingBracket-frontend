@@ -3,7 +3,7 @@
 .ngtt__match-wrapper {
   display: flex;
   flex-direction: column;
-  width: $ngtt-match-wrapper-width;
+  width: 250px;
   height: $ngtt-match-wrapper-height;
   background-color: lighten($ngtt-background-primary, 15%);
   border-radius: 6px;
@@ -11,7 +11,7 @@
 
 .ngtt__team-wrapper {
   display: flex;
-  width: 100%;
+  width: 75%;
   height: 50px;
   flex-direction: row;
   padding: 12px 6px;

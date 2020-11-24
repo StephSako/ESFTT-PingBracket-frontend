@@ -1,21 +1,14 @@
-<h1 style="color: white; width: 100%; text-align: center">
-  <ng-container *ngIf=" renderedTree === 'se'">Single Elimination Example</ng-container>
-  <ng-container *ngIf=" renderedTree === 'de'">Double Elimination Example</ng-container>
-  <br>
-  <button (click)="renderedTree = 'se'">Show Single Elimination</button>
-  <button (click)="renderedTree = 'de'">Show Double Elimination</button>
-</h1>
-
-<ng-container *ngIf="renderedTree === 'se'">
-  <ngtt-single-elimination-tree [tournament]="singleEliminationTournament"
-                                [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-</ng-container>
-<ng-container *ngIf="renderedTree === 'de'">
-
-  <ngtt-double-elimination-tree [tournament]="doubleEliminationTournament"
-                                [matchTemplate]="matchTemplate"></ngtt-double-elimination-tree>
-</ng-container>
-
-<ng-template #matchTemplate let-match>
-  <app-match [match]="match"></app-match>
-</ng-template>
+<mat-toolbar>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>My App</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-toolbar>
+<router-outlet></router-outlet>
