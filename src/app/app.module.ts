@@ -18,8 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormJoueurComponent } from './form-joueur/form-joueur.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DialogComponent } from './dialog/dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DialogComponent } from './dialog/dialog.component';
     MatSelectModule,
     MatInputModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

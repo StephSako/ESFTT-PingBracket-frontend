@@ -13,7 +13,7 @@ export class EditJoueurComponent {
     nom: null,
     type: null,
     classement: null,
-    id: null
+    _id: null
   };
 
   constructor(@Inject(MAT_DIALOG_DATA) public joueurData: JoueurInterface) {

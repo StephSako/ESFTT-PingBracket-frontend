@@ -13,7 +13,7 @@ export class FormJoueurComponent implements OnInit {
     nom: null,
     type: null,
     classement: null,
-    id: null
+    _id: null
   };
 
   types: string[] = ['Compétiteur', 'Loisir' ];
@@ -22,8 +22,7 @@ export class FormJoueurComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   getErrorMessageInput(): string {
     if (this.nomControl.hasError('required')) {

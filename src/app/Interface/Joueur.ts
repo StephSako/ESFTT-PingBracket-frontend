@@ -1,5 +1,5 @@
 export interface JoueurInterface {
-  id: string;
+  _id: string;
   type: string;
   classement: number;
   nom: string;

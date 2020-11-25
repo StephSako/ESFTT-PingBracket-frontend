@@ -1,6 +1,18 @@
 <div class="container">
+
   <mat-card>
-    <h2>Liste des joueurs</h2>
+    <h2 class="lobster center">Inscrire un joueur</h2>
+
+    <form (submit)="create()">
+      <app-form-joueur [joueur]="joueur"></app-form-joueur>
+      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalid()">
+        Créer
+      </button>
+    </form>
+  </mat-card>
+
+  <mat-card>
+    <h2 class="lobster center">Liste des joueurs</h2>
 
     <table mat-table *ngIf="listJoueurs" [dataSource]="listJoueurs">
 
@@ -31,7 +43,7 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">
-          <button (click)="delete(joueur.id)" class="center" mat-raised-button color="warn">Supprimer</button>
+          <button (click)="delete(joueur._id)" class="center" mat-raised-button color="warn">Supprimer</button>
         </td>
       </ng-container>
 
