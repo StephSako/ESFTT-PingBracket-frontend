@@ -11,5 +11,33 @@ h1 {
   font-size: 150%;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.center {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+}
+
+.lobster {
+  font-family: Lobster, cursive !important;
+}
+
+.lobster_2 {
+  font-family: "Lobster Two", cursive !important;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+  margin-top: 20px !important;
+}

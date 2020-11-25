@@ -11,7 +11,7 @@
 
 .ngtt__team-wrapper {
   display: flex;
-  width: 75%;
+  width: 95%;
   height: 50px;
   flex-direction: row;
   padding: 12px 6px;
@@ -20,18 +20,17 @@
 
 .ngtt__team-avatar {
   margin-left: 12px;
-  height: 25px;
-  width: 25px;
+  height: 24px;
+  width: 24px;
+  background-color: white;
   border-radius: 25px;
-  background-color: darkgray;
   display: inline-block;
   flex-shrink: 1;
 }
 
 .ngtt__team-title {
   margin-left: 12px;
-  color: antiquewhite;
-  font-weight: lighter;
+  color: white;
   display: inline-block;
   flex-grow: 1;
   overflow: hidden;
@@ -40,6 +39,12 @@
 }
 
 .ngtt__team-score {
-  padding: 0 20px 0 10px;
+  padding: 0 10px 0 10px;
   flex-shrink: 1;
+  background-color: white;
+  border-radius: 25px;
+}
+
+.determinate_winner {
+  cursor: pointer;
 }

@@ -1,0 +1,269 @@
+[{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbc"
+  },
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "teams": [
+        {
+          "name": "Renaud B",
+          "score": 1,
+          "winner": false
+        },
+        {
+          "name": "Rudy C",
+          "score": 3,
+          "winner": true
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Thomas C",
+          "score": 3,
+          "winner": true
+        },
+        {
+          "name": "Noël D",
+          "score": 2,
+          "winner": false
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Théo L",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "Aurélien L",
+          "score": 3,
+          "winner": true
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Stephen S",
+          "score": 2,
+          "winner": false
+        },
+        {
+          "name": "Raphaël N",
+          "score": 3,
+          "winner": true
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Lucien B",
+          "score": 3,
+          "winner": true
+        },
+        {
+          "name": "Rémy F",
+          "score": 0,
+          "winner": false
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Cédric L",
+          "score": 3,
+          "winner": true
+        },
+        {
+          "name": "Patrick F",
+          "score": 2,
+          "winner": false
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Clément S",
+          "score": 1,
+          "winner": false
+        },
+        {
+          "name": "Nino S",
+          "score": 3,
+          "winner": true
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Pascal I",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "Raphaël S",
+          "score": 3,
+          "winner": true
+        }
+      ],
+      "status": "finished"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbd"
+  },
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "teams": [
+        {
+          "name": "",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "Rudy C",
+          "score": 0,
+          "winner": false
+        }
+      ],
+      "status": false
+    },
+    {
+      "teams": [
+        {
+          "name": "Aurélien L",
+          "score": 3,
+          "winner": true
+        },
+        {
+          "name": "Raphaël N",
+          "score": 1,
+          "winner": false
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Lucien B",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "Cédric L",
+          "score": 3,
+          "winner": true
+        }
+      ],
+      "status": "finished"
+    },
+    {
+      "teams": [
+        {
+          "name": "Nino S",
+          "score": 3,
+          "winner": true
+        },
+        {
+          "name": "Raphaël S",
+          "score": 2,
+          "winner": false
+        }
+      ],
+      "status": "finished"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbe"
+  },
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "teams": [
+        {
+          "name": "Aurélien L",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "",
+          "score": 0,
+          "winner": false
+        }
+      ],
+      "status": "unscheduled"
+    },
+    {
+      "teams": [
+        {
+          "name": "Cédric L",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "Nino S",
+          "score": 0,
+          "winner": false
+        }
+      ],
+      "status": "scheduled"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbf"
+  },
+  "type": "Final",
+  "matches": [
+    {
+      "teams": [
+        {
+          "name": "",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "",
+          "score": 0,
+          "winner": false
+        }
+      ],
+      "status": "unscheduled"
+    },
+    {
+      "teams": [
+        {
+          "name": "",
+          "score": 0,
+          "winner": false
+        },
+        {
+          "name": "",
+          "score": 0,
+          "winner": false
+        }
+      ],
+      "status": "unscheduled"
+    }
+  ]
+}]

@@ -1,0 +1,29 @@
+[{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0123"
+  },
+  "type": "competiteur",
+  "classement": 989,
+  "nom": "Stephen SAKOVITCH"
+},{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0124"
+  },
+  "type": "loisir",
+  "classement": 0,
+  "nom": "Thomas MERVAL"
+},{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0125"
+  },
+  "type": "loisir",
+  "classement": 0,
+  "nom": "Lucas TUCHEL"
+},{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0126"
+  },
+  "type": "competiteur",
+  "classement": 1276,
+  "nom": "Renaud BONHOMME"
+}]

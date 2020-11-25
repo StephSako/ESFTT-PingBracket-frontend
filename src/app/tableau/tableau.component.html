@@ -1,17 +1,22 @@
-<h1 style="color: white; width: 100%; text-align: center">
-  <ng-container *ngIf=" renderedTree === 'se'">Single Elimination Example</ng-container>
-  <ng-container *ngIf=" renderedTree === 'de'">Double Elimination Example</ng-container>
-  <br>
-  <button mat-raised-button color="primary" (click)="renderedTree = 'se'">Show Single Elimination</button>
-  <button mat-raised-button color="primary" (click)="renderedTree = 'de'">Show Double Elimination</button>
-</h1>
+<h1 class="lobster center">Tableau Open</h1>
 
-<ng-container *ngIf="renderedTree === 'se'">
+<div class="center">
+  <button mat-raised-button color="accent" (click)="render = 'list_players'" class="center_buttons">Joueurs inscrits</button>
+  <button mat-raised-button color="primary" (click)="render = 'poules'" class="center_buttons">Poules</button>
+  <button mat-raised-button color="primary" (click)="render = 'winner'" class="center_buttons">Tableau finale</button>
+  <button mat-raised-button color="primary" (click)="render = 'looser'">Tableau consolante</button>
+</div>
+
+<ng-container *ngIf="render === 'winner'">
   <ngtt-single-elimination-tree [tournament]="singleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
 </ng-container>
-<ng-container *ngIf="renderedTree === 'de'">
 
-  <ngtt-double-elimination-tree [tournament]="doubleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-double-elimination-tree>
+<ng-container *ngIf="render === 'looser'">
+  <ngtt-single-elimination-tree [tournament]="singleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+</ng-container>
+
+<ng-container *ngIf="render === 'list_players'">
+  <app-list-players></app-list-players>
 </ng-container>
 
 <ng-template #matchTemplate let-match>
