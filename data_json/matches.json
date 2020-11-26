@@ -2,268 +2,304 @@
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbc"
   },
+  "round": 4,
   "type": "Winnerbracket",
   "matches": [
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Renaud B",
+          "joueur": "5fbc43b767e5cb1050ab0123",
           "score": 1,
           "winner": false
         },
         {
-          "name": "Rudy C",
+          "joueur": "5fbc43b767e5cb1050ab0124",
           "score": 3,
           "winner": true
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 1,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Thomas C",
+          "joueur": "5fbc43b767e5cb1050ab0125",
           "score": 3,
           "winner": true
         },
         {
-          "name": "Noël D",
+          "joueur": "5fbc43b767e5cb1050ab0126",
           "score": 2,
           "winner": false
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 2,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Théo L",
+          "joueur": "5fbe8a72c086d3081c588a47",
           "score": 0,
           "winner": false
         },
         {
-          "name": "Aurélien L",
+          "joueur": "5fbec39ecb7af9419c287249",
           "score": 3,
           "winner": true
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 3,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Stephen S",
+          "joueur": "5fbec39ecb7af9419c287211",
           "score": 2,
           "winner": false
         },
         {
-          "name": "Raphaël N",
+          "joueur": "5fbec39ecb7af9419c287212",
           "score": 3,
           "winner": true
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 3,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Lucien B",
+          "joueur": "5fbec39ecb7af9419c287213",
           "score": 3,
           "winner": true
         },
         {
-          "name": "Rémy F",
+          "joueur": "5fbec39ecb7af9419c287214",
           "score": 0,
           "winner": false
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 5,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Cédric L",
+          "joueur": "5fbec39ecb7af9419c287215",
           "score": 3,
           "winner": true
         },
         {
-          "name": "Patrick F",
+          "joueur": "5fbec39ecb7af9419c287216",
           "score": 2,
           "winner": false
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 6,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Clément S",
+          "joueur": "5fbec39ecb7af9419c287217",
           "score": 1,
           "winner": false
         },
         {
-          "name": "Nino S",
+          "joueur": "5fbec39ecb7af9419c287219",
           "score": 3,
           "winner": true
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 7,
+      "round": 4
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Pascal I",
+          "joueur": "5fbec39ecb7af9419c287220",
           "score": 0,
           "winner": false
         },
         {
-          "name": "Raphaël S",
+          "joueur": "5fbec39ecb7af9419c287218",
           "score": 3,
           "winner": true
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 8,
+      "round": 4
     }
   ]
 },{
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbd"
   },
+  "round": 3,
   "type": "Winnerbracket",
   "matches": [
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "",
+          "joueur": "5fbc43b767e5cb1050ab0124",
           "score": 0,
           "winner": false
         },
         {
-          "name": "Rudy C",
+          "joueur": "5fbc43b767e5cb1050ab0125",
           "score": 0,
           "winner": false
         }
       ],
-      "status": false
+      "status": "scheduled",
+      "id": 1,
+      "round": 3
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Aurélien L",
+          "joueur": "5fbec39ecb7af9419c287249",
           "score": 3,
           "winner": true
         },
         {
-          "name": "Raphaël N",
+          "joueur": "5fbec39ecb7af9419c287212",
           "score": 1,
           "winner": false
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 2,
+      "round": 3
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Lucien B",
+          "joueur": "5fbec39ecb7af9419c287213",
           "score": 0,
           "winner": false
         },
         {
-          "name": "Cédric L",
+          "joueur": "5fbec39ecb7af9419c287215",
           "score": 3,
           "winner": true
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 3,
+      "round": 3
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Nino S",
+          "joueur": "5fbec39ecb7af9419c287218",
           "score": 3,
           "winner": true
         },
         {
-          "name": "Raphaël S",
+          "joueur": "5fbec39ecb7af9419c287215",
           "score": 2,
           "winner": false
         }
       ],
-      "status": "finished"
+      "status": "finished",
+      "id": 4,
+      "round": 3
     }
   ]
 },{
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbe"
   },
+  "round": 2,
   "type": "Winnerbracket",
   "matches": [
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Aurélien L",
+          "joueur": "5fbec39ecb7af9419c287249",
           "score": 0,
           "winner": false
         },
         {
-          "name": "",
+          "joueur": null,
           "score": 0,
           "winner": false
         }
       ],
-      "status": "unscheduled"
+      "status": "unscheduled",
+      "id": 1,
+      "round": 2
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "Cédric L",
+          "joueur": "5fbec39ecb7af9419c287215",
           "score": 0,
           "winner": false
         },
         {
-          "name": "Nino S",
+          "joueur": "5fbec39ecb7af9419c287218",
           "score": 0,
           "winner": false
         }
       ],
-      "status": "scheduled"
+      "status": "scheduled",
+      "id": 2,
+      "round": 2
     }
   ]
 },{
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbf"
   },
+  "round": 1,
   "type": "Final",
   "matches": [
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "",
+          "joueur": null,
           "score": 0,
           "winner": false
         },
         {
-          "name": "",
+          "joueur": null,
           "score": 0,
           "winner": false
         }
       ],
-      "status": "unscheduled"
+      "status": "unscheduled",
+      "id": 1,
+      "round": 1
     },
     {
-      "teams": [
+      "joueurs": [
         {
-          "name": "",
+          "joueur": null,
           "score": 0,
           "winner": false
         },
         {
-          "name": "",
+          "joueur": null,
           "score": 0,
           "winner": false
         }
       ],
-      "status": "unscheduled"
+      "status": "unscheduled",
+      "id": 1,
+      "round": 1
     }
   ]
 }]

@@ -22,5 +22,4 @@ export class TableauComponent implements OnInit {
     this.matchService.getAll().subscribe(matches => this.singleEliminationTournament = matches);
     this.matchService.getAll().subscribe(matches => this.doubleEliminationTournament = matches);
   }
-
 }

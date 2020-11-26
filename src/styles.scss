@@ -1,18 +1,9 @@
 @import 'app/my-tree-configuration';
 @import '~ng-tournament-tree/styles/ngtt-styles';
 
-body {
-  background-color: $ngtt-background-primary;
-  font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
-}
-
-h1 {
-  padding: 50px 0;
-  font-size: 150%;
-}
-
-html, body {
-  height: 100%;
+html {
+  background: linear-gradient(135deg, #1174b8 1%, #001317 100%) fixed;
+  background-size: cover;
 }
 
 body {
