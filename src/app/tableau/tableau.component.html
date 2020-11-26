@@ -19,6 +19,10 @@
   <app-list-players></app-list-players>
 </ng-container>
 
+<ng-container *ngIf="render === 'poules'">
+  <app-poule></app-poule>
+</ng-container>
+
 <ng-template #matchTemplate let-match>
   <app-match [match]="match"></app-match>
 </ng-template>

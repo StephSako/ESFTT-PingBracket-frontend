@@ -1,13 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-
-
-// tslint:disable-next-line:class-name
-interface nextMatch {
-  actualRound: number;
-  actualIdMatch: number;
-  nextRound: number;
-  nexIdMatch: number;
-}
+import {MatchUpdate} from '../Interface/MatchUpdate';
+import {TournoiService} from '../Service/tournoi.service';
 
 @Component({
   selector: 'app-match',
@@ -18,16 +11,16 @@ export class MatchComponent implements OnInit {
 
   @Input() match: any;
 
-  constructor() { }
+  constructor(private tournoiService: TournoiService) { }
 
   ngOnInit(): void {
   }
 
-  click(round: number, id_match: number): void{
-    console.log(this.getNextStep(round, id_match));
+  click(round: number, id_match: number, winnerId: number): void{
+    this.tournoiService.edit(this.getNextStep(round, id_match, winnerId)).subscribe(req => console.log(req));
   }
 
-  getNextStep(round: number, id_match: number): nextMatch {
+  getNextStep(round: number, id_match: number, winnerId: number): MatchUpdate {
     let idNextMatch = id_match;
     if (idNextMatch % 2 !== 0) { idNextMatch++; }
     let nextRound = round;
@@ -36,7 +29,8 @@ export class MatchComponent implements OnInit {
       actualRound: round,
       actualIdMatch: id_match,
       nextRound,
-      nexIdMatch: idNextMatch / 2
+      nexIdMatch: idNextMatch / 2,
+      winnerId
     };
   }
 

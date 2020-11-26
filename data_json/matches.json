@@ -231,11 +231,6 @@
           "joueur": "5fbec39ecb7af9419c287249",
           "score": 0,
           "winner": false
-        },
-        {
-          "joueur": null,
-          "score": 0,
-          "winner": false
         }
       ],
       "status": "unscheduled",
@@ -268,35 +263,13 @@
   "type": "Final",
   "matches": [
     {
-      "joueurs": [
-        {
-          "joueur": null,
-          "score": 0,
-          "winner": false
-        },
-        {
-          "joueur": null,
-          "score": 0,
-          "winner": false
-        }
-      ],
+      "joueurs": [],
       "status": "unscheduled",
       "id": 1,
       "round": 1
     },
     {
-      "joueurs": [
-        {
-          "joueur": null,
-          "score": 0,
-          "winner": false
-        },
-        {
-          "joueur": null,
-          "score": 0,
-          "winner": false
-        }
-      ],
+      "joueurs": [],
       "status": "unscheduled",
       "id": 1,
       "round": 1

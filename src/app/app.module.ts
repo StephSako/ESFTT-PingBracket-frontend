@@ -21,6 +21,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { DialogComponent } from './dialog/dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { PouleComponent } from './poule/poule.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ListPlayersComponent,
     EditJoueurComponent,
     FormJoueurComponent,
-    DialogComponent
+    DialogComponent,
+    PouleComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatDialogModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatGridListModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

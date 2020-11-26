@@ -5,6 +5,8 @@ const openSchema = mongoose.Schema({
   type: String,
   matches: [{
     id: Number,
+    status: String,
+    round: Number,
     joueurs: [{
       joueur: {
         type: mongoose.Types.ObjectId,
@@ -13,8 +15,7 @@ const openSchema = mongoose.Schema({
       score: Number,
       winner: Boolean
     }]
-  }],
-  round: Number
+  }]
 })
 
 module.exports = mongoose.model('Open', openSchema, 'Open')
