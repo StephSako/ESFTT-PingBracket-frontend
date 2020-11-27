@@ -1,4 +1,7 @@
 <div class="container">
+
+  <button (click)="generatePoules()" type="submit" mat-raised-button mat-dialog-close class="center" color="accent">Générer les poules</button>
+
   <mat-grid-list cols="3" rowHeight="1:1">
     <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
       <mat-card>

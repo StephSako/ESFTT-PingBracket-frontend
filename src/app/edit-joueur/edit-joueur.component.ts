@@ -11,7 +11,6 @@ export class EditJoueurComponent {
 
   joueur: JoueurInterface = {
     nom: null,
-    type: null,
     classement: null,
     _id: null
   };

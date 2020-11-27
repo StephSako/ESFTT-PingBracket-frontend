@@ -9,15 +9,6 @@
   </p>
 
   <p>
-    <mat-form-field style="width: 100%; !important" appearance="outline">
-      <mat-label>Type</mat-label>
-      <mat-select [(ngModel)]="joueur.type" required>
-        <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </p>
-
-  <p>
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>

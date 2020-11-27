@@ -11,7 +11,6 @@ export class FormJoueurComponent implements OnInit {
 
   @Input() joueur: JoueurInterface = {
     nom: null,
-    type: null,
     classement: null,
     _id: null
   };

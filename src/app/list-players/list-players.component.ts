@@ -7,7 +7,6 @@ import {DialogInterface} from '../Interface/DialogInterface';
 import {DialogComponent} from '../dialog/dialog.component';
 import {NotifyService} from '../Service/notify.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-list-players',
@@ -16,14 +15,13 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class ListPlayersComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'type', 'classement', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
   nbPlayersMax: number;
 
   public listJoueurs: JoueurInterface[];
 
   joueur: JoueurInterface = {
     nom: null,
-    type: null,
     classement: null,
     _id: null
   };

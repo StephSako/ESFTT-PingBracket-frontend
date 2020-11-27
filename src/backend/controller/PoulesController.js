@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Poule = require('../model/Poule')
+const mongoose = require('mongoose')
 
 // ALL POULES
-router.route("/").get(function(req, res) {
-  Poule.find().populate('joueurs.id').exec().then(poules => res.status(200).json(poules))
+router.route("/:type").get(function(req, res) {
+  Poule.find({type: req.params.type}).populate('joueurs.id').exec().then(poules => res.status(200).json(poules))
     .catch(err => res.send(err))
 });
 
@@ -15,6 +16,67 @@ router.route("/edit/:id_poule").put(function(req, res) {
       joueurs: req.body
     }
   }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
+});
+
+// CREATE POULES
+router.route("/generate/:type").put(async function(req, res) {
+  let poules = [[],[],[],[],[],[],[],[]]
+  let joueurs = req.body
+
+  let j = 0
+  let mode = 0 // 0 = on monte, 1 = on descend
+  let double = false
+  for (let i = 0; i < joueurs.length; i++){
+    poules[j].push(joueurs[i]._id)
+
+    if (mode === 0){
+      if (j === (poules.length-1)){
+        if (double){
+          mode = 1
+          j--
+          double = false
+        }
+        else double = true
+      }
+      else j++
+    } else {
+      if (j === 0){
+        if (double) {
+          mode = 0
+          j++
+          double = false
+        }
+        else double = true
+      }
+      else j--
+    }
+  }
+
+  try { await Poule.deleteMany({ type: req.params.type}) } catch (err) { res.status(500).json(err) }
+
+  // Formation des poules
+  for (let i = 0; i < poules.length; i++){
+    // Objetisation des joueurs
+    for (let j = 0; j < poules[i].length; j++){
+      poules[i][j] = {
+        id: poules[i][j],
+        points: 0
+      }
+    }
+
+    try {
+      let poule = new Poule({
+        _id: new mongoose.Types.ObjectId(),
+        type: req.params.type,
+        joueurs: poules[i]
+      })
+      await poule.save()
+    }
+    catch (err) {
+      res.status(500).json(err)
+    }
+  }
+  res.status(200).json('Les poules ont été générées')
 });
 
 module.exports = router

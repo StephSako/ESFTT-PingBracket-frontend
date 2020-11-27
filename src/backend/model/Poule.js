@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const pouleSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
+  type: String,
   joueurs: [{
     id: {
       type: mongoose.Types.ObjectId,

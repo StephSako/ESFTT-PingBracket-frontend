@@ -2,126 +2,108 @@
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0123"
   },
-  "type": "Compétiteur",
-  "classement": 990,
-  "nom": "Stephen S"
+  "classement": 989,
+  "nom": "Stephen SAKOVITCH"
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0124"
   },
-  "type": "Compétiteur",
   "classement": 1100,
-  "nom": "Rudy C"
+  "nom": "Rudy CHARLES"
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0125"
   },
-  "type": "Compétiteur",
   "classement": 678,
-  "nom": "Patrick F"
+  "nom": "Patrick FANZUTTI"
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0126"
   },
-  "type": "Compétiteur",
   "classement": 1276,
-  "nom": "Renaud B"
+  "nom": "Renaud BONHOMME"
 },{
   "_id": {
     "$oid": "5fbe8a72c086d3081c588a47"
   },
-  "nom": "Théo L",
-  "classement": 1065,
-  "type": "Compétiteur"
+  "nom": "Théo LEROUX",
+  "classement": 1065
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287249"
   },
-  "nom": "Aurélien L",
-  "classement": 1099,
-  "type": "Compétiteur"
+  "nom": "Aurélien LARNE",
+  "classement": 1099
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287211"
   },
-  "nom": "Cédric L",
-  "classement": 688,
-  "type": "Compétiteur"
+  "nom": "Cédric LE SOUDER",
+  "classement": 688
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287212"
   },
-  "nom": "Rémy F",
-  "classement": 1099,
-  "type": "Compétiteur"
+  "nom": "Rémy FRENCHE",
+  "classement": 687
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287213"
   },
-  "nom": "Noël D",
-  "classement": 1099,
-  "type": "Compétiteur"
+  "nom": "Noël DOUTRIAUX",
+  "classement": 1099
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287214"
   },
-  "nom": "Thomas C",
-  "classement": 1099,
-  "type": "Compétiteur"
+  "nom": "Thomas CARTALIER",
+  "classement": 1099
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287215"
   },
-  "nom": "Lucien B",
-  "classement": 1099,
-  "type": "Compétiteur"
+  "nom": "Lucien BREMON",
+  "classement": 1099
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287216"
   },
-  "nom": "Nino S",
-  "classement": 1099,
-  "type": "Compétiteur"
+  "nom": "Nino SCOHY",
+  "classement": 1099
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287217"
   },
-  "nom": "Clément S",
-  "classement": 600,
-  "type": "Compétiteur"
+  "nom": "Clément SILVA",
+  "classement": 600
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287218"
   },
-  "nom": "Raphaël S",
-  "classement": 600,
-  "type": "Compétiteur"
+  "nom": "Raphaël SONCINI",
+  "classement": 600
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287219"
   },
-  "nom": "Armen T",
-  "classement": 500,
-  "type": "Compétiteur"
+  "nom": "Armen TOUFANIAN",
+  "classement": 500
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287220"
   },
-  "nom": "Pascal I",
-  "classement": 500,
-  "type": "Compétiteur"
+  "nom": "Pascal INGIGLIARDI",
+  "classement": 500
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287221"
   },
-  "nom": "Raphaël N",
-  "classement": 780,
-  "type": "Compétiteur"
+  "nom": "Raphaël NERI",
+  "classement": 780
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287222"
   },
-  "nom": "Raphaël P",
-  "classement": 500,
-  "type": "Compétiteur"
+  "nom": "Raphaël PEREZ",
+  "classement": 500
 }]
