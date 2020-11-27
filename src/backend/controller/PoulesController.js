@@ -4,7 +4,7 @@ const Poule = require('../model/Poule')
 
 // ALL POULES
 router.route("/").get(function(req, res) {
-  Poule.find().populate('poules.joueurs.joueur').exec().then(matches => res.status(200).json({rounds: matches}))
+  Poule.find().populate('joueurs.id').exec().then(poules => res.status(200).json(poules))
     .catch(err => res.send(err))
 });
 

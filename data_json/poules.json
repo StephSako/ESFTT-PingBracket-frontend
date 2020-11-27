@@ -1,89 +1,93 @@
 [{
-    "nb_person": 4,
-    "poules": [
-        {
-            "id": 1,
-            "joueurs":[
-                {
-                    "id": "5fbc43b767e5cb1050ab0123",
-                    "points": 12
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0124",
-                    "points": 8
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0125",
-                    "points": 5
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0126",
-                    "points": 4
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "joueurs":[
-                {
-                    "id": "5fbc43b767e5cb1050ab0123",
-                    "points": 12
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0124",
-                    "points": 8
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0125",
-                    "points": 5
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0126",
-                    "points": 4
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "joueurs":[
-                {
-                    "id": "5fbc43b767e5cb1050ab0123",
-                    "points": 12
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0124",
-                    "points": 8
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0125",
-                    "points": 5
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0126",
-                    "points": 4
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "joueurs":[
-                {
-                    "id": "5fbc43b767e5cb1050ab0123",
-                    "points": 12
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0124",
-                    "points": 8
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0125",
-                    "points": 5
-                },
-                {
-                    "id": "5fbc43b767e5cb1050ab0126",
-                    "points": 4
-                }
-            ]
-        }
-    ]
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbc"
+  },
+  "id": 1,
+  "joueurs": [
+    {
+      "id": "5fbe8a72c086d3081c588a47",
+      "points": 12
+    },
+    {
+      "id": "5fbec39ecb7af9419c287249",
+      "points": 8
+    },
+    {
+      "id": "5fbec39ecb7af9419c287211",
+      "points": 5
+    },
+    {
+      "id": "5fbec39ecb7af9419c287212",
+      "points": 4
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccba"
+  },
+  "id": 2,
+  "joueurs": [
+    {
+      "id": "5fbc43b767e5cb1050ab0123",
+      "points": 12
+    },
+    {
+      "id": "5fbc43b767e5cb1050ab0124",
+      "points": 8
+    },
+    {
+      "id": "5fbc43b767e5cb1050ab0125",
+      "points": 5
+    },
+    {
+      "id": "5fbc43b767e5cb1050ab0126",
+      "points": 4
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbd"
+  },
+  "id": 3,
+  "joueurs": [
+    {
+      "id": "5fbec39ecb7af9419c287213",
+      "points": 12
+    },
+    {
+      "id": "5fbec39ecb7af9419c287214",
+      "points": 8
+    },
+    {
+      "id": "5fbec39ecb7af9419c287215",
+      "points": 5
+    },
+    {
+      "id": "5fbec39ecb7af9419c287216",
+      "points": 4
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbf"
+  },
+  "id": 4,
+  "joueurs": [
+    {
+      "id": "5fbec39ecb7af9419c287217",
+      "points": 12
+    },
+    {
+      "id": "5fbec39ecb7af9419c287218",
+      "points": 8
+    },
+    {
+      "id": "5fbec39ecb7af9419c287219",
+      "points": 5
+    },
+    {
+      "id": "5fbec39ecb7af9419c287220",
+      "points": 4
+    }
+  ]
 }]

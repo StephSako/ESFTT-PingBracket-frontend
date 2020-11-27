@@ -23,7 +23,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PouleComponent } from './poule/poule.component';
-import { MatListModule } from '@angular/material/list';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import { MatListModule } from '@angular/material/list';
     FormsModule,
     MatSnackBarModule,
     MatGridListModule,
-    MatListModule
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
