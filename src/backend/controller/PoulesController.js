@@ -8,4 +8,13 @@ router.route("/").get(function(req, res) {
     .catch(err => res.send(err))
 });
 
+// UPDATE PLAYERS LIST
+router.route("/edit/:id_poule").put(function(req, res) {
+  Poule.update({_id: req.params.id_poule}, {
+    $set: {
+      joueurs: req.body
+    }
+  }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
+});
+
 module.exports = router

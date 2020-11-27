@@ -18,12 +18,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormJoueurComponent } from './form-joueur/form-joueur.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DialogComponent } from './dialog/dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PouleComponent } from './poule/poule.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FormsModule,
     MatSnackBarModule,
     MatGridListModule,
-    DragDropModule
+    DragDropModule,
+    MatButtonToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

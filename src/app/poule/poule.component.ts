@@ -25,8 +25,9 @@ export class PouleComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<[id: JoueurInterface, points: number], any>): void {
+  drop(event: CdkDragDrop<[id: JoueurInterface, points: number], any>, id_poule: string): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    this.pouleService.edit(id_poule, event.container.data).subscribe(() => {}, err => console.log('La poule n\'a pas pu être mise à jour'));
   }
 
 }

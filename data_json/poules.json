@@ -2,7 +2,6 @@
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbc"
   },
-  "id": 1,
   "joueurs": [
     {
       "id": "5fbe8a72c086d3081c588a47",
@@ -25,7 +24,6 @@
   "_id": {
     "$oid": "5fbc24c5de400642b46bccba"
   },
-  "id": 2,
   "joueurs": [
     {
       "id": "5fbc43b767e5cb1050ab0123",
@@ -48,7 +46,6 @@
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbd"
   },
-  "id": 3,
   "joueurs": [
     {
       "id": "5fbec39ecb7af9419c287213",
@@ -71,7 +68,6 @@
   "_id": {
     "$oid": "5fbc24c5de400642b46bccbf"
   },
-  "id": 4,
   "joueurs": [
     {
       "id": "5fbec39ecb7af9419c287217",

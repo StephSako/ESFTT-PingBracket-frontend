@@ -7,6 +7,7 @@ import {DialogInterface} from '../Interface/DialogInterface';
 import {DialogComponent} from '../dialog/dialog.component';
 import {NotifyService} from '../Service/notify.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-list-players',
@@ -16,6 +17,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class ListPlayersComponent implements OnInit {
 
   displayedColumns: string[] = ['nom', 'type', 'classement', 'edit', 'delete'];
+  nbPlayersMax: number;
 
   public listJoueurs: JoueurInterface[];
 
@@ -30,6 +32,7 @@ export class ListPlayersComponent implements OnInit {
               private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.nbPlayersMax = 3;
     this.updateAllJoueurs();
   }
 
@@ -77,8 +80,7 @@ export class ListPlayersComponent implements OnInit {
     });
   }
 
-  isInvalid(): boolean {
+  isInvalidPlayer(): boolean {
     return (this.joueur.nom != null);
   }
-
 }

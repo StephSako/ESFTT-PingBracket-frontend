@@ -2,13 +2,13 @@
   <mat-grid-list cols="3" rowHeight="1:1">
     <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
       <mat-card>
-        <h2 class="lobster center">Poule n°{{poule.id}}</h2>
+        <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
 
         <div
           cdkDropList
           [cdkDropListData]="poules[indexList].joueurs"
           class="example-list"
-          (cdkDropListDropped)="drop($event)">
+          (cdkDropListDropped)="drop($event, poule._id)">
           <div class="example-box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.id.nom}}</div>
         </div>
       </mat-card>

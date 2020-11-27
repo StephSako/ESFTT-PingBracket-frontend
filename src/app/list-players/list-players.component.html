@@ -1,10 +1,30 @@
 <div class="container">
+
+  <mat-card>
+    <div class="center">
+      <h2 class="lobster center">Créer les poules</h2>
+
+      <p>
+        <span id="spanNbPlayersMax">Nombre maximal de joueurs par poule :</span>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="nbPlayersMax">
+          <mat-button-toggle value="bold">3</mat-button-toggle>
+          <mat-button-toggle value="italic">4</mat-button-toggle>
+          <mat-button-toggle value="underline">5</mat-button-toggle>
+        </mat-button-toggle-group>
+      </p>
+
+      <p>
+        <button type="submit" mat-raised-button mat-dialog-close class="center" color="accent">Créer</button>
+      </p>
+    </div>
+  </mat-card>
+
   <mat-card>
     <h2 class="lobster center">Inscrire un joueur</h2>
 
     <form (submit)="create()">
       <app-form-joueur [joueur]="joueur"></app-form-joueur>
-      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalid()">
+      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidPlayer()">
         Créer
       </button>
     </form>
