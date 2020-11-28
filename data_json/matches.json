@@ -19,8 +19,7 @@
         }
       ],
       "status": "finished",
-      "id": 1,
-      "round": 4
+      "id": 1
     },
     {
       "joueurs": [
@@ -36,8 +35,7 @@
         }
       ],
       "status": "finished",
-      "id": 2,
-      "round": 4
+      "id": 2
     },
     {
       "joueurs": [
@@ -53,8 +51,7 @@
         }
       ],
       "status": "finished",
-      "id": 3,
-      "round": 4
+      "id": 3
     },
     {
       "joueurs": [
@@ -70,8 +67,7 @@
         }
       ],
       "status": "finished",
-      "id": 3,
-      "round": 4
+      "id": 3
     },
     {
       "joueurs": [
@@ -87,8 +83,7 @@
         }
       ],
       "status": "finished",
-      "id": 5,
-      "round": 4
+      "id": 5
     },
     {
       "joueurs": [
@@ -104,8 +99,7 @@
         }
       ],
       "status": "finished",
-      "id": 6,
-      "round": 4
+      "id": 6
     },
     {
       "joueurs": [
@@ -121,8 +115,7 @@
         }
       ],
       "status": "finished",
-      "id": 7,
-      "round": 4
+      "id": 7
     },
     {
       "joueurs": [
@@ -138,8 +131,7 @@
         }
       ],
       "status": "finished",
-      "id": 8,
-      "round": 4
+      "id": 8
     }
   ]
 },{
@@ -163,8 +155,7 @@
         }
       ],
       "status": "scheduled",
-      "id": 1,
-      "round": 3
+      "id": 1
     },
     {
       "joueurs": [
@@ -180,8 +171,7 @@
         }
       ],
       "status": "finished",
-      "id": 2,
-      "round": 3
+      "id": 2
     },
     {
       "joueurs": [
@@ -197,8 +187,7 @@
         }
       ],
       "status": "finished",
-      "id": 3,
-      "round": 3
+      "id": 3
     },
     {
       "joueurs": [
@@ -214,8 +203,7 @@
         }
       ],
       "status": "finished",
-      "id": 4,
-      "round": 3
+      "id": 4
     }
   ]
 },{
@@ -234,8 +222,7 @@
         }
       ],
       "status": "unscheduled",
-      "id": 1,
-      "round": 2
+      "id": 1
     },
     {
       "joueurs": [
@@ -251,8 +238,7 @@
         }
       ],
       "status": "scheduled",
-      "id": 2,
-      "round": 2
+      "id": 2
     }
   ]
 },{
@@ -265,14 +251,12 @@
     {
       "joueurs": [],
       "status": "unscheduled",
-      "id": 1,
-      "round": 1
+      "id": 1
     },
     {
       "joueurs": [],
       "status": "unscheduled",
-      "id": 1,
-      "round": 1
+      "id": 1
     }
   ]
 }]

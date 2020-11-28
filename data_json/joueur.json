@@ -106,4 +106,10 @@
   },
   "nom": "Raphaël PEREZ",
   "classement": 500
+},{
+  "_id": {
+    "$oid": "5fc18417421fd74778c51b71"
+  },
+  "nom": "Florian PINSARD",
+  "classement": 0
 }]

@@ -3,13 +3,13 @@ const mongoose = require('mongoose')
 const openSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   type: String,
+  round: Number,
   matches: [{
     id: Number,
     status: String,
-    round: Number,
     joueurs: [{
       joueur: {
-        type: mongoose.Types.ObjectId,
+        type: String,
         ref: 'Joueurs'
       },
       score: Number,
