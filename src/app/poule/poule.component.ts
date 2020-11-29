@@ -51,4 +51,6 @@ export class PouleComponent implements OnInit {
     });
   }
 
+  // TODO STATUT D'UNE POULE
+
 }

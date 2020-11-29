@@ -6,14 +6,13 @@ const openSchema = mongoose.Schema({
   round: Number,
   matches: [{
     id: Number,
-    status: String,
     joueurs: [{
       joueur: {
         type: String,
         ref: 'Joueurs'
       },
-      score: Number,
-      winner: Boolean
+      winner: Boolean,
+      round: Number
     }]
   }]
 })

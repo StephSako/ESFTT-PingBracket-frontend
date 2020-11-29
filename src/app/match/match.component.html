@@ -1,22 +1,19 @@
 <div class="ngtt__match-wrapper">
   <ng-container *ngFor="let joueur of match.joueurs">
     <div class="ngtt__team-wrapper">
-      <div class="ngtt__team-avatar" (click)="click(match.round, match.id, joueur.joueur)">
+      <div class="ngtt__team-avatar" (click)="click(match.round, match.id, joueur.joueur, match.joueurs[0].joueur, match.joueurs[1].joueur)">
 
-        <div *ngIf="match.status == 'finished'; else not_finished">
+        <div *ngIf="match.joueurs.length == 2 && !(!match.joueurs[0].winner && !match.joueurs[1].winner); else not_finished">
           <mat-icon *ngIf="joueur.winner" style="color: green">check_circle</mat-icon>
           <mat-icon *ngIf="!joueur.winner" style="color: red">cancel</mat-icon>
         </div>
 
         <ng-template #not_finished>
-          <div *ngIf="match.status == 'scheduled'">
-            <mat-icon class="determinate_winner" style="color: black">double_arrow</mat-icon>
-          </div>
+          <mat-icon *ngIf="match.joueurs.length == 2" class="determinate_winner" style="color: black">double_arrow</mat-icon>
         </ng-template>
 
       </div>
       <h6 *ngIf="joueur.joueur" class="ngtt__team-title">{{joueur.joueur.nom}}</h6>
-      <div *ngIf="match.joueurs.length == 2" class="ngtt__team-score">{{joueur.score}}</div>
     </div>
   </ng-container>
 </div>

@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatchUpdate} from '../Interface/MatchUpdate';
-import {TournoiService} from '../Service/tournoi.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TournoiService } from '../Service/tournoi.service';
 
 @Component({
   selector: 'app-match',
@@ -10,28 +9,16 @@ import {TournoiService} from '../Service/tournoi.service';
 export class MatchComponent implements OnInit {
 
   @Input() match: any;
+  @Output() updateBracket: EventEmitter<any> = new EventEmitter();
 
   constructor(private tournoiService: TournoiService) { }
 
   ngOnInit(): void {
   }
 
-  click(round: number, id_match: number, winnerId: number): void{
-    this.tournoiService.edit(this.getNextStep(round, id_match, winnerId)).subscribe(req => console.log(req));
+  click(round: number, id_match: number, winnerId: number, joueur1: number, joueur2: number): void{
+    this.tournoiService.edit(round, id_match, winnerId, (winnerId === joueur1 ? joueur2 : joueur1)).subscribe(() => {
+      this.updateBracket.emit();
+    });
   }
-
-  getNextStep(round: number, id_match: number, winnerId: number): MatchUpdate {
-    let idNextMatch = id_match;
-    if (idNextMatch % 2 !== 0) { idNextMatch++; }
-    let nextRound = round;
-    nextRound--;
-    return {
-      actualRound: round,
-      actualIdMatch: id_match,
-      nextRound,
-      nexIdMatch: idNextMatch / 2,
-      winnerId
-    };
-  }
-
 }

@@ -9,129 +9,113 @@
       "joueurs": [
         {
           "joueur": "5fbc43b767e5cb1050ab0123",
-          "score": 1,
           "winner": false
         },
         {
           "joueur": "5fbc43b767e5cb1050ab0124",
-          "score": 3,
           "winner": true
         }
       ],
-      "status": "finished",
-      "id": 1
+      "id": 1,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbc43b767e5cb1050ab0125",
-          "score": 3,
           "winner": true
         },
         {
           "joueur": "5fbc43b767e5cb1050ab0126",
-          "score": 2,
           "winner": false
         }
       ],
-      "status": "finished",
-      "id": 2
+      "id": 2,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbe8a72c086d3081c588a47",
-          "score": 0,
           "winner": false
         },
         {
           "joueur": "5fbec39ecb7af9419c287249",
-          "score": 3,
           "winner": true
         }
       ],
-      "status": "finished",
-      "id": 3
+      "id": 3,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287211",
-          "score": 2,
           "winner": false
         },
         {
           "joueur": "5fbec39ecb7af9419c287212",
-          "score": 3,
           "winner": true
         }
       ],
-      "status": "finished",
-      "id": 3
+      "id": 4,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287213",
-          "score": 3,
           "winner": true
         },
         {
           "joueur": "5fbec39ecb7af9419c287214",
-          "score": 0,
           "winner": false
         }
       ],
-      "status": "finished",
-      "id": 5
+      "id": 5,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287215",
-          "score": 3,
           "winner": true
         },
         {
           "joueur": "5fbec39ecb7af9419c287216",
-          "score": 2,
           "winner": false
         }
       ],
-      "status": "finished",
-      "id": 6
+      "id": 6,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287217",
-          "score": 1,
           "winner": false
         },
         {
           "joueur": "5fbec39ecb7af9419c287219",
-          "score": 3,
           "winner": true
         }
       ],
-      "status": "finished",
-      "id": 7
+      "id": 7,
+      "round": 4
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287220",
-          "score": 0,
           "winner": false
         },
         {
           "joueur": "5fbec39ecb7af9419c287218",
-          "score": 3,
           "winner": true
         }
       ],
-      "status": "finished",
-      "id": 8
+      "id": 8,
+      "round": 4
     }
   ]
 },{
@@ -145,65 +129,57 @@
       "joueurs": [
         {
           "joueur": "5fbc43b767e5cb1050ab0124",
-          "score": 0,
           "winner": false
         },
         {
           "joueur": "5fbc43b767e5cb1050ab0125",
-          "score": 0,
           "winner": false
         }
       ],
-      "status": "scheduled",
-      "id": 1
+      "id": 1,
+      "round": 3
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287249",
-          "score": 3,
           "winner": true
         },
         {
           "joueur": "5fbec39ecb7af9419c287212",
-          "score": 1,
           "winner": false
         }
       ],
-      "status": "finished",
-      "id": 2
+      "id": 2,
+      "round": 3
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287213",
-          "score": 0,
           "winner": false
         },
         {
           "joueur": "5fbec39ecb7af9419c287215",
-          "score": 3,
           "winner": true
         }
       ],
-      "status": "finished",
-      "id": 3
+      "id": 3,
+      "round": 3
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287218",
-          "score": 3,
           "winner": true
         },
         {
           "joueur": "5fbec39ecb7af9419c287215",
-          "score": 2,
           "winner": false
         }
       ],
-      "status": "finished",
-      "id": 4
+      "id": 4,
+      "round": 3
     }
   ]
 },{
@@ -217,28 +193,25 @@
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287249",
-          "score": 0,
           "winner": false
         }
       ],
-      "status": "unscheduled",
-      "id": 1
+      "id": 1,
+      "round": 2
     },
     {
       "joueurs": [
         {
           "joueur": "5fbec39ecb7af9419c287215",
-          "score": 0,
           "winner": false
         },
         {
           "joueur": "5fbec39ecb7af9419c287218",
-          "score": 0,
           "winner": false
         }
       ],
-      "status": "scheduled",
-      "id": 2
+      "id": 2,
+      "round": 2
     }
   ]
 },{
@@ -250,13 +223,13 @@
   "matches": [
     {
       "joueurs": [],
-      "status": "unscheduled",
-      "id": 1
+      "id": 1,
+      "round": 1
     },
     {
       "joueurs": [],
-      "status": "unscheduled",
-      "id": 1
+      "id": 2,
+      "round": 1
     }
   ]
 }]

@@ -19,7 +19,11 @@ export class TableauComponent implements OnInit {
 
   ngOnInit(): void {
     this.render = 'winner';
-    this.matchService.getAll().subscribe(matches => this.singleEliminationTournament = matches);
+    this.updateBracket();
     this.matchService.getAll().subscribe(matches => this.doubleEliminationTournament = matches);
+  }
+
+  updateBracket(): void {
+    this.matchService.getAll().subscribe(matches => this.singleEliminationTournament = matches);
   }
 }

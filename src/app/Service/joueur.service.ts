@@ -16,15 +16,15 @@ export class JoueurService {
     return this.http.get(this.baseURL);
   }
 
-  public create(joueur: JoueurInterface): Observable<any> {
+  public create(joueur: JoueurInterface): Observable<any> { // TODO UPDATE LES POULES
     return this.http.post(this.baseURL + 'create', joueur);
   }
 
-  public edit(joueur: JoueurInterface): Observable<any> {
+  public edit(joueur: JoueurInterface): Observable<any> { // TODO UPDATE LES POULES
     return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
   }
 
-  public delete(id_joueur: number): Observable<any> {
+  public delete(id_joueur: number): Observable<any> { // TODO UPDATE LES POULES
     return this.http.delete(`${this.baseURL}delete/${id_joueur}`);
   }
 }
