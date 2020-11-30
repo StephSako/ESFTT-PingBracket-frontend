@@ -1,7 +1,7 @@
 <div class="ngtt__match-wrapper">
   <ng-container *ngFor="let joueur of match.joueurs">
     <div class="ngtt__team-wrapper">
-      <div class="ngtt__team-avatar" (click)="click(match.round, match.id, joueur.joueur, match.joueurs[0].joueur, match.joueurs[1].joueur)">
+      <div class="ngtt__team-avatar">
 
         <div *ngIf="match.joueurs.length == 2 && !(!match.joueurs[0].winner && !match.joueurs[1].winner); else not_finished">
           <mat-icon *ngIf="joueur.winner" style="color: green">check_circle</mat-icon>
@@ -9,11 +9,11 @@
         </div>
 
         <ng-template #not_finished>
-          <mat-icon *ngIf="match.joueurs.length == 2" class="determinate_winner" style="color: black">double_arrow</mat-icon>
+          <mat-icon (click)="setWinner(match.round, match.id, joueur.id, match.joueurs[0].id, match.joueurs[1].id)" *ngIf="match.joueurs.length == 2" class="determinate_winner" style="color: black">double_arrow</mat-icon>
         </ng-template>
 
       </div>
-      <h6 *ngIf="joueur.joueur" class="ngtt__team-title">{{joueur.joueur.nom}}</h6>
+      <h6 *ngIf="joueur.id" class="ngtt__team-title">{{joueur.id.nom}}</h6>
     </div>
   </ng-container>
 </div>

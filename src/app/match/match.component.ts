@@ -16,7 +16,7 @@ export class MatchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  click(round: number, id_match: number, winnerId: number, joueur1: number, joueur2: number): void{
+  setWinner(round: number, id_match: number, winnerId: number, joueur1: number, joueur2: number): void{
     this.tournoiService.edit(round, id_match, winnerId, (winnerId === joueur1 ? joueur2 : joueur1)).subscribe(() => {
       this.updateBracket.emit();
     });

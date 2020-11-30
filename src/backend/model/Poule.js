@@ -11,6 +11,6 @@ const pouleSchema = mongoose.Schema({
     },
     points: Number
   }],
-})
+},{ _id : false })
 
 module.exports = mongoose.model('Poules', pouleSchema, "Poules")

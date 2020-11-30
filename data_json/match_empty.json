@@ -1,0 +1,113 @@
+[{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbc"
+  },
+  "round": 4,
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "joueurs": [],
+      "id": 1,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 2,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 3,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 4,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 5,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 6,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 7,
+      "round": 4
+    },
+    {
+      "joueurs": [],
+      "id": 8,
+      "round": 4
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbd"
+  },
+  "round": 3,
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "joueurs": [],
+      "id": 1,
+      "round": 3
+    },
+    {
+      "joueurs": [],
+      "id": 2,
+      "round": 3
+    },
+    {
+      "joueurs": [],
+      "id": 3,
+      "round": 3
+    },
+    {
+      "joueurs": [],
+      "id": 4,
+      "round": 3
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbe"
+  },
+  "round": 2,
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "joueurs": [],
+      "id": 1,
+      "round": 2
+    },
+    {
+      "joueurs": [],
+      "id": 2,
+      "round": 2
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fbc24c5de400642b46bccbf"
+  },
+  "round": 1,
+  "type": "Final",
+  "matches": [
+    {
+      "joueurs": [],
+      "id": 1,
+      "round": 1
+    },
+    {
+      "joueurs": [],
+      "id": 2,
+      "round": 1
+    }
+  ]
+}]

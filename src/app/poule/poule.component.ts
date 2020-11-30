@@ -26,9 +26,7 @@ export class PouleComponent implements OnInit {
   }
 
   updateAllPoules(): void {
-    this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => {
-      this.poules = poules;
-    });
+    this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => this.poules = poules);
   }
 
   drop(event: CdkDragDrop<[id: JoueurInterface, points: number], any>, id_poule: string): void {
@@ -51,7 +49,6 @@ export class PouleComponent implements OnInit {
     });
   }
 
-  // TODO STATUT D'UNE POULE
   setStatus(poule: PouleInterface): void {
     this.pouleService.setStatus(poule).subscribe(() => this.updateAllPoules(), err => console.error(err));
   }
