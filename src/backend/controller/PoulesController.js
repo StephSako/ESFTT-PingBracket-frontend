@@ -23,6 +23,8 @@ router.route("/generate/:type").put(async function(req, res) {
   let poules = [[],[],[],[],[],[],[],[]]
   let joueurs = req.body
 
+  // TODO GET LES JOUEURS EN BACK
+
   let j = 0
   let mode = 0 // 0 = on monte, 1 = on descend
   let double = false

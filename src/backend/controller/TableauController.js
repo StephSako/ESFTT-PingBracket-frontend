@@ -89,6 +89,8 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 router.route("/generate/:tableau").put(async function(req, res) {
   let id_match = 1
 
+  // TODO GET LES POULES EN BACK
+
   try {
     for (let i = 0; i < req.body.length; i++) {
       for (let j = 0; j <= 1; j++) {
