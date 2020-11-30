@@ -2,7 +2,7 @@
 
   <button (click)="generatePoules()" type="submit" mat-raised-button mat-dialog-close class="center" color="accent">Générer les poules</button>
 
-  <mat-grid-list cols="3" rowHeight="1:1">
+  <mat-grid-list cols="3" rowHeight="500px">
     <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
       <mat-card>
         <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
@@ -12,8 +12,11 @@
           [cdkDropListData]="poules[indexList].joueurs"
           class="example-list"
           (cdkDropListDropped)="drop($event, poule._id)">
-          <div class="example-box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.id.nom}} - {{joueur.id.classement}} points</div>
+          <div [cdkDragDisabled]="poule.locked" class="example-box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.id.nom}} - {{joueur.id.classement}} points</div>
         </div>
+
+        <button (click)="setStatus(poule)" type="submit" mat-raised-button mat-dialog-close class="center btnSetLockedPoule" [color]="(poule.locked ? 'primary' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Bloquer')}}</button>
+
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>

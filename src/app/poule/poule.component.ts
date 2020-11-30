@@ -52,5 +52,7 @@ export class PouleComponent implements OnInit {
   }
 
   // TODO STATUT D'UNE POULE
-
+  setStatus(poule: PouleInterface): void {
+    this.pouleService.setStatus(poule).subscribe(() => this.updateAllPoules(), err => console.error(err));
+  }
 }

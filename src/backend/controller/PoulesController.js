@@ -11,7 +11,7 @@ router.route("/:type").get(function(req, res) {
 
 // UPDATE PLAYERS LIST
 router.route("/edit/:id_poule").put(function(req, res) {
-  Poule.update({_id: req.params.id_poule}, {
+  Poule.updateOne({_id: req.params.id_poule}, {
     $set: {
       joueurs: req.body
     }
@@ -68,6 +68,7 @@ router.route("/generate/:type").put(async function(req, res) {
       let poule = new Poule({
         _id: new mongoose.Types.ObjectId(),
         type: req.params.type,
+        locked: false,
         joueurs: poules[i]
       })
       await poule.save()
@@ -77,6 +78,15 @@ router.route("/generate/:type").put(async function(req, res) {
     }
   }
   res.status(200).json('Les poules ont été générées')
+});
+
+// UPDATE POULE STATUS
+router.route("/editStatus/:id_poule").put(function(req, res) {
+  Poule.updateOne({_id: req.params.id_poule}, {
+    $set: {
+      locked: req.body.locked
+    }
+  }).then((result) => /*res.json({message: "Le status de la poule a été mis à jour"})*/ res.json(result)).catch(err => res.send(err))
 });
 
 module.exports = router
