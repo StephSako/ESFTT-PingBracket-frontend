@@ -7,6 +7,11 @@ mat-card {
   background-color: #2db82d;
 }
 
+.mat-locked{
+  background-color: white;
+  color: black;
+}
+
 button {
   color: white;
 }
@@ -71,4 +76,12 @@ button {
 
 mat-grid-tile {
   height: 540px !important;
+}
+
+.locked {
+  background-color: #238c23;
+
+  h2 {
+    color: white;
+  }
 }

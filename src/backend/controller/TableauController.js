@@ -89,6 +89,17 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 router.route("/generate/:tableau").put(async function(req, res) {
   let id_match = 1
 
+  await Tableau.updateMany(
+    {
+      tableau: req.params.tableau
+    },
+    {
+      $set: {
+        "matches.$[].joueurs": []
+      }
+    }, {multi:true}
+  ).catch(err => console.log(err))
+
   // TODO GET LES POULES EN BACK
 
   try {
