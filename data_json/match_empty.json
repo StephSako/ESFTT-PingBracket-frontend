@@ -3,6 +3,7 @@
     "$oid": "5fbc24c5de400642b46bccbc"
   },
   "round": 4,
+  "tableau": "open",
   "type": "Winnerbracket",
   "matches": [
     {
@@ -51,6 +52,7 @@
     "$oid": "5fbc24c5de400642b46bccbd"
   },
   "round": 3,
+  "tableau": "open",
   "type": "Winnerbracket",
   "matches": [
     {
@@ -79,6 +81,7 @@
     "$oid": "5fbc24c5de400642b46bccbe"
   },
   "round": 2,
+  "tableau": "open",
   "type": "Winnerbracket",
   "matches": [
     {
@@ -97,6 +100,7 @@
     "$oid": "5fbc24c5de400642b46bccbf"
   },
   "round": 1,
+  "tableau": "open",
   "type": "Final",
   "matches": [
     {

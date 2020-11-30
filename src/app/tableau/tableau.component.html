@@ -8,13 +8,19 @@
 </div>
 
 <ng-container *ngIf="render === 'winner'">
-  <button (click)="generateBracket()" type="submit" mat-raised-button mat-dialog-close class="center btnGenerateBracket" color="accent">Générer le bracket</button>
+  <div class="center">
+    <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
+    <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
+  </div>
 
   <ngtt-single-elimination-tree [tournament]="singleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
 </ng-container>
 
 <ng-container *ngIf="render === 'looser'">
-  <button (click)="generateBracket()" type="submit" mat-raised-button mat-dialog-close class="center btnGenerateBracket" color="accent">Générer le bracket</button>
+  <div class="center">
+    <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
+    <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
+  </div>
 
   <ngtt-single-elimination-tree [tournament]="singleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
 </ng-container>

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 
-const openSchema = mongoose.Schema({
+const tableauSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   type: String,
+  tableau: String,
   round: Number,
   matches: [{
     id: Number,
@@ -11,10 +12,9 @@ const openSchema = mongoose.Schema({
         type: String,
         ref: 'Joueurs'
       },
-      winner: Boolean,
-      round: Number
+      winner: Boolean
     }]
   }]
 },{ _id : false })
 
-module.exports = mongoose.model('Open', openSchema, 'Open')
+module.exports = mongoose.model('Tableaux', tableauSchema, 'Tableaux')
