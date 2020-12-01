@@ -4,6 +4,7 @@ import { JoueurInterface } from '../Interface/Joueur';
 import {JoueurService} from '../Service/joueur.service';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-form-joueur',
@@ -29,8 +30,7 @@ export class FormJoueurComponent implements OnInit {
   ngOnInit(): void {
     this.joueurService.getAll().subscribe(joueurs => {
       this.allPlayers = joueurs;
-      this.optionsListJoueurs = this.nomControl.valueChanges
-        .pipe(
+      this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
           startWith(''),
           map(value => this._filter(value))
         );
@@ -45,8 +45,11 @@ export class FormJoueurComponent implements OnInit {
 
   private _filter(value: string): JoueurInterface[] {
     const filterValue = value.toLowerCase();
-
     return this.allPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
+  }
+
+  onSelectionChanged(event: MatAutocompleteSelectedEvent): void {
+    this.joueur.classement = this.allPlayers.filter(joueur => joueur.nom === event.option.value)[0].classement;
   }
 
 }
