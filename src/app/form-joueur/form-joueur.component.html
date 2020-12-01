@@ -4,7 +4,12 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur</mat-label>
-      <input [(ngModel)]="joueur.nom" name="joueur_nom" matInput required>
+      <input [formControl]="nomControl" [(ngModel)]="joueur.nom" name="joueur_nom" [matAutocomplete]="auto" matInput required>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom">
+          {{joueur.nom}} - {{joueur.classement}} points
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </p>
 

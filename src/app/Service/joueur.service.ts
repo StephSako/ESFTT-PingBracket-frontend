@@ -16,8 +16,12 @@ export class JoueurService {
     return this.http.get(this.baseURL);
   }
 
+  public getAllPlayers(): Observable<any> {
+    return this.http.get(`${this.baseURL}all`);
+  }
+
   public create(joueur: JoueurInterface): Observable<any> {
-    return this.http.post(this.baseURL + 'create', joueur);
+    return this.http.post(`${this.baseURL}create`, joueur);
   }
 
   public edit(joueur: JoueurInterface): Observable<any> {

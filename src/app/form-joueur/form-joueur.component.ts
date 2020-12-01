@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { JoueurInterface } from '../Interface/Joueur';
+import {JoueurService} from '../Service/joueur.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-joueur',
@@ -18,15 +21,32 @@ export class FormJoueurComponent implements OnInit {
   types: string[] = ['Compétiteur', 'Loisir' ];
 
   public nomControl = new FormControl('', [Validators.required]);
+  allPlayers: JoueurInterface[];
+  optionsListJoueurs: Observable<JoueurInterface[]>;
 
-  constructor() { }
+  constructor(private joueurService: JoueurService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.joueurService.getAll().subscribe(joueurs => {
+      this.allPlayers = joueurs;
+      this.optionsListJoueurs = this.nomControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+    });
+  }
 
   getErrorMessageInput(): string {
     if (this.nomControl.hasError('required')) {
       return 'Nom du joueur obligatoire';
     }
+  }
+
+  private _filter(value: string): JoueurInterface[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
   }
 
 }

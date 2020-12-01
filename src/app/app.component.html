@@ -1,7 +1,6 @@
 <mat-toolbar>
-  <button mat-raised-button color="primary">Benjamin</button>
-  <button mat-raised-button color="primary">Famille</button>
-  <button mat-raised-button color="primary">Double</button>
-  <button mat-raised-button color="primary" routerLink="/open">Open</button>
+  <button *ngFor="let tableau of tableaux" mat-raised-button color="primary" [routerLink]="'/tableau/' + tableau.nom">{{tableau.nom | titlecase}}</button>
+  <span class="spacer"></span>
+  <button mat-raised-button color="warn" routerLink="/gestion">Gestion</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

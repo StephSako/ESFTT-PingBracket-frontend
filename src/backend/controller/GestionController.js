@@ -1,16 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const Joueur = require('../model/Joueur')
+const Gestion = require('../model/Gestion')
 const mongoose = require('mongoose')
 
-// ALL PLAYERS
+// ALL TABLEAU
 router.route("/").get(function(req, res) {
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  Gestion.findOne().then(tableaux => res.status(200).json(tableaux.tableaux)).catch(err => res.send(err))
 });
 
-// TODO GET PLAYERS FOR SPECIFIC TABLEAU
-
-// CREATE PLAYER
+// CREATE TABLEAU
 router.route("/create").post(async function(req, res) {
   const joueur = new Joueur({
     _id: new mongoose.Types.ObjectId(),
@@ -18,23 +16,23 @@ router.route("/create").post(async function(req, res) {
     classement: (req.body.classement ? req.body.classement : 0)
   })
   await joueur.save()
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  Gestion.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
-// EDIT PLAYER
+// EDIT TABLEAU
 router.route("/edit/:id_player").put(async function(req, res) {
   const joueur = {
     nom: req.body.nom,
     classement: (req.body.classement ? req.body.classement : 0)
   }
   await Joueur.update({_id: req.params.id_player}, {$set: joueur})
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  Gestion.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
-// DELETE PLAYER
+// DELETE TABLEAU
 router.route("/delete/:id_player").delete(async function(req, res) {
   await Joueur.remove({ _id: req.params.id_player})
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  Gestion.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 module.exports = router

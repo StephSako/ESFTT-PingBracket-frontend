@@ -11,22 +11,23 @@ import { PoulesService } from '../Service/poules.service';
 })
 export class TableauComponent implements OnInit {
 
-  public singleEliminationTournament: NgttTournament;
-  public doubleEliminationTournament: NgttTournament;
+  public winnerbracket: NgttTournament;
+  public looserBracket: NgttTournament;
 
   public render: string;
+  nomTableau: string;
 
   constructor(private tournoiService: TournoiService, private router: Router, private pouleService: PoulesService) {
   }
 
   ngOnInit(): void {
     this.render = 'winner';
+    this.nomTableau = this.router.url.split('/').pop();
     this.updateBracket();
-    this.tournoiService.getAll(this.router.url.split('/').pop()).subscribe(matches => this.doubleEliminationTournament = matches);
   }
 
   updateBracket(): void {
-    this.tournoiService.getAll(this.router.url.split('/').pop()).subscribe(matches => this.singleEliminationTournament = matches);
+    this.tournoiService.getAll(this.router.url.split('/').pop()).subscribe(matches => this.winnerbracket = matches);
   }
 
   generateBracket(): void {

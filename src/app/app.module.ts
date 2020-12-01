@@ -25,6 +25,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { PouleComponent } from './poule/poule.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { GestionComponent } from './gestion/gestion.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     EditJoueurComponent,
     FormJoueurComponent,
     DialogComponent,
-    PouleComponent
+    PouleComponent,
+    GestionComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatSnackBarModule,
     MatGridListModule,
     DragDropModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

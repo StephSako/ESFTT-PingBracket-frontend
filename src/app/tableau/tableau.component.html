@@ -1,4 +1,4 @@
-<h1 class="lobster center">Tableau Open</h1>
+<h1 class="lobster center">Tableau {{nomTableau | titlecase}}</h1>
 
 <div class="center">
   <button mat-raised-button color="accent" (click)="render = 'list_players'" class="center_buttons">Joueurs inscrits</button>
@@ -7,22 +7,22 @@
   <button mat-raised-button color="primary" (click)="render = 'looser'">Tableau consolante</button>
 </div>
 
-<ng-container *ngIf="render === 'winner'">
+<ng-container *ngIf="render === 'winner' && winnerbracket">
   <div class="center">
     <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
     <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
   </div>
 
-  <ngtt-single-elimination-tree [tournament]="singleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+  <ngtt-single-elimination-tree [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
 </ng-container>
 
-<ng-container *ngIf="render === 'looser'">
+<ng-container *ngIf="render === 'looser' && looserBracket">
   <div class="center">
     <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
     <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
   </div>
 
-  <ngtt-single-elimination-tree [tournament]="singleEliminationTournament" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+  <ngtt-single-elimination-tree [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
 </ng-container>
 
 <ng-container *ngIf="render === 'list_players'">
