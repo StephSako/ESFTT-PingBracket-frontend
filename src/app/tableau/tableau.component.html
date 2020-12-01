@@ -1,43 +1,54 @@
 <h1 class="lobster center">Tableau {{nomTableau | titlecase}}</h1>
 
-<div class="center">
-  <button mat-raised-button color="accent" (click)="render = 'list_players'" class="center_buttons">Joueurs inscrits</button>
-  <button mat-raised-button color="primary" (click)="render = 'poules'" class="center_buttons">Poules</button>
-  <button mat-raised-button color="primary" (click)="render = 'winner'" class="center_buttons">Tableau final</button>
-  <button mat-raised-button color="primary" (click)="render = 'looser'">Tableau consolante</button>
-</div>
+<mat-tab-group mat-align-tabs="center" color="accent" [dynamicHeight]="true" selectedIndex="0">
 
-<ng-container *ngIf="render === 'winner' && winnerbracket">
-  <div class="center">
-    <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
-      <mat-icon *ngIf="spinnerShown">
-        <mat-spinner color="warn" [diameter]="20"></mat-spinner>
-      </mat-icon>
-      Générer le bracket
-    </button>
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">
+      Inscriptions
+    </ng-template>
 
-    <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
-  </div>
+    <app-list-players></app-list-players>
+  </mat-tab>
 
-  <ngtt-single-elimination-tree [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-</ng-container>
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">
+      Poules
+    </ng-template>
 
-<ng-container *ngIf="render === 'looser' && looserBracket">
-  <div class="center">
-    <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
-    <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
-  </div>
+    <app-poule></app-poule></mat-tab>
 
-  <ngtt-single-elimination-tree [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-</ng-container>
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">
+      Winner bracket
+    </ng-template>
 
-<ng-container *ngIf="render === 'list_players'">
-  <app-list-players></app-list-players>
-</ng-container>
+    <div class="center">
+      <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
+        <mat-icon *ngIf="spinnerShown">
+          <mat-spinner color="warn" [diameter]="20"></mat-spinner>
+        </mat-icon>
+        Générer le bracket
+      </button>
 
-<ng-container *ngIf="render === 'poules'">
-  <app-poule></app-poule>
-</ng-container>
+      <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
+    </div>
+
+    <ngtt-single-elimination-tree *ngIf="winnerbracket" [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">
+      Looser bracket
+    </ng-template>
+
+    <div class="center">
+      <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
+      <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
+    </div>
+
+    <ngtt-single-elimination-tree *ngIf="looserBracket" [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+  </mat-tab>
+</mat-tab-group>
 
 <ng-template #matchTemplate let-match>
   <app-match (updateBracket)="updateBracket()" [match]="match"></app-match>

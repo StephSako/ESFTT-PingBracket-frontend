@@ -11,3 +11,7 @@ h1 {
 .btnGenerateBracket {
   margin-top: 16px;
 }
+
+::ng-deep .mat-tab-label, .mat-tab-link {
+  color: white !important;
+}

@@ -14,7 +14,6 @@ export class TableauComponent implements OnInit {
   public winnerbracket: NgttTournament;
   public looserBracket: NgttTournament;
 
-  public render: string;
   nomTableau: string;
   spinnerShown: boolean;
 
@@ -23,7 +22,6 @@ export class TableauComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerShown = false;
-    this.render = 'winner';
     this.nomTableau = this.router.url.split('/').pop();
     this.updateBracket();
   }
