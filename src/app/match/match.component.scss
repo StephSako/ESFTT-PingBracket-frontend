@@ -18,19 +18,10 @@
   align-items: center;
 }
 
-.ngtt__team-avatar {
-  margin-left: 12px;
-  height: 24px;
-  width: 24px;
-  background-color: white;
-  border-radius: 25px;
-  display: inline-block;
-  flex-shrink: 1;
-}
-
 .ngtt__team-title {
+  background-color: white;
   margin-left: 12px;
-  color: white;
+  color: black;
   display: inline-block;
   flex-grow: 1;
   overflow: hidden;
@@ -38,6 +29,17 @@
   text-overflow: ellipsis;
 }
 
-.determinate_winner {
-  cursor: pointer;
+.mat-winner {
+  background-color: #0d980d;
+  color: white;
+}
+
+.mat-looser {
+  background-color: red;
+  color: white;
+}
+
+.mat-undefined {
+  background-color: white;
+  color: black;
 }

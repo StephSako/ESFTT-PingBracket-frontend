@@ -16,7 +16,7 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}${tableau}`);
   }
 
-  public getAll(): Observable<any> { // TODO ALL PLAYS EXCEPT IN CURRENT TABLEAU
+  public getOtherPlayer(): Observable<any> { // TODO ALL PLAYS EXCEPT IN CURRENT TABLEAU
     return this.http.get(this.baseURL);
   }
 

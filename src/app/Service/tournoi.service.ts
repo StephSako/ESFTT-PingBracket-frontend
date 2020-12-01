@@ -12,7 +12,7 @@ export class TournoiService {
 
   constructor(private http: HttpClient) { }
 
-  public getAll(tableau: string): Observable<any> {
+  public getBracket(tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}${tableau}`);
   }
 

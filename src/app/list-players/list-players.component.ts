@@ -20,7 +20,7 @@ export class ListPlayersComponent implements OnInit {
   displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
 
   public listJoueurs: JoueurInterface[];
-  public allPlayers: JoueurInterface[];
+  public otherPlayers: JoueurInterface[];
 
   public joueur: JoueurInterface = {
     nom: null,
@@ -34,22 +34,22 @@ export class ListPlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateTableauJoueurs();
-    this.updateAllJoueurs();
+    this.updateOtherPlayers();
   }
 
   updateTableauJoueurs(): void {
     this.joueurService.getTableauPlayers(this.router.url.split('/').pop()).subscribe(joueurs => this.listJoueurs = joueurs);
   }
 
-  updateAllJoueurs(): void {
-    this.joueurService.getAll().subscribe(joueurs => this.allPlayers = joueurs);
+  updateOtherPlayers(): void {
+    this.joueurService.getOtherPlayer().subscribe(joueurs => this.otherPlayers = joueurs);
   }
 
   create(): void {
     this.joueurService.create(this.router.url.split('/').pop(), this.joueur)
       .subscribe(joueurs => {
           this.listJoueurs = joueurs;
-          this.updateAllJoueurs();
+          this.updateOtherPlayers();
           this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
             .subscribe(() => {}, err => console.error(err));
           this.notifyService.notifyUser('Joueur inscrit au tableau', this.snackBar, 'success', 1500, 'OK');
@@ -67,7 +67,7 @@ export class ListPlayersComponent implements OnInit {
     }).afterClosed().subscribe(() => {
       this.joueurService.edit(this.router.url.split('/').pop(), joueur).subscribe(joueurs => {
         this.listJoueurs = joueurs;
-        this.updateAllJoueurs();
+        this.updateOtherPlayers();
         this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
           .subscribe(() => {}, err => console.error(err));
       }, err => { console.error(err); });
@@ -86,7 +86,7 @@ export class ListPlayersComponent implements OnInit {
     }).afterClosed().subscribe(() => {
       this.joueurService.delete(this.router.url.split('/').pop(), id_joueur).subscribe(joueurs => {
         this.listJoueurs = joueurs;
-        this.updateAllJoueurs();
+        this.updateOtherPlayers();
         this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
           .subscribe(() => {}, err => console.error(err));
       }, err => { console.error(err); });

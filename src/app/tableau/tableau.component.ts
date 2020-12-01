@@ -16,24 +16,30 @@ export class TableauComponent implements OnInit {
 
   public render: string;
   nomTableau: string;
+  spinnerShown: boolean;
 
   constructor(private tournoiService: TournoiService, private router: Router, private pouleService: PoulesService) {
   }
 
   ngOnInit(): void {
+    this.spinnerShown = false;
     this.render = 'winner';
     this.nomTableau = this.router.url.split('/').pop();
     this.updateBracket();
   }
 
   updateBracket(): void {
-    this.tournoiService.getAll(this.router.url.split('/').pop()).subscribe(matches => this.winnerbracket = matches);
+    this.tournoiService.getBracket(this.router.url.split('/').pop()).subscribe(matches => {
+      this.winnerbracket = matches;
+      this.spinnerShown = false;
+    });
   }
 
   generateBracket(): void {
+    this.spinnerShown = true;
     this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => {
       this.tournoiService.generateBracket(this.router.url.split('/').pop(), poules)
-        .subscribe(() => this.updateBracket());
+        .subscribe(() => this.updateBracket(), err => this.spinnerShown = false);
     });
   }
 

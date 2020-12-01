@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Tableau = require('../model/Tableau')
 
-// ALL MATCHES
+// GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
   Tableau.find({tableau: req.params.tableau}).populate('matches.joueurs.id').then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
 });

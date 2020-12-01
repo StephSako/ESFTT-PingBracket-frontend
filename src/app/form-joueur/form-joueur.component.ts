@@ -17,7 +17,7 @@ export class FormJoueurComponent implements OnInit {
     classement: null,
     _id: null
   };
-  @Input() allPlayers: any[] = [];
+  @Input() otherPlayers: JoueurInterface[];
 
   public nomControl = new FormControl('', [Validators.required]);
   optionsListJoueurs: Observable<JoueurInterface[]>;
@@ -39,11 +39,11 @@ export class FormJoueurComponent implements OnInit {
 
   private _filter(value: string): JoueurInterface[] {
     const filterValue = value.toLowerCase();
-    return this.allPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
+    return this.otherPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
   }
 
   onSelectionChanged(event: MatAutocompleteSelectedEvent): void {
-    this.joueur.classement = this.allPlayers.filter(joueur => joueur.nom === event.option.value)[0].classement;
+    this.joueur.classement = this.otherPlayers.filter(joueur => joueur.nom === event.option.value)[0].classement;
   }
 
 }

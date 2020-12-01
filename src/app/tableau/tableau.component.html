@@ -9,7 +9,13 @@
 
 <ng-container *ngIf="render === 'winner' && winnerbracket">
   <div class="center">
-    <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
+    <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
+      <mat-icon *ngIf="spinnerShown">
+        <mat-spinner color="warn" [diameter]="20"></mat-spinner>
+      </mat-icon>
+      Générer le bracket
+    </button>
+
     <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
   </div>
 
