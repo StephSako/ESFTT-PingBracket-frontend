@@ -20,8 +20,9 @@ export class ListPlayersComponent implements OnInit {
   displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
 
   public listJoueurs: JoueurInterface[];
+  public allPlayers: JoueurInterface[];
 
-  joueur: JoueurInterface = {
+  public joueur: JoueurInterface = {
     nom: null,
     classement: null,
     _id: null
@@ -32,17 +33,23 @@ export class ListPlayersComponent implements OnInit {
               private pouleService: PoulesService) { }
 
   ngOnInit(): void {
+    this.updateTableauJoueurs();
     this.updateAllJoueurs();
   }
 
+  updateTableauJoueurs(): void {
+    this.joueurService.getTableauPlayers(this.router.url.split('/').pop()).subscribe(joueurs => this.listJoueurs = joueurs);
+  }
+
   updateAllJoueurs(): void {
-    this.joueurService.getAll().subscribe(joueurs => this.listJoueurs = joueurs);
+    this.joueurService.getAll().subscribe(joueurs => this.allPlayers = joueurs);
   }
 
   create(): void {
-    this.joueurService.create(this.joueur)
+    this.joueurService.create(this.router.url.split('/').pop(), this.joueur)
       .subscribe(joueurs => {
           this.listJoueurs = joueurs;
+          this.updateAllJoueurs();
           this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
             .subscribe(() => {}, err => console.error(err));
           this.notifyService.notifyUser('Joueur inscrit au tableau', this.snackBar, 'success', 1500, 'OK');
@@ -58,8 +65,9 @@ export class ListPlayersComponent implements OnInit {
       width: '60%',
       data: joueur
     }).afterClosed().subscribe(() => {
-      this.joueurService.edit(joueur).subscribe(joueurs => {
+      this.joueurService.edit(this.router.url.split('/').pop(), joueur).subscribe(joueurs => {
         this.listJoueurs = joueurs;
+        this.updateAllJoueurs();
         this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
           .subscribe(() => {}, err => console.error(err));
       }, err => { console.error(err); });
@@ -76,8 +84,9 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: accountToDelete
     }).afterClosed().subscribe(() => {
-      this.joueurService.delete(id_joueur).subscribe(joueurs => {
+      this.joueurService.delete(this.router.url.split('/').pop(), id_joueur).subscribe(joueurs => {
         this.listJoueurs = joueurs;
+        this.updateAllJoueurs();
         this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
           .subscribe(() => {}, err => console.error(err));
       }, err => { console.error(err); });

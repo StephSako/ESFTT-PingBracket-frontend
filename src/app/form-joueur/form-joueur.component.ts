@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { JoueurInterface } from '../Interface/Joueur';
-import {JoueurService} from '../Service/joueur.service';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-form-joueur',
@@ -18,23 +17,18 @@ export class FormJoueurComponent implements OnInit {
     classement: null,
     _id: null
   };
-
-  types: string[] = ['Compétiteur', 'Loisir' ];
+  @Input() allPlayers: any[] = [];
 
   public nomControl = new FormControl('', [Validators.required]);
-  allPlayers: JoueurInterface[];
   optionsListJoueurs: Observable<JoueurInterface[]>;
 
-  constructor(private joueurService: JoueurService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.joueurService.getAll().subscribe(joueurs => {
-      this.allPlayers = joueurs;
-      this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value))
-        );
-    });
+    this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
 
   getErrorMessageInput(): string {

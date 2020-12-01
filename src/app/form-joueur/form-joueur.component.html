@@ -6,7 +6,7 @@
       <mat-label>Nom du joueur</mat-label>
       <input [formControl]="nomControl" [(ngModel)]="joueur.nom" name="joueur_nom" [matAutocomplete]="auto" matInput required>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
-        <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" points="joueur.classement">
+        <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom">
           {{joueur.nom}} - {{joueur.classement}} points
         </mat-option>
       </mat-autocomplete>

@@ -12,23 +12,23 @@ export class JoueurService {
 
   constructor(private http: HttpClient) { }
 
-  public getAll(): Observable<any> {
+  public getTableauPlayers(tableau: string): Observable<any> {
+    return this.http.get(`${this.baseURL}${tableau}`);
+  }
+
+  public getAll(): Observable<any> { // TODO ALL PLAYS EXCEPT IN CURRENT TABLEAU
     return this.http.get(this.baseURL);
   }
 
-  public getAllPlayers(): Observable<any> {
-    return this.http.get(`${this.baseURL}all`);
+  public create(tableau: string, joueur: JoueurInterface): Observable<any> {
+    return this.http.post(`${this.baseURL}create/tableau/${tableau}`, joueur);
   }
 
-  public create(joueur: JoueurInterface): Observable<any> {
-    return this.http.post(`${this.baseURL}create`, joueur);
+  public edit(tableau: string, joueur: JoueurInterface): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/${joueur._id}/tableau/${tableau}`, joueur);
   }
 
-  public edit(joueur: JoueurInterface): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
-  }
-
-  public delete(id_joueur: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}delete/${id_joueur}`);
+  public delete(tableau: string, id_joueur: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${id_joueur}/tableau/${tableau}`);
   }
 }

@@ -3,113 +3,161 @@
     "$oid": "5fbc43b767e5cb1050ab0123"
   },
   "classement": 989,
-  "nom": "Stephen SAKOVITCH"
+  "nom": "Stephen SAKOVITCH",
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0124"
   },
   "classement": 1100,
-  "nom": "Rudy CHARLES"
+  "nom": "Rudy CHARLES",
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0125"
   },
   "classement": 678,
-  "nom": "Patrick FANZUTTI"
+  "nom": "Patrick FANZUTTI",
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0126"
   },
-  "classement": 1276,
-  "nom": "Renaud BONHOMME"
+  "classement": 1289,
+  "nom": "Renaud BONHOMME",
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbe8a72c086d3081c588a47"
   },
   "nom": "Théo LEROUX",
-  "classement": 1065
+  "classement": 1065,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287249"
   },
   "nom": "Aurélien LARNE",
-  "classement": 1099
+  "classement": 1099,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287211"
   },
   "nom": "Cédric LE SOUDER",
-  "classement": 688
+  "classement": 688,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287212"
   },
   "nom": "Rémy FRENCHE",
-  "classement": 687
+  "classement": 687,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287213"
   },
   "nom": "Noël DOUTRIAUX",
-  "classement": 1099
+  "classement": 1099,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287214"
   },
   "nom": "Thomas CARTALIER",
-  "classement": 1099
-},{
-  "_id": {
-    "$oid": "5fbec39ecb7af9419c287215"
-  },
-  "nom": "Lucien BREMON",
-  "classement": 1099
+  "classement": 1150,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287216"
   },
   "nom": "Nino SCOHY",
-  "classement": 1099
+  "classement": 510,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287217"
   },
   "nom": "Clément SILVA",
-  "classement": 600
+  "classement": 600,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287218"
   },
   "nom": "Raphaël SONCINI",
-  "classement": 600
+  "classement": 600,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287219"
   },
   "nom": "Armen TOUFANIAN",
-  "classement": 500
+  "classement": 500,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287220"
   },
   "nom": "Pascal INGIGLIARDI",
-  "classement": 500
+  "classement": 500,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287221"
   },
   "nom": "Raphaël NERI",
-  "classement": 780
+  "classement": 780,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287222"
   },
   "nom": "Raphaël PEREZ",
-  "classement": 500
+  "classement": 500,
+  "tableaux": [
+    "open"
+  ]
 },{
   "_id": {
-    "$oid": "5fc18417421fd74778c51b71"
+    "$oid": "5fc41f6f7186903154cd740a"
   },
-  "nom": "Florian PINSARD",
-  "classement": 0
+  "nom": "Lucien BREMON",
+  "classement": 689,
+  "tableaux": [
+    "open"
+  ]
 }]

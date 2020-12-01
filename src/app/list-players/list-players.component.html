@@ -4,10 +4,8 @@
     <h2 class="lobster center">Inscrire un joueur</h2>
 
     <form (submit)="create()">
-      <app-form-joueur [joueur]="joueur"></app-form-joueur>
-      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidPlayer()">
-        Créer
-      </button>
+      <app-form-joueur *ngIf="allPlayers" [allPlayers]="allPlayers" [joueur]="joueur"></app-form-joueur>
+      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidPlayer()">Créer</button>
     </form>
   </mat-card>
 
@@ -38,7 +36,7 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">
-          <button (click)="delete(joueur._id)" class="center" mat-raised-button color="warn">Supprimer</button>
+          <button (click)="delete(joueur._id)" class="center" mat-raised-button color="warn">Désinscrire</button>
         </td>
       </ng-container>
 

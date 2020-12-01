@@ -5,36 +5,54 @@ const mongoose = require('mongoose')
 
 // ALL PLAYERS
 router.route("/").get(function(req, res) {
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers().then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
-// TODO GET PLAYERS FOR SPECIFIC TABLEAU
+// SPECIFIC TABLEAU'S PLAYERS
+router.route("/:tableau").get(function(req, res) {
+  getAllPlayers(req.params.tableau).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+});
+
+function getAllPlayers(tableau){
+  let option = (tableau ? {tableaux : {$all: [tableau]}} : null)
+  return Joueur.find(option).sort({classement: 'desc', nom: 'asc'})
+}
 
 // CREATE PLAYER
-router.route("/create").post(async function(req, res) {
-  const joueur = new Joueur({
-    _id: new mongoose.Types.ObjectId(),
-    nom: req.body.nom,
-    classement: (req.body.classement ? req.body.classement : 0)
-  })
-  await joueur.save()
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+router.route("/create/tableau/:tableau").post(async function(req, res) {
+  let joueur = await Joueur.findOne({nom: req.body.nom}).sort({classement: 'desc', nom: 'asc'})
+  if (joueur) {
+    await Joueur.updateOne(
+      {nom: req.body.nom},
+      {$push: {tableaux: req.params.tableau}}
+    )
+  } else {
+    const joueur = new Joueur({
+      _id: new mongoose.Types.ObjectId(),
+      nom: req.body.nom,
+      tableaux: [req.params.tableau],
+      classement: (req.body.classement ? req.body.classement : 0)
+    })
+    await joueur.save()
+  }
+  getAllPlayers(req.params.tableau).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // EDIT PLAYER
-router.route("/edit/:id_player").put(async function(req, res) {
+router.route("/edit/:id_player/tableau/:tableau").put(async function(req, res) {
   const joueur = {
     nom: req.body.nom,
     classement: (req.body.classement ? req.body.classement : 0)
   }
   await Joueur.update({_id: req.params.id_player}, {$set: joueur})
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers(req.params.tableau).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // DELETE PLAYER
-router.route("/delete/:id_player").delete(async function(req, res) {
-  await Joueur.remove({ _id: req.params.id_player})
-  Joueur.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+router.route("/delete/:id_player/tableau/:tableau").delete(async function(req, res) {
+  await Joueur.updateOne({ _id: req.params.id_player},
+    {$pull: {tableaux: {$in: [req.params.tableau]}}})
+  getAllPlayers(req.params.tableau).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 module.exports = router
