@@ -25,7 +25,7 @@ export class PoulesService {
     return this.http.put(`${this.baseURL}editStatus/${poule._id}`, { locked: !poule.locked });
   }
 
-  public generatePoules(joueurs: JoueurInterface[], type: string): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${type}`, joueurs);
+  public generatePoules(tableau: string): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${tableau}`, null);
   }
 }

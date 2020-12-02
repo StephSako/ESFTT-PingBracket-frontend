@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Poule = require('../model/Poule')
+const Joueur = require('../model/Joueur')
 const mongoose = require('mongoose')
 
 // ALL POULES
@@ -18,12 +19,10 @@ router.route("/edit/:id_poule").put(function(req, res) {
   }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
 });
 
-// CREATE POULES
+// GENERATE POULES
 router.route("/generate/:type").put(async function(req, res) {
   let poules = [[],[],[],[],[],[],[],[]]
-  let joueurs = req.body
-
-  // TODO GET LES JOUEURS EN BACK
+  let joueurs = await Joueur.find({tableaux : {$all: [req.params.type]}}).sort({classement: 'desc', nom: 'asc'})
 
   let j = 0
   let mode = 0 // 0 = on monte, 1 = on descend

@@ -29,11 +29,11 @@
         </mat-icon>
         Générer le bracket
       </button>
-
-      <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
     </div>
 
-    <ngtt-single-elimination-tree *ngIf="winnerbracket" [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+    <div *ngIf="winnerbracket">
+      <ngtt-single-elimination-tree *ngIf="winnerbracket.rounds.length" [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+    </div>
   </mat-tab>
 
   <mat-tab>
@@ -43,10 +43,11 @@
 
     <div class="center">
       <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
-      <button (click)="resetBracket()" mat-raised-button class="center btnGenerateBracket" color="warn">Remettre le bracket à zéro</button>
     </div>
 
-    <ngtt-single-elimination-tree *ngIf="looserBracket" [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+    <div *ngIf="looserBracket">
+      <ngtt-single-elimination-tree *ngIf="looserBracket.rounds.length" [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+    </div>
   </mat-tab>
 </mat-tab-group>
 

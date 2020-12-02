@@ -37,11 +37,7 @@ export class TableauComponent implements OnInit {
     this.spinnerShown = true;
     this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => {
       this.tournoiService.generateBracket(this.router.url.split('/').pop(), poules)
-        .subscribe(() => this.updateBracket(), err => this.spinnerShown = false);
+        .subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
     });
-  }
-
-  resetBracket(): void {
-    this.tournoiService.resetBracket(this.router.url.split('/').pop()).subscribe(() => this.updateBracket());
   }
 }

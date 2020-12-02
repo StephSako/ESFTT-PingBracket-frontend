@@ -17,11 +17,15 @@ export class PouleComponent implements OnInit {
   constructor(private pouleService: PoulesService, private router: Router) { }
 
   ngOnInit(): void {
-    this.updateAllPoules();
+    this.getAllPoules();
   }
 
-  updateAllPoules(): void {
+  getAllPoules(): void {
     this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => this.poules = poules);
+  }
+
+  generatePoules(): void {
+    this.pouleService.generatePoules(this.router.url.split('/').pop()).subscribe(() => this.getAllPoules());
   }
 
   drop(event: CdkDragDrop<[id: JoueurInterface, points: number], any>, id_poule: string): void {
@@ -30,6 +34,6 @@ export class PouleComponent implements OnInit {
   }
 
   setStatus(poule: PouleInterface): void {
-    this.pouleService.setStatus(poule).subscribe(() => this.updateAllPoules(), err => console.error(err));
+    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules(), err => console.error(err));
   }
 }

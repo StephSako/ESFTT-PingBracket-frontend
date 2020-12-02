@@ -1,5 +1,7 @@
 <div class="container">
 
+  <button (click)="generatePoules()" mat-raised-button class="center btnGenerateBracket" color="primary">Régénérer les poules</button>
+
   <mat-grid-list cols="3" rowHeight="500px">
     <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
       <mat-card [class]="poule.locked ? 'locked' : ''">

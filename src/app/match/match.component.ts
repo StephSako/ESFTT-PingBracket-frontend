@@ -17,13 +17,17 @@ export class MatchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setWinner(match: any, winnerId: number): void{
+  setWinner(match: any, winnerId: string): void{
     if (match.joueurs.length === 2 && (!match.joueurs[0].winner && !match.joueurs[1].winner)){
       this.tournoiService.edit(this.router.url.split('/').pop(), match.round, match.id, winnerId,
-        (winnerId === match.joueurs[0] ? match.joueurs[1] : match.joueurs[0])).subscribe(() => {
+        (winnerId === match.joueurs[0].id._id ? match.joueurs[1].id._id : match.joueurs[0].id._id)).subscribe(() => {
         this.updateBracket.emit();
       });
     }
+  }
+
+  isClickable(match: any): string {
+    return (match.joueurs.length === 2 && (!match.joueurs[0].winner && !match.joueurs[1].winner) ? 'clickable' : '');
   }
 
   getColor(match: any, joueur: any): string {

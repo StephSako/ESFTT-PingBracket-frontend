@@ -16,15 +16,11 @@ export class TournoiService {
     return this.http.get(`${this.baseURL}${tableau}`);
   }
 
-  public edit(tableau: string, actualRound: number, actualIdMatch: number, winnerId: number, looserId: number): Observable<any> {
+  public edit(tableau: string, actualRound: number, actualIdMatch: number, winnerId: string, looserId: string): Observable<any> {
     return this.http.put(`${this.baseURL}edit/${tableau}/round/${actualRound}/match/${actualIdMatch}`, {winnerId, looserId});
   }
 
   public generateBracket(tableau: string, poules: PouleInterface[]): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${tableau}`, poules);
-  }
-
-  public resetBracket(tableau: string): Observable<any> {
-    return this.http.get(`${this.baseURL}reset/${tableau}`);
   }
 }

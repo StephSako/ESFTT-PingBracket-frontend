@@ -29,16 +29,17 @@ export class ListPlayersComponent implements OnInit {
   };
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private notifyService: NotifyService,
-              private snackBar: MatSnackBar, private poulesService: PoulesService, private router: Router,
-              private pouleService: PoulesService) { }
+              private snackBar: MatSnackBar, private poulesService: PoulesService, private router: Router) { }
 
   ngOnInit(): void {
-    this.updateTableauJoueurs();
-    this.updateOtherPlayers();
+    this.updateJoueurs();
   }
 
-  updateTableauJoueurs(): void {
-    this.joueurService.getTableauPlayers(this.router.url.split('/').pop()).subscribe(joueurs => this.listJoueurs = joueurs);
+  updateJoueurs(): void {
+    this.joueurService.getTableauPlayers(this.router.url.split('/').pop()).subscribe(joueurs => {
+      this.listJoueurs = joueurs;
+      this.updateOtherPlayers();
+    });
   }
 
   updateOtherPlayers(): void {
@@ -47,11 +48,8 @@ export class ListPlayersComponent implements OnInit {
 
   create(): void {
     this.joueurService.create(this.router.url.split('/').pop(), this.joueur)
-      .subscribe(joueurs => {
-          this.listJoueurs = joueurs;
-          this.updateOtherPlayers();
-          this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
-            .subscribe(() => {}, err => console.error(err));
+      .subscribe(() => {
+          this.updateJoueurs();
           this.notifyService.notifyUser('Joueur inscrit au tableau', this.snackBar, 'success', 1500, 'OK');
         },
         err => {
@@ -65,11 +63,8 @@ export class ListPlayersComponent implements OnInit {
       width: '60%',
       data: joueur
     }).afterClosed().subscribe(() => {
-      this.joueurService.edit(this.router.url.split('/').pop(), joueur).subscribe(joueurs => {
-        this.listJoueurs = joueurs;
-        this.updateOtherPlayers();
-        this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
-          .subscribe(() => {}, err => console.error(err));
+      this.joueurService.edit(this.router.url.split('/').pop(), joueur).subscribe(() => {
+        this.updateJoueurs();
       }, err => { console.error(err); });
     });
   }
@@ -84,11 +79,8 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: accountToDelete
     }).afterClosed().subscribe(() => {
-      this.joueurService.delete(this.router.url.split('/').pop(), id_joueur).subscribe(joueurs => {
-        this.listJoueurs = joueurs;
-        this.updateOtherPlayers();
-        this.pouleService.generatePoules(joueurs, this.router.url.split('/').pop())
-          .subscribe(() => {}, err => console.error(err));
+      this.joueurService.delete(this.router.url.split('/').pop(), id_joueur).subscribe(() => {
+        this.updateJoueurs();
       }, err => { console.error(err); });
     });
   }
