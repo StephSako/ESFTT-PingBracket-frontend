@@ -8,7 +8,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PoulesService } from '../Service/poules.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-players',
@@ -19,8 +19,9 @@ export class ListPlayersComponent implements OnInit {
 
   displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
 
-  public listJoueurs: JoueurInterface[];
-  public otherPlayers: JoueurInterface[];
+  listJoueurs: JoueurInterface[];
+  otherPlayers: JoueurInterface[];
+  nomTableau: string;
 
   public joueur: JoueurInterface = {
     nom: null,
@@ -29,25 +30,29 @@ export class ListPlayersComponent implements OnInit {
   };
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private notifyService: NotifyService,
-              private snackBar: MatSnackBar, private poulesService: PoulesService, private router: Router) { }
+              private snackBar: MatSnackBar, private poulesService: PoulesService, private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.updateJoueurs();
+    this.route.paramMap.subscribe(() => {
+      this.nomTableau = this.router.url.split('/').pop();
+      this.updateJoueurs();
+    });
   }
 
   updateJoueurs(): void {
-    this.joueurService.getTableauPlayers(this.router.url.split('/').pop()).subscribe(joueurs => {
+    this.joueurService.getTableauPlayers(this.nomTableau).subscribe(joueurs => {
       this.listJoueurs = joueurs;
       this.updateOtherPlayers();
     });
   }
 
   updateOtherPlayers(): void {
-    this.joueurService.getOtherPlayer().subscribe(joueurs => this.otherPlayers = joueurs);
+    this.joueurService.getOtherPlayer(this.nomTableau).subscribe(joueurs => this.otherPlayers = joueurs);
   }
 
   create(): void {
-    this.joueurService.create(this.router.url.split('/').pop(), this.joueur)
+    this.joueurService.create(this.nomTableau, this.joueur)
       .subscribe(() => {
           this.updateJoueurs();
           this.notifyService.notifyUser('Joueur inscrit au tableau', this.snackBar, 'success', 1500, 'OK');
@@ -63,7 +68,7 @@ export class ListPlayersComponent implements OnInit {
       width: '60%',
       data: joueur
     }).afterClosed().subscribe(() => {
-      this.joueurService.edit(this.router.url.split('/').pop(), joueur).subscribe(() => {
+      this.joueurService.edit(this.nomTableau, joueur).subscribe(() => {
         this.updateJoueurs();
       }, err => { console.error(err); });
     });
@@ -79,13 +84,13 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: accountToDelete
     }).afterClosed().subscribe(() => {
-      this.joueurService.delete(this.router.url.split('/').pop(), id_joueur).subscribe(() => {
+      this.joueurService.delete(this.nomTableau, id_joueur).subscribe(() => {
         this.updateJoueurs();
       }, err => { console.error(err); });
     });
   }
 
   isInvalidPlayer(): boolean {
-    return (this.joueur.nom != null);
+    return (this.joueur.nom !== '' && this.joueur.nom !== null);
   }
 }

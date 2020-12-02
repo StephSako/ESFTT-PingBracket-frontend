@@ -3,25 +3,24 @@ const router = express.Router()
 const Joueur = require('../model/Joueur')
 const mongoose = require('mongoose')
 
-// ALL PLAYERS
-router.route("/").get(function(req, res) {
-  getAllPlayers().then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+// OTHER PLAYERS
+router.route("/unsubscribed/:tableau").get(function(req, res) {
+  getAllPlayers({tableaux : {$not: {$all: [req.params.tableau]}}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // SPECIFIC TABLEAU'S PLAYERS
-router.route("/:tableau").get(function(req, res) {
-  getAllPlayers(req.params.tableau).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+router.route("/subscribed/:tableau").get(function(req, res) {
+  getAllPlayers({tableaux : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
-function getAllPlayers(tableau){
-  let option = (tableau ? {tableaux : {$all: [tableau]}} : null)
+function getAllPlayers(option){
   return Joueur.find(option).sort({classement: 'desc', nom: 'asc'})
 }
 
 // CREATE PLAYER
 router.route("/create/tableau/:tableau").post(async function(req, res) {
-  let joueur = await Joueur.findOne({nom: req.body.nom}).sort({classement: 'desc', nom: 'asc'})
-  if (joueur) {
+  let searchedJoueur = await Joueur.findOne({nom: req.body.nom}).sort({classement: 'desc', nom: 'asc'})
+  if (searchedJoueur) {
     Joueur.updateOne(
       {nom: req.body.nom},
       {$push: {tableaux: req.params.tableau}}

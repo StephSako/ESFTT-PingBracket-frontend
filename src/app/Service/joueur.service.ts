@@ -13,11 +13,11 @@ export class JoueurService {
   constructor(private http: HttpClient) { }
 
   public getTableauPlayers(tableau: string): Observable<any> {
-    return this.http.get(`${this.baseURL}${tableau}`);
+    return this.http.get(`${this.baseURL}subscribed/${tableau}`);
   }
 
-  public getOtherPlayer(): Observable<any> { // TODO ALL PLAYS EXCEPT IN CURRENT TABLEAU
-    return this.http.get(this.baseURL);
+  public getOtherPlayer(tableau: string): Observable<any> {
+    return this.http.get(`${this.baseURL}unsubscribed/${tableau}`);
   }
 
   public create(tableau: string, joueur: JoueurInterface): Observable<any> {

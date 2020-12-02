@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
-import {JoueurInterface} from '../Interface/Joueur';
+import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-poule',
@@ -14,10 +14,12 @@ export class PouleComponent implements OnInit {
 
   public poules: PouleInterface[];
 
-  constructor(private pouleService: PoulesService, private router: Router) { }
+  constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getAllPoules();
+    this.route.paramMap.subscribe(() => {
+      this.getAllPoules();
+    });
   }
 
   getAllPoules(): void {

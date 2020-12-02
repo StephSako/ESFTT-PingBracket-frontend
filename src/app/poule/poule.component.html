@@ -15,7 +15,7 @@
           <div [cdkDragDisabled]="poule.locked" class="example-box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.id.nom}} - {{joueur.id.classement}} points</div>
         </div>
 
-        <button (click)="setStatus(poule)" type="submit" mat-raised-button mat-dialog-close class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Terminer')}}</button>
+        <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Terminer')}}</button>
 
       </mat-card>
     </mat-grid-tile>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PouleInterface } from '../Interface/Poule';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,7 @@ export class TournoiService {
     return this.http.put(`${this.baseURL}edit/${tableau}/round/${actualRound}/match/${actualIdMatch}`, {winnerId, looserId});
   }
 
-  public generateBracket(tableau: string, poules: PouleInterface[]): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${tableau}`, poules);
+  public generateBracket(tableau: string): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${tableau}`, null);
   }
 }

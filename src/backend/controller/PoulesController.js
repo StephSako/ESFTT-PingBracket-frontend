@@ -6,8 +6,7 @@ const mongoose = require('mongoose')
 
 // ALL POULES
 router.route("/:type").get(function(req, res) {
-  Poule.find({type: req.params.type}).populate('joueurs.id').exec().then(poules => res.status(200).json(poules))
-    .catch(err => res.send(err))
+  Poule.find({type: req.params.type}).populate('joueurs.id').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
 // UPDATE PLAYERS LIST

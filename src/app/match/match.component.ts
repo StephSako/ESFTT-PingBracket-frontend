@@ -11,15 +11,17 @@ export class MatchComponent implements OnInit {
 
   @Input() match: any;
   @Output() updateBracket: EventEmitter<any> = new EventEmitter();
+  nomTableau: string;
 
   constructor(private tournoiService: TournoiService, private router: Router) { }
 
   ngOnInit(): void {
+    this.nomTableau = this.router.url.split('/').pop();
   }
 
   setWinner(match: any, winnerId: string): void{
     if (match.joueurs.length === 2 && (!match.joueurs[0].winner && !match.joueurs[1].winner)){
-      this.tournoiService.edit(this.router.url.split('/').pop(), match.round, match.id, winnerId,
+      this.tournoiService.edit(this.nomTableau, match.round, match.id, winnerId,
         (winnerId === match.joueurs[0].id._id ? match.joueurs[1].id._id : match.joueurs[0].id._id)).subscribe(() => {
         this.updateBracket.emit();
       });

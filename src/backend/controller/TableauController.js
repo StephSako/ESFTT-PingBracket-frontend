@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Tableau = require('../model/Tableau')
+const Poule = require('../model/Poule')
 
 // GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
@@ -89,8 +90,6 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 
 // GENERATE BRACKET
 router.route("/generate/:tableau").put(async function(req, res) {
-  let id_match = 1
-
   await Tableau.updateMany(
     {
       tableau: req.params.tableau
@@ -103,11 +102,13 @@ router.route("/generate/:tableau").put(async function(req, res) {
   ).catch(err => console.log(err))
 
   // TODO GET LES POULES EN BACK
+  let id_match = 1
+  let poules = await Poule.find({type: req.params.tableau}).populate('joueurs.id')
 
   try {
-    for (let i = 0; i < req.body.length; i++) {
+    for (let i = 0; i < poules.length; i++) {
       for (let j = 0; j <= 1; j++) {
-        await setPlayerSpecificMatch(4, id_match, req.body[i].joueurs[j].id._id, req.params.tableau)
+        await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j].id._id, req.params.tableau)
         if (j === 1) id_match ++
       }
     }
