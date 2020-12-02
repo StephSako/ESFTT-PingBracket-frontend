@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 // OTHER PLAYERS
 router.route("/unsubscribed/:tableau").get(function(req, res) {
-  getAllPlayers({tableaux : {$not: {$all: [req.params.tableau]}}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers({tableaux : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // SPECIFIC TABLEAU'S PLAYERS
@@ -14,12 +14,12 @@ router.route("/subscribed/:tableau").get(function(req, res) {
 });
 
 function getAllPlayers(option){
-  return Joueur.find(option).sort({classement: 'desc', nom: 'asc'})
+  return Joueur.find(option).sort({nom: 'asc'})
 }
 
 // CREATE PLAYER
 router.route("/create/tableau/:tableau").post(async function(req, res) {
-  let searchedJoueur = await Joueur.findOne({nom: req.body.nom}).sort({classement: 'desc', nom: 'asc'})
+  let searchedJoueur = await Joueur.findOne({nom: req.body.nom})
   if (searchedJoueur) {
     Joueur.updateOne(
       {nom: req.body.nom},

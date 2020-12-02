@@ -69,7 +69,6 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
     idNextRound--
 
     try {
-      console.log(req.body.winnerId, req.params.tableau)
       await setPlayerSpecificMatch(idNextRound, idNextMatch, req.body.winnerId, req.params.tableau)
     } catch(err) {
       res.status(500).json({error: err})
@@ -78,7 +77,6 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 
   if (Number(req.params.id_round) === 2 ){
     try {
-      console.log(req.body.looserId, req.params.tableau)
       await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau)
     } catch(err) {
       res.status(500).json({error: err})

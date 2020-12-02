@@ -8,7 +8,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PoulesService } from '../Service/poules.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-players',
@@ -37,24 +37,30 @@ export class ListPlayersComponent implements OnInit {
     this.route.paramMap.subscribe(() => {
       this.nomTableau = this.router.url.split('/').pop();
       this.updateJoueurs();
-    });
-  }
-
-  updateJoueurs(): void {
-    this.joueurService.getTableauPlayers(this.nomTableau).subscribe(joueurs => {
-      this.listJoueurs = joueurs;
       this.updateOtherPlayers();
     });
   }
 
+  updateJoueurs(): void {
+    this.joueurService.getTableauPlayers(this.nomTableau).subscribe(joueurs => this.listJoueurs = joueurs);
+  }
+
   updateOtherPlayers(): void {
-    this.joueurService.getOtherPlayer(this.nomTableau).subscribe(joueurs => this.otherPlayers = joueurs);
+    this.joueurService.getOtherPlayer(this.nomTableau).subscribe(joueurs => {
+      this.otherPlayers = joueurs;
+    });
   }
 
   create(): void {
     this.joueurService.create(this.nomTableau, this.joueur)
       .subscribe(() => {
+          this.joueur = {
+            classement : null,
+            nom : null,
+            _id : null
+          };
           this.updateJoueurs();
+          this.updateOtherPlayers();
           this.notifyService.notifyUser('Joueur inscrit au tableau', this.snackBar, 'success', 1500, 'OK');
         },
         err => {
@@ -86,6 +92,7 @@ export class ListPlayersComponent implements OnInit {
     }).afterClosed().subscribe(() => {
       this.joueurService.delete(this.nomTableau, id_joueur).subscribe(() => {
         this.updateJoueurs();
+        this.updateOtherPlayers();
       }, err => { console.error(err); });
     });
   }

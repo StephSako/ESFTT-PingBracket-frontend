@@ -1,16 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { JoueurInterface } from '../Interface/Joueur';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form-joueur',
   templateUrl: './form-joueur.component.html',
   styleUrls: ['./form-joueur.component.scss']
 })
-export class FormJoueurComponent implements OnInit {
+export class FormJoueurComponent implements OnInit, OnChanges {
 
   @Input() joueur: JoueurInterface = {
     nom: null,
@@ -19,31 +20,43 @@ export class FormJoueurComponent implements OnInit {
   };
   @Input() otherPlayers: JoueurInterface[];
 
-  public nomControl = new FormControl('', [Validators.required]);
+  public nomControl = new FormControl('');
   optionsListJoueurs: Observable<JoueurInterface[]>;
+  showAutocomplete = false;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
+    this.route.paramMap.subscribe(() => {
+      this.joueur = {
+        nom: null,
+        classement: null,
+        _id: null
+      };
+
+      this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+    });
   }
 
-  getErrorMessageInput(): string {
-    if (this.nomControl.hasError('required')) {
-      return 'Nom du joueur obligatoire';
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.otherPlayers = changes.otherPlayers.currentValue;
   }
 
   private _filter(value: string): JoueurInterface[] {
-    const filterValue = value.toLowerCase();
-    return this.otherPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
+    if (value && this.otherPlayers){
+      const filterValue = value.toLowerCase();
+      return this.otherPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
+    } else { return []; }
   }
 
   onSelectionChanged(event: MatAutocompleteSelectedEvent): void {
     this.joueur.classement = this.otherPlayers.filter(joueur => joueur.nom === event.option.value)[0].classement;
   }
 
+  typing(event): void{
+    this.showAutocomplete = event && event.length > 0;
+  }
 }

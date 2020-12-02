@@ -3,10 +3,10 @@
   <p>
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
-      <mat-label>Nom du joueur</mat-label>
-      <input [formControl]="nomControl" [(ngModel)]="joueur.nom" name="joueur_nom" [matAutocomplete]="auto" matInput required>
+      <mat-label>Nom du joueur *</mat-label>
+      <input [formControl]="nomControl" [(ngModel)]="joueur.nom" name="joueur_nom" [matAutocomplete]="auto" matInput (ngModelChange)="typing($event)">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
-        <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom">
+        <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" [ngClass]="{'hide-autocomplete': !showAutocomplete}">
           {{joueur.nom}} - {{joueur.classement}} points
         </mat-option>
       </mat-autocomplete>

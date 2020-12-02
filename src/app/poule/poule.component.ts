@@ -4,6 +4,8 @@ import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NotifyService} from '../Service/notify.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-poule',
@@ -14,7 +16,8 @@ export class PouleComponent implements OnInit {
 
   public poules: PouleInterface[];
 
-  constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
+              private notifyService: NotifyService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -27,7 +30,10 @@ export class PouleComponent implements OnInit {
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.router.url.split('/').pop()).subscribe(() => this.getAllPoules());
+    this.pouleService.generatePoules(this.router.url.split('/').pop()).subscribe(() => {
+      this.getAllPoules();
+      this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
+    });
   }
 
   drop(event: CdkDragDrop<[id: JoueurInterface, points: number], any>, id_poule: string): void {
