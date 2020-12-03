@@ -12,6 +12,10 @@ export class JoueurService {
 
   constructor(private http: HttpClient) { }
 
+  public getAllPlayers(): Observable<any> {
+    return this.http.get(this.baseURL);
+  }
+
   public getTableauPlayers(tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}subscribed/${tableau}`);
   }
@@ -20,15 +24,15 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}unsubscribed/${tableau}`);
   }
 
-  public create(tableau: string, joueur: JoueurInterface): Observable<any> {
+  public create(tableau: string, joueur: JoueurInterface): Observable<any> { // CREATE OR SUBSCRIBE PLAYER TO A SPECIFIC TABLEAU
     return this.http.post(`${this.baseURL}create/tableau/${tableau}`, joueur);
   }
 
-  public edit(tableau: string, joueur: JoueurInterface): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${joueur._id}/tableau/${tableau}`, joueur);
+  public edit(joueur: JoueurInterface): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
   }
 
-  public delete(tableau: string, id_joueur: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}delete/${id_joueur}/tableau/${tableau}`);
+  public unsubscribe(tableau: string, id_joueur: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}unsubscribe/${id_joueur}/tableau/${tableau}`);
   }
 }

@@ -3,6 +3,11 @@ const router = express.Router()
 const Joueur = require('../model/Joueur')
 const mongoose = require('mongoose')
 
+// ALL PLAYERS
+router.route("/").get(function(req, res) {
+  getAllPlayers().then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+});
+
 // OTHER PLAYERS
 router.route("/unsubscribed/:tableau").get(function(req, res) {
   getAllPlayers({tableaux : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
@@ -37,16 +42,17 @@ router.route("/create/tableau/:tableau").post(async function(req, res) {
 });
 
 // EDIT PLAYER
-router.route("/edit/:id_player/tableau/:tableau").put(function(req, res) {
+router.route("/edit/:id_player").put(function(req, res) {
   const joueur = {
     nom: req.body.nom,
-    classement: (req.body.classement ? req.body.classement : 0)
+    classement: (req.body.classement ? req.body.classement : 0),
+    tableaux: req.body.tableaux
   }
   Joueur.updateOne({_id: req.params.id_player}, {$set: joueur}).then(result => res.status(200).json(result)).catch(err => res.send(err))
 });
 
-// DELETE PLAYER
-router.route("/delete/:id_player/tableau/:tableau").delete(async function(req, res) {
+// UNSUBSCRIBE PLAYER
+router.route("/unsubscribe/:id_player/tableau/:tableau").delete(async function(req, res) {
   Joueur.updateOne({ _id: req.params.id_player}, {$pull: {tableaux: {$in: [req.params.tableau]}}}).then(result => res.status(200).json(result)).catch(err => res.send(err))
 });
 

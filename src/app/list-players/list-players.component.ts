@@ -26,7 +26,8 @@ export class ListPlayersComponent implements OnInit {
   public joueur: JoueurInterface = {
     nom: null,
     classement: null,
-    _id: null
+    _id: null,
+    tableaux: null
   };
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private notifyService: NotifyService,
@@ -35,6 +36,12 @@ export class ListPlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
+      this.joueur = {
+        nom: null,
+        classement: null,
+        _id: null,
+        tableaux: null
+      };
       this.nomTableau = this.router.url.split('/').pop();
       this.updateJoueurs();
       this.updateOtherPlayers();
@@ -57,7 +64,8 @@ export class ListPlayersComponent implements OnInit {
           this.joueur = {
             classement : null,
             nom : null,
-            _id : null
+            _id : null,
+            tableaux: null
           };
           this.updateJoueurs();
           this.updateOtherPlayers();
@@ -74,13 +82,13 @@ export class ListPlayersComponent implements OnInit {
       width: '60%',
       data: joueur
     }).afterClosed().subscribe(() => {
-      this.joueurService.edit(this.nomTableau, joueur).subscribe(() => {
+      this.joueurService.edit(joueur).subscribe(() => {
         this.updateJoueurs();
       }, err => { console.error(err); });
     });
   }
 
-  delete(id_joueur: number): void {
+  unsubscribe(id_joueur: number): void {
     const accountToDelete: DialogInterface = {
       id: id_joueur,
       action: 'Désinscrire le joueur du tableau ?'
@@ -90,7 +98,7 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: accountToDelete
     }).afterClosed().subscribe(() => {
-      this.joueurService.delete(this.nomTableau, id_joueur).subscribe(() => {
+      this.joueurService.unsubscribe(this.nomTableau, id_joueur).subscribe(() => {
         this.updateJoueurs();
         this.updateOtherPlayers();
       }, err => { console.error(err); });

@@ -12,7 +12,8 @@ export class EditJoueurComponent {
   joueur: JoueurInterface = {
     nom: null,
     classement: null,
-    _id: null
+    _id: null,
+    tableaux: null
   };
 
   constructor(@Inject(MAT_DIALOG_DATA) public joueurData: JoueurInterface) {

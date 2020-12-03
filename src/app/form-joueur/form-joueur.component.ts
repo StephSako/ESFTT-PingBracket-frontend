@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { JoueurInterface } from '../Interface/Joueur';
 import { Observable } from 'rxjs';
@@ -11,14 +11,16 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './form-joueur.component.html',
   styleUrls: ['./form-joueur.component.scss']
 })
-export class FormJoueurComponent implements OnInit, OnChanges {
+export class FormJoueurComponent implements OnInit {
 
   @Input() joueur: JoueurInterface = {
     nom: null,
     classement: null,
-    _id: null
+    _id: null,
+    tableaux: null
   };
   @Input() otherPlayers: JoueurInterface[];
+  tableaux: string[] = ['open', 'double', 'famille', 'jeune'];
 
   public nomControl = new FormControl('');
   optionsListJoueurs: Observable<JoueurInterface[]>;
@@ -28,12 +30,6 @@ export class FormJoueurComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
-      this.joueur = {
-        nom: null,
-        classement: null,
-        _id: null
-      };
-
       this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -41,14 +37,10 @@ export class FormJoueurComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.otherPlayers = changes.otherPlayers.currentValue;
-  }
-
   private _filter(value: string): JoueurInterface[] {
-    if (value && this.otherPlayers){
+    if (value && this.otherPlayers != null){
       const filterValue = value.toLowerCase();
-      return this.otherPlayers.filter(option => option.nom.toLowerCase().includes(filterValue));
+      return this.otherPlayers.filter(joueur => joueur.nom.toLowerCase().includes(filterValue));
     } else { return []; }
   }
 

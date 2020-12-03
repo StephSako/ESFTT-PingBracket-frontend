@@ -1,1 +1,20 @@
-<p>gestion works!</p>
+<h1 class="lobster center">Gestion</h1>
+
+<mat-tab-group mat-align-tabs="center" color="accent" [dynamicHeight]="true" selectedIndex="0">
+
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">
+      Joueurs
+    </ng-template>
+
+    <app-gestion-joueurs></app-gestion-joueurs>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">
+      Tableaux
+    </ng-template>
+
+    <app-gestion-tableaux></app-gestion-tableaux>
+  </mat-tab>
+</mat-tab-group>

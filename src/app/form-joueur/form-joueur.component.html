@@ -1,6 +1,5 @@
-<div class="container">
-
-  <p>
+<mat-grid-list cols="3" rowHeight="4:1">
+  <mat-grid-tile>
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur *</mat-label>
@@ -11,14 +10,23 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-  </p>
+  </mat-grid-tile>
 
-  <p>
+  <mat-grid-tile>
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>
       <input name="recurrence" type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
     </mat-form-field>
-  </p>
+  </mat-grid-tile>
 
-</div>
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="center">
+      <mat-icon matSuffix>dns</mat-icon>
+      <mat-label>Tableaux</mat-label>
+      <mat-select multiple>
+        <mat-option [(ngModel)]="joueur.tableaux" *ngFor="let tableau of tableaux" [value]="tableau">{{tableau | titlecase}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+</mat-grid-list>

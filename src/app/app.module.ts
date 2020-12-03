@@ -30,6 +30,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { GestionJoueursComponent } from './gestion-joueurs/gestion-joueurs.component';
+import { GestionTableauxComponent } from './gestion-tableaux/gestion-tableaux.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     FormJoueurComponent,
     DialogComponent,
     PouleComponent,
-    GestionComponent
+    GestionComponent,
+    GestionJoueursComponent,
+    GestionTableauxComponent
   ],
   imports: [
     BrowserModule,
