@@ -20,6 +20,7 @@ export class FormJoueurComponent implements OnInit {
     tableaux: null
   };
   @Input() otherPlayers: JoueurInterface[];
+  @Input() editMode = true;
   tableaux: string[] = ['open', 'double', 'famille', 'jeune'];
 
   public nomControl = new FormControl('');

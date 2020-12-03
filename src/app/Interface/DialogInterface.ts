@@ -1,4 +1,4 @@
 export interface DialogInterface {
-  id: number;
+  id: string;
   action: string;
 }

@@ -32,7 +32,7 @@ export class JoueurService {
     return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
   }
 
-  public unsubscribe(tableau: string, id_joueur: number): Observable<any> {
+  public unsubscribe(tableau: string, id_joueur: string): Observable<any> {
     return this.http.delete(`${this.baseURL}unsubscribe/${id_joueur}/tableau/${tableau}`);
   }
 }

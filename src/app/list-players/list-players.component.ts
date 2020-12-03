@@ -81,27 +81,31 @@ export class ListPlayersComponent implements OnInit {
     this.dialog.open(EditJoueurComponent, {
       width: '60%',
       data: joueur
-    }).afterClosed().subscribe(() => {
-      this.joueurService.edit(joueur).subscribe(() => {
-        this.updateJoueurs();
-      }, err => { console.error(err); });
+    }).afterClosed().subscribe(id_joueur => {
+      if (id_joueur) {
+        this.joueurService.edit(joueur).subscribe(() => {
+          this.updateJoueurs();
+        }, err => { console.error(err); });
+      }
     });
   }
 
-  unsubscribe(id_joueur: number): void {
+  unsubscribe(joueur: JoueurInterface): void {
     const accountToDelete: DialogInterface = {
-      id: id_joueur,
+      id: joueur._id,
       action: 'Désinscrire le joueur du tableau ?'
     };
 
     this.dialog.open(DialogComponent, {
       width: '45%',
       data: accountToDelete
-    }).afterClosed().subscribe(() => {
-      this.joueurService.unsubscribe(this.nomTableau, id_joueur).subscribe(() => {
-        this.updateJoueurs();
-        this.updateOtherPlayers();
-      }, err => { console.error(err); });
+    }).afterClosed().subscribe(id_joueur => {
+      if (id_joueur){
+        this.joueurService.unsubscribe(this.nomTableau, id_joueur).subscribe(() => {
+          this.updateJoueurs();
+          this.updateOtherPlayers();
+        }, err => { console.error(err); });
+      }
     });
   }
 
