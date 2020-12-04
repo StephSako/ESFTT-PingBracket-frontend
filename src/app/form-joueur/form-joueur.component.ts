@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
+import {TableauInterface} from '../Interface/Tableau';
+import {GestionService} from '../Service/gestion.service';
 
 @Component({
   selector: 'app-form-joueur',
@@ -21,20 +23,28 @@ export class FormJoueurComponent implements OnInit {
   };
   @Input() otherPlayers: JoueurInterface[];
   @Input() editMode = true;
-  tableaux: string[] = ['open', 'double', 'famille', 'jeune'];
+  tableaux: TableauInterface[];
 
   public nomControl = new FormControl('');
   optionsListJoueurs: Observable<JoueurInterface[]>;
   showAutocomplete = false;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private gestionService: GestionService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
+      this.getAllTableaux();
       this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
       );
+    });
+  }
+
+  getAllTableaux(): void{
+    this.gestionService.getAll().subscribe(tableaux => {
+      console.log(tableaux, this.joueur.tableaux);
+      this.tableaux = tableaux;
     });
   }
 

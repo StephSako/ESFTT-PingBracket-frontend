@@ -26,7 +26,7 @@
 
       <ng-container matColumnDef="tableaux">
         <th mat-header-cell *matHeaderCellDef>Tableaux</th>
-        <td mat-cell *matCellDef="let joueur">{{showTableauxPlayer(joueur) | titlecase}}</td>
+        <td mat-cell *matCellDef="let joueur">{{showTableauxPlayer(joueur.tableaux) | titlecase}}</td>
       </ng-container>
 
       <ng-container matColumnDef="edit">

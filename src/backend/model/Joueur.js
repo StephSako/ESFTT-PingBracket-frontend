@@ -5,11 +5,9 @@ const joueurSchema = mongoose.Schema({
   classement: Number,
   nom: String,
   tableaux: [{
-    tableau: {
       type: mongoose.Types.ObjectId,
       ref: 'Gestion'
-    }
   }]
-})
+},{ _id : false })
 
 module.exports = mongoose.model('Joueurs', joueurSchema, "Joueurs")

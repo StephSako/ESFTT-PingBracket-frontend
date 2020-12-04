@@ -5,9 +5,8 @@
   "classement": 989,
   "nom": "Stephen SAKOVITCH",
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -17,9 +16,8 @@
   "classement": 1100,
   "nom": "Rudy CHARLES",
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -29,9 +27,8 @@
   "classement": 678,
   "nom": "Patrick FANZUTTI",
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -41,9 +38,8 @@
   "classement": 1289,
   "nom": "Renaud BONHOMME",
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -53,9 +49,8 @@
   "nom": "Théo LEROUX",
   "classement": 1065,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -65,9 +60,8 @@
   "nom": "Aurélien LARNE",
   "classement": 1099,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -77,9 +71,8 @@
   "nom": "Cédric LE SOUDER",
   "classement": 688,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -89,9 +82,8 @@
   "nom": "Rémy FRENCHE",
   "classement": 687,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -101,9 +93,8 @@
   "nom": "Noël DOUTRIAUX",
   "classement": 1099,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -113,9 +104,8 @@
   "nom": "Thomas CARTALIER",
   "classement": 1150,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -125,9 +115,8 @@
   "nom": "Nino SCOHY",
   "classement": 510,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -137,9 +126,8 @@
   "nom": "Clément SILVA",
   "classement": 600,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -149,9 +137,8 @@
   "nom": "Raphaël SONCINI",
   "classement": 600,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -161,9 +148,8 @@
   "nom": "Armen TOUFANIAN",
   "classement": 500,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -173,9 +159,8 @@
   "nom": "Pascal INGIGLIARDI",
   "classement": 500,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -185,9 +170,8 @@
   "nom": "Raphaël NERI",
   "classement": 780,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -197,9 +181,8 @@
   "nom": "Raphaël PEREZ",
   "classement": 500,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 },{
@@ -209,9 +192,8 @@
   "nom": "Lucien BREMON",
   "classement": 689,
   "tableaux": [
-    {"tableau": {
+    {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    }
 }
   ]
 }]

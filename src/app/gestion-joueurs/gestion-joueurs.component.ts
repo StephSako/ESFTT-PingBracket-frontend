@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {JoueurInterface} from '../Interface/Joueur';
-import {JoueurService} from '../Service/joueur.service';
-import {NotifyService} from '../Service/notify.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {EditJoueurComponent} from '../edit-joueur/edit-joueur.component';
-import {MatDialog} from '@angular/material/dialog';
+import { JoueurInterface } from '../Interface/Joueur';
+import { JoueurService } from '../Service/joueur.service';
+import { NotifyService } from '../Service/notify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
+import { MatDialog } from '@angular/material/dialog';
 import {TableauInterface} from '../Interface/Tableau';
 
 @Component({
@@ -70,8 +70,8 @@ export class GestionJoueursComponent implements OnInit {
     return (this.joueur.nom !== '' && this.joueur.nom !== null);
   }
 
-  showTableauxPlayer(joueur: JoueurInterface): string {
-    return joueur.tableaux.map(tableau => tableau.tableau.nom).join(', ');
+  showTableauxPlayer(tableaux: TableauInterface[]): string {
+    return tableaux.map(tableau => tableau.nom).join(', ');
   }
 
 }
