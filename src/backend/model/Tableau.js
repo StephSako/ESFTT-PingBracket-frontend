@@ -3,13 +3,16 @@ const mongoose = require('mongoose')
 const tableauSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   type: String,
-  tableau: String,
+  tableau: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Gestion'
+  },
   round: Number,
   matches: [{
     id: Number,
     joueurs: [{
-      id: {
-        type: String,
+      joueur: {
+        type: mongoose.Types.ObjectId,
         ref: 'Joueurs'
       },
       winner: Boolean

@@ -5,7 +5,6 @@ export interface PouleInterface {
   type: string;
   locked: boolean;
   joueurs: [
-    id: JoueurInterface,
-    points: number
+    id: JoueurInterface
   ];
 }

@@ -26,7 +26,10 @@ export class PouleComponent implements OnInit {
   }
 
   getAllPoules(): void {
-    this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => this.poules = poules);
+    this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => {
+      console.log(poules);
+      this.poules = poules;
+    });
   }
 
   generatePoules(): void {

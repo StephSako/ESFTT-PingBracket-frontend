@@ -5,7 +5,7 @@ const Poule = require('../model/Poule')
 
 // GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
-  Tableau.find({tableau: req.params.tableau}).populate('matches.joueurs.id').then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
+  Tableau.find({tableau: req.params.tableau}).populate('tableau').populate('matches.joueurs.joueur').then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
 });
 
 // Push player into a specific match

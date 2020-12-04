@@ -3,7 +3,7 @@ import { JoueurService } from '../Service/joueur.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
 import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
-import { DialogInterface } from '../Interface/DialogInterface';
+import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -91,7 +91,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   unsubscribe(joueur: JoueurInterface): void {
-    const accountToDelete: DialogInterface = {
+    const accountToDelete: Dialog = {
       id: joueur._id,
       action: 'Désinscrire le joueur du tableau ?'
     };

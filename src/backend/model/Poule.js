@@ -2,14 +2,16 @@ const mongoose = require('mongoose')
 
 const pouleSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
-  type: String,
+  type: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Gestion'
+  },
   locked: Boolean,
   joueurs: [{
     id: {
       type: mongoose.Types.ObjectId,
       ref: 'Joueurs'
-    },
-    points: Number
+    }
   }],
 },{ _id : false })
 

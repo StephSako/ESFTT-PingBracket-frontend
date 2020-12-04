@@ -3,77 +3,154 @@
     "$oid": "5fbc24c5de400642b46bccbc"
   },
   "round": 4,
-  "tableau": "open",
+  "tableau": {
+    "$oid": "5fbc43b767e5cb1050ab0444"
+  },
   "type": "Winnerbracket",
   "matches": [
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": true
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 1,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 2,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 3,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 4,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 5,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 6,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 7,
       "round": 4
     },
     {
-      "joueurs": [],
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        },
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
       "id": 8,
       "round": 4
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "5fbc24c5de400642b46bccbd"
-  },
-  "round": 3,
-  "tableau": "open",
-  "type": "Winnerbracket",
-  "matches": [
-    {
-      "joueurs": [],
-      "id": 1,
-      "round": 3
-    },
-    {
-      "joueurs": [],
-      "id": 2,
-      "round": 3
-    },
-    {
-      "joueurs": [],
-      "id": 3,
-      "round": 3
-    },
-    {
-      "joueurs": [],
-      "id": 4,
-      "round": 3
     }
   ]
 },{
@@ -81,7 +158,9 @@
     "$oid": "5fbc24c5de400642b46bccbe"
   },
   "round": 2,
-  "tableau": "open",
+  "tableau": {
+    "$oid": "5fbc43b767e5cb1050ab0444"
+  },
   "type": "Winnerbracket",
   "matches": [
     {
@@ -97,10 +176,50 @@
   ]
 },{
   "_id": {
+    "$oid": "5fbc24c5de400642b46bccbd"
+  },
+  "round": 3,
+  "tableau": {
+    "$oid": "5fbc43b767e5cb1050ab0444"
+  },
+  "type": "Winnerbracket",
+  "matches": [
+    {
+      "joueurs": [
+        {
+          "joueur": {
+            "$oid": "5fbc43b767e5cb1050ab0123"
+          },
+          "winner": false
+        }
+      ],
+      "id": 1,
+      "round": 3
+    },
+    {
+      "joueurs": [],
+      "id": 2,
+      "round": 3
+    },
+    {
+      "joueurs": [],
+      "id": 3,
+      "round": 3
+    },
+    {
+      "joueurs": [],
+      "id": 4,
+      "round": 3
+    }
+  ]
+},{
+  "_id": {
     "$oid": "5fbc24c5de400642b46bccbf"
   },
   "round": 1,
-  "tableau": "open",
+  "tableau": {
+    "$oid": "5fbc43b767e5cb1050ab0444"
+  },
   "type": "Final",
   "matches": [
     {

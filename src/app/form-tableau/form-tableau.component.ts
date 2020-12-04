@@ -13,7 +13,7 @@ export class FormTableauComponent implements OnInit {
     format: null,
     _id: null
   };
-  formats: string[] = ['simple', 'double'];
+  formats: string[] = ['Simple', 'Double'];
 
   constructor() { }
 

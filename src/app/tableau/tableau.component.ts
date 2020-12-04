@@ -12,8 +12,7 @@ export class TableauComponent implements OnInit {
 
   public winnerbracket: NgttTournament;
   public looserBracket: NgttTournament;
-
-  nomTableau: string;
+  tableau_id: string;
   spinnerShown: boolean;
 
   constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute) {
@@ -22,13 +21,13 @@ export class TableauComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.spinnerShown = false;
-      this.nomTableau = this.router.url.split('/').pop();
+      this.tableau_id = this.router.url.split('/').pop();
       this.updateBracket();
     });
   }
 
   updateBracket(): void {
-    this.tournoiService.getBracket(this.nomTableau).subscribe(matches => {
+    this.tournoiService.getBracket(this.tableau_id).subscribe(matches => {
       this.winnerbracket = matches;
       this.spinnerShown = false;
     });
@@ -36,6 +35,6 @@ export class TableauComponent implements OnInit {
 
   generateBracket(): void {
     this.spinnerShown = true;
-    this.tournoiService.generateBracket(this.nomTableau).subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
+    this.tournoiService.generateBracket(this.tableau_id).subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
   }
 }

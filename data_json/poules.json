@@ -2,243 +2,200 @@
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedaf"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb0"
-      },
       "id": {
         "$oid": "5fbc43b767e5cb1050ab0126"
-      },
-      "points": 0
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb1"
-      },
       "id": {
         "$oid": "5fbec39ecb7af9419c287219"
-      },
-      "points": 0
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb2"
-      },
       "id": {
         "$oid": "5fbec39ecb7af9419c287220"
-      },
-      "points": 0
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedb3"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb4"
-      },
       "id": {
-        "$oid": "5fbc43b767e5cb1050ab0124"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb5"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287218"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb6"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287222"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedb7"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb8"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287249"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedb9"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287217"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedba"
-      },
       "id": {
-        "$oid": "5fc18417421fd74778c51b71"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedbb"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedbc"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287216"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedbd"
-      },
       "id": {
-        "$oid": "5fbc43b767e5cb1050ab0125"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
+    },
+    {
+      "id": {
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedbe"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedbf"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287213"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc0"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287212"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
+    },
+    {
+      "id": {
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedc1"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc2"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287214"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc3"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287211"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
+    },
+    {
+      "id": {
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedc4"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc5"
-      },
       "id": {
-        "$oid": "5fbe8a72c086d3081c588a47"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc6"
-      },
       "id": {
-        "$oid": "5fbec39ecb7af9419c287221"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
+    },
+    {
+      "id": {
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 },{
   "_id": {
     "$oid": "5fc42c9466755d3d7c6cedc7"
   },
-  "type": "open",
+  "type": {
+      "$oid": "5fbc43b767e5cb1050ab0444"
+    },
   "locked": false,
   "joueurs": [
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc8"
-      },
       "id": {
-        "$oid": "5fbc43b767e5cb1050ab0123"
-      },
-      "points": 0
+        "$oid": "5fbc43b767e5cb1050ab0126"
+      }
     },
     {
-      "_id": {
-        "$oid": "5fc42c9466755d3d7c6cedc9"
-      },
       "id": {
-        "$oid": "5fc41f6f7186903154cd740a"
-      },
-      "points": 0
+        "$oid": "5fbec39ecb7af9419c287219"
+      }
+    },
+    {
+      "id": {
+        "$oid": "5fbec39ecb7af9419c287220"
+      }
     }
-  ],
-  "__v": 0
+  ]
 }]

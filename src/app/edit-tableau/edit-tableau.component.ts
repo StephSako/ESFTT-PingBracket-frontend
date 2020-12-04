@@ -20,7 +20,7 @@ export class EditTableauComponent {
   }
 
   isInvalid(): boolean {
-    return (this.tableau.nom != null && this.tableau.format !== null);
+    return (this.tableau.nom !== '' && this.tableau.format !== null);
   }
 
 }
