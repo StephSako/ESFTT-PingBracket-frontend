@@ -8,19 +8,12 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
     },
     {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -33,19 +26,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -58,19 +43,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -83,19 +60,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -108,19 +77,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -133,19 +94,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -158,19 +111,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 },{
@@ -183,19 +128,11 @@
   "locked": false,
   "joueurs": [
     {
-      "id": {
-        "$oid": "5fbc43b767e5cb1050ab0126"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287219"
-      }
-    },
-    {
-      "id": {
-        "$oid": "5fbec39ecb7af9419c287220"
-      }
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
+    },{
+      "$oid": "5fbc43b767e5cb1050ab0126"
     }
   ]
 }]

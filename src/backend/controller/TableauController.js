@@ -5,7 +5,7 @@ const Poule = require('../model/Poule')
 
 // GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
-  Tableau.find({tableau: req.params.tableau}).populate('tableau').populate('matches.joueurs.joueur').then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
+  Tableau.find({tableau: req.params.tableau}).populate('tableau').populate('matches.joueurs._id').then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
 });
 
 // Push player into a specific match
@@ -19,8 +19,7 @@ async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau){
     {
       $push: {
         "matches.$[match].joueurs": {
-          id: id_player,
-          score: 0,
+          _id: id_player,
           winner: false
         }
       }
@@ -52,7 +51,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
     {
       arrayFilters: [
         { "match.id": req.params.id_match },
-        { "joueur.id": req.body.winnerId }
+        { "joueur._id": req.body.winnerId }
       ]
     }
   ).catch(err => res.status(500).json({error: err}))
@@ -99,14 +98,13 @@ router.route("/generate/:tableau").put(async function(req, res) {
     }, {multi:true}
   ).catch(err => console.log(err))
 
-  // TODO GET LES POULES EN BACK
   let id_match = 1
-  let poules = await Poule.find({type: req.params.tableau}).populate('joueurs.id')
+  let poules = await Poule.find({type: req.params.tableau}).populate('joueurs')
 
   try {
     for (let i = 0; i < poules.length; i++) {
       for (let j = 0; j <= 1; j++) {
-        await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j].id._id, req.params.tableau)
+        await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j]._id, req.params.tableau)
         if (j === 1) id_match ++
       }
     }

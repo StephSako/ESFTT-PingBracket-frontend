@@ -8,10 +8,8 @@ const pouleSchema = mongoose.Schema({
   },
   locked: Boolean,
   joueurs: [{
-    id: {
       type: mongoose.Types.ObjectId,
       ref: 'Joueurs'
-    }
   }],
 },{ _id : false })
 

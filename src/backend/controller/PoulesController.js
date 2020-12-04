@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 // ALL POULES
 router.route("/:type").get(function(req, res) {
-  Poule.find({type: req.params.type}).populate(['joueurs.id', 'type']).then(poules => res.status(200).json(poules)).catch(err => res.send(err))
+  Poule.find({type: req.params.type}).populate('joueurs').populate('type').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
 // UPDATE PLAYERS LIST
@@ -56,14 +56,6 @@ router.route("/generate/:type").put(async function(req, res) {
 
   // Formation des poules
   for (let i = 0; i < poules.length; i++){
-    // Objetisation des joueurs
-    for (let j = 0; j < poules[i].length; j++){
-      poules[i][j] = {
-        id: poules[i][j],
-        points: 0
-      }
-    }
-
     try {
       let poule = new Poule({
         _id: new mongoose.Types.ObjectId(),

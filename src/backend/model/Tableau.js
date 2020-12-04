@@ -11,7 +11,7 @@ const tableauSchema = mongoose.Schema({
   matches: [{
     id: Number,
     joueurs: [{
-      joueur: {
+      _id: {
         type: mongoose.Types.ObjectId,
         ref: 'Joueurs'
       },
