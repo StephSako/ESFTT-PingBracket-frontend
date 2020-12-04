@@ -5,6 +5,7 @@ import {NotifyService} from '../Service/notify.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {EditJoueurComponent} from '../edit-joueur/edit-joueur.component';
 import {MatDialog} from '@angular/material/dialog';
+import {TableauInterface} from '../Interface/Tableau';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -67,6 +68,10 @@ export class GestionJoueursComponent implements OnInit {
 
   isInvalidPlayer(): boolean {
     return (this.joueur.nom !== '' && this.joueur.nom !== null);
+  }
+
+  showTableauxPlayer(joueur: JoueurInterface): string {
+    return joueur.tableaux.map(tableau => tableau.tableau.nom).join(', ');
   }
 
 }

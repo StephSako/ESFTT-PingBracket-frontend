@@ -5,17 +5,17 @@ const mongoose = require('mongoose')
 
 // ALL PLAYERS
 router.route("/").get(function(req, res) {
-  getAllPlayers().then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers().populate('tableaux.tableau').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // OTHER PLAYERS
 router.route("/unsubscribed/:tableau").get(function(req, res) {
-  getAllPlayers({tableaux : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers({'tableaux.tableau' : {$ne: req.params.tableau}}).populate('tableaux.tableau').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // SPECIFIC TABLEAU'S PLAYERS
 router.route("/subscribed/:tableau").get(function(req, res) {
-  getAllPlayers({tableaux : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers({'tableaux.tableau' : {$all: [req.params.tableau]}}).populate('tableaux.tableau').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 function getAllPlayers(option){
