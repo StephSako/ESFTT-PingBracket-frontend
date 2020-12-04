@@ -12,4 +12,8 @@ export class GestionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  remiseAZero(): void {
+    console.log('Remise à zéro');
+  }
+
 }

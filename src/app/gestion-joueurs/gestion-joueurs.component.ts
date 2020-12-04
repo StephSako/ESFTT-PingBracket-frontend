@@ -56,10 +56,12 @@ export class GestionJoueursComponent implements OnInit {
     this.dialog.open(EditJoueurComponent, {
       width: '60%',
       data: joueur
-    }).afterClosed().subscribe(() => {
-      this.joueurService.edit(joueur).subscribe(() => {
-        this.getAllJoueurs();
-      }, err => { console.error(err); });
+    }).afterClosed().subscribe(id_joueur => {
+      if (id_joueur){
+        this.joueurService.edit(joueur).subscribe(() => {
+          this.getAllJoueurs();
+        }, err => { console.error(err); });
+      }
     });
   }
 

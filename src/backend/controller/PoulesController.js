@@ -18,7 +18,7 @@ router.route("/edit/:id_poule").put(function(req, res) {
   }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
 });
 
-// GENERATE POULES
+// GENERATE POULES ACCORDING TO A SPECIFIC TYPE
 router.route("/generate/:type").put(async function(req, res) {
   let poules = [[],[],[],[],[],[],[],[]]
   let joueurs = await Joueur.find({tableaux : {$all: [req.params.type]}}).sort({classement: 'desc', nom: 'asc'})

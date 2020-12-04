@@ -1,1 +1,46 @@
-<p>gestion-tableaux works!</p>
+<div class="container">
+
+  <mat-card>
+    <h2 class="lobster center">Créer un tableau</h2>
+
+    <form (submit)="create()">
+      <app-form-tableau [tableau]="tableau"></app-form-tableau>
+      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidTableau()">Créer</button>
+    </form>
+  </mat-card>
+
+  <mat-card>
+    <h2 class="lobster center">Liste des tableaux</h2>
+
+    <table mat-table *ngIf="allTableaux" [dataSource]="allTableaux">
+
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let tableau">{{tableau.nom | titlecase}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="format">
+        <th mat-header-cell *matHeaderCellDef>Format</th>
+        <td mat-cell *matCellDef="let tableau">{{tableau.format}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let tableau">
+          <button (click)="edit(tableau)" class="center" mat-raised-button color="primary">Modifier</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let tableau">
+          <button (click)="delete(tableau._id)" class="center" mat-raised-button color="warn">Supprimer</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </mat-card>
+</div>

@@ -32,6 +32,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GestionJoueursComponent } from './gestion-joueurs/gestion-joueurs.component';
 import { GestionTableauxComponent } from './gestion-tableaux/gestion-tableaux.component';
+import { HomeComponent } from './home/home.component';
+import { FormTableauComponent } from './form-tableau/form-tableau.component';
+import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import { GestionTableauxComponent } from './gestion-tableaux/gestion-tableaux.co
     PouleComponent,
     GestionComponent,
     GestionJoueursComponent,
-    GestionTableauxComponent
+    GestionTableauxComponent,
+    HomeComponent,
+    FormTableauComponent,
+    EditTableauComponent
   ],
   imports: [
     BrowserModule,

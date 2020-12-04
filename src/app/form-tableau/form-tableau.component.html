@@ -1,0 +1,19 @@
+<mat-grid-list cols="2" rowHeight="5:1">
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="center">
+      <mat-icon matSuffix>title</mat-icon>
+      <mat-label>Nom du tableau *</mat-label>
+      <input [(ngModel)]="tableau.nom" name="joueur_nom" matInput>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="center">
+      <mat-icon matSuffix>vertical_split</mat-icon>
+      <mat-label>Format</mat-label>
+      <mat-select [(ngModel)]="tableau.format">
+        <mat-option *ngFor="let format of formats" [value]="format">{{format | titlecase}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+</mat-grid-list>
