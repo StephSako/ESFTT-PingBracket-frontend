@@ -9,30 +9,23 @@ router.route("/").get(function(req, res) {
 });
 
 // CREATE TABLEAU
-router.route("/create").post(async function(req, res) {
-  const joueur = new Joueur({
+router.route("/create").post(function(req, res) {
+  const tableau = new Gestion({
     _id: new mongoose.Types.ObjectId(),
     nom: req.body.nom,
     classement: (req.body.classement ? req.body.classement : 0)
   })
-  await joueur.save()
-  Gestion.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  tableau.save().then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
 });
 
 // EDIT TABLEAU
-router.route("/edit/:id_player").put(async function(req, res) {
-  const joueur = {
-    nom: req.body.nom,
-    classement: (req.body.classement ? req.body.classement : 0)
-  }
-  await Joueur.update({_id: req.params.id_player}, {$set: joueur})
-  Gestion.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+router.route("/edit/:id_tableau").put(function(req, res) {
+  Gestion.update({_id: req.params.id_tableau}, {$set: req.body}).then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
 });
 
 // DELETE TABLEAU
-router.route("/delete/:id_player").delete(async function(req, res) {
-  await Joueur.remove({ _id: req.params.id_player})
-  Gestion.find().sort({classement: 'desc', nom: 'asc'}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+router.route("/delete/:id_tableau").delete(function(req, res) {
+  Gestion.remove({ _id: req.params.id_tableau}).then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
 });
 
 module.exports = router

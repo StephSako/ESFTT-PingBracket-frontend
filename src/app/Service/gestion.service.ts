@@ -16,7 +16,7 @@ export class GestionService {
     return this.http.get(this.baseURL);
   }
 
-  public create(tableau: TableauInterface): Observable<any> { // CREATE OR SUBSCRIBE PLAYER TO A SPECIFIC TABLEAU
+  public create(tableau: TableauInterface): Observable<any> {
     return this.http.post(`${this.baseURL}create`, tableau);
   }
 
