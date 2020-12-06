@@ -24,7 +24,7 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>dns</mat-icon>
       <mat-label>Tableaux</mat-label>
-      <mat-select [(ngModel)]="joueur.tableaux" multiple>
+      <mat-select [compareWith]="compareTableauWithOther" [(ngModel)]="joueur.tableaux" multiple>
         <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
       </mat-select>
     </mat-form-field>

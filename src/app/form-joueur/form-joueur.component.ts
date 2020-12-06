@@ -34,10 +34,12 @@ export class FormJoueurComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.getAllTableaux();
-      this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+      if (this.otherPlayers) {
+        this.optionsListJoueurs = this.nomControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      }
     });
   }
 
@@ -58,5 +60,9 @@ export class FormJoueurComponent implements OnInit {
 
   typing(event): void{
     this.showAutocomplete = event && event.length > 0;
+  }
+
+  compareTableauWithOther(tableau1: TableauInterface, tableau2: TableauInterface): boolean {
+    return tableau1 && tableau2 ? tableau1.nom === tableau2.nom : tableau1 === tableau2;
   }
 }
