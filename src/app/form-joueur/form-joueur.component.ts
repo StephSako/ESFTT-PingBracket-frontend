@@ -42,10 +42,7 @@ export class FormJoueurComponent implements OnInit {
   }
 
   getAllTableaux(): void{
-    this.gestionService.getAll().subscribe(tableaux => {
-      console.log(tableaux, this.joueur.tableaux);
-      this.tableaux = tableaux;
-    });
+    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux);
   }
 
   private _filter(value: string): JoueurInterface[] {

@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 // ALL PLAYERS
 router.route("/").get(function(req, res) {
-  getAllPlayers().populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getAllPlayers().populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // OTHER PLAYERS
@@ -23,19 +23,19 @@ function getAllPlayers(option){
 }
 
 // CREATE PLAYER
-router.route("/create/tableau/:tableau").post(async function(req, res) {
-  let searchedJoueur = await Joueur.findOne({nom: req.body.nom})
+router.route("/create").post(async function(req, res) {
+  let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom})
   if (searchedJoueur) {
     Joueur.updateOne(
-      {nom: req.body.nom},
-      {$push: {tableaux: req.params.tableau}}
+      {nom: req.body.joueur.nom},
+      {$push: {tableaux: req.body.tableaux}}
     ).then(result => res.status(200).json(result)).catch(err => res.send(err))
   } else {
     const joueur = new Joueur({
       _id: new mongoose.Types.ObjectId(),
-      nom: req.body.nom,
-      tableaux: [req.params.tableau],
-      classement: (req.body.classement ? req.body.classement : 0)
+      nom: req.body.joueur.nom,
+      tableaux: req.body.tableaux,
+      classement: (req.body.joueur.classement ? req.body.joueur.classement : 0)
     })
     joueur.save().then(result => res.status(200).json(result)).catch(err => res.send(err))
   }

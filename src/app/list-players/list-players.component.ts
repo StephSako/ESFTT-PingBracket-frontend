@@ -21,7 +21,7 @@ export class ListPlayersComponent implements OnInit {
 
   listJoueurs: JoueurInterface[];
   otherPlayers: JoueurInterface[];
-  nomTableau: string;
+  id_tableau: string;
 
   public joueur: JoueurInterface = {
     nom: null,
@@ -42,24 +42,24 @@ export class ListPlayersComponent implements OnInit {
         _id: null,
         tableaux: null
       };
-      this.nomTableau = this.router.url.split('/').pop();
+      this.id_tableau = this.router.url.split('/').pop();
       this.updateJoueurs();
       this.updateOtherPlayers();
     });
   }
 
   updateJoueurs(): void {
-    this.joueurService.getTableauPlayers(this.nomTableau).subscribe(joueurs => this.listJoueurs = joueurs);
+    this.joueurService.getTableauPlayers(this.id_tableau).subscribe(joueurs => this.listJoueurs = joueurs);
   }
 
   updateOtherPlayers(): void {
-    this.joueurService.getOtherPlayer(this.nomTableau).subscribe(joueurs => {
+    this.joueurService.getOtherPlayer(this.id_tableau).subscribe(joueurs => {
       this.otherPlayers = joueurs;
     });
   }
 
   create(): void {
-    this.joueurService.create(this.nomTableau, this.joueur)
+    this.joueurService.create([this.id_tableau], this.joueur)
       .subscribe(() => {
           this.joueur = {
             classement : null,
@@ -101,7 +101,7 @@ export class ListPlayersComponent implements OnInit {
       data: accountToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
-        this.joueurService.unsubscribe(this.nomTableau, id_joueur).subscribe(() => {
+        this.joueurService.unsubscribe(this.id_tableau, id_joueur).subscribe(() => {
           this.updateJoueurs();
           this.updateOtherPlayers();
         }, err => { console.error(err); });
