@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const Tableau = require('../model/Tableau')
 const Poule = require('../model/Poule')
+const mongoose = require('mongoose')
+
+const NB_MATCHES_ROUND = { "4": 8, "3": 4, "2": 2, "1": 2 }
 
 // GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
@@ -86,8 +89,9 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 });
 
 // GENERATE BRACKET
+
 router.route("/generate/:tableau").put(async function(req, res) {
-  await Tableau.updateMany(
+  let result = await Tableau.updateMany(
     {
       tableau: req.params.tableau
     },
@@ -98,13 +102,36 @@ router.route("/generate/:tableau").put(async function(req, res) {
     }, {multi:true}
   ).catch(err => console.log(err))
 
-  let id_match = 1
-  let poules = await Poule.find({type: req.params.tableau}).populate('joueurs')
-
+  // Si le bracket n'existe pas encore, on le créé
+  // TODO CREATE BRACKET IF NOT EXISTING
   try {
+    if (!result.nModified) {
+      for (let i = 4; i > 0; i--) {
+        let matches = []
+        for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
+          matches.push({
+            id: j,
+            joueurs: []
+          })
+        }
+
+        const tableau = new Tableau({
+          _id: new mongoose.Types.ObjectId(),
+          type: (i !== 1 ? 'Winnerbracket' : 'Final'),
+          tableau: req.params.tableau,
+          round: i,
+          matches: matches
+        })
+        await tableau.save()
+      }
+    }
+
+    let id_match = 1
+    let poules = await Poule.find({type: req.params.tableau}).populate('joueurs')
+
     for (let i = 0; i < poules.length; i++) {
       for (let j = 0; j <= 1; j++) {
-        await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j]._id, req.params.tableau)
+        if (poules[i].joueurs[j]) await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
         if (j === 1) id_match ++
       }
     }
