@@ -105,7 +105,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
   // Si le bracket n'existe pas encore, on le créé
   // TODO CREATE BRACKET IF NOT EXISTING
   try {
-    if (!result.nModified) {
+    if (result.n === 0) {
       for (let i = 4; i > 0; i--) {
         let matches = []
         for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
