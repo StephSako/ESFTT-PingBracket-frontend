@@ -30,12 +30,12 @@ export class PouleComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.idTableau = this.router.url.split('/').pop();
-      this.getAllPoules();
+      this.getAllPoulesBinomes();
       this.getTableau();
     });
   }
 
-  getAllPoules(): void {
+  getAllPoulesBinomes(): void {
     this.pouleService.getAll(this.idTableau).subscribe(poules => this.poules = poules);
   }
 
@@ -45,11 +45,18 @@ export class PouleComponent implements OnInit {
     });
   }
 
-  generatePoules(): void {
-    this.pouleService.generatePoules(this.idTableau).subscribe(() => {
-      this.getAllPoules();
-      this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
-    });
+  generatePoulesBinomes(): void {
+    if (this.tableau.format === 'simple') {
+      this.pouleService.generatePoules(this.idTableau).subscribe(poules => {
+        this.poules = poules;
+        this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
+      });
+    } else {
+      this.pouleService.generateBinomes(this.idTableau).subscribe(poules => {
+        this.poules = poules;
+        this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
+      });
+    }
   }
 
   editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
@@ -71,6 +78,6 @@ export class PouleComponent implements OnInit {
   }
 
   setStatus(poule: PouleInterface): void {
-    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules(), err => console.error(err));
+    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoulesBinomes(), err => console.error(err));
   }
 }

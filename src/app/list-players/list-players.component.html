@@ -9,10 +9,10 @@
     </form>
   </mat-card>
 
-  <mat-card>
-    <h2 class="lobster center">Liste des joueurs</h2>
+  <mat-card *ngIf="listJoueurs">
+    <h2 class="lobster center">Liste des joueurs ({{listJoueurs.length}} inscrits)</h2>
 
-    <table mat-table *ngIf="listJoueurs" [dataSource]="listJoueurs">
+    <table mat-table [dataSource]="listJoueurs">
 
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>
