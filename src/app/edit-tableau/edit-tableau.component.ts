@@ -12,7 +12,8 @@ export class EditTableauComponent {
   tableau: TableauInterface = {
     nom: null,
     format: null,
-    _id: null
+    _id: null,
+    consolante: null
   };
 
   constructor(@Inject(MAT_DIALOG_DATA) public tableauData: TableauInterface) {
@@ -20,7 +21,7 @@ export class EditTableauComponent {
   }
 
   isInvalid(): boolean {
-    return (this.tableau.nom !== '' && this.tableau.format !== null);
+    return (this.tableau.nom !== '' && this.tableau.format !== null && this.tableau.consolante !== null);
   }
 
 }

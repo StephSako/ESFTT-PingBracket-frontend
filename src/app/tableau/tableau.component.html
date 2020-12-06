@@ -13,11 +13,11 @@
       Poules
     </ng-template>
 
-    <app-poule></app-poule></mat-tab>
+    <app-poule [tableau]="tableau"></app-poule></mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">
-      Winner bracket
+      Phases finales
     </ng-template>
 
     <div class="center">
@@ -34,9 +34,9 @@
     </div>
   </mat-tab>
 
-  <mat-tab>
+  <mat-tab *ngIf="tableau && tableau.consolante">
     <ng-template mat-tab-label class="mat-tab-label">
-      Looser bracket
+      Consolante
     </ng-template>
 
     <div class="center">

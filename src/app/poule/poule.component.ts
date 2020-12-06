@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
@@ -17,10 +17,11 @@ import { GestionService } from '../Service/gestion.service';
 export class PouleComponent implements OnInit {
 
   public poules: PouleInterface[];
-  tableau: TableauInterface = {
+  @Input() tableau: TableauInterface = {
     format: null,
     _id: null,
-    nom: null
+    nom: null,
+    consolante: null
   };
   idTableau: string;
 
@@ -31,18 +32,11 @@ export class PouleComponent implements OnInit {
     this.route.paramMap.subscribe(() => {
       this.idTableau = this.router.url.split('/').pop();
       this.getAllPoulesBinomes();
-      this.getTableau();
     });
   }
 
   getAllPoulesBinomes(): void {
     this.pouleService.getAll(this.idTableau).subscribe(poules => this.poules = poules);
-  }
-
-  getTableau(): void {
-    this.gestionService.getTableau(this.idTableau).subscribe(tableau => {
-      this.tableau = tableau;
-    });
   }
 
   generatePoulesBinomes(): void {

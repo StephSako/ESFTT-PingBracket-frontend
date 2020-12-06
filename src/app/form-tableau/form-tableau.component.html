@@ -1,9 +1,9 @@
-<mat-grid-list cols="2" rowHeight="5:1">
+<mat-grid-list cols="3" rowHeight="4:1">
   <mat-grid-tile>
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du tableau *</mat-label>
-      <input [(ngModel)]="tableau.nom" name="joueur_nom" matInput>
+      <input [(ngModel)]="tableau.nom" matInput>
     </mat-form-field>
   </mat-grid-tile>
 
@@ -15,5 +15,9 @@
         <mat-option *ngFor="let format of formats" [value]="format">{{format | titlecase}}</mat-option>
       </mat-select>
     </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-slide-toggle class="center" [(ngModel)]="tableau.consolante">Consolante * </mat-slide-toggle>
   </mat-grid-tile>
 </mat-grid-list>

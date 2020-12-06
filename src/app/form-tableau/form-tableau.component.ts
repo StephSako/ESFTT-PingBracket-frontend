@@ -11,7 +11,8 @@ export class FormTableauComponent implements OnInit {
   @Input() tableau: TableauInterface = {
     nom: null,
     format: null,
-    _id: null
+    _id: null,
+    consolante: null
   };
   formats: string[] = ['simple', 'double'];
 

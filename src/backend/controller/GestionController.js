@@ -18,7 +18,8 @@ router.route("/create").post(function(req, res) {
   const tableau = new Gestion({
     _id: new mongoose.Types.ObjectId(),
     nom: req.body.nom.toLowerCase(),
-    format: req.body.format
+    format: req.body.format,
+    consolante: req.body.consolante
   })
   tableau.save().then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
 });

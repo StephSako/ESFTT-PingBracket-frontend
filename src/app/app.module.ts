@@ -35,6 +35,7 @@ import { GestionTableauxComponent } from './gestion-tableaux/gestion-tableaux.co
 import { HomeComponent } from './home/home.component';
 import { FormTableauComponent } from './form-tableau/form-tableau.component';
 import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
     ReactiveFormsModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

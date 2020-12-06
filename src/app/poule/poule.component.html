@@ -4,7 +4,7 @@
 
   <mat-grid-list cols="3" rowHeight="500px">
 
-    <div *ngIf="tableau.format === 'simple'">
+    <div *ngIf="tableau && tableau.format === 'simple'">
         <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
           <mat-card [class]="poule.locked ? 'locked' : ''">
             <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
@@ -22,7 +22,7 @@
         </mat-grid-tile>
     </div>
 
-    <div *ngIf="tableau.format === 'double'" cdkDropListGroup>
+    <div *ngIf="tableau && tableau.format === 'double'" cdkDropListGroup>
       <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
         <mat-card [class]="poule.locked ? 'locked' : ''">
           <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>

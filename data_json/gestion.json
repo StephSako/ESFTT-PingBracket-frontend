@@ -1,21 +1,29 @@
 [{
-    "_id": {
-      "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    "nom": "open",
-    "format": "Simple"
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0444"
   },
-  {
-    "_id": {
-      "$oid": "5fbc43b767e5cb1050ab0443"
-    },
-    "nom": "double",
-    "format": "Simple"
+  "nom": "open",
+  "format": "simple",
+  "consolante": true
+},{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0443"
   },
-  {
-    "_id": {
-      "$oid": "5fbc43b767e5cb1050ab0445"
-    },
-    "nom": "famille",
-    "format": "Simple"
-  }]
+  "nom": "double",
+  "format": "double",
+  "consolante": false
+},{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0445"
+  },
+  "nom": "famille",
+  "format": "simple",
+  "consolante": false
+},{
+  "_id": {
+    "$oid": "5fcaae30c7258728ac2a84b1"
+  },
+  "nom": "jeune",
+  "format": "simple",
+  "consolante": true
+}]

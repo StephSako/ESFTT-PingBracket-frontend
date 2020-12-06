@@ -13,13 +13,14 @@ import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
 })
 export class GestionTableauxComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'format', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'format', 'consolante', 'edit', 'delete'];
   allTableaux: TableauInterface[];
 
   public tableau: TableauInterface = {
     nom: null,
     format: null,
-    _id: null
+    _id: null,
+    consolante: null
   };
 
   constructor(private gestionService: GestionService, private notifyService: NotifyService, private snackBar: MatSnackBar,
@@ -39,7 +40,8 @@ export class GestionTableauxComponent implements OnInit {
           this.tableau = {
             format : null,
             nom : null,
-            _id : null
+            _id : null,
+            consolante: null
           };
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');

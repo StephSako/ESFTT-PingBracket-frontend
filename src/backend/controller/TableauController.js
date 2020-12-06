@@ -89,7 +89,6 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 });
 
 // GENERATE BRACKET
-
 router.route("/generate/:tableau").put(async function(req, res) {
   let result = await Tableau.updateMany(
     {
@@ -103,7 +102,6 @@ router.route("/generate/:tableau").put(async function(req, res) {
   ).catch(err => console.log(err))
 
   // Si le bracket n'existe pas encore, on le créé
-  // TODO CREATE BRACKET IF NOT EXISTING
   try {
     if (result.n === 0) {
       for (let i = 4; i > 0; i--) {

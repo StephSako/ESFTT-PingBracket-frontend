@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgttTournament } from 'ng-tournament-tree';
 import { TournoiService } from '../Service/tournoi.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {GestionService} from '../Service/gestion.service';
+import {TableauInterface} from '../Interface/Tableau';
 
 @Component({
   selector: 'app-tableau',
@@ -12,22 +14,31 @@ export class TableauComponent implements OnInit {
 
   public winnerbracket: NgttTournament;
   public looserBracket: NgttTournament;
-  tableau_id: string;
+  idTableau: string;
+  tableau: TableauInterface;
   spinnerShown: boolean;
 
-  constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute) {
+  constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute,
+              private gestionService: GestionService) {
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.spinnerShown = false;
-      this.tableau_id = this.router.url.split('/').pop();
+      this.idTableau = this.router.url.split('/').pop();
+      this.getTableau();
       this.updateBracket();
     });
   }
 
+  getTableau(): void {
+    this.gestionService.getTableau(this.idTableau).subscribe(tableau => {
+      this.tableau = tableau;
+    });
+  }
+
   updateBracket(): void {
-    this.tournoiService.getBracket(this.tableau_id).subscribe(matches => {
+    this.tournoiService.getBracket(this.idTableau).subscribe(matches => {
       this.winnerbracket = matches;
       this.spinnerShown = false;
     });
@@ -35,6 +46,6 @@ export class TableauComponent implements OnInit {
 
   generateBracket(): void {
     this.spinnerShown = true;
-    this.tournoiService.generateBracket(this.tableau_id).subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
+    this.tournoiService.generateBracket(this.idTableau).subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
   }
 }

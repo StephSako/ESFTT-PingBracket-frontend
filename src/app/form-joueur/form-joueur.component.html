@@ -3,7 +3,7 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur *</mat-label>
-      <input [formControl]="nomControl" [(ngModel)]="joueur.nom" name="joueur_nom" [matAutocomplete]="auto" matInput (ngModelChange)="typing($event)">
+      <input [formControl]="nomControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typing($event)">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
         <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" [ngClass]="{'hide-autocomplete': !showAutocomplete}">
           {{joueur.nom}} - {{joueur.classement}} points
@@ -16,7 +16,7 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>
-      <input name="recurrence" type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
+      <input type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
     </mat-form-field>
   </mat-grid-tile>
 

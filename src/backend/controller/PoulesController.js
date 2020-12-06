@@ -84,7 +84,6 @@ router.route("/generate/simple/:tableau").put(async function(req, res) {
   Poule.find({type: req.params.tableau}).populate('joueurs').populate('type').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
-// TODO GENERATE BINOME
 // GENERATE BINOMES
 router.route("/generate/double/:tableau").put(async function(req, res) {
   try {
