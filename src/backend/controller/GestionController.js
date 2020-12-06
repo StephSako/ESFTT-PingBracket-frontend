@@ -8,6 +8,11 @@ router.route("/").get(function(req, res) {
   Gestion.find().then(tableaux => res.status(200).json(tableaux)).catch(err => res.send(err))
 });
 
+// SPECIFIC TABLEAU
+router.route("/:tableau").get(function(req, res) {
+  Gestion.findById(req.params.tableau).then(tableau => res.status(200).json(tableau)).catch(err => res.send(err))
+});
+
 // CREATE TABLEAU
 router.route("/create").post(function(req, res) {
   const tableau = new Gestion({

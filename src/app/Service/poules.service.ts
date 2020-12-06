@@ -17,8 +17,12 @@ export class PoulesService {
     return this.http.get(this.baseURL + type);
   }
 
-  public edit(id_poule: string, newPlayersList: [id: JoueurInterface, points: number]): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${id_poule}`, newPlayersList);
+  public editPoule(id_poule: string, newPlayersList: [id: JoueurInterface]): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/simple/${id_poule}`, newPlayersList);
+  }
+
+  public editDouble(oldIdPoule: string, newIdPoule: string, newPlayersList: [id: JoueurInterface], idJoueur: string): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/double/${oldIdPoule}/${newIdPoule}`, { newPlayersList, idJoueur });
   }
 
   public setStatus(poule: PouleInterface): Observable<any> {

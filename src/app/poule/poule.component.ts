@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NotifyService} from '../Service/notify.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotifyService } from '../Service/notify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TableauInterface } from '../Interface/Tableau';
+import { GestionService } from '../Service/gestion.service';
 
 @Component({
   selector: 'app-poule',
@@ -15,30 +17,57 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class PouleComponent implements OnInit {
 
   public poules: PouleInterface[];
+  tableau: TableauInterface = {
+    format: null,
+    _id: null,
+    nom: null
+  };
+  idTableau: string;
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private notifyService: NotifyService, private snackBar: MatSnackBar) { }
+              private notifyService: NotifyService, private snackBar: MatSnackBar, private gestionService: GestionService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
+      this.idTableau = this.router.url.split('/').pop();
       this.getAllPoules();
+      this.getTableau();
     });
   }
 
   getAllPoules(): void {
-    this.pouleService.getAll(this.router.url.split('/').pop()).subscribe(poules => this.poules = poules);
+    this.pouleService.getAll(this.idTableau).subscribe(poules => this.poules = poules);
+  }
+
+  getTableau(): void {
+    this.gestionService.getTableau(this.idTableau).subscribe(tableau => {
+      this.tableau = tableau;
+    });
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.router.url.split('/').pop()).subscribe(() => {
+    this.pouleService.generatePoules(this.idTableau).subscribe(() => {
       this.getAllPoules();
       this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
     });
   }
 
-  drop(event: CdkDragDrop<[id: JoueurInterface, points: number], any>, id_poule: string): void {
+  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.pouleService.edit(id_poule, event.container.data).subscribe(() => {}, err => console.log(err));
+    this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => console.log(err));
+  }
+
+  editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
+  if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+      this.pouleService.editDouble(event.item.data[0], id_poule, event.container.data, event.item.data[1])
+        .subscribe(() => {}, err => console.log(err));
+    }
   }
 
   setStatus(poule: PouleInterface): void {

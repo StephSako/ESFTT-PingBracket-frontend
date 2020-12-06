@@ -9,11 +9,24 @@ router.route("/:type").get(function(req, res) {
   Poule.find({type: req.params.type}).populate('joueurs').populate('type').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
-// UPDATE PLAYERS LIST
-router.route("/edit/:id_poule").put(function(req, res) {
+// UPDATE SPECIFIC POULE
+router.route("/edit/simple/:id_poule").put(function(req, res) {
   Poule.updateOne({_id: req.params.id_poule}, {
     $set: {
       joueurs: req.body
+    }
+  }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
+});
+
+// UPDATE SPECIFIC DOUBLE BINOME
+// TODO DELETE PREVIOUS PLAYER IF DOUBLE
+router.route("/edit/double/:oldIdPoule/:newIdPoule").put(async function(req, res) {
+  // On supprime le joueur déplacé de son ancien binôme
+  await Poule.updateOne({ _id: req.params.oldIdPoule}, {$pull: {joueurs: {$in: [req.body.idJoueur]}}}).catch(err => res.send(err))
+
+  Poule.updateOne({_id: req.params.newIdPoule}, {
+    $set: {
+      joueurs: req.body.newPlayersList
     }
   }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
 });
