@@ -109,6 +109,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
         for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
           matches.push({
             id: j,
+            round: i,
             joueurs: []
           })
         }
@@ -116,6 +117,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
         const tableau = new Tableau({
           _id: new mongoose.Types.ObjectId(),
           type: (i !== 1 ? 'Winnerbracket' : 'Final'),
+          objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
           tableau: req.params.tableau,
           round: i,
           matches: matches

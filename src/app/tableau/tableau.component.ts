@@ -46,6 +46,7 @@ export class TableauComponent implements OnInit {
 
   generateBracket(): void {
     this.spinnerShown = true;
-    this.tournoiService.generateBracket(this.idTableau).subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
+    this.tournoiService.generateBracket(this.idTableau, this.tableau.format)
+      .subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
   }
 }

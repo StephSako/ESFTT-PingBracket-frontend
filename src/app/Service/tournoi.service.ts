@@ -19,7 +19,7 @@ export class TournoiService {
     return this.http.put(`${this.baseURL}edit/${tableau}/round/${actualRound}/match/${actualIdMatch}`, {winnerId, looserId});
   }
 
-  public generateBracket(tableau: string): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${tableau}`, null);
+  public generateBracket(tableau: string, format: string): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${tableau}`, { format });
   }
 }

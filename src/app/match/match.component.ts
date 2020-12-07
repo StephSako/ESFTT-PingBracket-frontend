@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TournoiService } from '../Service/tournoi.service';
 import { Router } from '@angular/router';
+import {TableauInterface} from '../Interface/Tableau';
 
 @Component({
   selector: 'app-match',
@@ -11,6 +12,12 @@ export class MatchComponent implements OnInit {
 
   @Input() match: any;
   @Output() updateBracket: EventEmitter<any> = new EventEmitter();
+  @Input() tableau: TableauInterface = {
+    format: null,
+    _id: null,
+    nom: null,
+    consolante: null
+  };
   tableau_id: string;
 
   constructor(private tournoiService: TournoiService, private router: Router) { }
@@ -20,6 +27,7 @@ export class MatchComponent implements OnInit {
   }
 
   setWinner(match: any, winnerId: string): void{
+    console.log(match);
     if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
       this.tournoiService.edit(this.tableau_id, match.round, match.id, winnerId,
         (winnerId === match.joueurs[0]._id._id ? (match.joueurs[1] ? match.joueurs[1]._id._id : null) : match.joueurs[0]._id._id))
