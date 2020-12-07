@@ -2,42 +2,37 @@
 
   <button (click)="generatePoulesBinomes()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer les poules</button>
 
-  <mat-grid-list cols="3" rowHeight="500px">
+    <div *ngIf="tableau && tableau.format === 'simple'" fxLayout="row wrap">
+      <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
+        <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
+          <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
 
-    <div *ngIf="tableau && tableau.format === 'simple'">
-        <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
-          <mat-card [class]="poule.locked ? 'locked' : ''">
-            <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
+          <div
+            cdkDropList
+            [cdkDropListData]="poules[indexList].joueurs"
+            class="list"
+            (cdkDropListDropped)="editPoule($event, poule._id)">
+            <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
+          </div>
+          <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Terminer')}}</button>
 
-            <div
-              cdkDropList
-              [cdkDropListData]="poules[indexList].joueurs"
-              class="example-list"
-              (cdkDropListDropped)="editPoule($event, poule._id)">
-              <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="example-box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
-            </div>
-            <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Terminer')}}</button>
-
-          </mat-card>
-        </mat-grid-tile>
+        </mat-card>
+      </div>
     </div>
 
-    <div *ngIf="tableau && tableau.format === 'double'" cdkDropListGroup>
-      <mat-grid-tile *ngFor="let poule of poules; let indexList = index">
-        <mat-card [class]="poule.locked ? 'locked' : ''">
+    <div *ngIf="tableau && tableau.format === 'double'" fxLayout="row wrap" cdkDropListGroup>
+      <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
+        <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
           <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>
 
             <div
               cdkDropList
               [cdkDropListData]="poules[indexList].joueurs"
-              class="example-list"
+              class="list"
               (cdkDropListDropped)="editBinome($event, poule._id)">
-              <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="example-box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
+              <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
             </div>
-          <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Terminer')}}</button>
-
         </mat-card>
-      </mat-grid-tile>
+      </div>
     </div>
-  </mat-grid-list>
 </div>

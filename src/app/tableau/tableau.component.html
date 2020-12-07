@@ -10,7 +10,8 @@
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">
-      Poules
+      <span *ngIf="tableau && tableau.format === 'simple'">Poules</span>
+      <span *ngIf="tableau && tableau.format === 'double'">Binômes</span>
     </ng-template>
 
     <app-poule [tableau]="tableau"></app-poule></mat-tab>

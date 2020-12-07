@@ -36,6 +36,7 @@ import { HomeComponent } from './home/home.component';
 import { FormTableauComponent } from './form-tableau/form-tableau.component';
 import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatChipsModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

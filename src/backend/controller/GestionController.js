@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 // ALL TABLEAU
 router.route("/").get(function(req, res) {
-  Gestion.find().then(tableaux => res.status(200).json(tableaux)).catch(err => res.send(err))
+  Gestion.find().sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(err => res.send(err))
 });
 
 // SPECIFIC TABLEAU

@@ -1,6 +1,5 @@
-mat-card {
-  width: 85%;
-  height: 70%;
+.mat-card {
+  margin: 10px;
 }
 
 .mat-unlocked{
@@ -16,8 +15,7 @@ button {
   color: white;
 }
 
-.example-list {
-  width: 500px;
+.list {
   max-width: 100%;
   border: solid 1px #ccc;
   min-height: 60px;
@@ -27,7 +25,7 @@ button {
   overflow: hidden;
 }
 
-.example-box {
+.box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -57,15 +55,15 @@ button {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.box:last-child {
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.list.cdk-drop-list-dragging .box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box.cdk-drag-disabled {
+.box.cdk-drag-disabled {
   background: white;
   border-color: white;
   cursor: default;
