@@ -18,19 +18,16 @@ export class MatchComponent implements OnInit {
     nom: null,
     consolante: null
   };
-  tableau_id: string;
 
   constructor(private tournoiService: TournoiService, private router: Router) { }
 
-  ngOnInit(): void {
-    this.tableau_id = this.router.url.split('/').pop();
-  }
+  ngOnInit(): void {}
 
   setWinner(match: any, winnerId: string): void{
-    console.log(match);
     if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
-      this.tournoiService.edit(this.tableau_id, match.round, match.id, winnerId,
-        (winnerId === match.joueurs[0]._id._id ? (match.joueurs[1] ? match.joueurs[1]._id._id : null) : match.joueurs[0]._id._id))
+      const idSecondEntity = (match.joueurs[1] ? match.joueurs[1]._id._id : null); // TODO ISSUE
+      const looserId = winnerId === match.joueurs[0]._id._id ? idSecondEntity : match.joueurs[0]._id._id;
+      this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId)
         .subscribe(() => this.updateBracket.emit());
     }
   }
@@ -42,5 +39,10 @@ export class MatchComponent implements OnInit {
   getColor(match: any, joueur: any): string {
     if ((match.joueurs.length < 2 && !match.joueurs[0].winner) || (!match.joueurs[0].winner && !match.joueurs[1].winner)) { return 'undefined'; }
     else { return (joueur.winner ? 'winner' : 'looser'); }
+  }
+
+  getName(entity: any): string {
+    if (this.tableau.format === 'simple'){ return entity.nom; }
+    else { return (entity.joueurs ? entity.joueurs.map(joueur => joueur.nom).join(' - ') : ''); }
   }
 }

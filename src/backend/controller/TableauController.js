@@ -8,7 +8,10 @@ const NB_MATCHES_ROUND = { "4": 8, "3": 4, "2": 2, "1": 2 }
 
 // GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
-  Tableau.find({tableau: req.params.tableau}).populate('tableau').populate('matches.joueurs._id').sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
+  Tableau.find({tableau: req.params.tableau}).populate('tableau').populate({
+    path: 'matches.joueurs._id',
+    populate: { path: 'joueurs' }
+  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
 });
 
 // Push player into a specific match
@@ -90,6 +93,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 
 // GENERATE BRACKET
 router.route("/generate/:tableau").put(async function(req, res) {
+  console.log(req.body.format)
   let result = await Tableau.updateMany(
     {
       tableau: req.params.tableau
@@ -130,9 +134,15 @@ router.route("/generate/:tableau").put(async function(req, res) {
     let poules = await Poule.find({type: req.params.tableau}).populate('joueurs')
 
     for (let i = 0; i < poules.length; i++) {
-      for (let j = 0; j <= 1; j++) {
-        if (poules[i].joueurs[j]) await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
-        if (j === 1) id_match ++
+      if (req.body.format === 'simple') {
+        for (let j = 0; j <= 1; j++) { // On prend les 2 premiers de la poule
+          if (poules[i].joueurs[j]) await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
+          if (j === 1) id_match ++ // On incrémente le n° de match tous les 2 joueurs
+        }
+      }
+      else {
+        await setPlayerSpecificMatch(4, id_match, poules[i]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
+        if (i % 2 !== 0) id_match ++ // On incrémente le n° de match tous les 2 joueurs/poules
       }
     }
     res.status(200).json({message: "No error"})

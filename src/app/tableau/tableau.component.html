@@ -1,11 +1,11 @@
 <mat-tab-group mat-align-tabs="center" color="accent" [dynamicHeight]="true" selectedIndex="0">
 
-  <mat-tab>
+  <mat-tab *ngIf="tableau">
     <ng-template mat-tab-label class="mat-tab-label">
       Inscriptions
     </ng-template>
 
-    <app-list-players></app-list-players>
+    <app-list-players [tableau]="tableau"></app-list-players>
   </mat-tab>
 
   <mat-tab>

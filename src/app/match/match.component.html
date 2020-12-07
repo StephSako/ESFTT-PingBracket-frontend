@@ -2,7 +2,7 @@
   <ng-container *ngFor="let joueur of match.joueurs">
     <div class="ngtt__team-wrapper">
       <mat-chip-list *ngIf="joueur._id">
-        <mat-chip (click)="setWinner(match, joueur._id._id)" [color]="getColor(match, joueur)" [class]="'ngtt__team-title ' + isClickable(match)">{{joueur._id.nom}}</mat-chip>
+        <mat-chip (click)="setWinner(match, joueur._id._id)" [color]="getColor(match, joueur)" [class]="'ngtt__team-title ' + isClickable(match)">{{getName(joueur._id)}}</mat-chip>
       </mat-chip-list>
     </div>
   </ng-container>
