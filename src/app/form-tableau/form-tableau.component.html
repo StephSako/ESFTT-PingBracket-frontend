@@ -1,5 +1,7 @@
-<mat-grid-list cols="3" rowHeight="4:1">
-  <mat-grid-tile>
+<h2 *ngIf="tableau._id" class="lobster center">Modifier le tableau '{{tableau.nom | titlecase}}'</h2>
+
+<mat-grid-list cols="5" rowHeight="3:1">
+  <mat-grid-tile [colspan]="2">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du tableau *</mat-label>
@@ -7,7 +9,7 @@
     </mat-form-field>
   </mat-grid-tile>
 
-  <mat-grid-tile>
+  <mat-grid-tile [colspan]="2">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>vertical_split</mat-icon>
       <mat-label>Format</mat-label>
@@ -17,7 +19,7 @@
     </mat-form-field>
   </mat-grid-tile>
 
-  <mat-grid-tile>
+  <mat-grid-tile [colspan]="1">
     <mat-slide-toggle class="center" [(ngModel)]="tableau.consolante">Consolante * </mat-slide-toggle>
   </mat-grid-tile>
 </mat-grid-list>

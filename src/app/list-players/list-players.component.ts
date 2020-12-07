@@ -79,7 +79,7 @@ export class ListPlayersComponent implements OnInit {
 
   edit(joueur: JoueurInterface): void {
     this.dialog.open(EditJoueurComponent, {
-      width: '60%',
+      width: '80%',
       data: joueur
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur) {

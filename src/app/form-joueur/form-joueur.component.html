@@ -1,4 +1,6 @@
-<mat-grid-list [cols]="editMode ? 3 : 2" rowHeight="4:1">
+<h2 *ngIf="joueur._id" class="center lobster"><b>Modifier le joueur '{{joueur.nom}}'</b></h2>
+
+<mat-grid-list [cols]="editMode ? 3 : 2" rowHeight="5:1">
   <mat-grid-tile>
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>

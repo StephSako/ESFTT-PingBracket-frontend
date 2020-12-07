@@ -54,7 +54,7 @@ export class GestionTableauxComponent implements OnInit {
 
   edit(tableau: TableauInterface): void {
     this.dialog.open(EditTableauComponent, {
-      width: '60%',
+      width: '80%',
       data: tableau
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){
