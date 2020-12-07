@@ -25,7 +25,7 @@ export class MatchComponent implements OnInit {
 
   setWinner(match: any, winnerId: string): void{
     if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
-      const idSecondEntity = (match.joueurs[1] ? match.joueurs[1]._id._id : null); // TODO ISSUE
+      const idSecondEntity = (match.joueurs[1] && match.joueurs[1]._id ? match.joueurs[1]._id._id : null); // TODO ISSUE
       const looserId = winnerId === match.joueurs[0]._id._id ? idSecondEntity : match.joueurs[0]._id._id;
       this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId)
         .subscribe(() => this.updateBracket.emit());

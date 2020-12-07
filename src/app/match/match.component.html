@@ -1,4 +1,4 @@
-<div class="ngtt__match-wrapper">
+<div class="ngtt__match-wrapper" *ngIf="tableau">
   <ng-container *ngFor="let joueur of match.joueurs">
     <div class="ngtt__team-wrapper">
       <mat-chip-list *ngIf="joueur._id">
