@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauInterface } from '../Interface/Tableau';
-import { GestionService } from '../Service/gestion.service';
 
 @Component({
   selector: 'app-poule',
@@ -26,7 +25,7 @@ export class PouleComponent implements OnInit {
   idTableau: string;
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private notifyService: NotifyService, private snackBar: MatSnackBar, private gestionService: GestionService) { }
+              private notifyService: NotifyService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
