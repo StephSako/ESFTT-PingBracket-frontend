@@ -5,9 +5,9 @@ const Poule = require('../model/Poule')
 const mongoose = require('mongoose')
 
 const NB_MATCHES_ROUND = { "4": 8, "3": 4, "2": 2, "1": 2 }
-const ORDRE_HUITIEME = [1, 16, 9, 8, 5, 12, 13, 4, 3, 14, 11, 6, 7, 10, 15, 2]
-const ORDRE_QUART = [1, 8, 5, 4, 3, 6, 7, 2]
-const ORDRE_DEMI = [1, 4, 3, 2]
+const ORDRE_HUITIEME   = [1, 16, 9, 8, 5, 12, 13, 4, 3, 14, 11, 6, 7, 10, 15, 2]
+const ORDRE_QUART      = [1, 8, 5, 4, 3, 6, 7, 2]
+const ORDRE_DEMI       = [1, 4, 3, 2]
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -163,7 +163,8 @@ router.route("/generate/:tableau").put(async function(req, res) {
     } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
     // On assigne les matches aux joueurs/poules
-    for (let i = 0; i < qualified.length; i++) { // TODO POUR QUART ET DEMI
+    for (let i = 0; i < rankingOrder.length; i++) { // TODO POUR QUART ET DEMI
+      console.log(i, rankingOrder[i]-1, qualified[rankingOrder[i]-1], rankingOrder)
       await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankingOrder[i]-1 : i)], req.params.tableau).catch(err => res.status(500).json({error: err}))
       if (i % 2 && i !== 0) id_match ++ // On incrémente le n° du match tous les 2 joueurs
     }
