@@ -9,6 +9,14 @@ const ORDRE_HUITIEME = [1, 16, 9, 8, 5, 12, 13, 4, 3, 14, 11, 6, 7, 10, 15, 2]
 const ORDRE_QUART = [1, 8, 5, 4, 3, 6, 7, 2]
 const ORDRE_DEMI = [1, 4, 3, 2]
 
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 // GET BRACKET OF SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
   Tableau.find({tableau: req.params.tableau}).populate('tableau').populate({
@@ -103,12 +111,10 @@ router.route("/generate/:tableau").put(async function(req, res) {
 
   let poules = await Poule.find({type: req.params.tableau})
 
-  // On calcule combien de rounds sont nécessaires en fonction du nombre de qualifiés
+  // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
   let count = 0, nbRounds, rankingOrder
   if (req.body.format === 'simple') poules.forEach(poule => count += poule.joueurs.length)
   else count = poules.length
-
-  console.log(count)
 
   if (count >= 9){
     nbRounds = 4
@@ -147,38 +153,20 @@ router.route("/generate/:tableau").put(async function(req, res) {
       await tableau.save()
     }
 
-    // TODO BUILDING
-    if (req.body.format === 'simple') {
-      let qualified = []
+    let qualified = [], id_match = 1
 
-      // On créé la liste des joueurs dans le bon ordre
-      for (let i = 0; i < poules.length; i++) { // TODO POUR JUSTE QUART ET DEMI
+    // On créé la liste des joueur/poules qualifiés
+    if (req.body.format === 'simple') {
+      for (let i = 0; i < poules.length; i++) {
         qualified = qualified.concat(poules[i].joueurs.slice(0, 2))
       }
+    } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
-      let id_match = 1
-      for (let i = 0; i < qualified.length; i++) {
-        await setPlayerSpecificMatch(nbRounds, id_match, qualified[rankingOrder[i]-1], req.params.tableau).catch(err => res.status(500).json({error: err}))
-        if (i % 2 && i !== 0) id_match ++ // On incrémente le n° du match tous les 2 joueurs
-      }
-    } else {
+    // On assigne les matches aux joueurs/poules
+    for (let i = 0; i < qualified.length; i++) { // TODO POUR QUART ET DEMI
+      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankingOrder[i]-1 : i)], req.params.tableau).catch(err => res.status(500).json({error: err}))
+      if (i % 2 && i !== 0) id_match ++ // On incrémente le n° du match tous les 2 joueurs
     }
-    // TODO BUILDING
-
-    // On assigne les matches à joueur/double chaque qualifié
-    /*let id_match = 1
-    for (let i = 0; i < poules.length; i++) {
-      if (req.body.format === 'simple') { // TODO REVOIR LA CREATION DU BRACKET
-        for (let j = 0; j <= 1; j++) { // On prend les 2 premiers de la poule
-          if (poules[i].joueurs[j]) await setPlayerSpecificMatch(nbRounds, id_match, poules[i].joueurs[j]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
-          if (j === 1) id_match ++ // On incrémente le n° de match tous les 2 joueurs
-        }
-      }
-      else {
-        await setPlayerSpecificMatch(nbRounds, id_match, poules[i]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
-        if (i % 2 !== 0) id_match ++ // On incrémente le n° de match tous les 2 joueurs/poules
-      }
-    }*/
 
     res.status(200).json({message: "No error"})
   } catch(err) {
