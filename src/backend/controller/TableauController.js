@@ -93,46 +93,38 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 
 // GENERATE BRACKET
 router.route("/generate/:tableau").put(async function(req, res) {
-  console.log(req.body.format)
-  let result = await Tableau.updateMany(
-    {
-      tableau: req.params.tableau
-    },
-    {
-      $set: {
-        "matches.$[].joueurs": []
-      }
-    }, {multi:true}
-  ).catch(err => console.log(err))
+  await Tableau.deleteMany({ tableau: req.params.tableau})
+  let poules = await Poule.find({type: req.params.tableau})
+  let count = 0
+  let nbRounds = 0
+  poules.forEach(poule => count += poule.joueurs.length); // TODO
+  if (count >= 9) nbRounds = 4
+  else if (count >= 5) nbRounds = 3
+  else nbRounds = 2
 
-  // Si le bracket n'existe pas encore, on le créé
   try {
-    if (result.n === 0) {
-      for (let i = 4; i > 0; i--) {
-        let matches = []
-        for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
-          matches.push({
-            id: j,
-            round: i,
-            joueurs: []
-          })
-        }
-
-        const tableau = new Tableau({
-          _id: new mongoose.Types.ObjectId(),
-          type: (i !== 1 ? 'Winnerbracket' : 'Final'),
-          objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
-          tableau: req.params.tableau,
+    for (let i = nbRounds; i > 0; i--) {
+      let matches = []
+      for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
+        matches.push({
+          id: j,
           round: i,
-          matches: matches
+          joueurs: []
         })
-        await tableau.save()
       }
+
+      const tableau = new Tableau({
+        _id: new mongoose.Types.ObjectId(),
+        type: (i !== 1 ? 'Winnerbracket' : 'Final'),
+        objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
+        tableau: req.params.tableau,
+        round: i,
+        matches: matches
+      })
+      await tableau.save()
     }
 
     let id_match = 1
-    let poules = await Poule.find({type: req.params.tableau}).populate('joueurs')
-
     for (let i = 0; i < poules.length; i++) {
       if (req.body.format === 'simple') {
         for (let j = 0; j <= 1; j++) { // On prend les 2 premiers de la poule

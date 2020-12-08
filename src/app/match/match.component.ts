@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TournoiService } from '../Service/tournoi.service';
-import { Router } from '@angular/router';
-import {TableauInterface} from '../Interface/Tableau';
+import { TableauInterface } from '../Interface/Tableau';
 
 @Component({
   selector: 'app-match',
@@ -19,13 +18,13 @@ export class MatchComponent implements OnInit {
     consolante: null
   };
 
-  constructor(private tournoiService: TournoiService, private router: Router) { }
+  constructor(private tournoiService: TournoiService) { }
 
   ngOnInit(): void {}
 
   setWinner(match: any, winnerId: string): void{
     if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
-      const idSecondEntity = (match.joueurs[1] && match.joueurs[1]._id ? match.joueurs[1]._id._id : null); // TODO ISSUE
+      const idSecondEntity = (match.joueurs[1] && match.joueurs[1]._id ? match.joueurs[1]._id._id : null);
       const looserId = winnerId === match.joueurs[0]._id._id ? idSecondEntity : match.joueurs[0]._id._id;
       this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId)
         .subscribe(() => this.updateBracket.emit());
