@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center" color="accent" [dynamicHeight]="true" selectedIndex="0">
+<mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight="200%" selectedIndex="0">
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">
@@ -30,9 +30,9 @@
       </button>
     </div>
 
-    <div *ngIf="winnerbracket">
+    <ng-container *ngIf="winnerbracket">
       <ngtt-single-elimination-tree *ngIf="winnerbracket.rounds.length" [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-    </div>
+    </ng-container>
   </mat-tab>
 
   <mat-tab *ngIf="tableau && tableau.consolante">
@@ -44,9 +44,9 @@
       <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
     </div>
 
-    <div *ngIf="looserBracket">
+    <ng-container *ngIf="looserBracket">
       <ngtt-single-elimination-tree *ngIf="looserBracket.rounds.length" [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-    </div>
+    </ng-container>
   </mat-tab>
 </mat-tab-group>
 

@@ -15,3 +15,7 @@ h1 {
 ::ng-deep .mat-tab-label, .mat-tab-link {
   color: white !important;
 }
+
+::ng-deep .mat-tab-body-content {
+  min-height: 400px !important;
+}

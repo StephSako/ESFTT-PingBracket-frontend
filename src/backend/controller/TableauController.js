@@ -62,6 +62,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
     }
   ).catch(err => res.status(500).json({error: err}))
 
+  // Pour tous les matches sauf la finale, le gagnant évolue au prochain match
   if (Number(req.params.id_round) !== 1){
     // On définie :
     // - le joueur gagnant dans le prochain match
@@ -80,6 +81,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
     }
   }
 
+  // S'il s'agit des demies-finale, on assigne les perdants en petite finale
   if (Number(req.params.id_round) === 2 ){
     try {
       await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau)
@@ -93,16 +95,21 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 
 // GENERATE BRACKET
 router.route("/generate/:tableau").put(async function(req, res) {
+  // On supprime tous les matches
   await Tableau.deleteMany({ tableau: req.params.tableau})
+
   let poules = await Poule.find({type: req.params.tableau})
+
+  // On calcule combien de rounds sont nécessaires en fonction du nombre de qualifiés
   let count = 0
-  let nbRounds = 0
-  poules.forEach(poule => count += poule.joueurs.length); // TODO
+  let nbRounds
+  poules.forEach(poule => count += poule.joueurs.length);
   if (count >= 9) nbRounds = 4
   else if (count >= 5) nbRounds = 3
   else nbRounds = 2
 
   try {
+    // On initialise tous les matches du bracket
     for (let i = nbRounds; i > 0; i--) {
       let matches = []
       for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
@@ -113,6 +120,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
         })
       }
 
+      // On créé le document de la rencontre
       const tableau = new Tableau({
         _id: new mongoose.Types.ObjectId(),
         type: (i !== 1 ? 'Winnerbracket' : 'Final'),
@@ -124,16 +132,19 @@ router.route("/generate/:tableau").put(async function(req, res) {
       await tableau.save()
     }
 
+    // On assignes les matches à chaque qualifié
+    // S'il s'agit d'un format 'simple', on assigne les joueurs de la poule
+    // S'il s'agit d'un format 'double', on assigne la poule
     let id_match = 1
     for (let i = 0; i < poules.length; i++) {
-      if (req.body.format === 'simple') {
+      if (req.body.format === 'simple') { // TODO A REVOIR LE REMPLISSAGE DU BRACKET
         for (let j = 0; j <= 1; j++) { // On prend les 2 premiers de la poule
-          if (poules[i].joueurs[j]) await setPlayerSpecificMatch(4, id_match, poules[i].joueurs[j]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
+          if (poules[i].joueurs[j]) await setPlayerSpecificMatch(nbRounds, id_match, poules[i].joueurs[j]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
           if (j === 1) id_match ++ // On incrémente le n° de match tous les 2 joueurs
         }
       }
       else {
-        await setPlayerSpecificMatch(4, id_match, poules[i]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
+        await setPlayerSpecificMatch(nbRounds, id_match, poules[i]._id, req.params.tableau).catch(err => res.status(500).json({error: err}))
         if (i % 2 !== 0) id_match ++ // On incrémente le n° de match tous les 2 joueurs/poules
       }
     }
