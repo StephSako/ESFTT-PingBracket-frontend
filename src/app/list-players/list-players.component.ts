@@ -101,7 +101,7 @@ export class ListPlayersComponent implements OnInit {
       id: joueur._id,
       action: 'Désinscrire le joueur du tableau ?',
       option: 'Vous devrez regénérer les ' + (this.tableau.format === 'simple' ? 'poules' : 'doubles') + ' si le joueur y était déjà inscrit.'
-    }; // TODO AFFICHER L'OPTION SEULEMENT SI LE JOUEUR Y ESY INSCRIT
+    }; // TODO AFFICHER L'OPTION SEULEMENT SI LE JOUEUR Y ESY INSCRIT OU REGENERER LES POULES AUTOMATIQUEMENT
 
     this.dialog.open(DialogComponent, {
       width: '45%',

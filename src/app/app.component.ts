@@ -20,7 +20,7 @@ export class AppComponent {
     this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux);
   }
 
-  isActive(tableau_id: string): string {
-    return (tableau_id === this.router.url.split('/').pop() ? 'primary' : '');
+  isActive(route: string): string {
+    return (route === this.router.url.split('/').pop() ? 'primary' : '');
   }
 }
