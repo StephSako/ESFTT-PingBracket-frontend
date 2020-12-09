@@ -112,21 +112,21 @@ router.route("/generate/:tableau").put(async function(req, res) {
   let poules = await Poule.find({type: req.params.tableau})
 
   // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
-  let count = 0, nbRounds, rankingOrder
-  if (req.body.format === 'simple') poules.forEach(poule => count += poule.joueurs.length)
-  else count = poules.length
+  let nbQualified = 0, nbRounds, rankOrderer
+  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.joueurs.length)
+  else nbQualified = poules.length
 
-  if (count >= 9){
+  if (nbQualified >= 9){
     nbRounds = 4
-    rankingOrder = ORDRE_HUITIEME
+    rankOrderer = ORDRE_HUITIEME
   }
-  else if (count >= 5){
+  else if (nbQualified >= 5){
     nbRounds = 3
-    rankingOrder = ORDRE_QUART
+    rankOrderer = ORDRE_QUART
   }
   else{
     nbRounds = 2
-    rankingOrder = ORDRE_DEMI
+    rankOrderer = ORDRE_DEMI
   }
 
   try {
@@ -155,18 +155,22 @@ router.route("/generate/:tableau").put(async function(req, res) {
 
     let qualified = [], id_match = 1
 
-    // On créé la liste des joueur/poules qualifiés
+    // On créé la liste des joueur/binômes qualifiés
     if (req.body.format === 'simple') {
       for (let i = 0; i < poules.length; i++) {
         qualified = qualified.concat(poules[i].joueurs.slice(0, 2))
       }
     } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
-    // On assigne les matches aux joueurs/poules
-    for (let i = 0; i < rankingOrder.length; i++) { // TODO POUR QUART ET DEMI
-      console.log(i, rankingOrder[i]-1, qualified[rankingOrder[i]-1], rankingOrder)
-      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankingOrder[i]-1 : i)], req.params.tableau).catch(err => res.status(500).json({error: err}))
-      if (i % 2 && i !== 0) id_match ++ // On incrémente le n° du match tous les 2 joueurs
+    // On assigne les matches aux joueurs/binômes
+    for (let i = 0; i < rankOrderer.length; i++) {
+      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau).catch(err => res.status(500).json({error: err}))
+
+      if (i % 2 && i !== 0 && req.body.format === 'simple') id_match ++ // On incrémente le n° du match tous les 2 joueurs/binômes
+      else if (req.body.format === 'double') {
+        id_match ++
+        if (i === rankOrderer.length/2) id_match = 1
+      }
     }
 
     res.status(200).json({message: "No error"})
