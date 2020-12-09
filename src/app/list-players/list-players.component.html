@@ -4,12 +4,12 @@
     <h2 class="lobster center">Inscrire un joueur</h2>
 
     <form (submit)="create()">
-      <app-form-joueur *ngIf="otherPlayers" [editMode]="false" [otherPlayers]="otherPlayers" [joueur]="joueur"></app-form-joueur>
+      <app-form-joueur [editMode]="false" [otherPlayers]="otherPlayers" [joueur]="joueur"></app-form-joueur>
       <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidPlayer()">Inscrire</button>
     </form>
   </mat-card>
 
-  <mat-card *ngIf="listJoueurs">
+  <mat-card>
     <h2 class="lobster center">Liste des joueurs ({{listJoueurs.length}} inscrits)</h2>
 
     <table mat-table [dataSource]="listJoueurs">

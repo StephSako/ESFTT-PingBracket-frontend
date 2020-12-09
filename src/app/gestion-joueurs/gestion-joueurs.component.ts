@@ -15,7 +15,7 @@ import {TableauInterface} from '../Interface/Tableau';
 export class GestionJoueursComponent implements OnInit {
 
   displayedColumns: string[] = ['nom', 'classement', 'tableaux', 'edit', 'delete'];
-  allJoueurs: JoueurInterface[];
+  allJoueurs: JoueurInterface[] = [];
 
   public joueur: JoueurInterface = {
     nom: null,

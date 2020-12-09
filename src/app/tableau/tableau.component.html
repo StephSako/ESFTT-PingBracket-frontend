@@ -10,8 +10,8 @@
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">
-      <span *ngIf="tableau && tableau.format === 'simple'">Poules</span>
-      <span *ngIf="tableau && tableau.format === 'double'">Binômes</span>
+      <span *ngIf="tableau.format === 'simple'">Poules</span>
+      <span *ngIf="tableau.format === 'double'">Binômes</span>
     </ng-template>
 
     <app-poule [tableau]="tableau"></app-poule></mat-tab>
@@ -26,7 +26,7 @@
         <mat-icon *ngIf="spinnerShown">
           <mat-spinner color="warn" [diameter]="20"></mat-spinner>
         </mat-icon>
-        Générer le bracket
+        Générer le tableau
       </button>
     </div>
 
@@ -35,13 +35,13 @@
     </ng-container>
   </mat-tab>
 
-  <mat-tab *ngIf="tableau && tableau.consolante">
+  <mat-tab *ngIf="tableau.consolante">
     <ng-template mat-tab-label class="mat-tab-label">
       Consolante
     </ng-template>
 
     <div class="center">
-      <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer le bracket</button>
+      <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer la consolante</button>
     </div>
 
     <ng-container *ngIf="looserBracket">

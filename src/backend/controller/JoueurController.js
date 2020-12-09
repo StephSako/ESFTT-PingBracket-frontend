@@ -56,4 +56,6 @@ router.route("/unsubscribe/:id_player/tableau/:tableau").delete(async function(r
   Joueur.updateOne({ _id: req.params.id_player}, {$pull: {tableaux: {$in: [req.params.tableau]}}}).then(result => res.status(200).json(result)).catch(err => res.send(err))
 });
 
+// TODO DELETE PLAYER
+
 module.exports = router

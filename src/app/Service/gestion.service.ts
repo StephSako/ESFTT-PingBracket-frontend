@@ -27,4 +27,8 @@ export class GestionService {
   public edit(tableau: TableauInterface): Observable<any> {
     return this.http.put(`${this.baseURL}edit/${tableau._id}`, tableau);
   }
+
+  public reset(): Observable<any> {
+    return this.http.delete(`${this.baseURL}reset`);
+  }
 }

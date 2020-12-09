@@ -15,7 +15,12 @@ export class TableauComponent implements OnInit {
   public winnerbracket: NgttTournament;
   public looserBracket: NgttTournament;
   idTableau: string;
-  tableau: TableauInterface;
+  tableau: TableauInterface = {
+    _id: null,
+    format: null,
+    nom: null,
+    consolante: null
+  };
   spinnerShown: boolean;
 
   constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute,

@@ -10,9 +10,9 @@
   </mat-card>
 
   <mat-card>
-    <h2 class="lobster center">Liste des tableaux</h2>
+    <h2 class="lobster center">Liste des tableaux ({{allTableaux.length}})</h2>
 
-    <table mat-table *ngIf="allTableaux" [dataSource]="allTableaux">
+    <table mat-table [dataSource]="allTableaux">
 
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>

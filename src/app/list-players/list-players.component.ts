@@ -19,8 +19,8 @@ export class ListPlayersComponent implements OnInit {
 
   displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
 
-  listJoueurs: JoueurInterface[];
-  otherPlayers: JoueurInterface[];
+  listJoueurs: JoueurInterface[] = [];
+  otherPlayers: JoueurInterface[] = [];
   idTableau: string;
 
   public joueur: JoueurInterface = {

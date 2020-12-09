@@ -1,8 +1,11 @@
 <div class="container">
 
-  <button (click)="generatePoulesBinomes()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer les poules</button>
+  <button (click)="generatePoulesBinomes()" mat-raised-button class="center btnGenerateBracket" color="primary">
+    <span *ngIf="tableau.format === 'simple'">Générer les poules</span>
+    <span *ngIf="tableau.format === 'double'">Générer les binômes</span>
+  </button>
 
-    <div *ngIf="tableau && tableau.format === 'simple'" fxLayout="row wrap">
+    <div *ngIf="tableau.format === 'simple'" fxLayout="row wrap">
       <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
         <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
           <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
@@ -20,7 +23,7 @@
       </div>
     </div>
 
-    <div *ngIf="tableau && tableau.format === 'double'" fxLayout="row wrap" cdkDropListGroup>
+    <div *ngIf="tableau.format === 'double'" fxLayout="row wrap" cdkDropListGroup>
       <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
         <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
           <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>

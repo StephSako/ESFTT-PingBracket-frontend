@@ -14,7 +14,7 @@ import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
 export class GestionTableauxComponent implements OnInit {
 
   displayedColumns: string[] = ['nom', 'format', 'consolante', 'edit', 'delete'];
-  allTableaux: TableauInterface[];
+  allTableaux: TableauInterface[] = [];
 
   public tableau: TableauInterface = {
     nom: null,

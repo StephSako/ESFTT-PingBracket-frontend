@@ -32,3 +32,15 @@ body {
   width: 90%;
   margin-top: 20px !important;
 }
+
+.style-success .mat-simple-snackbar-action {
+  color: green;
+}
+
+.style-success, .style-error  {
+  color: white;
+}
+
+.style-error .mat-simple-snackbar-action {
+  color: red;
+}

@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const Gestion = require('../model/Gestion')
+const Joueur = require('../model/Joueur')
+const Poule = require('../model/Poule')
+const Tableau = require('../model/Tableau')
 const mongoose = require('mongoose')
 
 // ALL TABLEAU
@@ -29,9 +32,18 @@ router.route("/edit/:id_tableau").put(function(req, res) {
   Gestion.update({_id: req.params.id_tableau}, {$set: req.body}).then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
 });
 
-// DELETE TABLEAU
-router.route("/delete/:id_tableau").delete(function(req, res) {
-  Gestion.remove({ _id: req.params.id_tableau}).then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
+// RESET THE TOURNAMENT
+router.route("/reset").delete(async function(req, res) {
+  try {
+    // On désinscrit tous les joueurs de tous les tableaux
+    await Joueur.updateMany({}, {$set: {tableaux: []}}, {multi:true}).catch(err => res.send(err))
+    await Poule.deleteMany({}).catch(err => res.status(500).json({error: err}))
+    await Tableau.deleteMany({}).catch(err => res.status(500).json({error: err}))
+    res.status(200).json({message: 'Tournoi remis à zéro ... prêt pour l\'année prochaine ;)'})
+  } catch (e){
+    res.status(500).json({message: e})
+  }
+
 });
 
 module.exports = router
