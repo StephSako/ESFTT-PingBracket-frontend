@@ -1,24 +1,26 @@
 const express = require('express')
 const router = express.Router()
 const Joueur = require('../model/Joueur')
+const Poule = require('../model/Poule')
+const Tableau = require('../model/Tableau')
 const mongoose = require('mongoose')
 
 // ALL PLAYERS
 router.route("/").get(function(req, res) {
-  getAllPlayers().populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers().populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // OTHER PLAYERS
 router.route("/unsubscribed/:tableau").get(function(req, res) {
-  getAllPlayers({'tableaux' : {$ne: req.params.tableau}}).populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers({'tableaux' : {$ne: req.params.tableau}}).populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // SPECIFIC TABLEAU'S PLAYERS
 router.route("/subscribed/:tableau").get(function(req, res) {
-  getAllPlayers({'tableaux' : {$all: [req.params.tableau]}}).populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers({'tableaux' : {$all: [req.params.tableau]}}).populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
-function getAllPlayers(option){
+function getPlayers(option){
   return Joueur.find(option).sort({nom: 'asc'})
 }
 
@@ -27,7 +29,7 @@ router.route("/create").post(async function(req, res) {
   let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom})
   if (searchedJoueur) {
     Joueur.updateOne(
-      {nom: req.body.joueur.nom},
+      {nom: req.body.joueur.nom.toUpperCase()},
       {$push: {tableaux: req.body.tableaux}}
     ).then(result => res.status(200).json(result)).catch(err => res.send(err))
   } else {
@@ -57,5 +59,15 @@ router.route("/unsubscribe/:id_player/tableau/:tableau").delete(async function(r
 });
 
 // TODO DELETE PLAYER
+router.route("/delete/:id_player").delete(async function(req, res) {
+  // On le supprime des poules existantes
+  await Poule.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).catch(err => res.send(err))
+
+  // On le supprime des tableaux existants
+  await Tableau.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.joueurs': {$in: [req.params.id_player]}}}).catch(err => res.send(err))
+
+  // On le supprime définitivement
+  Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(err => res.status(500).send(err))
+});
 
 module.exports = router

@@ -5,7 +5,9 @@ import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
 import { MatDialog } from '@angular/material/dialog';
-import {TableauInterface} from '../Interface/Tableau';
+import { TableauInterface } from '../Interface/Tableau';
+import {Dialog} from '../Interface/Dialog';
+import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -60,6 +62,25 @@ export class GestionJoueursComponent implements OnInit {
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
         this.joueurService.edit(joueur).subscribe(() => {
+          this.getAllJoueurs();
+        }, err => { console.error(err); });
+      }
+    });
+  }
+
+  delete(joueur_id: string): void {
+    const playerToDelete: Dialog = {
+      id: joueur_id,
+      action: 'Supprimer le joueur des participants ?',
+      option: 'S\'il est enregistré dans des poules, binômes de double ou tableaux, ils pourraient devenir incohérents et incorrectes. Vous devrez alors les regénérer.'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '55%',
+      data: playerToDelete
+    }).afterClosed().subscribe(id_joueur => {
+      if (id_joueur){
+        this.joueurService.delete(id_joueur).subscribe(() => {
           this.getAllJoueurs();
         }, err => { console.error(err); });
       }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { JoueurService } from '../Service/joueur.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PoulesService } from '../Service/poules.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import {TableauInterface} from '../Interface/Tableau';
 
 @Component({
   selector: 'app-list-players',
@@ -18,7 +19,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ListPlayersComponent implements OnInit {
 
   displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
-
+  @Input() tableau: TableauInterface = {
+    format: null,
+    _id: null,
+    nom: null,
+    consolante: null
+  };
   listJoueurs: JoueurInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
@@ -93,8 +99,9 @@ export class ListPlayersComponent implements OnInit {
   unsubscribe(joueur: JoueurInterface): void {
     const accountToDelete: Dialog = {
       id: joueur._id,
-      action: 'Désinscrire le joueur du tableau ?'
-    };
+      action: 'Désinscrire le joueur du tableau ?',
+      option: 'Vous devrez regénérer les ' + (this.tableau.format === 'simple' ? 'poules' : 'doubles') + ' si le joueur y était déjà inscrit.'
+    }; // TODO AFFICHER L'OPTION SEULEMENT SI LE JOUEUR Y ESY INSCRIT
 
     this.dialog.open(DialogComponent, {
       width: '45%',

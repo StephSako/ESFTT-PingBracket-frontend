@@ -37,4 +37,8 @@ export class JoueurService {
   public unsubscribe(tableau: string, id_joueur: string): Observable<any> {
     return this.http.delete(`${this.baseURL}unsubscribe/${id_joueur}/tableau/${tableau}`);
   }
+
+  public delete(id_joueur: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${id_joueur}`);
+  }
 }
