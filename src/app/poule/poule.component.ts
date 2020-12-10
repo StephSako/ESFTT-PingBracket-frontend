@@ -36,7 +36,6 @@ export class PouleComponent implements OnInit {
 
   getAllPoulesBinomes(): void {
     this.pouleService.getAll(this.idTableau).subscribe(poules => this.poules = poules);
-    console.log('poules generées');
   }
 
   generatePoulesBinomes(): void {

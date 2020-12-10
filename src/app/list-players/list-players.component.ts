@@ -24,6 +24,7 @@ export class ListPlayersComponent implements OnInit {
     consolante: null
   };
   @Output() updatePoules: EventEmitter<any> = new EventEmitter();
+  @Output() getBinomes: EventEmitter<any> = new EventEmitter();
   listJoueurs: JoueurInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
@@ -106,8 +107,14 @@ export class ListPlayersComponent implements OnInit {
       data: accountToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
-        this.joueurService.unsubscribe(this.idTableau, id_joueur).subscribe(() => {
+        this.joueurService.unsubscribe(this.idTableau, id_joueur, this.tableau.format).subscribe(() => {
           if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
+          else if (this.tableau.format === 'double') {
+            // TODO Regénérer la liste des joueurs inscrits non assignés
+
+            // On regénère la liste des binômes
+            this.getBinomes.emit();
+          }
           this.updateJoueurs();
           this.updateOtherPlayers();
         }, err => { console.error(err); });

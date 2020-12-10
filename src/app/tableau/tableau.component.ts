@@ -4,6 +4,11 @@ import { TournoiService } from '../Service/tournoi.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GestionService} from '../Service/gestion.service';
 import {TableauInterface} from '../Interface/Tableau';
+import {Dialog} from '../Interface/Dialog';
+import {DialogComponent} from '../dialog/dialog.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NotifyService} from '../Service/notify.service';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tableau',
@@ -23,8 +28,8 @@ export class TableauComponent implements OnInit {
   };
   spinnerShown: boolean;
 
-  constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute,
-              private gestionService: GestionService) {
+  constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog,
+              private gestionService: GestionService, private snackbar: MatSnackBar, private notifyService: NotifyService) {
   }
 
   ngOnInit(): void {
@@ -50,8 +55,21 @@ export class TableauComponent implements OnInit {
   }
 
   generateBracket(): void {
-    this.spinnerShown = true;
-    this.tournoiService.generateBracket(this.idTableau, this.tableau.format)
-      .subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
+    const accountToDelete: Dialog = {
+      id: 'true',
+      action: 'Regénérer le tableau ?',
+      option: null
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '45%',
+      data: accountToDelete
+    }).afterClosed().subscribe(value => {
+      if (value){
+        this.spinnerShown = true;
+        this.tournoiService.generateBracket(this.idTableau, this.tableau.format)
+          .subscribe(() => this.updateBracket(), () => this.spinnerShown = false);
+      }
+    });
   }
 }

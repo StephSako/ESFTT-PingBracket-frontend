@@ -54,7 +54,14 @@ router.route("/edit/:id_player").put(function(req, res) {
 });
 
 // UNSUBSCRIBE PLAYER
-router.route("/unsubscribe/:id_player/tableau/:tableau").delete(async function(req, res) {
+router.route("/unsubscribe/:id_player/tableau/:tableau").put(async function(req, res) {
+  if (req.body.format === 'double'){
+    // On supprime le joueur du double auquel il est assigné
+    await Poule.updateMany({type: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).catch(err => res.send(err))
+
+    // On supprime les binômes vides
+    await Poule.deleteMany({ joueurs: { $exists: true, $size: 0 } })
+  }
   Joueur.updateOne({ _id: req.params.id_player}, {$pull: {tableaux: {$in: [req.params.tableau]}}}).then(result => res.status(200).json(result)).catch(err => res.send(err))
 });
 

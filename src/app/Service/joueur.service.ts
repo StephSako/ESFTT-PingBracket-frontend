@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {JoueurInterface} from '../Interface/Joueur';
-import {TableauInterface} from '../Interface/Tableau';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +33,8 @@ export class JoueurService {
     return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
   }
 
-  public unsubscribe(tableau: string, id_joueur: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}unsubscribe/${id_joueur}/tableau/${tableau}`);
+  public unsubscribe(tableau: string, id_joueur: string, format: string): Observable<any> {
+    return this.http.put(`${this.baseURL}unsubscribe/${id_joueur}/tableau/${tableau}`, { format });
   }
 
   public delete(id_joueur: string): Observable<any> {
