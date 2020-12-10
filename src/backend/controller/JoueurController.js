@@ -29,7 +29,7 @@ router.route("/create").post(async function(req, res) {
   let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom})
   if (searchedJoueur) {
     Joueur.updateOne(
-      {nom: req.body.joueur.nom.toUpperCase()},
+      {nom: req.body.joueur.nom},
       {$push: {tableaux: req.body.tableaux}}
     ).then(result => res.status(200).json(result)).catch(err => res.send(err))
   } else {
@@ -58,7 +58,6 @@ router.route("/unsubscribe/:id_player/tableau/:tableau").delete(async function(r
   Joueur.updateOne({ _id: req.params.id_player}, {$pull: {tableaux: {$in: [req.params.tableau]}}}).then(result => res.status(200).json(result)).catch(err => res.send(err))
 });
 
-// TODO DELETE PLAYER
 router.route("/delete/:id_player").delete(async function(req, res) {
   // On le supprime des poules existantes
   await Poule.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).catch(err => res.send(err))

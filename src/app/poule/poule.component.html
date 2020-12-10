@@ -33,7 +33,9 @@
               [cdkDropListData]="poules[indexList].joueurs"
               class="list"
               (cdkDropListDropped)="editBinome($event, poule._id)">
-              <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
+              <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>
+                <div class="custom-placeholder" *cdkDragPlaceholder></div>
+                {{joueur.nom}} - {{joueur.classement}} points</div>
             </div>
         </mat-card>
       </div>

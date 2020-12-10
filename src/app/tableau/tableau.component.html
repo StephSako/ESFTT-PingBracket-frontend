@@ -5,7 +5,7 @@
       Inscriptions
     </ng-template>
 
-    <app-list-players [tableau]="tableau"></app-list-players>
+    <app-list-players (updatePoules)="poule.generatePoulesBinomes()" [tableau]="tableau"></app-list-players>
   </mat-tab>
 
   <mat-tab>
@@ -14,7 +14,7 @@
       <span *ngIf="tableau.format === 'double'">Binômes</span>
     </ng-template>
 
-    <app-poule [tableau]="tableau"></app-poule></mat-tab>
+    <app-poule #poule [tableau]="tableau"></app-poule></mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">

@@ -1,15 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { JoueurService } from '../Service/joueur.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
 import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import { NotifyService } from '../Service/notify.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PoulesService } from '../Service/poules.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TableauInterface} from '../Interface/Tableau';
+import { TableauInterface } from '../Interface/Tableau';
 
 @Component({
   selector: 'app-list-players',
@@ -25,6 +23,7 @@ export class ListPlayersComponent implements OnInit {
     nom: null,
     consolante: null
   };
+  @Output() updatePoules: EventEmitter<any> = new EventEmitter();
   listJoueurs: JoueurInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
@@ -36,8 +35,7 @@ export class ListPlayersComponent implements OnInit {
     tableaux: null
   };
 
-  constructor(private joueurService: JoueurService, public dialog: MatDialog, private notifyService: NotifyService,
-              private snackBar: MatSnackBar, private poulesService: PoulesService, private router: Router,
+  constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -73,9 +71,9 @@ export class ListPlayersComponent implements OnInit {
             _id : null,
             tableaux: null
           };
+          if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
           this.updateJoueurs();
           this.updateOtherPlayers();
-          this.notifyService.notifyUser('Joueur inscrit au tableau', this.snackBar, 'success', 1500, 'OK');
         },
         err => {
           console.error(err);
@@ -100,8 +98,8 @@ export class ListPlayersComponent implements OnInit {
     const accountToDelete: Dialog = {
       id: joueur._id,
       action: 'Désinscrire le joueur du tableau ?',
-      option: 'Vous devrez regénérer les ' + (this.tableau.format === 'simple' ? 'poules' : 'doubles') + ' si le joueur y était déjà inscrit.'
-    }; // TODO AFFICHER L'OPTION SEULEMENT SI LE JOUEUR Y ESY INSCRIT OU REGENERER LES POULES AUTOMATIQUEMENT
+      option: null
+    };
 
     this.dialog.open(DialogComponent, {
       width: '45%',
@@ -109,6 +107,7 @@ export class ListPlayersComponent implements OnInit {
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
         this.joueurService.unsubscribe(this.idTableau, id_joueur).subscribe(() => {
+          if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
           this.updateJoueurs();
           this.updateOtherPlayers();
         }, err => { console.error(err); });
