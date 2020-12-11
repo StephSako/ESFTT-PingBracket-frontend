@@ -4,6 +4,7 @@ const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
 const Tableau = require('../model/Tableau')
 const mongoose = require('mongoose')
+const _ = require('lodash');
 
 // ALL PLAYERS
 router.route("/").get(function(req, res) {
@@ -12,12 +13,26 @@ router.route("/").get(function(req, res) {
 
 // OTHER PLAYERS
 router.route("/unsubscribed/:tableau").get(function(req, res) {
-  getPlayers({'tableaux' : {$ne: req.params.tableau}}).populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers({'tableaux' : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
 // SPECIFIC TABLEAU'S PLAYERS
 router.route("/subscribed/:tableau").get(function(req, res) {
-  getPlayers({'tableaux' : {$all: [req.params.tableau]}}).populate('tableaux').then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers({'tableaux' : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+});
+
+// (DOUBLE) SUBSCRIBED UNASSIGNED PLAYERS IN ANY BINOME OF SPECIFIC TABLEAU
+router.route("/unassigned/:tableau").get(async function(req, res) {
+  let assignedPlayers = await Poule.find({type: req.params.tableau}).populate('joueurs').catch(err => res.status(500).send(err))
+  let assignedPlayersIds = assignedPlayers.map(poule => poule.joueurs).flat()
+  let subscribedPlayersIds = await getPlayers({'tableaux' : {$all: [req.params.tableau]}}).catch(err => res.status(500).send(err))
+
+  try {
+    let subscribedUnassignedPlayers = _.differenceWith(subscribedPlayersIds, assignedPlayersIds,  (subscribed, assigned) => {return subscribed.equals(assigned)})
+    res.status(200).json(subscribedUnassignedPlayers)
+  } catch (e) {
+    res.status(500).json(e)
+  }
 });
 
 function getPlayers(option){

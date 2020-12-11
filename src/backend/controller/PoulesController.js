@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 // ALL POULES
 router.route("/:tableau").get(function(req, res) {
-  Poule.find({type: req.params.tableau}).populate('joueurs').populate('type').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
+  Poule.find({type: req.params.tableau}).populate('joueurs').populate('type').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
 // UPDATE SPECIFIC POULE

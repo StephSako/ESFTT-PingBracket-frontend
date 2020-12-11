@@ -25,6 +25,7 @@ export class ListPlayersComponent implements OnInit {
   };
   @Output() updatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getBinomes: EventEmitter<any> = new EventEmitter();
+  @Output() updateUnassignedPlayers: EventEmitter<any> = new EventEmitter();
   listJoueurs: JoueurInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
@@ -110,10 +111,8 @@ export class ListPlayersComponent implements OnInit {
         this.joueurService.unsubscribe(this.idTableau, id_joueur, this.tableau.format).subscribe(() => {
           if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
           else if (this.tableau.format === 'double') {
-            // TODO Regénérer la liste des joueurs inscrits non assignés
-
-            // On regénère la liste des binômes
-            this.getBinomes.emit();
+            this.updateUnassignedPlayers.emit(); // Regénérer la liste des joueurs inscrits non assignés
+            this.getBinomes.emit(); // On regénère la liste des binômes
           }
           this.updateJoueurs();
           this.updateOtherPlayers();

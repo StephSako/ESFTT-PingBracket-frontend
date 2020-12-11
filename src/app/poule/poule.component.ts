@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauInterface } from '../Interface/Tableau';
+import { JoueurService } from '../Service/joueur.service';
+import { GestionService } from '../Service/gestion.service';
 
 @Component({
   selector: 'app-poule',
@@ -16,36 +18,50 @@ import { TableauInterface } from '../Interface/Tableau';
 export class PouleComponent implements OnInit {
 
   public poules: PouleInterface[];
-  @Input() tableau: TableauInterface = {
+  public subscribedUnassignedPlayers: JoueurInterface[];
+  tableau: TableauInterface = {
     format: null,
     _id: null,
     nom: null,
     consolante: null
   };
-  idTableau: string;
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private notifyService: NotifyService, private snackBar: MatSnackBar) { }
+              private joueurService: JoueurService, private notifyService: NotifyService, private snackBar: MatSnackBar,
+              private gestionService: GestionService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
-      this.idTableau = this.router.url.split('/').pop();
+      this.getTableau();
+    });
+  }
+
+  getTableau(): void {
+    this.gestionService.getTableau(this.router.url.split('/').pop()).subscribe(tableau => {
+      this.tableau = tableau;
       this.getAllPoulesBinomes();
+      if (this.tableau.format === 'double') { this.getSubscribedUnassignedPlayers(); }
     });
   }
 
   getAllPoulesBinomes(): void {
-    this.pouleService.getAll(this.idTableau).subscribe(poules => this.poules = poules);
+    this.pouleService.getAll(this.tableau._id).subscribe(poules => this.poules = poules);
+  }
+
+  getSubscribedUnassignedPlayers(): void {
+    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => {
+      this.subscribedUnassignedPlayers = joueurs;
+    });
   }
 
   generatePoulesBinomes(): void {
     if (this.tableau.format === 'simple') {
-      this.pouleService.generatePoules(this.idTableau).subscribe(poules => {
+      this.pouleService.generatePoules(this.tableau._id).subscribe(poules => {
         this.poules = poules;
         this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
       });
     } else {
-      this.pouleService.generateBinomes(this.idTableau).subscribe(poules => {
+      this.pouleService.generateBinomes(this.tableau._id).subscribe(poules => {
         this.poules = poules;
         this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
       });

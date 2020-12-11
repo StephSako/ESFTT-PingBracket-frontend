@@ -40,4 +40,8 @@ export class JoueurService {
   public delete(id_joueur: string): Observable<any> {
     return this.http.delete(`${this.baseURL}delete/${id_joueur}`);
   }
+
+  public getSubscribedUnassignedDouble(tableau: string): Observable<any> {
+    return this.http.get(`${this.baseURL}unassigned/${tableau}`);
+  }
 }

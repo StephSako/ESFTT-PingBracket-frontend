@@ -2,42 +2,65 @@
 
   <button (click)="generatePoulesBinomes()" mat-raised-button class="center btnGenerateBracket" color="primary">
     <span *ngIf="tableau.format === 'simple'">Générer les poules</span>
-    <span *ngIf="tableau.format === 'double'">Générer les binômes</span>
+    <span *ngIf="tableau.format === 'double'">Générer les binômes</span> (A SUPPRIMER)
   </button>
 
-    <div *ngIf="tableau.format === 'simple'" fxLayout="row wrap">
-      <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
-        <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
-          <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
+  <div *ngIf="tableau.format === 'simple'" fxLayout="row wrap">
+    <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
+      <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
+        <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
 
-          <div
-            cdkDropList
-            [cdkDropListData]="poules[indexList].joueurs"
-            class="list"
-            (cdkDropListDropped)="editPoule($event, poule._id)">
-            <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
-          </div>
-          <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Valider')}}</button>
+        <div
+          cdkDropList
+          [cdkDropListData]="poules[indexList].joueurs"
+          class="list"
+          (cdkDropListDropped)="editPoule($event, poule._id)">
+          <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>{{joueur.nom}} - {{joueur.classement}} points</div>
+        </div>
+        <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Valider')}}</button>
 
-        </mat-card>
-      </div>
+      </mat-card>
     </div>
+  </div>
 
-    <div *ngIf="tableau.format === 'double'" fxLayout="row wrap" cdkDropListGroup>
-      <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
-        <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
-          <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>
+  <div *ngIf="tableau.format === 'double'" fxLayout="column" cdkDropListGroup>
+    <div fxLayout="row nowrap" fxFlexFill fxLayoutAlign="space-between stretch">
 
-            <div
-              cdkDropList
-              [cdkDropListData]="poules[indexList].joueurs"
-              class="list"
-              (cdkDropListDropped)="editBinome($event, poule._id)">
-              <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>
-                <div class="custom-placeholder" *cdkDragPlaceholder></div>
-                {{joueur.nom}} - {{joueur.classement}} points</div>
+      <div fxFlex="30%" fxLayoutAlign="center stretch">
+        <div style="height: 600px; width: 100%;">
+          <mat-card>
+            <h2>Joueurs inscrits</h2>
+
+            <div cdkDropList class="list" (cdkDropListDropped)="editBinome($event, null)">
+              <div class="box" *ngFor="let joueur of subscribedUnassignedPlayers" cdkDrag>{{joueur.nom}}</div>
             </div>
-        </mat-card>
+          </mat-card>
+        </div>
       </div>
+
+      <div fxFlex="70%" fxLayoutAlign="center stretch">
+        <div style="height: 600px; width: 100%;">
+          <div *ngIf="tableau.format === 'double'" fxLayout="row wrap" cdkDropListGroup>
+            <div fxFlex="50%" *ngFor="let poule of poules; let indexList = index">
+              <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
+                <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>
+
+                <div
+                  cdkDropList
+                  [cdkDropListData]="poules[indexList].joueurs"
+                  class="list"
+                  (cdkDropListDropped)="editBinome($event, poule._id)">
+                  <div [cdkDragData]="[poule._id, joueur._id]" [cdkDragDisabled]="poule.locked" class="box" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>
+                    <div class="custom-placeholder" *cdkDragPlaceholder></div>
+                    {{joueur.nom}} - {{joueur.classement}} points</div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+  </div>
 </div>

@@ -42,9 +42,7 @@ export class TableauComponent implements OnInit {
   }
 
   getTableau(): void {
-    this.gestionService.getTableau(this.idTableau).subscribe(tableau => {
-      this.tableau = tableau;
-    });
+    this.gestionService.getTableau(this.idTableau).subscribe(tableau => this.tableau = tableau);
   }
 
   updateBracket(): void {
