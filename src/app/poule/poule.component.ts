@@ -49,9 +49,7 @@ export class PouleComponent implements OnInit {
   }
 
   getSubscribedUnassignedPlayers(): void {
-    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => {
-      this.subscribedUnassignedPlayers = joueurs;
-    });
+    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs);
   }
 
   generatePoulesBinomes(): void {

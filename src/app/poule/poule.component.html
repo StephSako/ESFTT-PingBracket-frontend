@@ -32,7 +32,9 @@
             <h2>Joueurs inscrits</h2>
 
             <div cdkDropList class="list" (cdkDropListDropped)="editBinome($event, null)">
-              <div class="box" *ngFor="let joueur of subscribedUnassignedPlayers" cdkDrag>{{joueur.nom}}</div>
+              <div class="box" *ngFor="let joueur of subscribedUnassignedPlayers" cdkDrag>
+                <div class="custom-placeholder" *cdkDragPlaceholder></div>
+                {{joueur.nom}}</div>
             </div>
           </mat-card>
         </div>

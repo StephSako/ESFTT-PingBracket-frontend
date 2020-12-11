@@ -74,6 +74,7 @@ export class ListPlayersComponent implements OnInit {
             tableaux: null
           };
           if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
+          else if (this.tableau.format === 'double') { this.updateUnassignedPlayers.emit(); }
           this.updateJoueurs();
           this.updateOtherPlayers();
         },
