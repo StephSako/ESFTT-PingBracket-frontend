@@ -65,10 +65,9 @@ export class GestionJoueursComponent implements OnInit {
       }
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
-        this.joueurService.edit(joueur).subscribe(() => {
-          this.getAllJoueurs();
-        }, err => { console.error(err); });
+        this.joueurService.edit(joueur).subscribe(() => {}, err => { console.error(err); });
       }
+      this.getAllJoueurs();
     });
   }
 

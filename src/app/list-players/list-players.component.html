@@ -24,13 +24,6 @@
         <td mat-cell *matCellDef="let joueur">{{joueur.classement}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let joueur">
-          <button (click)="edit(joueur)" class="center" mat-raised-button color="primary">Modifier</button>
-        </td>
-      </ng-container>
-
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">

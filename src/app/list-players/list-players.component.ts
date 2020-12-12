@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JoueurService } from '../Service/joueur.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
-import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { PoulesService } from '../Service/poules.service';
@@ -16,7 +15,7 @@ import { TableauInterface } from '../Interface/Tableau';
 })
 export class ListPlayersComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'classement', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'classement', 'delete'];
   @Input() tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -85,23 +84,6 @@ export class ListPlayersComponent implements OnInit {
           console.error(err);
         }
       );
-  }
-
-  edit(joueur: JoueurInterface): void {
-    this.dialog.open(EditJoueurComponent, {
-      width: '80%',
-      data: {
-        joueur,
-        editMode: true,
-        createMode: false
-      }
-    }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur) {
-        this.joueurService.edit(joueur).subscribe(() => {
-          this.updateJoueurs();
-        }, err => { console.error(err); });
-      }
-    });
   }
 
   unsubscribe(joueur: JoueurInterface): void {

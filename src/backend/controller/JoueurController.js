@@ -6,6 +6,10 @@ const Tableau = require('../model/Tableau')
 const mongoose = require('mongoose')
 const _ = require('lodash');
 
+function getPlayers(option){
+  return Joueur.find(option).sort({nom: 'asc'})
+}
+
 // SPECIFIC PLAYER
 router.route("/:id_joueur").get(function(req, res) {
   Joueur.findById(req.params.id_joueur).populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueur => res.status(200).json(joueur)).catch(err => res.send(err))
@@ -39,10 +43,6 @@ router.route("/unassigned/:tableau").get(async function(req, res) {
     res.status(500).json(e)
   }
 });
-
-function getPlayers(option){
-  return Joueur.find(option).sort({nom: 'asc'})
-}
 
 // SUBSCRIBE PLAYER
 router.route("/subscribe").post(async function(req, res) {
@@ -86,6 +86,7 @@ router.route("/subscribe").post(async function(req, res) {
 });
 
 // EDIT PLAYER
+// TODO REGENER LES TABLEAUX EN FORMAT SIMPLE
 router.route("/edit/:id_player").put(function(req, res) {
   const joueur = {
     nom: req.body.nom,
