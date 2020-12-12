@@ -112,7 +112,7 @@ export class ListPlayersComponent implements OnInit {
       data: accountToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
-        this.joueurService.unsubscribe(this.idTableau, id_joueur, this.tableau.format).subscribe(() => {
+        this.joueurService.unsubscribe(this.tableau, id_joueur).subscribe(() => {
           if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
           else if (this.tableau.format === 'double') {
             this.updateUnassignedPlayers.emit(); // Regénérer la liste des joueurs inscrits non assignés

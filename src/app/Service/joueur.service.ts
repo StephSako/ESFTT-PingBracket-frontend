@@ -26,7 +26,6 @@ export class JoueurService {
   }
 
   // CREATE OR SUBSCRIBE PLAYER TO A SPECIFIC TABLEAU
-  // TODO TABLEAU DE TABLEAU()
   public create(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
     return this.http.post(`${this.baseURL}create`, { joueur, tableaux });
   }
@@ -35,8 +34,8 @@ export class JoueurService {
     return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
   }
 
-  public unsubscribe(tableau: string, id_joueur: string, format: string): Observable<any> {
-    return this.http.put(`${this.baseURL}unsubscribe/${id_joueur}/tableau/${tableau}`, { format });
+  public unsubscribe(tableau: TableauInterface, id_joueur: string): Observable<any> {
+    return this.http.put(`${this.baseURL}unsubscribe/${id_joueur}/${tableau._id}`, { format: tableau.format });
   }
 
   public delete(id_joueur: string): Observable<any> {
