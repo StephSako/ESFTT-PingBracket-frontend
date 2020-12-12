@@ -1,7 +1,7 @@
 <h2 *ngIf="joueur._id" class="center lobster"><b>Modifier le joueur '{{joueur.nom}}'</b></h2>
 
-<mat-grid-list [cols]="editMode ? 3 : 2" rowHeight="5:1">
-  <mat-grid-tile>
+<div fxLayout="row">
+  <div [fxFlex]="(createMode || editMode) ? '33%' : '50'">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur *</mat-label>
@@ -12,17 +12,17 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-  </mat-grid-tile>
+  </div>
 
-  <mat-grid-tile>
+  <div [fxFlex]="(createMode || editMode) ? '33%' : '50'">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>
       <input type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
     </mat-form-field>
-  </mat-grid-tile>
+  </div>
 
-  <mat-grid-tile *ngIf="editMode">
+  <div *ngIf="createMode" fxFlex="33%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>dns</mat-icon>
       <mat-label>Tableaux</mat-label>
@@ -30,5 +30,17 @@
         <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
       </mat-select>
     </mat-form-field>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+
+  <div *ngIf="editMode && tableaux" fxFlex="33%">
+    <div fxLayout="row" *ngFor="let tableau of tableaux" class="row">
+      <div fxFlex="33%" class="center">
+        <h2 class="lobster">{{tableau.nom | titlecase}}</h2>
+      </div>
+      <div fxFlex="50%" class="center">
+        <button (click)="subscribe(tableau)" mat-raised-button style="color: green" *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
+        <button (click)="unsubscribe(tableau)" mat-raised-button style="color: red" *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
+      </div>
+    </div>
+  </div>
+</div>

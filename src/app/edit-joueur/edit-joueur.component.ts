@@ -15,9 +15,14 @@ export class EditJoueurComponent {
     _id: null,
     tableaux: null
   };
+  editModeInput = false;
+  createModeInput = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public joueurData: JoueurInterface) {
-    this.joueur = joueurData;
+  constructor(@Inject(MAT_DIALOG_DATA) public data) {
+    console.log(data);
+    this.joueur = data.joueur;
+    this.editModeInput = data.editMode;
+    this.createModeInput = data.createMode;
   }
 
   isInvalid(): boolean {

@@ -64,8 +64,8 @@ export class ListPlayersComponent implements OnInit {
     });
   }
 
-  create(): void {
-    this.joueurService.create([this.tableau], this.joueur)
+  subscribe(): void {
+    this.joueurService.subscribe([this.tableau], this.joueur)
       .subscribe(() => {
           this.joueur = {
             classement : null,
@@ -90,7 +90,11 @@ export class ListPlayersComponent implements OnInit {
   edit(joueur: JoueurInterface): void {
     this.dialog.open(EditJoueurComponent, {
       width: '80%',
-      data: joueur
+      data: {
+        joueur,
+        editMode: true,
+        createMode: false
+      }
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur) {
         this.joueurService.edit(joueur).subscribe(() => {
@@ -101,7 +105,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   unsubscribe(joueur: JoueurInterface): void {
-    const accountToDelete: Dialog = {
+    const playerToDelete: Dialog = {
       id: joueur._id,
       action: 'Désinscrire le joueur du tableau ?',
       option: null
@@ -109,7 +113,7 @@ export class ListPlayersComponent implements OnInit {
 
     this.dialog.open(DialogComponent, {
       width: '45%',
-      data: accountToDelete
+      data: playerToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
         this.joueurService.unsubscribe(this.tableau, id_joueur).subscribe(() => {

@@ -13,6 +13,10 @@ export class JoueurService {
 
   constructor(private http: HttpClient) { }
 
+  public getPlayer(id_joueur: string): Observable<any> {
+    return this.http.get(`${this.baseURL}/${id_joueur}`);
+  }
+
   public getAllPlayers(): Observable<any> {
     return this.http.get(this.baseURL);
   }
@@ -25,9 +29,8 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}unsubscribed/${tableau}`);
   }
 
-  // CREATE OR SUBSCRIBE PLAYER TO A SPECIFIC TABLEAU
-  public create(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
-    return this.http.post(`${this.baseURL}create`, { joueur, tableaux });
+  public subscribe(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
+    return this.http.post(`${this.baseURL}subscribe`, { joueur, tableaux });
   }
 
   public edit(joueur: JoueurInterface): Observable<any> {

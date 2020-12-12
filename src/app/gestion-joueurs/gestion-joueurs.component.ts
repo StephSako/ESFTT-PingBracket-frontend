@@ -6,8 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TableauInterface } from '../Interface/Tableau';
-import {Dialog} from '../Interface/Dialog';
-import {DialogComponent} from '../dialog/dialog.component';
+import { Dialog } from '../Interface/Dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -38,7 +38,7 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   create(): void {
-    this.joueurService.create(this.joueur.tableaux, this.joueur)
+    this.joueurService.subscribe(this.joueur.tableaux, this.joueur)
       .subscribe(() => {
           this.joueur = {
             classement : null,
@@ -58,7 +58,11 @@ export class GestionJoueursComponent implements OnInit {
   edit(joueur: JoueurInterface): void {
     this.dialog.open(EditJoueurComponent, {
       width: '80%',
-      data: joueur
+      data: {
+        joueur,
+        editMode: true,
+        createMode: false
+      }
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
         this.joueurService.edit(joueur).subscribe(() => {
