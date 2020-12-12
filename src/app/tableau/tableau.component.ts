@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgttTournament } from 'ng-tournament-tree';
 import { TournoiService } from '../Service/tournoi.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GestionService} from '../Service/gestion.service';
-import {TableauInterface} from '../Interface/Tableau';
-import {Dialog} from '../Interface/Dialog';
-import {DialogComponent} from '../dialog/dialog.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {NotifyService} from '../Service/notify.service';
-import {MatDialog} from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GestionService } from '../Service/gestion.service';
+import { TableauInterface } from '../Interface/Tableau';
+import { Dialog } from '../Interface/Dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tableau',
@@ -29,7 +27,7 @@ export class TableauComponent implements OnInit {
   spinnerShown: boolean;
 
   constructor(private tournoiService: TournoiService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog,
-              private gestionService: GestionService, private snackbar: MatSnackBar, private notifyService: NotifyService) {
+              private gestionService: GestionService) {
   }
 
   ngOnInit(): void {

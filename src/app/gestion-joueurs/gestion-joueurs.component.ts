@@ -38,7 +38,7 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   create(): void {
-    this.joueurService.create(this.joueur.tableaux.map(tableau => tableau._id), this.joueur)
+    this.joueurService.create(this.joueur.tableaux, this.joueur)
       .subscribe(() => {
           this.joueur = {
             classement : null,

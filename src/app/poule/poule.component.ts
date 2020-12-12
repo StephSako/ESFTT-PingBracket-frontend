@@ -52,18 +52,11 @@ export class PouleComponent implements OnInit {
     this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs);
   }
 
-  generatePoulesBinomes(): void {
-    if (this.tableau.format === 'simple') {
-      this.pouleService.generatePoules(this.tableau._id).subscribe(poules => {
-        this.poules = poules;
-        this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
-      });
-    } else {
-      this.pouleService.generateBinomes(this.tableau._id).subscribe(poules => {
-        this.poules = poules;
-        this.notifyService.notifyUser('Poules générées', this.snackBar, 'success', 1500, 'OK');
-      });
-    }
+  generatePoules(): void {
+    this.pouleService.generatePoules(this.tableau._id).subscribe(poules => {
+      this.poules = poules;
+      this.notifyService.notifyUser('Poules regénérées', this.snackBar, 'success', 1500, 'OK');
+    });
   }
 
   editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {

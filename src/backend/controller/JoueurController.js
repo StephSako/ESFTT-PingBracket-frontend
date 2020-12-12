@@ -21,7 +21,7 @@ router.route("/subscribed/:tableau").get(function(req, res) {
   getPlayers({'tableaux' : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
 });
 
-// (DOUBLE) SUBSCRIBED UNASSIGNED PLAYERS IN ANY BINOME OF SPECIFIC TABLEAU
+// (DOUBLE) GETSUBSCRIBED UNASSIGNED PLAYERS IN ANY BINOME OF SPECIFIC TABLEAU
 router.route("/unassigned/:tableau").get(async function(req, res) {
   let assignedPlayers = await Poule.find({type: req.params.tableau}).populate('joueurs').catch(err => res.status(500).send(err))
   let assignedPlayersIds = assignedPlayers.map(poule => poule.joueurs).flat()
@@ -41,20 +41,42 @@ function getPlayers(option){
 
 // CREATE PLAYER
 router.route("/create").post(async function(req, res) {
-  let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom})
+  let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom}).catch(err => res.send(err))
   if (searchedJoueur) {
-    Joueur.updateOne(
+    await Joueur.updateOne(
       {nom: req.body.joueur.nom},
-      {$push: {tableaux: req.body.tableaux}}
-    ).then(result => res.status(200).json(result)).catch(err => res.send(err))
+      {$push: {tableaux: req.body.tableaux.map(tableau => tableau._id)}}
+    ).catch(err => res.send(err))
   } else {
     const joueur = new Joueur({
       _id: new mongoose.Types.ObjectId(),
       nom: req.body.joueur.nom,
-      tableaux: req.body.tableaux,
+      tableaux: req.body.tableaux.map(tableau => tableau._id),
       classement: (req.body.joueur.classement ? req.body.joueur.classement : 0)
     })
-    joueur.save().then(result => res.status(200).json(result)).catch(err => res.send(err))
+    await joueur.save().catch(err => res.send(err))
+  }
+
+  try {
+    // Un créé un binôme s'il n'y en a pas assez pour chaque tableau en format double où le joueur s'est inscrit
+    for (let i = 0; i < req.body.tableaux.length; i++) {
+      if (req.body.tableaux[i].format === 'double'){
+        let nbJoueursInscrits = await Joueur.countDocuments({'tableaux' : {$all: [req.body.tableaux[i]]}}).catch(err => res.send(err))
+
+        if (nbJoueursInscrits % 2 !== 0){
+          let poule = new Poule({
+            _id: new mongoose.Types.ObjectId(),
+            type: req.body.tableaux[i]._id,
+            locked: false,
+            joueurs: []
+          })
+          await poule.save().catch(err => res.send(err))
+        }
+      }
+    }
+    res.status(200).json({message: 'OK'})
+  } catch (err) {
+    res.status(500).send(err)
   }
 });
 

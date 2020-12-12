@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
+import {TableauInterface} from '../Interface/Tableau';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class JoueurService {
   }
 
   // CREATE OR SUBSCRIBE PLAYER TO A SPECIFIC TABLEAU
-  public create(tableaux: string[], joueur: JoueurInterface): Observable<any> {
+  // TODO TABLEAU DE TABLEAU()
+  public create(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
     return this.http.post(`${this.baseURL}create`, { joueur, tableaux });
   }
 
