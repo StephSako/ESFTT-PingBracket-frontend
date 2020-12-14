@@ -19,15 +19,23 @@ router.route("/edit/simple/:id_poule").put(function(req, res) {
 });
 
 // UPDATE SPECIFIC DOUBLE BINOME
-router.route("/edit/double/:oldIdPoule/:newIdPoule").put(async function(req, res) {
-  // On supprime le joueur déplacé de son ancien binôme
-  await Poule.updateOne({ _id: req.params.oldIdPoule}, {$pull: {joueurs: {$in: [req.body.idJoueur]}}}).catch(err => res.send(err))
+router.route("/edit/binome/:idJoueur").put(async function(req, res) {
+  try {
+    // On supprime le joueur déplacé de son ancien binôme s'il s'agit d'un échange entre deux binômes
+    if (req.body.oldIdPoule) await Poule.updateOne({ _id: req.body.oldIdPoule}, {$pull: {joueurs: {$in: [req.params.idJoueur]}}})
 
-  Poule.updateOne({_id: req.params.newIdPoule}, {
-    $set: {
-      joueurs: req.body.newPlayersList
+    // On met à jour le nouveau binôme avec la liste des joueurs s'il s'agit d'un échange entre deux binômes
+    if (req.body.newIdPoule) {
+      await Poule.updateOne({_id: req.body.newIdPoule}, {
+        $set: {
+          joueurs: req.body.newPlayersList
+        }
+      })
     }
-  }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
+    res.status(200).json({message: 'OK, no error'})
+  } catch (e) {
+    res.status(500).send(e)
+  }
 });
 
 // GENERATE POULES

@@ -22,7 +22,7 @@ export class PoulesService {
   }
 
   public editDouble(oldIdPoule: string, newIdPoule: string, newPlayersList: [id: JoueurInterface], idJoueur: string): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/double/${oldIdPoule}/${newIdPoule}`, { newPlayersList, idJoueur });
+    return this.http.put(`${this.baseURL}edit/binome/${idJoueur}`, { oldIdPoule, newIdPoule, newPlayersList, idJoueur });
   }
 
   public setStatus(poule: PouleInterface): Observable<any> {

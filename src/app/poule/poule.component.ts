@@ -4,8 +4,6 @@ import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotifyService } from '../Service/notify.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauInterface } from '../Interface/Tableau';
 import { JoueurService } from '../Service/joueur.service';
 import { GestionService } from '../Service/gestion.service';
@@ -27,8 +25,7 @@ export class PouleComponent implements OnInit {
   };
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private joueurService: JoueurService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              private gestionService: GestionService) { }
+              private joueurService: JoueurService, private gestionService: GestionService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -55,7 +52,6 @@ export class PouleComponent implements OnInit {
   generatePoules(): void {
     this.pouleService.generatePoules(this.tableau._id).subscribe(poules => {
       this.poules = poules;
-      this.notifyService.notifyUser('Poules regénérées', this.snackBar, 'success', 1500, 'OK');
     });
   }
 
@@ -72,7 +68,7 @@ export class PouleComponent implements OnInit {
         event.container.data,
         event.previousIndex,
         event.currentIndex);
-      this.pouleService.editDouble(event.item.data[0], id_poule, event.container.data, event.item.data[1])
+      this.pouleService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
         .subscribe(() => {}, err => console.log(err));
     }
   }
