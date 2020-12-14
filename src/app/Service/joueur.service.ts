@@ -14,7 +14,7 @@ export class JoueurService {
   constructor(private http: HttpClient) { }
 
   public getPlayer(id_joueur: string): Observable<any> {
-    return this.http.get(`${this.baseURL}/${id_joueur}`);
+    return this.http.get(`${this.baseURL}${id_joueur}`);
   }
 
   public getAllPlayers(): Observable<any> {

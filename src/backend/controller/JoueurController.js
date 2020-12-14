@@ -119,11 +119,11 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
 });
 
 router.route("/delete/:id_player").delete(async function(req, res) {
+  // On le supprime des tableaux existants
+  await Tableau.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.0.joueurs': {_id: req.params.id_player}}})
+
   // On le supprime des poules existantes
   await Poule.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
-
-  // On le supprime des tableaux existants
-  await Tableau.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.joueurs': {$in: [req.params.id_player]}}})
 
   // On le supprime définitivement
   Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(err => res.status(500).send(err))

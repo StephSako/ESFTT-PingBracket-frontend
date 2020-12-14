@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
 import { JoueurService } from '../Service/joueur.service';
 import { GestionService } from '../Service/gestion.service';
+import {NotifyService} from '../Service/notify.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-poule',
@@ -25,7 +27,8 @@ export class PouleComponent implements OnInit {
   };
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private joueurService: JoueurService, private gestionService: GestionService) { }
+              private joueurService: JoueurService, private gestionService: GestionService, private notifyService: NotifyService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -64,12 +67,16 @@ export class PouleComponent implements OnInit {
   if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-      this.pouleService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
-        .subscribe(() => {}, err => console.log(err));
+      if (event.container.data.length < 2 || id_poule === null) {
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+        this.pouleService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
+          .subscribe(() => {}, err => console.log(err));
+      } else {
+        this.notifyService.notifyUser('Le binôme est plein ...', this.snackBar, 'error', 2000, 'OK');
+      }
     }
   }
 
