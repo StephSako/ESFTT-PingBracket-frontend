@@ -83,7 +83,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
         locked: false,
         joueurs: poules[i]
       })
-      await poule.save().catch(err => res.status(500).json({err: err}))
+      await poule.save()
     }
   }
   catch (err) {

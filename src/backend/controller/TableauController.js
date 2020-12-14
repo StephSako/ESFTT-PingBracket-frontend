@@ -74,7 +74,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
         { "joueur._id": req.body.winnerId }
       ]
     }
-  ).catch(err => res.status(500).json({error: err}))
+  )
 
   // Pour tous les matches sauf la finale, le gagnant évolue au prochain match
   if (Number(req.params.id_round) !== 1){
@@ -179,7 +179,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
 
     // On assigne les matches aux joueurs/binômes
     for (let i = 0; i < rankOrderer.length; i++) {
-      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau).catch(err => res.status(500).json({error: err}))
+      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau)
 
       if (i % 2 && i !== 0 && req.body.format === 'simple') id_match ++ // On incrémente le n° du match tous les 2 joueurs/binômes
       else if (req.body.format === 'double') {
