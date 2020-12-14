@@ -11,6 +11,7 @@ import {Dialog} from '../Interface/Dialog';
 import {DialogComponent} from '../dialog/dialog.component';
 import {JoueurService} from '../Service/joueur.service';
 import {MatDialog} from '@angular/material/dialog';
+import {PoulesService} from '../Service/poules.service';
 
 @Component({
   selector: 'app-form-joueur',
@@ -35,7 +36,7 @@ export class FormJoueurComponent implements OnInit {
   showAutocomplete = false;
 
   constructor(private route: ActivatedRoute, private gestionService: GestionService, private joueurService: JoueurService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private pouleService: PoulesService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -80,8 +81,16 @@ export class FormJoueurComponent implements OnInit {
     return tableaux.some(tableau => tableau._id === tableau_id);
   }
 
+  generatePoules(tableau_id: string): void {
+    this.pouleService.generatePoules(tableau_id).subscribe(() => {}, err => console.log(err));
+  }
+
+
   subscribe(tableau: TableauInterface): void {
-    this.joueurService.subscribe([tableau], this.joueur).subscribe(() => this.getJoueur(), err => console.error(err));
+    this.joueurService.subscribe([tableau], this.joueur).subscribe(() => {
+      this.getJoueur();
+      this.generatePoules(tableau._id);
+    }, err => console.error(err));
   }
 
   unsubscribe(tableau: TableauInterface): void {
@@ -96,7 +105,10 @@ export class FormJoueurComponent implements OnInit {
       data: tableauToDelete
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){
-        this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => this.getJoueur(), err => { console.error(err); });
+        this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
+          this.getJoueur();
+          this.generatePoules(tableau._id);
+        }, err => { console.error(err); });
       }
     });
   }

@@ -53,9 +53,7 @@ export class PouleComponent implements OnInit {
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau._id).subscribe(poules => {
-      this.poules = poules;
-    });
+    this.pouleService.generatePoules(this.tableau._id).subscribe(poules => this.poules = poules);
   }
 
   editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {

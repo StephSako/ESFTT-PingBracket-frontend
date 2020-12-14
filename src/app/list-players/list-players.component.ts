@@ -79,11 +79,7 @@ export class ListPlayersComponent implements OnInit {
           }
           this.updateJoueurs();
           this.updateOtherPlayers();
-        },
-        err => {
-          console.error(err);
-        }
-      );
+        }, err =>  console.error(err));
   }
 
   unsubscribe(joueur: JoueurInterface): void {
@@ -106,7 +102,7 @@ export class ListPlayersComponent implements OnInit {
           }
           this.updateJoueurs();
           this.updateOtherPlayers();
-        }, err => { console.error(err); });
+        }, err => console.error(err));
       }
     });
   }
