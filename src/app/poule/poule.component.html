@@ -31,7 +31,7 @@
             <mat-card>
               <h2 class="lobster center">Joueurs inscrits</h2>
 
-              <div cdkDropList [cdkDropListData]="subscribedUnassignedPlayers" class="list" (cdkDropListDropped)="editBinome($event, null)">
+              <div cdkDropList cdkDropListSortingDisabled [cdkDropListData]="subscribedUnassignedPlayers" class="list" (cdkDropListDropped)="editBinome($event, null)">
                 <div class="box center" [cdkDragData]="[joueur._id, null]" *ngFor="let joueur of subscribedUnassignedPlayers" cdkDrag>
                   <div class="custom-placeholder" *cdkDragPlaceholder></div>
                   {{joueur.nom}} - {{joueur.classement}} points
@@ -42,17 +42,13 @@
         </div>
 
         <div fxFlex="70%" fxLayoutAlign="center stretch">
-          <div style="height: 600px; width: 100%;">
+          <div style="width: 100%;">
             <div fxLayout="row wrap">
               <div fxFlex="50%" *ngFor="let poule of poules; let indexList = index">
                 <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
                   <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>
 
-                  <div
-                    cdkDropList
-                    [cdkDropListData]="poules[indexList].joueurs"
-                    class="list"
-                    (cdkDropListDropped)="editBinome($event, poule._id)">
+                  <div cdkDropList [cdkDropListData]="poules[indexList].joueurs" cdkDropListSortingDisabled class="list" (cdkDropListDropped)="editBinome($event, poule._id)">
                     <div [cdkDragData]="[joueur._id, poule._id]" [cdkDragDisabled]="poule.locked" class="box center" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>
                       <div class="custom-placeholder" *cdkDragPlaceholder></div>
                       {{joueur.nom}} - {{joueur.classement}} points

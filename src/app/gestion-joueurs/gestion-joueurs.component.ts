@@ -64,9 +64,7 @@ export class GestionJoueursComponent implements OnInit {
         createMode: false
       }
     }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
-        this.joueurService.edit(joueur).subscribe(() => {}, err => { console.error(err); });
-      }
+      if (id_joueur){ this.joueurService.edit(joueur).subscribe(() => {}, err => console.error(err)); }
       this.getAllJoueurs();
     });
   }
@@ -83,9 +81,7 @@ export class GestionJoueursComponent implements OnInit {
       data: playerToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
-        this.joueurService.delete(id_joueur).subscribe(() => {
-          this.getAllJoueurs();
-        }, err => { console.error(err); });
+        this.joueurService.delete(id_joueur).subscribe(() => this.getAllJoueurs(), err => console.error(err));
       }
     });
   }

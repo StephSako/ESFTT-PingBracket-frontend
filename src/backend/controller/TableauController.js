@@ -112,7 +112,10 @@ router.route("/generate/:tableau").put(async function(req, res) {
   // On supprime tous les matches
   await Tableau.deleteMany({ tableau: req.params.tableau})
 
-  let poules = await Poule.find({type: req.params.tableau})
+  let option
+  if (req.body.format === 'double') option = {type: req.params.tableau, joueurs: { $size: 2 } }
+  else option = {type: req.params.tableau}
+  let poules = await Poule.find(option)
 
   // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
   let nbQualified = 0, nbRounds, rankOrderer
@@ -179,12 +182,13 @@ router.route("/generate/:tableau").put(async function(req, res) {
 
     // On assigne les matches aux joueurs/binômes
     for (let i = 0; i < rankOrderer.length; i++) {
+      console.log(qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], id_match)
       await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau)
 
       if (i % 2 && i !== 0 && req.body.format === 'simple') id_match ++ // On incrémente le n° du match tous les 2 joueurs/binômes
       else if (req.body.format === 'double') {
         id_match ++
-        if (i === rankOrderer.length/2) id_match = 1
+        if (i === (rankOrderer.length/2)-1) id_match = 1
       }
     }
 

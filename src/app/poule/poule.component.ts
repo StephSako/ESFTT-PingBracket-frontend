@@ -75,7 +75,7 @@ export class PouleComponent implements OnInit {
         this.pouleService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
           .subscribe(() => {}, err => console.log(err));
       } else {
-        this.notifyService.notifyUser('Le binôme est plein ...', this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
       }
     }
   }

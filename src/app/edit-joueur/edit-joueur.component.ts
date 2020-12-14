@@ -19,7 +19,6 @@ export class EditJoueurComponent {
   createModeInput = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data) {
-    console.log(data);
     this.joueur = data.joueur;
     this.editModeInput = data.editMode;
     this.createModeInput = data.createMode;
