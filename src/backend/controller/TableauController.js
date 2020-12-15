@@ -121,7 +121,7 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
 
   // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
   let nbQualified = 0, nbRounds, rankOrderer
-  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.joueurs.slice((req.params.phase === 'finale' ? 0 : 3), (req.params.phase === 'finale' ? 2 : 4)).length)
+  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.joueurs.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)).length)
   else nbQualified = poules.length
 
   if (nbQualified > 64){
@@ -179,7 +179,7 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
     // On créé la liste des joueur/binômes qualifiés
     if (req.body.format === 'simple') {
       for (let i = 0; i < poules.length; i++) {
-        qualified = qualified.concat(poules[i].joueurs.slice((req.params.phase === 'finale' ? 0 : 3), (req.params.phase === 'finale' ? 2 : 4)))
+        qualified = qualified.concat(poules[i].joueurs.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)))
       }
     } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
