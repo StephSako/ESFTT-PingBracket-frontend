@@ -37,6 +37,7 @@ import { FormTableauComponent } from './form-tableau/form-tableau.component';
 import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BracketComponent } from './bracket/bracket.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     GestionTableauxComponent,
     HomeComponent,
     FormTableauComponent,
-    EditTableauComponent
+    EditTableauComponent,
+    BracketComponent
   ],
   imports: [
     BrowserModule,

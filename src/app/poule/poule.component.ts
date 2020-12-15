@@ -6,7 +6,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
 import { JoueurService } from '../Service/joueur.service';
-import { GestionService } from '../Service/gestion.service';
+import { TableauService } from '../Service/tableau.service';
 import {NotifyService} from '../Service/notify.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -27,7 +27,7 @@ export class PouleComponent implements OnInit {
   };
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private joueurService: JoueurService, private gestionService: GestionService, private notifyService: NotifyService,
+              private joueurService: JoueurService, private gestionService: TableauService, private notifyService: NotifyService,
               private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const tableauSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   type: String,
+  phase: String,
   objectRef: String,
   tableau: {
     type: mongoose.Types.ObjectId,

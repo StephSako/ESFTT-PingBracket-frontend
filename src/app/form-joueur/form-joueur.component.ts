@@ -6,7 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
-import { GestionService } from '../Service/gestion.service';
+import { TableauService } from '../Service/tableau.service';
 import {Dialog} from '../Interface/Dialog';
 import {DialogComponent} from '../dialog/dialog.component';
 import {JoueurService} from '../Service/joueur.service';
@@ -35,7 +35,7 @@ export class FormJoueurComponent implements OnInit {
   optionsListJoueurs: Observable<JoueurInterface[]>;
   showAutocomplete = false;
 
-  constructor(private route: ActivatedRoute, private gestionService: GestionService, private joueurService: JoueurService,
+  constructor(private route: ActivatedRoute, private gestionService: TableauService, private joueurService: JoueurService,
               public dialog: MatDialog, private pouleService: PoulesService) { }
 
   ngOnInit(): void {

@@ -22,18 +22,7 @@
       Phases finales
     </ng-template>
 
-    <div class="center">
-      <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
-        <mat-icon *ngIf="spinnerShown">
-          <mat-spinner color="warn" [diameter]="20"></mat-spinner>
-        </mat-icon>
-        Générer le tableau
-      </button>
-    </div>
-
-    <ng-container *ngIf="winnerbracket">
-      <ngtt-single-elimination-tree *ngIf="winnerbracket.rounds.length" [tournament]="winnerbracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-    </ng-container>
+    <app-bracket [phase]="'finale'" [tableau]="tableau"></app-bracket>
   </mat-tab>
 
   <mat-tab *ngIf="tableau.consolante">
@@ -41,16 +30,6 @@
       Consolante
     </ng-template>
 
-    <div class="center">
-      <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">Générer la consolante</button>
-    </div>
-
-    <ng-container *ngIf="looserBracket">
-      <ngtt-single-elimination-tree *ngIf="looserBracket.rounds.length" [tournament]="looserBracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
-    </ng-container>
+    <app-bracket [phase]="'consolante'" [tableau]="tableau"></app-bracket>
   </mat-tab>
 </mat-tab-group>
-
-<ng-template #matchTemplate let-match>
-  <app-match (updateBracket)="updateBracket()" [tableau]="tableau" [match]="match"></app-match>
-</ng-template>

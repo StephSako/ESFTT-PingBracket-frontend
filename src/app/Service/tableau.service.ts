@@ -6,7 +6,7 @@ import { TableauInterface } from '../Interface/Tableau';
 @Injectable({
   providedIn: 'root'
 })
-export class GestionService {
+export class TableauService {
 
   private baseURL = 'http://localhost:4000/api/gestion/';
 

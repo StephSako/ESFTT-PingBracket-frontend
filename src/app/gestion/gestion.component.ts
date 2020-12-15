@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GestionService } from '../Service/gestion.service';
+import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../Interface/Dialog';
@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class GestionComponent implements OnInit {
 
-  constructor(private gestionService: GestionService, private notifyService: NotifyService, private snackBar: MatSnackBar,
+  constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {}

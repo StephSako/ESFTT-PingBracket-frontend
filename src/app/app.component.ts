@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {TableauInterface} from './Interface/Tableau';
-import {GestionService} from './Service/gestion.service';
+import {TableauService} from './Service/tableau.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class AppComponent {
 
   tableaux: TableauInterface[];
 
-  constructor(private gestionService: GestionService, private router: Router) {
+  constructor(private gestionService: TableauService, private router: Router) {
     this.getAllTableaux();
   }
 

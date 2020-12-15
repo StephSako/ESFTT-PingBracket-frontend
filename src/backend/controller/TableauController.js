@@ -21,19 +21,20 @@ function shuffle(array) {
 }
 
 // GET BRACKET OF SPECIFIC TABLEAU
-router.route("/:tableau").get(function(req, res) {
-  Tableau.find({tableau: req.params.tableau}).populate('tableau').populate({
+router.route("/:tableau/:phase").get(function(req, res) {
+  Tableau.find({tableau: req.params.tableau, phase: req.params.phase}).populate('tableau').populate({
     path: 'matches.joueurs._id',
     populate: { path: 'joueurs' }
   }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
 });
 
 // Push player into a specific match
-async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau){
+async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau, phase){
   await Tableau.updateOne(
     {
       round: id_round,
       tableau: tableau,
+      phase: phase,
       "matches.id": id_match
     },
     {
@@ -53,7 +54,7 @@ async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau){
 }
 
 // SET WINNER
-router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async function(req, res) {
+router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req, res) {
   // On définie :
   // - le joueur cliqué comme gagnant
   // - le match comme "terminé"
@@ -61,6 +62,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
     {
       round: req.params.id_round,
       tableau: req.params.tableau,
+      phase: req.params.phase,
       "matches.id": req.params.id_match
     },
     {
@@ -89,7 +91,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
     idNextRound--
 
     try {
-      await setPlayerSpecificMatch(idNextRound, idNextMatch, req.body.winnerId, req.params.tableau)
+      await setPlayerSpecificMatch(idNextRound, idNextMatch, req.body.winnerId, req.params.tableau, req.params.phase)
     } catch(err) {
       res.status(500).json({error: err})
     }
@@ -98,7 +100,7 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
   // S'il s'agit des demies-finale, on assigne les perdants en petite finale
   if (Number(req.params.id_round) === 2 ){
     try {
-      await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau)
+      await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau, req.params.phase)
     } catch(err) {
       res.status(500).json({error: err})
     }
@@ -108,9 +110,9 @@ router.route("/edit/:tableau/round/:id_round/match/:id_match").put(async functio
 });
 
 // GENERATE BRACKET
-router.route("/generate/:tableau").put(async function(req, res) {
+router.route("/generate/:tableau/:phase").put(async function(req, res) {
   // On supprime tous les matches
-  await Tableau.deleteMany({ tableau: req.params.tableau})
+  await Tableau.deleteMany({ tableau: req.params.tableau, phase: req.params.phase})
 
   let option
   if (req.body.format === 'double') option = {type: req.params.tableau, joueurs: { $size: 2 } }
@@ -119,7 +121,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
 
   // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
   let nbQualified = 0, nbRounds, rankOrderer
-  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.joueurs.slice(0, 2).length)
+  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.joueurs.slice((req.params.phase === 'finale' ? 0 : 3), (req.params.phase === 'finale' ? 2 : 4)).length)
   else nbQualified = poules.length
 
   if (nbQualified > 64){
@@ -166,6 +168,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
         objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
         tableau: req.params.tableau,
         round: i,
+        phase: req.params.phase,
         matches: matches
       })
       await tableau.save()
@@ -176,14 +179,13 @@ router.route("/generate/:tableau").put(async function(req, res) {
     // On créé la liste des joueur/binômes qualifiés
     if (req.body.format === 'simple') {
       for (let i = 0; i < poules.length; i++) {
-        qualified = qualified.concat(poules[i].joueurs.slice(0, 2))
+        qualified = qualified.concat(poules[i].joueurs.slice((req.params.phase === 'finale' ? 0 : 3), (req.params.phase === 'finale' ? 2 : 4)))
       }
     } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
     // On assigne les matches aux joueurs/binômes
     for (let i = 0; i < rankOrderer.length; i++) {
-      console.log(qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], id_match)
-      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau)
+      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau, req.params.phase)
 
       if (i % 2 && i !== 0 && req.body.format === 'simple') id_match ++ // On incrémente le n° du match tous les 2 joueurs/binômes
       else if (req.body.format === 'double') {

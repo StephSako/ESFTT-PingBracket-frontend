@@ -1,0 +1,16 @@
+<div class="center" *ngIf="tableau">
+  <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
+    <mat-icon *ngIf="spinnerShown">
+      <mat-spinner color="warn" [diameter]="20"></mat-spinner>
+    </mat-icon>
+    Générer le tableau
+  </button>
+</div>
+
+<ng-container *ngIf="bracket">
+  <ngtt-single-elimination-tree *ngIf="bracket.rounds.length" [tournament]="bracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+</ng-container>
+
+<ng-template #matchTemplate let-match>
+  <app-match (updateBracket)="getBracket()" [tableau]="tableau" [phase]="phase" [match]="match"></app-match>
+</ng-template>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TournoiService } from '../Service/tournoi.service';
+import { BracketService } from '../Service/bracket.service';
 import { TableauInterface } from '../Interface/Tableau';
 
 @Component({
@@ -10,6 +10,7 @@ import { TableauInterface } from '../Interface/Tableau';
 export class MatchComponent implements OnInit {
 
   @Input() match: any;
+  @Input() phase: string;
   @Output() updateBracket: EventEmitter<any> = new EventEmitter();
   @Input() tableau: TableauInterface = {
     format: null,
@@ -18,7 +19,7 @@ export class MatchComponent implements OnInit {
     consolante: null
   };
 
-  constructor(private tournoiService: TournoiService) { }
+  constructor(private tournoiService: BracketService) { }
 
   ngOnInit(): void {}
 
@@ -26,7 +27,7 @@ export class MatchComponent implements OnInit {
     if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
       const idSecondEntity = (match.joueurs[1] && match.joueurs[1]._id ? match.joueurs[1]._id._id : null);
       const looserId = winnerId === match.joueurs[0]._id._id ? idSecondEntity : match.joueurs[0]._id._id;
-      this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId)
+      this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId, this.phase)
         .subscribe(() => this.updateBracket.emit());
     }
   }
