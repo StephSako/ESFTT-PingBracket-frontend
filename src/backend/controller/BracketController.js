@@ -55,58 +55,52 @@ async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau, ph
 
 // SET WINNER
 router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req, res) {
-  // On définie :
-  // - le joueur cliqué comme gagnant
-  // - le match comme "terminé"
-  await Bracket.updateOne(
-    {
-      round: req.params.id_round,
-      tableau: req.params.tableau,
-      phase: req.params.phase,
-      "matches.id": req.params.id_match
-    },
-    {
-      $set: {
-        "matches.$[match].joueurs.$[joueur].winner": true
-      }
-    },
-    {
-      arrayFilters: [
-        { "match.id": req.params.id_match },
-        { "joueur._id": req.body.winnerId }
-      ]
-    }
-  )
-
-  // Pour tous les matches sauf la finale, le gagnant évolue au prochain match
-  if (Number(req.params.id_round) !== 1){
+  try {
     // On définie :
-    // - le joueur gagnant dans le prochain match
-    // - les perdants des demies vont en match pour la 3ème place
+    // - le joueur cliqué comme gagnant
+    // - le match comme "terminé"
+    await Bracket.updateOne(
+      {
+        round: req.params.id_round,
+        tableau: req.params.tableau,
+        phase: req.params.phase,
+        "matches.id": req.params.id_match
+      },
+      {
+        $set: {
+          "matches.$[match].joueurs.$[joueur].winner": true
+        }
+      },
+      {
+        arrayFilters: [
+          { "match.id": req.params.id_match },
+          { "joueur._id": req.body.winnerId }
+        ]
+      }
+    )
 
-    let idNextMatch = req.params.id_match
-    if (idNextMatch % 2 !== 0) idNextMatch++
-    idNextMatch = idNextMatch/2
-    let idNextRound = req.params.id_round
-    idNextRound--
+    // Pour tous les matches sauf la finale, le gagnant évolue au prochain match
+    if (Number(req.params.id_round) !== 1){
+      // On définie :
+      // - le joueur gagnant dans le prochain match
+      // - les perdants des demies vont en match pour la 3ème place
 
-    try {
+      let idNextMatch = req.params.id_match
+      if (idNextMatch % 2 !== 0) idNextMatch++
+      idNextMatch = idNextMatch/2
+      let idNextRound = req.params.id_round
+      idNextRound--
       await setPlayerSpecificMatch(idNextRound, idNextMatch, req.body.winnerId, req.params.tableau, req.params.phase)
-    } catch(err) {
-      res.status(500).json({error: err})
     }
-  }
 
-  // S'il s'agit des demies-finale, on assigne les perdants en petite finale
-  if (Number(req.params.id_round) === 2 ){
-    try {
-      await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau, req.params.phase)
-    } catch(err) {
-      res.status(500).json({error: err})
+    // S'il s'agit des demies-finale, on assigne les perdants en petite finale
+    if (Number(req.params.id_round) === 2 && req.body.looserId){
+        await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau, req.params.phase).catch(err => console.log(err))
     }
+    res.status(200).json({message: 'OK'})
+  } catch(err) {
+    res.status(500).json({error: err})
   }
-
-  res.status(200).json({message: "No error"})
 });
 
 // GENERATE BRACKET
