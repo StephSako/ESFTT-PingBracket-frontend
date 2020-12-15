@@ -32,7 +32,7 @@ router.route("/subscribed/:tableau").get(function(req, res) {
 
 // (DOUBLE) GETSUBSCRIBED UNASSIGNED PLAYERS IN ANY BINOME OF SPECIFIC TABLEAU
 router.route("/unassigned/:tableau").get(async function(req, res) {
-  let assignedPlayers = await Poule.find({type: req.params.tableau}).populate('joueurs')
+  let assignedPlayers = await Poule.find({tableau: req.params.tableau}).populate('joueurs')
   let assignedPlayersIds = assignedPlayers.map(poule => poule.joueurs).flat()
   let subscribedPlayersIds = await getPlayers({'tableaux' : {$all: [req.params.tableau]}})
 
@@ -71,7 +71,7 @@ router.route("/subscribe").post(async function(req, res) {
         if (nbJoueursInscrits % 2 !== 0){
           let poule = new Poule({
             _id: new mongoose.Types.ObjectId(),
-            type: req.body.tableaux[i]._id,
+            tableau: req.body.tableaux[i]._id,
             locked: false,
             joueurs: []
           })
@@ -103,11 +103,11 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
 
     if (req.body.format === 'double'){
       // On supprime le joueur du double auquel il est assigné
-      await Poule.updateMany({type: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
+      await Poule.updateMany({tableau: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
 
       // On supprime le premier binôme vide trouvé si nécessaire
       let nbJoueursInscrits = await Joueur.countDocuments({tableaux : {$all: [req.params.tableau]}})
-      let nbBinomes = await Poule.countDocuments({type : req.params.tableau})
+      let nbBinomes = await Poule.countDocuments({tableau : req.params.tableau})
       if (nbJoueursInscrits % 2 !== 0) nbJoueursInscrits++
       nbJoueursInscrits /= 2
       if (nbBinomes > nbJoueursInscrits) await Poule.deleteOne({ joueurs: { $exists: true, $size: 0 } })

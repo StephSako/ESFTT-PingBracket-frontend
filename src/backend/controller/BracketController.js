@@ -109,8 +109,8 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
   await Bracket.deleteMany({ tableau: req.params.tableau, phase: req.params.phase})
 
   let option
-  if (req.body.format === 'double') option = {type: req.params.tableau, joueurs: { $size: 2 } }
-  else option = {type: req.params.tableau}
+  if (req.body.format === 'double') option = {tableau: req.params.tableau, joueurs: { $size: 2 } }
+  else option = {tableau: req.params.tableau}
   let poules = await Poule.find(option)
 
   // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes

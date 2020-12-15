@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const pouleSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
-  type: {
+  tableau: {
     type: mongoose.Types.ObjectId,
     ref: 'Tableaux'
   },

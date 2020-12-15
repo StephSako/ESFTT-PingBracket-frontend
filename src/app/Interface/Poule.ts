@@ -2,7 +2,7 @@ import { JoueurInterface } from './Joueur';
 
 export interface PouleInterface {
   _id: string;
-  type: string;
+  tableau: string;
   locked: boolean;
   joueurs: JoueurInterface[];
 }

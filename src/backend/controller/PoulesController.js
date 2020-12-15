@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 // ALL POULES
 router.route("/:tableau").get(function(req, res) {
-  Poule.find({type: req.params.tableau}).populate('joueurs').populate('type').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
+  Poule.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
 // UPDATE SPECIFIC POULE
@@ -43,7 +43,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
   try {
     let poules = [[],[],[],[],[],[],[],[]]
     let joueurs = await Joueur.find({tableaux : {$all: [req.params.tableau]}}).sort({classement: 'desc', nom: 'asc'})
-    await Poule.deleteMany({ type: req.params.tableau})
+    await Poule.deleteMany({ tableau: req.params.tableau})
 
     // Formation des poules
     let j = 0
@@ -79,7 +79,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
     for (let i = 0; i < poules.length; i++){
       let poule = new Poule({
         _id: new mongoose.Types.ObjectId(),
-        type: req.params.tableau,
+        tableau: req.params.tableau,
         locked: false,
         joueurs: poules[i]
       })
@@ -89,7 +89,7 @@ router.route("/generate/:tableau").put(async function(req, res) {
   catch (err) {
     res.status(500).json(err)
   }
-  Poule.find({type: req.params.tableau}).populate('joueurs').populate('type').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
+  Poule.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
 });
 
 // UPDATE POULE STATUS
