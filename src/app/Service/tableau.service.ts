@@ -8,7 +8,7 @@ import { TableauInterface } from '../Interface/Tableau';
 })
 export class TableauService {
 
-  private baseURL = 'http://localhost:4000/api/gestion/';
+  private baseURL = 'http://localhost:4000/api/tableau/';
 
   constructor(private http: HttpClient) { }
 

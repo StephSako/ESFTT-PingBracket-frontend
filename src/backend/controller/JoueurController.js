@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
-const Tableau = require('../model/Tableau')
+const Bracket = require('../model/Bracket')
 const mongoose = require('mongoose')
 const _ = require('lodash');
 
@@ -120,7 +120,7 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
 
 router.route("/delete/:id_player").delete(async function(req, res) {
   // On le supprime des tableaux existants
-  await Tableau.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.0.joueurs': {_id: req.params.id_player}}})
+  await Bracket.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.0.joueurs': {_id: req.params.id_player}}})
 
   // On le supprime des poules existantes
   await Poule.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}})

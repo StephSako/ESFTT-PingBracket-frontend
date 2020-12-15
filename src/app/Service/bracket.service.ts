@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BracketService {
 
-  private baseURL = 'http://localhost:4000/api/tableau/';
+  private baseURL = 'http://localhost:4000/api/bracket/';
 
   constructor(private http: HttpClient) { }
 

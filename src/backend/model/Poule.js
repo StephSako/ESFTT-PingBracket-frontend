@@ -4,7 +4,7 @@ const pouleSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   type: {
     type: mongoose.Types.ObjectId,
-    ref: 'Gestion'
+    ref: 'Tableaux'
   },
   locked: Boolean,
   joueurs: [{

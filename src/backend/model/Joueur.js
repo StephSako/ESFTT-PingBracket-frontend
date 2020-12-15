@@ -6,7 +6,7 @@ const joueurSchema = mongoose.Schema({
   nom: String,
   tableaux: [{
       type: mongoose.Types.ObjectId,
-      ref: 'Gestion'
+      ref: 'Tableaux'
   }]
 },{ _id : false })
 
