@@ -60,11 +60,12 @@ export class GestionJoueursComponent implements OnInit {
       width: '80%',
       data: {
         joueur,
-        editMode: true,
         createMode: false
       }
     }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){ this.joueurService.edit(joueur).subscribe(() => {}, err => console.error(err)); }
+      if (id_joueur){
+        this.joueurService.edit(joueur).subscribe(() => this.getAllJoueurs(), err => console.error(err));
+      }
       this.getAllJoueurs();
     });
   }

@@ -1,4 +1,35 @@
-<form>
-  <app-form-joueur [editMode]="editModeInput" [createMode]="createModeInput" [joueur]="joueur"></app-form-joueur>
+<form *ngIf="joueur._id">
+  <h2 class="center lobster"><b>Modifier le joueur</b></h2>
+
+  <div fxLayout="row">
+    <div fxFlex="33%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-label>Nom du joueur *</mat-label>
+        <input name="nom" [(ngModel)]="joueur.nom" matInput>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="33%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>bar_chart</mat-icon>
+        <mat-label>Classement</mat-label>
+        <input name="classement" type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="tableaux" fxFlex="33%">
+      <div fxLayout="row" *ngFor="let tableau of tableaux" class="row">
+        <div fxFlex="33%" class="center">
+          <h2 class="lobster">{{tableau.nom | titlecase}}</h2>
+        </div>
+        <div fxFlex="50%" class="center">
+          <button (click)="subscribe(tableau)" mat-raised-button style="color: green" *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
+          <button (click)="unsubscribe(tableau)" mat-raised-button style="color: red" *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button type="submit" mat-raised-button [disabled]="!isInvalid()" [mat-dialog-close]="joueur._id" class="center" color="primary">OK</button>
 </form>

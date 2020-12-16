@@ -1,11 +1,9 @@
-<h2 *ngIf="joueur._id" class="center lobster"><b>Modifier le joueur '{{joueur.nom}}'</b></h2>
-
 <div fxLayout="row">
-  <div [fxFlex]="(createMode || editMode) ? '33%' : '50'">
+  <div [fxFlex]="createMode ? '33%' : '50'">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur *</mat-label>
-      <input [formControl]="nomControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typing($event)">
+      <input name="nom" [formControl]="nomControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typing($event)">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
         <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" [ngClass]="{'hide-autocomplete': !showAutocomplete}">
           {{joueur.nom}} - {{joueur.classement}} points
@@ -14,11 +12,11 @@
     </mat-form-field>
   </div>
 
-  <div [fxFlex]="(createMode || editMode) ? '33%' : '50'">
+  <div [fxFlex]="createMode ? '33%' : '50'">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>
-      <input type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
+      <input name="classement" type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
     </mat-form-field>
   </div>
 
@@ -30,17 +28,5 @@
         <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-
-  <div *ngIf="editMode && tableaux" fxFlex="33%">
-    <div fxLayout="row" *ngFor="let tableau of tableaux" class="row">
-      <div fxFlex="33%" class="center">
-        <h2 class="lobster">{{tableau.nom | titlecase}}</h2>
-      </div>
-      <div fxFlex="50%" class="center">
-        <button (click)="subscribe(tableau)" mat-raised-button style="color: green" *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
-        <button (click)="unsubscribe(tableau)" mat-raised-button style="color: red" *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
-      </div>
-    </div>
   </div>
 </div>

@@ -138,10 +138,10 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
     nbRounds = 3
     rankOrderer = ORDRE_QUART
   }
-  else{
+  else if (nbQualified > 2){
     nbRounds = 2
     rankOrderer = ORDRE_DEMI
-  }
+  } else res.status(500).send("Il n'y a pas assez de joueurs ...")
 
   try {
     // On initialise tous les matches du bracket

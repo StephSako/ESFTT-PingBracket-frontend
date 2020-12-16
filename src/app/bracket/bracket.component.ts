@@ -49,7 +49,10 @@ export class BracketComponent implements OnInit {
       if (value){
         this.spinnerShown = true;
         this.tournoiService.generateBracket(this.tableau._id, this.tableau.format, this.phase)
-          .subscribe(() => this.getBracket(), () => this.spinnerShown = false);
+          .subscribe(() => this.getBracket(), (err) => {
+            this.spinnerShown = false;
+            console.log(err);
+          });
       }
     });
   }

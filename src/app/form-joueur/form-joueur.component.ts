@@ -7,11 +7,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
-import {Dialog} from '../Interface/Dialog';
-import {DialogComponent} from '../dialog/dialog.component';
-import {JoueurService} from '../Service/joueur.service';
-import {MatDialog} from '@angular/material/dialog';
-import {PoulesService} from '../Service/poules.service';
+import { JoueurService } from '../Service/joueur.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-joueur',
@@ -27,7 +24,6 @@ export class FormJoueurComponent implements OnInit {
     tableaux: null
   };
   @Input() otherPlayers: JoueurInterface[];
-  @Input() editMode = false;
   @Input() createMode = false;
   tableaux: TableauInterface[];
 
@@ -36,7 +32,7 @@ export class FormJoueurComponent implements OnInit {
   showAutocomplete = false;
 
   constructor(private route: ActivatedRoute, private gestionService: TableauService, private joueurService: JoueurService,
-              public dialog: MatDialog, private pouleService: PoulesService) { }
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -75,41 +71,5 @@ export class FormJoueurComponent implements OnInit {
 
   compareTableauWithOther(tableau1: TableauInterface, tableau2: TableauInterface): boolean {
     return tableau1 && tableau2 ? tableau1.nom === tableau2.nom : tableau1 === tableau2;
-  }
-
-  isInscrit(tableaux: TableauInterface[], tableau_id: string): boolean {
-    return tableaux.some(tableau => tableau._id === tableau_id);
-  }
-
-  generatePoules(tableau_id: string): void {
-    this.pouleService.generatePoules(tableau_id).subscribe(() => {}, err => console.log(err));
-  }
-
-
-  subscribe(tableau: TableauInterface): void {
-    this.joueurService.subscribe([tableau], this.joueur).subscribe(() => {
-      this.getJoueur();
-      this.generatePoules(tableau._id);
-    }, err => console.error(err));
-  }
-
-  unsubscribe(tableau: TableauInterface): void {
-    const tableauToDelete: Dialog = {
-      id: tableau._id,
-      action: 'Désinscrire le joueur du tableau ?',
-      option: null
-    };
-
-    this.dialog.open(DialogComponent, {
-      width: '45%',
-      data: tableauToDelete
-    }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){
-        this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
-          this.getJoueur();
-          this.generatePoules(tableau._id);
-        }, err => { console.error(err); });
-      }
-    });
   }
 }
