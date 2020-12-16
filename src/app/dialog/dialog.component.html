@@ -6,5 +6,6 @@
 </h2>
 <div mat-dialog-actions class="center">
   <button mat-button (click)="close()">Annuler</button>
-  <button mat-button color="warn" [mat-dialog-close]="data.id" cdkFocusInitial>Ok</button>
+  <button mat-button color="primary" [mat-dialog-close]="data.id" cdkFocusInitial>{{data.action_button_text}}</button>
+  <button mat-button color="primary" [mat-dialog-close]="true" *ngIf="data.third_button" cdkFocusInitial>{{data.third_button_text}}</button>
 </div>

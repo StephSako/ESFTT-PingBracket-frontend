@@ -18,13 +18,14 @@ export class GestionComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // TODO BOUTON REMETTRE LES JOUEURS A ZERO
-
   remiseAZero(): void {
     const accountToDelete: Dialog = {
       id: 'true',
       action: 'Remettre le tournoi à zéro ?',
-      option: 'Les poules, binômes de double et tableaux/consolantes seront remis à zéro. Les joueurs seront conservés.'
+      option: 'Les poules, binômes de double et tableaux/consolantes seront remis à zéro. Les joueurs seront conservés.',
+      third_button_text: null,
+      action_button_text: 'Remttre à zéro',
+      third_button: false
     };
 
     this.dialog.open(DialogComponent, {

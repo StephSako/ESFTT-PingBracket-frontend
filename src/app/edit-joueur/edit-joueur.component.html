@@ -1,4 +1,4 @@
-<form *ngIf="joueur._id">
+<form *ngIf="joueur._id" [formGroup]="reactiveForm" (ngSubmit)="editPlayer()">
   <h2 class="center lobster"><b>Modifier le joueur</b></h2>
 
   <div fxLayout="row">
@@ -6,7 +6,7 @@
       <mat-form-field appearance="outline" class="center">
         <mat-icon matSuffix>title</mat-icon>
         <mat-label>Nom du joueur *</mat-label>
-        <input name="nom" [(ngModel)]="joueur.nom" matInput>
+        <input formControlName="nom" name="nom" matInput>
       </mat-form-field>
     </div>
 
@@ -14,7 +14,7 @@
       <mat-form-field appearance="outline" class="center">
         <mat-icon matSuffix>bar_chart</mat-icon>
         <mat-label>Classement</mat-label>
-        <input name="classement" type="number" [(ngModel)]="joueur.classement" min="0" max="2000" matInput>
+        <input formControlName="classement" name="classement" type="number" min="0" max="2000" matInput>
       </mat-form-field>
     </div>
 
@@ -31,5 +31,7 @@
     </div>
   </div>
 
-  <button type="submit" mat-raised-button [disabled]="!isInvalid()" [mat-dialog-close]="joueur._id" class="center" color="primary">OK</button>
+  <button *ngIf="isModified()" type="submit" mat-raised-button [disabled]="!isInvalid()" class="center" color="primary">Modifier</button>
 </form>
+
+<button type="submit" mat-raised-button mat-dialog-close class="center" color="primary">OK</button>

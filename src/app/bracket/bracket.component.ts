@@ -39,7 +39,10 @@ export class BracketComponent implements OnInit {
     const accountToDelete: Dialog = {
       id: 'true',
       action: 'Regénérer le tableau ?',
-      option: null
+      option: null,
+      third_button_text: null,
+      action_button_text: 'Régénérer',
+      third_button: false
     };
 
     this.dialog.open(DialogComponent, {

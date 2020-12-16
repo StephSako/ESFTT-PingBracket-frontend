@@ -86,7 +86,10 @@ export class ListPlayersComponent implements OnInit {
     const playerToDelete: Dialog = {
       id: joueur._id,
       action: 'Désinscrire le joueur du tableau ?',
-      option: null
+      option: null,
+      third_button: false,
+      action_button_text: 'Désinscrire',
+      third_button_text: null
     };
 
     this.dialog.open(DialogComponent, {

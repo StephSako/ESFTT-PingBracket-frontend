@@ -55,18 +55,13 @@ export class GestionJoueursComponent implements OnInit {
       );
   }
 
-  edit(joueur: JoueurInterface): void {
+  openEditDialog(joueur: JoueurInterface): void {
     this.dialog.open(EditJoueurComponent, {
       width: '80%',
       data: {
         joueur,
         createMode: false
       }
-    }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
-        this.joueurService.edit(joueur).subscribe(() => this.getAllJoueurs(), err => console.error(err));
-      }
-      this.getAllJoueurs();
     });
   }
 
@@ -74,7 +69,10 @@ export class GestionJoueursComponent implements OnInit {
     const playerToDelete: Dialog = {
       id: joueur_id,
       action: 'Supprimer le joueur des participants ?',
-      option: 'S\'il est enregistré dans des poules, binômes de double ou tableaux, ils pourraient devenir incohérents et incorrectes. Vous devrez alors les regénérer.'
+      option: 'S\'il est enregistré dans des poules, binômes de double ou tableaux, ils pourraient devenir incohérents et incorrectes. Vous devrez alors les regénérer.',
+      third_button: false,
+      action_button_text: 'Supprimer',
+      third_button_text: null
     };
 
     this.dialog.open(DialogComponent, {
