@@ -9,6 +9,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { JoueurService } from '../Service/joueur.service';
 import { PoulesService } from '../Service/poules.service';
+import {toTitleCase} from 'codelyzer/util/utils';
 
 @Component({
   selector: 'app-edit-joueur',
@@ -98,7 +99,7 @@ export class EditJoueurComponent implements OnInit {
         id: this.joueur._id,
         action: 'Le classement ' + ((this.reactiveForm.get('nom').value !== this.joueur.nom) ?
           'et le nom on eté modifiés' : 'a été modifié') + '. Régénérer les poules ' +
-          tableauxSimlesToRegenerate.map(tableau => tableau.nom).join(', ') + ' ?',
+          tableauxSimlesToRegenerate.map(tableau => tableau.nom[0].toUpperCase() + tableau.nom.slice(1)).join(', ') + ' ?',
         option: null,
         action_button_text: 'Modifier et régénérer',
         third_button_text: ((this.reactiveForm.get('nom').value !== this.joueur.nom) ? 'Modifier que le nom et ne pas régénérer' : null),

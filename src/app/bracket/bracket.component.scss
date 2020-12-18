@@ -1,3 +1,7 @@
 .btnGenerateBracket {
   margin-top: 16px;
 }
+
+::ng-deep .mat-tab-group-dynamic-height .mat-tab-body-content {
+  overflow-x: auto !important;
+}
