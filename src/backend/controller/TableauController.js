@@ -35,10 +35,9 @@ router.route("/edit/:id_tableau").put(function(req, res) {
 // RESET THE TOURNAMENT
 router.route("/reset").delete(async function(req, res) {
   try {
-    // On désinscrit tous les joueurs de tous les tableaux
-    await Joueur.updateMany({}, {$set: {tableaux: []}}, {multi:true})
-    await Poule.deleteMany({})
     await Bracket.deleteMany({})
+    await Poule.deleteMany({})
+    await Joueur.deleteMany({})
     res.status(200).json({message: 'Tournoi remis à zéro ... prêt pour l\'année prochaine ;)'})
   } catch (e){
     res.status(500).json({message: e})

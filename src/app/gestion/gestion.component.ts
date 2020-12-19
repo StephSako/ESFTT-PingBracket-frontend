@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import {GestionJoueursComponent} from '../gestion-joueurs/gestion-joueurs.component';
+import {GestionTableauxComponent} from '../gestion-tableaux/gestion-tableaux.component';
 
 @Component({
   selector: 'app-gestion',
@@ -12,6 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./gestion.component.scss']
 })
 export class GestionComponent implements OnInit {
+
+  @ViewChild('gestion_joueur') gestion_joueur: GestionJoueursComponent;
 
   constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
               public dialog: MatDialog) { }
@@ -22,9 +26,9 @@ export class GestionComponent implements OnInit {
     const accountToDelete: Dialog = {
       id: 'true',
       action: 'Remettre le tournoi à zéro ?',
-      option: 'Les poules, binômes de double et tableaux/consolantes seront remis à zéro. Les joueurs seront conservés.',
+      option: 'Les joueurs, poules, binômes de double et tableaux seront supprimés.',
       third_button_text: null,
-      action_button_text: 'Remttre à zéro',
+      action_button_text: 'Remettre à zéro',
       third_button: false
     };
 
@@ -35,6 +39,7 @@ export class GestionComponent implements OnInit {
       if (id_joueur){
         this.gestionService.reset()
           .subscribe(message => {
+            this.gestion_joueur.getAllJoueurs();
             this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2500, 'OK');
           }, err => {
             this.notifyService.notifyUser(err.message, this.snackBar, 'error', 2500, 'OK');
