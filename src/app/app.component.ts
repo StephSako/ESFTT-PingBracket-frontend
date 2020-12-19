@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {TableauInterface} from './Interface/Tableau';
 import {TableauService} from './Service/tableau.service';
 import {Router} from '@angular/router';
+import {AccountService} from './Service/account.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent {
 
   tableaux: TableauInterface[];
 
-  constructor(private gestionService: TableauService, private router: Router) {
+  constructor(public accountService: AccountService, private gestionService: TableauService, private router: Router) {
     this.getAllTableaux();
   }
 

@@ -7,12 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { AuthGuardService } from './auth-guard.service';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'tableau/:tableau', component: TableauComponent },
-  { path: 'gestion', component: GestionComponent }
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'tableau/:tableau', component: TableauComponent, canActivate: [AuthGuardService] },
+  { path: 'gestion', component: GestionComponent, canActivate: [AuthGuardService] },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({

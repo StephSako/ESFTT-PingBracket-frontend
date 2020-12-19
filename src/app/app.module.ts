@@ -38,6 +38,9 @@ import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BracketComponent } from './bracket/bracket.component';
+import { LoginComponent } from './login/login.component';
+import {AuthGuardService} from './auth-guard.service';
+import {AccountService} from './Service/account.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,8 @@ import { BracketComponent } from './bracket/bracket.component';
     HomeComponent,
     FormTableauComponent,
     EditTableauComponent,
-    BracketComponent
+    BracketComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +87,7 @@ import { BracketComponent } from './bracket/bracket.component';
     MatSlideToggleModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [AccountService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
