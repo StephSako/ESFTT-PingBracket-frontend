@@ -32,4 +32,8 @@ export class PoulesService {
   public generatePoules(tableau: string): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${tableau}`, null);
   }
+
+  public removeFromBinome(idPoule: string, idPlayer: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}remove/from/binome/${idPoule}/${idPlayer}`);
+  }
 }

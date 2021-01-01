@@ -101,4 +101,9 @@ router.route("/editStatus/:id_poule").put(function(req, res) {
   }).then(() => res.json({message: "Le status de la poule a été mis à jour"})).catch(err => res.send(err))
 });
 
+// REMOVE PLAYER FROM BINOME WHEN DOUBLE CLICKING
+router.route("/remove/from/binome/:id_poule/:id_player").delete(function(req, res) {
+  Poule.updateOne({ _id: req.params.id_poule}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).then(() => res.json({message: "Joueur dissocié"})).catch(err => res.send(err))
+});
+
 module.exports = router

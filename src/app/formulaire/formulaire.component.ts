@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
-import { FormControl } from '@angular/forms';
 import { ParametresService } from '../Service/parametres.service';
 import { ParametreInterface } from '../Interface/Parametre';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { BuffetInterface } from '../Interface/Buffet';
-import {JoueurInterface} from '../Interface/Joueur';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Component({
   selector: 'app-formulaire',
@@ -18,8 +17,6 @@ export class FormulaireComponent implements OnInit {
 
   /* Champs du formulaire pour les joueurs */
   tableaux: TableauInterface[];
-  nomControl = new FormControl('');
-  tableauxControl = new FormControl('');
 
   parametres: ParametreInterface = {
     texte_debut: null,
@@ -42,20 +39,32 @@ export class FormulaireComponent implements OnInit {
   };
 
   /* Dupliquer le forumulaire pour un nouveau joueur */
-  public joueur = { };
-  public listeJoueurs: JoueurInterface[] = [];
+  public joueurData: JoueurInterface = {
+    tableaux: null,
+    classement: null,
+    nom: null,
+    age: null,
+    _id: null
+  };
+  public listeJoueurs: JoueurInterface[] = [{
+    tableaux: null,
+    classement: 111,
+    nom: 'Stephen',
+    age: null,
+    _id: null
+  }, {
+    tableaux: null,
+    classement: 222,
+    nom: 'Theo',
+    age: null,
+    _id: null
+  }];
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService) { }
 
   ngOnInit(): void {
     this.tableauService.getAll().subscribe(tableaux => this.tableaux = tableaux, error => console.log(error));
     this.getParametres();
-  }
-
-  showAgeForm(): void {
-    if (this.tableauxControl.value.find(tableau => tableau.nom === 'jeune')) {
-      console.log(this.tableauxControl.value);
-    }
   }
 
   getParametres(): void{
@@ -75,11 +84,22 @@ export class FormulaireComponent implements OnInit {
   }
 
   addJoueur($item): void {
+    this.joueurData = {
+      tableaux: null,
+      classement: null,
+      nom: null,
+      age: null,
+      _id: null
+    };
     this.listeJoueurs.push($item);
-    this.joueur = {};
   }
 
   removeItem($item): void {
     this.listeJoueurs.splice( this.listeJoueurs.indexOf($item), 1);
+  }
+
+  submit(): void {
+    console.log(this.buffet);
+    console.log(this.listeJoueurs);
   }
 }

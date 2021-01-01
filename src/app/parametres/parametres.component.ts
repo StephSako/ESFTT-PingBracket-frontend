@@ -43,7 +43,6 @@ export class ParametresComponent implements OnInit {
   }
 
   edit(): void {
-    console.log(this.parametres._id);
     this.parametreService.edit(this.parametres).subscribe(
       message => {
         this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');

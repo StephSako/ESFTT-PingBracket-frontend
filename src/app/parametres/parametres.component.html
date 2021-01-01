@@ -22,12 +22,12 @@
 
       <h2 class="lobster">Texte de présentation</h2>
       <mat-form-field>
-        <textarea matInput [(ngModel)]="parametres.texte_debut" name="texte_debut"></textarea>
+        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [(ngModel)]="parametres.texte_debut" name="texte_debut"></textarea>
       </mat-form-field>
 
       <h2 class="lobster">Texte de fin</h2>
       <mat-form-field>
-        <textarea matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
+        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
       </mat-form-field>
 
       <button mat-raised-button class="center" color="primary">Sauvergarder</button>

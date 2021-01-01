@@ -87,13 +87,12 @@ router.route("/subscribe").post(async function(req, res) {
 });
 
 // EDIT PLAYER
-// TODO REGENER LES TABLEAUX EN FORMAT SIMPLE SI JOUEUR MODIFIER
+// TODO REGENERER LES TABLEAUX EN FORMAT SIMPLE SI JOUEUR MODIFIER
 router.route("/edit/:id_player").put(function(req, res) {
   const joueur = {
     nom: req.body.nom,
     classement: (req.body.classement ? req.body.classement : 0)
   }
-  console.log(joueur)
   Joueur.updateOne({_id: req.params.id_player}, {$set: joueur}).then(result => res.status(200).json(result)).catch(err => res.send(err))
 });
 

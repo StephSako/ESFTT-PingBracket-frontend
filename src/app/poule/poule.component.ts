@@ -78,6 +78,13 @@ export class PouleComponent implements OnInit {
     }
   }
 
+  unsubscribeDblClick(idPoule, idPlayer): void {
+    this.pouleService.removeFromBinome(idPoule, idPlayer).subscribe(response => {
+      this.getAllPoulesBinomes();
+      this.getSubscribedUnassignedPlayers();
+    }, err => console.error(err));
+  }
+
   setStatus(poule: PouleInterface): void {
     this.pouleService.setStatus(poule).subscribe(() => this.getAllPoulesBinomes(), err => console.error(err));
   }

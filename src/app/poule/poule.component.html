@@ -48,7 +48,7 @@
                 <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>
 
                 <div cdkDropList [cdkDropListData]="poules[indexList].joueurs" cdkDropListSortingDisabled class="list" (cdkDropListDropped)="editBinome($event, poule._id)">
-                  <div [cdkDragData]="[joueur._id, poule._id]" [cdkDragDisabled]="poule.locked" class="box center" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag>
+                  <div [cdkDragData]="[joueur._id, poule._id]" [cdkDragDisabled]="poule.locked" class="box center" *ngFor="let joueur of poules[indexList].joueurs" cdkDrag (dblclick)="unsubscribeDblClick(poule._id, joueur._id)">
                     <div class="custom-placeholder" *cdkDragPlaceholder></div>
                     {{joueur.nom}} - {{joueur.classement}} points
                   </div>
