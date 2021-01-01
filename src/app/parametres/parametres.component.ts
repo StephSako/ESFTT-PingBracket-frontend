@@ -26,6 +26,7 @@ export class ParametresComponent implements OnInit {
     texte_debut: null,
     _id: null,
     date: null,
+    titre: null,
     texte_fin: null
   };
 

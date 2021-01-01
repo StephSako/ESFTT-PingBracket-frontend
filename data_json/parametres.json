@@ -5,6 +5,7 @@
   "date": {
     "$date": "2021-10-05T22:00:00Z"
   },
-  "texte_debut": "Bienvenue",
-  "texte_fin": "Au revoir"
+  "texte_debut": "Bienvenue au tournoi de l'ESFTT",
+  "texte_fin": "Au revoir et à bientôt !",
+  "titre": "Tournoi ESFTT 2021"
 }]

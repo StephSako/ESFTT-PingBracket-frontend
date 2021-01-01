@@ -2,21 +2,32 @@
   <mat-card>
 
     <form (submit)="edit()">
-      <h2 class="lobster">Date du tournoi</h2>
-      <mat-form-field appearance="outline">
-        <mat-label>Date du tournoi</mat-label>
-        <input matInput [matDatepicker]="dp" [(ngModel)]="parametres.date" name="date_tournoi">
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker #dp></mat-datepicker>
-      </mat-form-field>
+      <div fxLayout="row">
+        <div fxFlex="33%" class="center">
+          <h2 class="lobster">Titre du formulaire</h2>
+          <mat-form-field appearance="outline">
+            <input matInput [(ngModel)]="parametres.titre" name="titre">
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="33%" class="center">
+          <h2 class="lobster">Date du tournoi</h2>
+          <mat-form-field appearance="outline">
+            <mat-label>Date du tournoi</mat-label>
+            <input matInput [matDatepicker]="dp" [(ngModel)]="parametres.date" name="date_tournoi">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
 
       <h2 class="lobster">Texte de présentation</h2>
-      <mat-form-field class="example-full-width">
+      <mat-form-field>
         <textarea matInput [(ngModel)]="parametres.texte_debut" name="texte_debut"></textarea>
       </mat-form-field>
 
       <h2 class="lobster">Texte de fin</h2>
-      <mat-form-field class="example-full-width">
+      <mat-form-field>
         <textarea matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
       </mat-form-field>
 

@@ -1,8 +1,12 @@
 <mat-toolbar>
-  <button *ngFor="let tableau of tableaux" mat-raised-button [color]="isActive(tableau._id)" [routerLink]="'/tableau/' + tableau._id">{{tableau.nom | titlecase}}</button>
+  <div *ngIf="accountService.isLoggedIn()">
+    <button *ngFor="let tableau of tableaux" mat-raised-button [color]="isActive(tableau._id)" [routerLink]="'/tableau/' + tableau._id">{{tableau.nom | titlecase}}</button>
+  </div>
+
   <span class="spacer"></span>
-  <button mat-raised-button [color]="isActive('gestion')" routerLink="/gestion">Gestion</button>
+  <button mat-raised-button *ngIf="accountService.isLoggedIn()" [color]="isActive('gestion')" routerLink="/gestion">Gestion</button>
   <button mat-raised-button routerLink="/formulaire" [color]="isActive('formulaire')">Formulaire</button>
+  <button mat-raised-button *ngIf="!accountService.isLoggedIn()" [color]="isActive('login')" routerLink="/login">Se connecter</button>
   <button mat-raised-button *ngIf="accountService.isLoggedIn()" (click)="accountService.logout()" color="warn">Se déconnecter</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

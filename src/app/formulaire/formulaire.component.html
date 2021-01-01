@@ -1,6 +1,8 @@
 <mat-card>
-  <h2 class="center lobster">Tournoi familial de l'ESFTT</h2>
-  <h3 class="center lobster">[Jour Mois]</h3>
+  <h1 class="center lobster">{{parametres.titre}}</h1>
+  <h2 class="center lobster">{{parametres.date | date:"dd/MM/yyyy"}}</h2>
+
+  <p>{{parametres.texte_debut}}</p>
 
   <h2 class="lobster">1. Remplissez les fichers de chaque joueur qui participeront à un ou plusieurs tableaux</h2>
   <br>
@@ -41,6 +43,8 @@
       </mat-form-field>
     </div>
   </div>
+
+  <p>{{parametres.texte_fin}}</p>
 
   <button class="center" mat-raised-button color="primary">Ajouter un joueur</button>
 
