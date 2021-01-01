@@ -1,0 +1,47 @@
+<mat-card>
+  <h2 class="center lobster">Tournoi familial de l'ESFTT</h2>
+  <h3 class="center lobster">[Jour Mois]</h3>
+
+  <h2 class="lobster">1. Remplissez les fichers de chaque joueur qui participeront à un ou plusieurs tableaux</h2>
+  <br>
+  <p>Laissez le champ du classement vide si le joueur n'est pas joueur pratiquant la compétition.</p>
+
+  <div fxLayout="row">
+    <div fxFlex="25%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-label>Prénom du joueur *</mat-label>
+        <input name="nom" [formControl]="prenomControl" matInput>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="25%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-label>Nom du joueur *</mat-label>
+        <input name="nom" [formControl]="nomControl" matInput>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="25%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>bar_chart</mat-icon>
+        <mat-label>Classement (si compétitif)</mat-label>
+        <input name="classement" type="number" min="0" max="2000" matInput>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="25%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>dns</mat-icon>
+        <mat-label>Tableaux</mat-label>
+        <mat-select [formControl]="tableauxControl" (closed)="showAgeForm()" multiple>
+          <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button class="center" mat-raised-button color="primary">Ajouter un joueur</button>
+
+</mat-card>

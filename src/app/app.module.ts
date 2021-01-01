@@ -41,6 +41,10 @@ import { BracketComponent } from './bracket/bracket.component';
 import { LoginComponent } from './login/login.component';
 import {AuthGuardService} from './auth-guard.service';
 import {AccountService} from './Service/account.service';
+import { FormulaireComponent } from './formulaire/formulaire.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { ParametresComponent } from './parametres/parametres.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,9 @@ import {AccountService} from './Service/account.service';
     FormTableauComponent,
     EditTableauComponent,
     BracketComponent,
-    LoginComponent
+    LoginComponent,
+    FormulaireComponent,
+    ParametresComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +91,9 @@ import {AccountService} from './Service/account.service';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatSlideToggleModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDividerModule,
+    MatDatepickerModule
   ],
   providers: [AccountService, AuthGuardService],
   bootstrap: [AppComponent]

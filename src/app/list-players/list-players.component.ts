@@ -31,6 +31,7 @@ export class ListPlayersComponent implements OnInit {
 
   public joueur: JoueurInterface = {
     nom: null,
+    age : null,
     classement: null,
     _id: null,
     tableaux: null
@@ -44,6 +45,7 @@ export class ListPlayersComponent implements OnInit {
       this.idTableau = this.router.url.split('/').pop();
       this.joueur = {
         nom: null,
+        age : null,
         classement: null,
         _id: null,
         tableaux: null
@@ -68,6 +70,7 @@ export class ListPlayersComponent implements OnInit {
       .subscribe(() => {
           this.joueur = {
             classement : null,
+            age : null,
             nom : null,
             _id : null,
             tableaux: null

@@ -9,7 +9,6 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { JoueurService } from '../Service/joueur.service';
 import { PoulesService } from '../Service/poules.service';
-import {toTitleCase} from 'codelyzer/util/utils';
 
 @Component({
   selector: 'app-edit-joueur',
@@ -26,6 +25,7 @@ export class EditJoueurComponent implements OnInit {
   tableaux: TableauInterface[];
   joueur: JoueurInterface = {
     nom: null,
+    age : null,
     classement: null,
     _id: null,
     tableaux: null

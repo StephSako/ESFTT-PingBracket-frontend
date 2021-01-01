@@ -1,0 +1,25 @@
+<div class="container">
+  <mat-card>
+
+    <h2 class="lobster">Date du tournoi</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Date du tournoi</mat-label>
+      <input matInput [matDatepicker]="dp">
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+
+    <h2 class="lobster">Texte de présentation</h2>
+    <mat-form-field class="example-full-width">
+      <textarea matInput></textarea>
+    </mat-form-field>
+
+    <h2 class="lobster">Texte de fin</h2>
+    <mat-form-field class="example-full-width">
+      <textarea matInput></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button class="center" color="primary">Sauvergarder</button>
+
+  </mat-card>
+</div>

@@ -21,6 +21,7 @@ export class GestionJoueursComponent implements OnInit {
 
   public joueur: JoueurInterface = {
     nom: null,
+    age: null,
     classement: null,
     _id: null,
     tableaux: null
@@ -43,6 +44,7 @@ export class GestionJoueursComponent implements OnInit {
           this.joueur = {
             classement : null,
             nom : null,
+            age: null,
             _id : null,
             tableaux: null
           };

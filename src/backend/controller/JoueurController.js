@@ -56,6 +56,7 @@ router.route("/subscribe").post(async function(req, res) {
     const joueur = new Joueur({
       _id: new mongoose.Types.ObjectId(),
       nom: req.body.joueur.nom,
+      age: req.body.joueur.age,
       tableaux: req.body.tableaux.map(tableau => tableau._id),
       classement: (req.body.joueur.classement ? req.body.joueur.classement : 0)
     })

@@ -4,6 +4,7 @@
   },
   "nom": "Raphaël PEREZ",
   "classement": 500,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -31,12 +32,14 @@
     }
   ],
   "nom": "Florian PINSARD",
+  "age": 22,
   "classement": 100
 },{
   "_id": {
     "$oid": "5fbec39ecb7af9419c287212"
   },
   "nom": "Rémy FRENCHE",
+  "age": 22,
   "classement": 687,
   "tableaux": [
     {
@@ -52,6 +55,7 @@
   },
   "classement": 989,
   "nom": "Stephen SAKOVITCH",
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -69,6 +73,7 @@
   },
   "nom": "Thomas CARTALIER",
   "classement": 1150,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -83,6 +88,7 @@
   },
   "nom": "Noël DOUTRIAUX",
   "classement": 1099,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -100,6 +106,7 @@
   },
   "nom": "Clément SILVA",
   "classement": 598,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -120,6 +127,7 @@
   },
   "classement": 678,
   "nom": "Patrick FANZUTTI",
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -147,6 +155,7 @@
     }
   ],
   "nom": "Cédric PINSARD",
+  "age": 22,
   "classement": 0
 },{
   "_id": {
@@ -154,6 +163,7 @@
   },
   "classement": 1100,
   "nom": "Rudy CHARLES",
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -171,6 +181,7 @@
   },
   "nom": "Pascal INGIGLIARDI",
   "classement": 500,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -191,6 +202,7 @@
   },
   "nom": "Raphaël NERI",
   "classement": 780,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -208,6 +220,7 @@
   },
   "nom": "Lucien BREMON",
   "classement": 689,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -222,6 +235,7 @@
   },
   "nom": "Nino SCOHY",
   "classement": 510,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -236,6 +250,7 @@
   },
   "classement": 1289,
   "nom": "Renaud BONHOMME",
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -256,6 +271,7 @@
   },
   "nom": "Armen TOUFANIAN",
   "classement": 5001,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -276,6 +292,7 @@
   },
   "nom": "Aurélien LARNE",
   "classement": 1099,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -296,6 +313,7 @@
   },
   "nom": "Cédric LE SOUDER",
   "classement": 688,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -313,6 +331,7 @@
   },
   "nom": "Théo LEROUX",
   "classement": 1065,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -327,6 +346,7 @@
   },
   "nom": "Raphaël SONCINI",
   "classement": 600,
+  "age": 22,
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
@@ -352,6 +372,7 @@
   ],
   "nom": "Véronique BERSON",
   "classement": 500,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -370,6 +391,7 @@
   ],
   "nom": "Sacha BOBINEAU",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -388,6 +410,7 @@
   ],
   "nom": "Matthias GACHON",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -409,6 +432,7 @@
   ],
   "nom": "Noa FRUSQUE",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -427,6 +451,7 @@
   ],
   "nom": "Fabien BELLAICHE",
   "classement": 1,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -445,6 +470,7 @@
   ],
   "nom": "Nathan MARME",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -463,6 +489,7 @@
   ],
   "nom": "Bastien MASSOT",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -481,6 +508,7 @@
   ],
   "nom": "Cyril NASHED",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -496,6 +524,7 @@
   ],
   "nom": "Denis PINNETTE",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -514,6 +543,7 @@
   ],
   "nom": "Dylan VENET",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -529,6 +559,7 @@
   ],
   "nom": "Quentin ROBBE",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -544,6 +575,7 @@
   ],
   "nom": "Titouan WEISS",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -562,6 +594,7 @@
   ],
   "nom": "Mourad OUBAD",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -580,6 +613,7 @@
   ],
   "nom": "Noah HUBERT",
   "classement": 0,
+  "age": 22,
   "__v": 0
 },{
   "_id": {
@@ -601,5 +635,6 @@
   ],
   "nom": "Clément GAGNEUX",
   "classement": 100,
+  "age": 22,
   "__v": 0
 }]

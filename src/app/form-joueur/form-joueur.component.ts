@@ -20,6 +20,7 @@ export class FormJoueurComponent implements OnInit {
   @Input() joueur: JoueurInterface = {
     nom: null,
     classement: null,
+    age: null,
     _id: null,
     tableaux: null
   };
@@ -27,7 +28,7 @@ export class FormJoueurComponent implements OnInit {
   @Input() createMode = false;
   tableaux: TableauInterface[];
 
-  public nomControl = new FormControl('');
+  nomControl = new FormControl('');
   optionsListJoueurs: Observable<JoueurInterface[]>;
   showAutocomplete = false;
 
