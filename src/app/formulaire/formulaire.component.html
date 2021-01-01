@@ -8,50 +8,115 @@
   <br>
   <p>Laissez le champ du classement vide si le joueur n'est pas joueur pratiquant la compétition.</p>
 
-  <div fxLayout="row">
-    <div fxFlex="25%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>title</mat-icon>
-        <mat-label>Prénom du joueur *</mat-label>
-        <input name="nom" [formControl]="prenomControl" matInput>
-      </mat-form-field>
-    </div>
+  <div *ngFor="let joueur of listeJoueurs;let i = index;">
+    <form>
+      <div fxLayout="row">
+        <div fxFlex="30%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>title</mat-icon>
+            <mat-label>Prénom NOM du joueur *</mat-label>
+            <input name="nom" [formControl]="nomControl" matInput>
+          </mat-form-field>
+        </div>
 
-    <div fxFlex="25%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>title</mat-icon>
-        <mat-label>Nom du joueur *</mat-label>
-        <input name="nom" [formControl]="nomControl" matInput>
-      </mat-form-field>
-    </div>
+        <div fxFlex="30%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>bar_chart</mat-icon>
+            <mat-label>Classement (si compétitif)</mat-label>
+            <input name="classement" type="number" min="0" max="2000" matInput>
+          </mat-form-field>
+        </div>
 
-    <div fxFlex="25%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>bar_chart</mat-icon>
-        <mat-label>Classement (si compétitif)</mat-label>
-        <input name="classement" type="number" min="0" max="2000" matInput>
-      </mat-form-field>
-    </div>
+        <div fxFlex="30%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>dns</mat-icon>
+            <mat-label>Tableaux</mat-label>
+            <mat-select [formControl]="tableauxControl" (closed)="showAgeForm()" multiple>
+              <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-    <div fxFlex="25%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>dns</mat-icon>
-        <mat-label>Tableaux</mat-label>
-        <mat-select [formControl]="tableauxControl" (closed)="showAgeForm()" multiple>
-          <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+        <div fxFlex="10%">
+          <button style="width: 100%; margin-top: 10px" mat-raised-button (click)="removeItem(joueur)" class="center" color="warn">Supprimer</button>
+        </div>
+      </div>
+    </form>
   </div>
+
+  <form>
+    <div fxLayout="row">
+      <div fxFlex="30%">
+        <mat-form-field appearance="outline" class="center">
+          <mat-icon matSuffix>title</mat-icon>
+          <mat-label>Prénom NOM du joueur *</mat-label>
+          <input name="nom" [formControl]="nomControl" matInput>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="30%">
+        <mat-form-field appearance="outline" class="center">
+          <mat-icon matSuffix>bar_chart</mat-icon>
+          <mat-label>Classement (si compétitif)</mat-label>
+          <input name="classement" type="number" min="0" max="2000" matInput>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="30%">
+        <mat-form-field appearance="outline" class="center">
+          <mat-icon matSuffix>dns</mat-icon>
+          <mat-label>Tableaux</mat-label>
+          <mat-select [formControl]="tableauxControl" (closed)="showAgeForm()" multiple>
+            <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <button class="center" (click)="addJoueur(joueur)" mat-raised-button color="primary">Ajouter un joueur</button>
+  </form>
+
+  <br>
 
   <h2 class="lobster">2. Participation au buffet du soir</h2>
   <p>L’apéritif et les boissons sont offerts le club et le buffet composé de vos réalisations salées ou sucrés. Si le temps le permet, nous ferons grillés quelques saucisses et merguez.</p>
   <br>
 
+  <div fxLayout="row">
+    <div fxFlex="50%">
+      <h3 class="lobster">Nombre de participants de - de 13 ans</h3>
+      <mat-form-field appearance="outline">
+        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_moins_13_ans" name="nb_moins_13_ans">
+      </mat-form-field>
+    </div>
 
+    <div fxFlex="50%">
+      <h3 class="lobster">Nombre de participants de + de 13 ans</h3>
+      <mat-form-field appearance="outline">
+        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_plus_13_ans" name="nb_plus_13_ans">
+      </mat-form-field>
+    </div>
+  </div>
 
+  <h2 class="lobster">Plat(s) confectionné(s)</h2>
+  <p class="i">Touche 'Entrée' pour valider le plat</p>
+  <mat-form-field class="chip-list" appearance="outline">
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let plat of buffet.plats" [selectable]="selectable" [removable]="removable" (removed)="remove(plat)" color="primary" selected>
+        {{plat}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             type="text"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <br><br>
   <p>{{parametres.texte_fin}}</p>
 
-  <button class="center" mat-raised-button color="primary">Ajouter un joueur</button>
+  <button class="center" mat-raised-button color="primary">Envoyer !</button>
 
 </mat-card>

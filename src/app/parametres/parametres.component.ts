@@ -46,10 +46,10 @@ export class ParametresComponent implements OnInit {
     console.log(this.parametres._id);
     this.parametreService.edit(this.parametres).subscribe(
       message => {
-        this.notifyService.notifyUser(message, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
       },
       err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.message, this.snackBar, 'error', 2000, 'OK');
       }
     );
   }

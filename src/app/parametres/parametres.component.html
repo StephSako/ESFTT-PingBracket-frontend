@@ -13,7 +13,6 @@
         <div fxFlex="33%" class="center">
           <h2 class="lobster">Date du tournoi</h2>
           <mat-form-field appearance="outline">
-            <mat-label>Date du tournoi</mat-label>
             <input matInput [matDatepicker]="dp" [(ngModel)]="parametres.date" name="date_tournoi">
             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
             <mat-datepicker #dp></mat-datepicker>
