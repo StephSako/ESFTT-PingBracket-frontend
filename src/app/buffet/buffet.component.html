@@ -1,0 +1,21 @@
+<div class="container">
+  <mat-card>
+
+    <div fxLayout="row">
+      <div fxFlex="50%" class="center">
+        <h2 class="lobster">Nombre de participants de - de 13 ans : {{buffet.nb_moins_13_ans}}</h2>
+      </div>
+
+      <div fxFlex="50%" class="center">
+        <h2 class="lobster">Nombre de participants de <b>+</b> de 13 ans : {{buffet.nb_plus_13_ans}}</h2>
+      </div>
+    </div>
+
+    <mat-divider class="center"></mat-divider>
+    <br>
+
+    <h2 class="lobster">Liste des plats confectionnés</h2>
+    <p>{{buffet.plats.join(', ')}}</p>
+  </mat-card>
+
+</div>

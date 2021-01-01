@@ -45,6 +45,7 @@ import { FormulaireComponent } from './formulaire/formulaire.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { ParametresComponent } from './parametres/parametres.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BuffetComponent } from './buffet/buffet.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     BracketComponent,
     LoginComponent,
     FormulaireComponent,
-    ParametresComponent
+    ParametresComponent,
+    BuffetComponent
   ],
   imports: [
     BrowserModule,

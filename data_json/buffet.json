@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0300"
+  },
+  "nb_moins_13_ans": 10,
+  "nb_plus_13_ans": 20,
+  "plats": [
+    "Quiche",
+    "Merguez",
+    "Tarte à la citrouille"
+  ]
+}]
