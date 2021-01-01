@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { ParametresService } from '../Service/parametres.service';
+import { ParametreInterface } from '../Interface/Parametre';
+import {NotifyService} from '../Service/notify.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-parametres',
@@ -22,10 +22,34 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 })
 export class ParametresComponent implements OnInit {
 
-  constructor(private adapter: DateAdapter<any>) { }
+  parametres: ParametreInterface = {
+    texte_debut: null,
+    _id: null,
+    date: null,
+    texte_fin: null
+  };
+
+  constructor(private adapter: DateAdapter<any>, private parametreService: ParametresService, private notifyService: NotifyService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.adapter.setLocale('fr');
+    this.getParametres();
   }
 
+  getParametres(): void{
+    this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres);
+  }
+
+  edit(): void {
+    console.log(this.parametres._id);
+    this.parametreService.edit(this.parametres).subscribe(
+      message => {
+        this.notifyService.notifyUser(message, this.snackBar, 'error', 2000, 'OK');
+      },
+      err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      }
+    );
+  }
 }
