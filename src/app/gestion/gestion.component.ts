@@ -5,8 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import {GestionJoueursComponent} from '../gestion-joueurs/gestion-joueurs.component';
-import {GestionTableauxComponent} from '../gestion-tableaux/gestion-tableaux.component';
+import { GestionJoueursComponent } from '../gestion-joueurs/gestion-joueurs.component';
 
 @Component({
   selector: 'app-gestion',
@@ -26,7 +25,7 @@ export class GestionComponent implements OnInit {
     const accountToDelete: Dialog = {
       id: 'true',
       action: 'Remettre le tournoi à zéro ?',
-      option: 'Les joueurs, poules, binômes de double et tableaux seront supprimés.',
+      option: 'Les joueurs, poules, binômes de double, tableaux et plats du buffets seront supprimés.',
       third_button_text: null,
       action_button_text: 'Remettre à zéro',
       third_button: false

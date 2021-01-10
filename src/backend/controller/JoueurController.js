@@ -87,7 +87,7 @@ router.route("/subscribe").post(async function(req, res) {
 });
 
 // EDIT PLAYER
-// TODO REGENERER LES TABLEAUX EN FORMAT SIMPLE SI JOUEUR MODIFIER
+// TODO REGENERER LES TABLEAUX EN FORMAT SIMPLE SI JOUEUR MODIFIE
 router.route("/edit/:id_player").put(function(req, res) {
   const joueur = {
     nom: req.body.nom,

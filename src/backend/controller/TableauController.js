@@ -4,6 +4,7 @@ const Tableau = require('../model/Tableau')
 const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
 const Bracket = require('../model/Bracket')
+const Buffet = require('../model/Buffet')
 const mongoose = require('mongoose')
 
 // ALL TABLEAU
@@ -37,6 +38,7 @@ router.route("/reset").delete(async function(req, res) {
   try {
     await Bracket.deleteMany({})
     await Poule.deleteMany({})
+    await Buffet.updateMany({}, { $set: { nb_moins_13_ans: 0, nb_plus_13_ans: 0, plats: [] } })
     await Joueur.deleteMany({})
     res.status(200).json({message: 'Tournoi remis à zéro ... prêt pour l\'année prochaine ;)'})
   } catch (e){
