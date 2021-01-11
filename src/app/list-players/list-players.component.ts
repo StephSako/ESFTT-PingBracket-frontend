@@ -66,7 +66,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   subscribe(): void {
-    this.joueurService.subscribe([this.tableau], this.joueur)
+    this.joueurService.create([this.tableau], this.joueur)
       .subscribe(() => {
           this.joueur = {
             classement : null,

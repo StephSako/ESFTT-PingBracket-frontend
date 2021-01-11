@@ -39,22 +39,22 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   create(): void {
-    this.joueurService.subscribe(this.joueur.tableaux, this.joueur)
-      .subscribe(() => {
-          this.joueur = {
-            classement : null,
-            nom : null,
-            age: null,
-            _id : null,
-            tableaux: null
-          };
-          this.getAllJoueurs();
-          this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
-        },
-        err => {
-          console.error(err);
-        }
-      );
+    this.joueurService.create(
+      this.joueur.tableaux, this.joueur).subscribe(() => {
+        this.joueur = {
+          classement : null,
+          nom : null,
+          age: null,
+          _id : null,
+          tableaux: null
+        };
+        this.getAllJoueurs();
+        this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
 
   openEditDialog(joueur: JoueurInterface): void {

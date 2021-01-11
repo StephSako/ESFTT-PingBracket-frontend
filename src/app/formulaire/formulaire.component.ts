@@ -38,7 +38,7 @@ export class FormulaireComponent implements OnInit {
     plats: []
   };
 
-  /* Dupliquer le forumulaire pour un nouveau joueur */
+  /* Dupliquer le formulaire pour un nouveau joueur */
   public joueurData: JoueurInterface = {
     tableaux: null,
     classement: null,
@@ -46,19 +46,7 @@ export class FormulaireComponent implements OnInit {
     age: null,
     _id: null
   };
-  public listeJoueurs: JoueurInterface[] = [{
-    tableaux: null,
-    classement: 111,
-    nom: 'Stephen',
-    age: null,
-    _id: null
-  }, {
-    tableaux: null,
-    classement: 222,
-    nom: 'Theo',
-    age: null,
-    _id: null
-  }];
+  public listeJoueurs: JoueurInterface[] = [];
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService) { }
 
@@ -101,5 +89,9 @@ export class FormulaireComponent implements OnInit {
   submit(): void {
     console.log(this.buffet);
     console.log(this.listeJoueurs);
+  }
+
+  disabled(joueurData: JoueurInterface): boolean {
+    return !(joueurData.nom !== null && joueurData.nom !== '');
   }
 }

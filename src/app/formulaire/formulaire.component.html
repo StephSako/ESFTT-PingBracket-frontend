@@ -4,7 +4,7 @@
 
   <p>{{parametres.texte_debut}}</p>
 
-  <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque joueur</h2>
+  <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque participant</h2>
 
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
@@ -12,7 +12,7 @@
         <div fxFlex="20%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>title</mat-icon>
-            <mat-label>Prénom NOM du joueur *</mat-label>
+            <mat-label>Prénom NOM *</mat-label>
             <input name="nom" [(ngModel)]="joueurItem.nom" matInput>
           </mat-form-field>
         </div>
@@ -28,8 +28,8 @@
         <div fxFlex="20%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
-            <mat-label>Age (si mineur)</mat-label>
-            <input name="age" [(ngModel)]="joueurItem.age" type="number" min="0" max="17" matInput>
+            <mat-label>Âge (si mineur)</mat-label>
+            <input name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="17" matInput>
           </mat-form-field>
         </div>
 
@@ -55,7 +55,7 @@
       <div fxFlex="20%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>title</mat-icon>
-          <mat-label>Prénom NOM du joueur *</mat-label>
+          <mat-label>Prénom NOM *</mat-label>
           <input name="nom" [(ngModel)]="joueurData.nom" matInput>
         </mat-form-field>
       </div>
@@ -71,7 +71,7 @@
       <div fxFlex="20%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>today</mat-icon>
-          <mat-label>Age (si mineur)</mat-label>
+          <mat-label>Âge (si mineur)</mat-label>
           <input name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="17" matInput>
         </mat-form-field>
       </div>
@@ -85,9 +85,12 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <div fxFlex="10%">
+        <button style="width: 100%; margin-top: 10px" class="center" [disabled]="disabled(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
+      </div>
     </div>
 
-    <button class="center" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter un joueur</button>
   </form>
 
   <br>
@@ -112,8 +115,8 @@
     </div>
   </div>
 
-  <h2 class="lobster">Plat(s) confectionné(s)</h2>
-  <p class="i">Touche 'Entrée' pour valider le plat</p>
+  <h3 class="lobster">Plat(s) confectionné(s)</h3>
+  <p class="i">Cliquez sur la touche 'Entrée' de votre clavier pour ajouter le plat à la liste.</p>
   <mat-form-field class="chip-list" appearance="outline">
     <mat-chip-list #chipList aria-label="Fruit selection">
       <mat-chip *ngFor="let plat of buffet.plats" [selectable]="selectable" [removable]="removable" (removed)="remove(plat)" color="primary" selected>

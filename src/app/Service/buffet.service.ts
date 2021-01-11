@@ -20,7 +20,7 @@ export class BuffetService {
     return this.http.put(`${this.baseURL}edit/${buffet._id}`, {buffet});
   }
 
-  public reset(): Observable<any> {
-    return this.http.delete(this.baseURL);
+  public register(buffet: BuffetInterface): Observable<any> {
+    return this.http.post(`${this.baseURL}register`, buffet);
   }
 }

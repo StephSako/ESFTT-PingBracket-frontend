@@ -29,7 +29,7 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}unsubscribed/${tableau}`);
   }
 
-  public subscribe(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
+  public create(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
     return this.http.post(`${this.baseURL}subscribe`, { joueur, tableaux });
   }
 

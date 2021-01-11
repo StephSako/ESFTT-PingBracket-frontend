@@ -63,7 +63,7 @@ export class EditJoueurComponent implements OnInit {
   }
 
   subscribe(tableau: TableauInterface): void {
-    this.joueurService.subscribe([tableau], this.joueur).subscribe(() => {
+    this.joueurService.create([tableau], this.joueur).subscribe(() => {
       this.getJoueur();
       this.generatePoules(tableau._id);
     }, err => console.error(err));
