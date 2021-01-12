@@ -2,7 +2,7 @@
   <h1 class="center lobster">{{parametres.titre}}</h1>
   <h2 class="center lobster">{{parametres.date | date:"dd/MM/yyyy"}}</h2>
 
-  <p>{{parametres.texte_debut}}</p>
+  <p style="white-space: pre-wrap;">{{parametres.texte_debut}}</p>
 
   <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque participant</h2>
 
@@ -87,7 +87,7 @@
       </div>
 
       <div fxFlex="10%">
-        <button style="width: 100%; margin-top: 10px" class="center" [disabled]="disabled(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
+        <button style="width: 100%; margin-top: 10px" class="center" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
       </div>
     </div>
 
@@ -96,7 +96,7 @@
   <br>
 
   <h2 class="lobster">2. Participation au buffet du soir</h2>
-  <p>L’apéritif et les boissons sont offerts le club et le buffet composé de vos réalisations salées ou sucrés. Si le temps le permet, nous ferons grillés quelques saucisses et merguez.</p>
+  <p style="white-space: pre-wrap;">{{parametres.texte_buffet}}</p>
   <br>
 
   <div fxLayout="row">
@@ -116,7 +116,9 @@
   </div>
 
   <h3 class="lobster">Plat(s) confectionné(s)</h3>
-  <p class="i">Cliquez sur la touche 'Entrée' de votre clavier pour ajouter le plat à la liste.</p>
+
+  <p class="i">Cliquez sur la touche 'Entrée' de votre clavier pour ajouter le plat dans votre liste.</p>
+
   <mat-form-field class="chip-list" appearance="outline">
     <mat-chip-list #chipList aria-label="Fruit selection">
       <mat-chip *ngFor="let plat of buffet.plats" [selectable]="selectable" [removable]="removable" (removed)="remove(plat)" color="primary" selected>
@@ -131,10 +133,16 @@
     </mat-chip-list>
   </mat-form-field>
 
+  <p>Plats déjà préparés :</p>
+  <mat-chip-list *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked">
+    <mat-chip *ngFor="let plat of platsAlreadyCooked" color="primary" selected>{{ plat }}</mat-chip>
+  </mat-chip-list>
+  <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
+
   <br>
-  <p>{{parametres.texte_fin}}</p>
+  <p style="white-space: pre-wrap;">{{parametres.texte_fin}}</p>
   <br>
 
-  <button class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>
+  <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>
 
 </mat-card>

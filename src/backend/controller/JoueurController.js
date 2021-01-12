@@ -45,7 +45,7 @@ router.route("/unassigned/:tableau").get(async function(req, res) {
 });
 
 // SUBSCRIBE PLAYER
-router.route("/subscribe").post(async function(req, res) {
+router.route("/create").post(async function(req, res) {
   let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom})
   if (searchedJoueur) {
     await Joueur.updateOne(

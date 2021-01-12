@@ -7,6 +7,9 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { BuffetInterface } from '../Interface/Buffet';
 import { JoueurInterface } from '../Interface/Joueur';
+import {JoueurService} from '../Service/joueur.service';
+import {BuffetService} from '../Service/buffet.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-formulaire',
@@ -23,6 +26,7 @@ export class FormulaireComponent implements OnInit {
     _id: null,
     date: null,
     titre: null,
+    texte_buffet: null,
     texte_fin: null
   };
 
@@ -31,16 +35,18 @@ export class FormulaireComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
   buffet: BuffetInterface = {
     nb_plus_13_ans: 0,
     nb_moins_13_ans: 0,
     _id: null,
     plats: []
   };
+  platsAlreadyCooked: string[];
 
   /* Dupliquer le formulaire pour un nouveau joueur */
   public joueurData: JoueurInterface = {
-    tableaux: null,
+    tableaux: [],
     classement: null,
     nom: null,
     age: null,
@@ -48,15 +54,21 @@ export class FormulaireComponent implements OnInit {
   };
   public listeJoueurs: JoueurInterface[] = [];
 
-  constructor(private tableauService: TableauService, private parametreService: ParametresService) { }
+  constructor(private tableauService: TableauService, private parametreService: ParametresService, private joueurService: JoueurService,
+              private buffetService: BuffetService, private router: Router) { }
 
   ngOnInit(): void {
     this.tableauService.getAll().subscribe(tableaux => this.tableaux = tableaux, error => console.log(error));
     this.getParametres();
+    this.getPlatsAlreadyCooked();
   }
 
   getParametres(): void{
     this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres);
+  }
+
+  getPlatsAlreadyCooked(): void{
+    this.buffetService.platsAlreadyCooked().subscribe(plats => this.platsAlreadyCooked = plats);
   }
 
   add(event: MatChipInputEvent): void {
@@ -73,7 +85,7 @@ export class FormulaireComponent implements OnInit {
 
   addJoueur($item): void {
     this.joueurData = {
-      tableaux: null,
+      tableaux: [],
       classement: null,
       nom: null,
       age: null,
@@ -87,11 +99,28 @@ export class FormulaireComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.buffet);
-    console.log(this.listeJoueurs);
+    // Inscription des joueurs
+    if (this.listeJoueurs.length > 0) {
+      this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {}));
+    }
+
+    // Enregistrement des données du buffet
+    if (!(this.buffet.plats.length === 0 && this.buffet.nb_moins_13_ans === 0 && this.buffet.nb_plus_13_ans === 0)){
+      this.buffetService.register(this.buffet).subscribe(() => {});
+    }
+    this.router.navigateByUrl('/inscription_terminee').then(() => {});
   }
 
-  disabled(joueurData: JoueurInterface): boolean {
-    return !(joueurData.nom !== null && joueurData.nom !== '');
+  disabledAddPlayer(joueurData: JoueurInterface): boolean {
+    return !(joueurData.nom !== null && joueurData.nom !== '' && joueurData.tableaux.length > 0);
+  }
+
+  disabledSubmit(): boolean {
+    return (this.listeJoueurs.length === 0 && this.buffet.plats.length === 0 && this.buffet.nb_moins_13_ans === 0
+      && this.buffet.nb_plus_13_ans === 0);
+  }
+
+  platsAlreadyCookedEmpty(): boolean {
+    return (this.platsAlreadyCooked ? this.platsAlreadyCooked.length === 0 : false);
   }
 }

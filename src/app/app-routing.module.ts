@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
+import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'tableau/:tableau', component: TableauComponent, canActivate: [AuthGuardService] },
   { path: 'gestion', component: GestionComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
-  { path: 'formulaire', component: FormulaireComponent }
+  { path: 'formulaire', component: FormulaireComponent },
+  { path: 'inscription_terminee', component: ConfirmFormulaireComponent }
 ];
 
 @NgModule({

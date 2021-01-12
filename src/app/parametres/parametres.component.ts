@@ -3,8 +3,8 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPT
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ParametresService } from '../Service/parametres.service';
 import { ParametreInterface } from '../Interface/Parametre';
-import {NotifyService} from '../Service/notify.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-parametres',
@@ -27,7 +27,8 @@ export class ParametresComponent implements OnInit {
     _id: null,
     date: null,
     titre: null,
-    texte_fin: null
+    texte_fin: null,
+    texte_buffet: null
   };
 
   constructor(private adapter: DateAdapter<any>, private parametreService: ParametresService, private notifyService: NotifyService,

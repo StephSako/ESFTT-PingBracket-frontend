@@ -11,9 +11,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -23,9 +20,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -44,9 +38,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -62,9 +53,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -77,9 +65,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -92,9 +77,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -115,9 +97,6 @@
       "$oid": "5fbc43b767e5cb1050ab0444"
     },
     {
-      "$oid": "5fbc43b767e5cb1050ab0443"
-    },
-    {
       "$oid": "5fcaae30c7258728ac2a84b1"
     }
   ]
@@ -134,9 +113,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -146,9 +122,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -170,9 +143,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -191,9 +161,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -209,9 +176,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -224,9 +188,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -239,9 +200,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -260,9 +218,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -275,9 +230,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fbc43b767e5cb1050ab0445"
@@ -296,9 +248,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -320,9 +269,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -335,9 +281,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -353,9 +296,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ]
 },{
@@ -365,9 +305,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ],
   "nom": "Véronique BERSON",
@@ -384,9 +321,6 @@
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ],
   "nom": "Sacha BOBINEAU",
@@ -400,9 +334,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -419,9 +350,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fbc43b767e5cb1050ab0445"
@@ -443,9 +371,6 @@
       "$oid": "5fbc43b767e5cb1050ab0444"
     },
     {
-      "$oid": "5fbc43b767e5cb1050ab0443"
-    },
-    {
       "$oid": "5fcaae30c7258728ac2a84b1"
     }
   ],
@@ -460,9 +385,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -481,9 +403,6 @@
       "$oid": "5fbc43b767e5cb1050ab0444"
     },
     {
-      "$oid": "5fbc43b767e5cb1050ab0443"
-    },
-    {
       "$oid": "5fcaae30c7258728ac2a84b1"
     }
   ],
@@ -500,9 +419,6 @@
       "$oid": "5fbc43b767e5cb1050ab0444"
     },
     {
-      "$oid": "5fbc43b767e5cb1050ab0443"
-    },
-    {
       "$oid": "5fcaae30c7258728ac2a84b1"
     }
   ],
@@ -517,9 +433,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ],
   "nom": "Denis PINNETTE",
@@ -533,9 +446,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -552,9 +462,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ],
   "nom": "Quentin ROBBE",
@@ -568,9 +475,6 @@
   "tableaux": [
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     }
   ],
   "nom": "Titouan WEISS",
@@ -584,9 +488,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"
@@ -605,9 +506,6 @@
       "$oid": "5fbc43b767e5cb1050ab0444"
     },
     {
-      "$oid": "5fbc43b767e5cb1050ab0443"
-    },
-    {
       "$oid": "5fcaae30c7258728ac2a84b1"
     }
   ],
@@ -622,9 +520,6 @@
   "tableaux": [
     {
       "$oid": "5fbc43b767e5cb1050ab0444"
-    },
-    {
-      "$oid": "5fbc43b767e5cb1050ab0443"
     },
     {
       "$oid": "5fcaae30c7258728ac2a84b1"

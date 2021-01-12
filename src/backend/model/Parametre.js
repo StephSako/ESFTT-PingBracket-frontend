@@ -5,6 +5,7 @@ const parametreSchema = mongoose.Schema({
   date: Date,
   titre: String,
   texte_debut: String,
+  texte_buffet: String,
   texte_fin: String
 })
 

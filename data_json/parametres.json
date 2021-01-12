@@ -3,9 +3,10 @@
     "$oid": "5fbc43b767e5cb1050ab0300"
   },
   "date": {
-    "$date": "2021-10-05T22:00:00Z"
+    "$date": "2021-06-11T22:00:00Z"
   },
-  "texte_debut": "Bienvenue au tournoi de l'ESFTT",
-  "texte_fin": "Au revoir et à bientôt !",
-  "titre": "Tournoi ESFTT 2021"
+  "texte_debut": "Bienvenue au tournoi de l'ESFTT.",
+  "texte_fin": "Réponses le 15 juin au plus tard. Renseignements par mail Patrick.fanzutti@free.fr ou par SMS: 07 82 33 79 72.\n\n\nAu revoir et à bientôt !",
+  "titre": "Tournoi familial ESFTT 2021",
+  "texte_buffet": "L’apéritif et les boissons sont offerts le club et le buffet composé de vos réalisations salées ou sucrés. Si le temps le permet, nous ferons grillés quelques saucisses et merguez."
 }]

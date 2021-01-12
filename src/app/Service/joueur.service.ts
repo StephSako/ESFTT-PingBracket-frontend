@@ -30,7 +30,7 @@ export class JoueurService {
   }
 
   public create(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
-    return this.http.post(`${this.baseURL}subscribe`, { joueur, tableaux });
+    return this.http.post(`${this.baseURL}create`, { joueur, tableaux });
   }
 
   public edit(joueur: JoueurInterface): Observable<any> {
