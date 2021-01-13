@@ -19,15 +19,6 @@ function shuffle(array) {
   }
   return array;
 }
-
-// GET BRACKET OF SPECIFIC TABLEAU
-router.route("/:tableau/:phase").get(function(req, res) {
-  Bracket.find({tableau: req.params.tableau, phase: req.params.phase}).populate('tableau').populate({
-    path: 'matches.joueurs._id',
-    populate: { path: 'joueurs' }
-  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
-});
-
 // Push player into a specific match
 async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau, phase){
   await Bracket.updateOne(
@@ -53,45 +44,59 @@ async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau, ph
   )
 }
 
+
+async function defineMatchStatusAndWinner(id_round, tableau, phase, id_match, winner_id) {
+  // On définie :
+  // - le joueur cliqué comme gagnant
+  // - le match comme "terminé"
+  await Bracket.updateOne(
+    {
+      round: id_round,
+      tableau: tableau,
+      phase: phase,
+      "matches.id": id_match
+    },
+    {
+      $set: {
+        "matches.$[match].joueurs.$[joueur].winner": true
+      }
+    },
+    {
+      arrayFilters: [
+        { "match.id": id_match },
+        { "joueur._id": winner_id }
+      ]
+    }
+  )
+
+  // Pour tous les matches sauf la finale, le gagnant évolue au prochain match
+  if (Number(id_round) !== 1){
+    // On définie :
+    // - le joueur gagnant dans le prochain match
+    // - les perdants des demies vont en match pour la 3ème place
+
+    let idNextMatch = id_match
+    if (idNextMatch % 2 !== 0) idNextMatch++
+    idNextMatch = idNextMatch/2
+    let idNextRound = id_round
+    idNextRound--
+    await setPlayerSpecificMatch(idNextRound, idNextMatch, winner_id, tableau, phase)
+  }
+}
+
+// GET BRACKET OF SPECIFIC TABLEAU
+router.route("/:tableau/:phase").get(function(req, res) {
+  Bracket.find({tableau: req.params.tableau, phase: req.params.phase}).populate('tableau').populate({
+    path: 'matches.joueurs._id',
+    populate: { path: 'joueurs' }
+  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
+});
+
 // SET WINNER
 router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req, res) {
   try {
-    // On définie :
-    // - le joueur cliqué comme gagnant
-    // - le match comme "terminé"
-    await Bracket.updateOne(
-      {
-        round: req.params.id_round,
-        tableau: req.params.tableau,
-        phase: req.params.phase,
-        "matches.id": req.params.id_match
-      },
-      {
-        $set: {
-          "matches.$[match].joueurs.$[joueur].winner": true
-        }
-      },
-      {
-        arrayFilters: [
-          { "match.id": req.params.id_match },
-          { "joueur._id": req.body.winnerId }
-        ]
-      }
-    )
 
-    // Pour tous les matches sauf la finale, le gagnant évolue au prochain match
-    if (Number(req.params.id_round) !== 1){
-      // On définie :
-      // - le joueur gagnant dans le prochain match
-      // - les perdants des demies vont en match pour la 3ème place
-
-      let idNextMatch = req.params.id_match
-      if (idNextMatch % 2 !== 0) idNextMatch++
-      idNextMatch = idNextMatch/2
-      let idNextRound = req.params.id_round
-      idNextRound--
-      await setPlayerSpecificMatch(idNextRound, idNextMatch, req.body.winnerId, req.params.tableau, req.params.phase)
-    }
+    await defineMatchStatusAndWinner(req.params.id_round, req.params.tableau, req.params.phase, req.params.id_match, req.body.winnerId)
 
     // S'il s'agit des demies-finale, on assigne les perdants en petite finale
     if (Number(req.params.id_round) === 2 && req.body.looserId){
@@ -188,9 +193,21 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
       }
     }
 
+    // Si des joueurs sont seuls au premier round, ils sont désignés vainqueur et accèdent au second round
+    let firstRound = await Bracket.findOne({tableau: req.params.tableau, phase: req.params.phase}).sort({round: 'desc'})
+    for (let matche of firstRound.matches){
+      if (!matche.joueurs[1]._id || !matche.joueurs[0]._id){
+        let winner_id
+        if (!matche.joueurs[1]._id) winner_id = matche.joueurs[0]._id
+        else if (!matche.joueurs[0]._id) winner_id = matche.joueurs[1]._id
+
+        await defineMatchStatusAndWinner(matche.round, req.params.tableau, req.params.phase, matche.id, winner_id)
+      }
+    }
+
     res.status(200).json({message: "No error"})
   } catch(err) {
-    res.status(500).json({error: err})
+    res.status(500).send({error: err})
   }
 });
 
