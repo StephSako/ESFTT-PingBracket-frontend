@@ -13,7 +13,8 @@ export class EditTableauComponent {
     nom: null,
     format: null,
     _id: null,
-    consolante: null
+    consolante: null,
+    age_minimum: null
   };
 
   constructor(@Inject(MAT_DIALOG_DATA) public tableauData: TableauInterface) {

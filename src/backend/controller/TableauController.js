@@ -23,7 +23,8 @@ router.route("/create").post(function(req, res) {
     _id: new mongoose.Types.ObjectId(),
     nom: req.body.nom.toLowerCase(),
     format: req.body.format,
-    consolante: req.body.consolante
+    consolante: req.body.consolante,
+    age_minimum: req.body.age_minimum
   })
   tableau.save().then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
 });

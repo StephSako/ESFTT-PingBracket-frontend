@@ -23,7 +23,8 @@ export class PouleComponent implements OnInit {
     format: null,
     _id: null,
     nom: null,
-    consolante: null
+    consolante: null,
+    age_minimum: null
   };
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,

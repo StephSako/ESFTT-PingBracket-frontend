@@ -13,14 +13,15 @@ import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
 })
 export class GestionTableauxComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'format', 'consolante', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'format', 'age_minimum', 'consolante', 'edit', 'delete'];
   allTableaux: TableauInterface[] = [];
 
   public tableau: TableauInterface = {
     nom: null,
     format: null,
     _id: null,
-    consolante: null
+    consolante: null,
+    age_minimum: null
   };
 
   constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
@@ -41,7 +42,8 @@ export class GestionTableauxComponent implements OnInit {
             format : null,
             nom : null,
             _id : null,
-            consolante: null
+            consolante: null,
+            age_minimum: null
           };
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');
@@ -69,4 +71,7 @@ export class GestionTableauxComponent implements OnInit {
     return (this.tableau.nom !== '' && this.tableau.nom !== null && this.tableau.format !== null);
   }
 
+  showAgeMinimum(age_minimum: number): string {
+    return (age_minimum ? age_minimum + ' ans' : '');
+  }
 }

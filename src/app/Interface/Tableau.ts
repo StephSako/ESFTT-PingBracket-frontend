@@ -3,4 +3,5 @@ export interface TableauInterface {
   nom: string;
   format: string;
   consolante: boolean;
+  age_minimum: number;
 }

@@ -15,7 +15,8 @@ export class TableauComponent implements OnInit {
     _id: null,
     format: null,
     nom: null,
-    consolante: null
+    consolante: null,
+    age_minimum: null
   };
 
   constructor(private gestionService: TableauService, private route: ActivatedRoute, private router: Router) {}

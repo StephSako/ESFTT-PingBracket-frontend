@@ -98,11 +98,12 @@ export class EditJoueurComponent implements OnInit {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
         action: 'Le classement ' + ((this.reactiveForm.get('nom').value !== this.joueur.nom) ?
-          'et le nom on eté modifiés' : 'a été modifié') + '. Régénérer les poules ' +
+          'et le nom ont eté modifiés' : 'a été modifié') + '. Régénérer les poules ' +
           tableauxSimlesToRegenerate.map(tableau => tableau.nom[0].toUpperCase() + tableau.nom.slice(1)).join(', ') + ' ?',
         option: null,
-        action_button_text: 'Modifier et régénérer',
-        third_button_text: ((this.reactiveForm.get('nom').value !== this.joueur.nom) ? 'Modifier que le nom et ne pas régénérer' : null),
+        action_button_text: 'Modifier et régénérer les poules',
+        third_button_text: ((this.reactiveForm.get('nom').value !== this.joueur.nom)
+          ? 'Modifier que le nom et ne pas régénérer les poules' : null),
         third_button: this.reactiveForm.get('nom').value !== this.joueur.nom
       };
 

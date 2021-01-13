@@ -1,29 +1,41 @@
 [{
   "_id": {
-    "$oid": "5fbc43b767e5cb1050ab0445"
-  },
-  "nom": "famille",
-  "format": "simple",
-  "consolante": false
-},{
-  "_id": {
-    "$oid": "5fcaae30c7258728ac2a84b1"
-  },
-  "nom": "jeune",
-  "format": "simple",
-  "consolante": true
-},{
-  "_id": {
     "$oid": "5fbc43b767e5cb1050ab0444"
   },
   "nom": "open",
   "format": "simple",
-  "consolante": true
+  "consolante": true,
+  "age_minimum": null
 },{
   "_id": {
     "$oid": "5fbc43b767e5cb1050ab0443"
   },
   "nom": "double",
   "format": "double",
-  "consolante": false
+  "consolante": false,
+  "age_minimum": null
+},{
+  "_id": {
+    "$oid": "5fbc43b767e5cb1050ab0445"
+  },
+  "nom": "famille",
+  "format": "simple",
+  "consolante": false,
+  "age_minimum": null
+},{
+  "_id": {
+    "$oid": "5fcaae30c7258728ac2a84b1"
+  },
+  "nom": "jeune - 13 ans",
+  "format": "simple",
+  "consolante": true,
+  "age_minimum": 13
+},{
+  "_id": {
+    "$oid": "5ffe3413345fda3c709c8075"
+  },
+  "nom": "jeune - 11 ans",
+  "format": "simple",
+  "consolante": false,
+  "age_minimum": 11
 }]

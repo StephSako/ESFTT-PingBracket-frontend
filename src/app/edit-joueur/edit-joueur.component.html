@@ -2,20 +2,26 @@
   <h2 class="center lobster"><b>Modifier le joueur</b></h2>
 
   <div fxLayout="row">
-    <div fxFlex="33%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>title</mat-icon>
-        <mat-label>Nom du joueur *</mat-label>
-        <input formControlName="nom" name="nom" matInput>
-      </mat-form-field>
-    </div>
+    <div fxFlex="66%">
+      <div fxLayout="row">
+        <div fxFlex="50%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>title</mat-icon>
+            <mat-label>Nom du joueur *</mat-label>
+            <input formControlName="nom" name="nom" matInput>
+          </mat-form-field>
+        </div>
 
-    <div fxFlex="33%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>bar_chart</mat-icon>
-        <mat-label>Classement</mat-label>
-        <input formControlName="classement" name="classement" type="number" min="0" max="2000" matInput>
-      </mat-form-field>
+        <div fxFlex="50%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>bar_chart</mat-icon>
+            <mat-label>Classement</mat-label>
+            <input formControlName="classement" name="classement" type="number" min="0" max="2000" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button *ngIf="isModified()" type="submit" mat-raised-button [disabled]="!isInvalid()" class="center" color="primary">Modifier</button>
     </div>
 
     <div *ngIf="tableaux" fxFlex="33%">
@@ -31,7 +37,6 @@
     </div>
   </div>
 
-  <button *ngIf="isModified()" type="submit" mat-raised-button [disabled]="!isInvalid()" class="center" color="primary">Modifier</button>
 </form>
 
 <button type="submit" mat-raised-button mat-dialog-close class="center" color="primary">OK</button>

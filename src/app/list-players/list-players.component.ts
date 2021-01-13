@@ -20,7 +20,8 @@ export class ListPlayersComponent implements OnInit {
     format: null,
     _id: null,
     nom: null,
-    consolante: null
+    consolante: null,
+    age_minimum: null
   };
   @Output() updatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getBinomes: EventEmitter<any> = new EventEmitter();

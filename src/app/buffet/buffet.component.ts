@@ -26,7 +26,7 @@ export class BuffetComponent implements OnInit {
     this.buffetService.getBuffet().subscribe(buffet => this.buffet = buffet);
   }
 
-  buffet_plats_joined(): string {
-    return (this.buffet.plats ? this.buffet.plats.join(', ') : '');
+  platsCookedEmpty(): boolean {
+    return (this.buffet.plats ? this.buffet.plats.length === 0 : false);
   }
 }

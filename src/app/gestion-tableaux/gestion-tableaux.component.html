@@ -24,6 +24,11 @@
         <td mat-cell *matCellDef="let tableau">{{tableau.format | titlecase}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="age_minimum">
+        <th mat-header-cell *matHeaderCellDef>Age requis</th>
+        <td mat-cell *matCellDef="let tableau">{{showAgeMinimum(tableau.age_minimum)}}</td>
+      </ng-container>
+
       <ng-container matColumnDef="consolante">
         <th mat-header-cell *matHeaderCellDef>Consolante</th>
         <td mat-cell *matCellDef="let tableau"><mat-icon *ngIf="tableau.consolante">check_circle_outline</mat-icon></td>

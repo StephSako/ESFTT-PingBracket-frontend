@@ -19,7 +19,8 @@ export class BracketComponent implements OnInit {
     _id: null,
     nom: null,
     format: null,
-    consolante: null
+    consolante: null,
+    age_minimum: null
   };
   spinnerShown: boolean;
   idTableau: string;

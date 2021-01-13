@@ -1,18 +1,14 @@
 <div class="container">
   <mat-card>
 
-    <div fxLayout="row">
-      <div fxFlex="50%" class="center">
-        <h2 class="lobster">Nombre de participants de - de 13 ans : {{buffet.nb_moins_13_ans}}</h2>
-      </div>
+    <h2 class="lobster">Nombre de participants de moins de 13 ans : {{buffet.nb_moins_13_ans}}</h2>
+    <h2 class="lobster">Nombre de participants deplus de 13 ans : {{buffet.nb_plus_13_ans}}</h2>
 
-      <div fxFlex="50%" class="center">
-        <h2 class="lobster">Nombre de participants de <b>+</b> de 13 ans : {{buffet.nb_plus_13_ans}}</h2>
-      </div>
-    </div>
-
-    <h2 class="lobster">Liste des plats confectionnés</h2>
-    <p>{{ buffet_plats_joined() }}</p>
+    <h2 class="lobster">Liste des plats confectionnés :</h2>
+    <mat-chip-list *ngIf="!platsCookedEmpty(); else noPlatsAlreadyCooked">
+      <mat-chip *ngFor="let plat of buffet.plats" color="primary" selected>{{ plat }}</mat-chip>
+    </mat-chip-list>
+    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
   </mat-card>
 
 </div>
