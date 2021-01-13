@@ -123,4 +123,13 @@ export class FormulaireComponent implements OnInit {
   platsAlreadyCookedEmpty(): boolean {
     return (this.platsAlreadyCooked ? this.platsAlreadyCooked.length === 0 : false);
   }
+
+  clickable(tableau: TableauInterface, joueurAge: number): boolean {
+    return tableau.age_minimum !== null && (joueurAge === null || joueurAge < tableau.age_minimum);
+  }
+
+  typing(joueur: JoueurInterface): void {
+    joueur.tableaux = joueur.tableaux.filter(tableau => !(joueur.age < tableau.age_minimum));
+    console.log(joueur.tableaux, joueur.age);
+  }
 }

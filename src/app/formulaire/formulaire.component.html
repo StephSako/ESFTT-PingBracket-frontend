@@ -9,7 +9,7 @@
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
       <div fxLayout="row">
-        <div fxFlex="20%">
+        <div fxFlex="25%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>title</mat-icon>
             <mat-label>Prénom NOM *</mat-label>
@@ -17,7 +17,7 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="20%">
+        <div fxFlex="15%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>bar_chart</mat-icon>
             <mat-label>Classement (si compétiteur)</mat-label>
@@ -25,25 +25,25 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="20%">
+        <div fxFlex="15%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge (si mineur)</mat-label>
-            <input name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="17" matInput>
+            <input (input)="typing(joueurItem)" name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="17" matInput>
           </mat-form-field>
         </div>
 
-        <div fxFlex="20%">
+        <div fxFlex="30%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>dns</mat-icon>
             <mat-label>Tableaux *</mat-label>
             <mat-select name="tableaux" [(ngModel)]="joueurItem.tableaux" multiple>
-              <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
+              <mat-option [disabled]="clickable(tableau, joueurItem.age)" *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <div fxFlex="10%">
+        <div fxFlex="15%">
           <button style="width: 100%; margin-top: 10px" mat-raised-button (click)="removeItem(joueurItem)" class="center" color="warn">Supprimer</button>
         </div>
       </div>
@@ -52,7 +52,7 @@
 
   <form>
     <div fxLayout="row">
-      <div fxFlex="20%">
+      <div fxFlex="25%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>title</mat-icon>
           <mat-label>Prénom NOM *</mat-label>
@@ -60,7 +60,7 @@
         </mat-form-field>
       </div>
 
-      <div fxFlex="20%">
+      <div fxFlex="15%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>bar_chart</mat-icon>
           <mat-label>Classement (si compétiteur)</mat-label>
@@ -68,32 +68,30 @@
         </mat-form-field>
       </div>
 
-      <div fxFlex="20%">
+      <div fxFlex="15%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>today</mat-icon>
           <mat-label>Âge (si mineur)</mat-label>
-          <input name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="17" matInput>
+          <input (input)="typing(joueurData)" name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="17" matInput>
         </mat-form-field>
       </div>
 
-      <div fxFlex="20%">
+      <div fxFlex="30%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>dns</mat-icon>
           <mat-label>Tableaux *</mat-label>
           <mat-select name="tableaux" [(ngModel)]="joueurData.tableaux" multiple>
-            <mat-option *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
+            <mat-option [disabled]="clickable(tableau, joueurData.age)" *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <div fxFlex="10%">
+      <div fxFlex="15%">
         <button style="width: 100%; margin-top: 10px" class="center" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
       </div>
     </div>
 
-  </form>
-
-  <br>
+  </form><br>
 
   <h2 class="lobster">2. Participation au buffet du soir</h2>
   <p style="white-space: pre-wrap;">{{parametres.texte_buffet}}</p>
