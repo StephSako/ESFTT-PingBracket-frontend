@@ -15,7 +15,15 @@ export class FormTableauComponent implements OnInit {
     consolante: null,
     age_minimum: null
   };
-  formats: string[] = ['simple', 'double'];
+  formats = [
+    {
+      label: 'Avec poules',
+      value: 'simple'
+    },
+    {
+      label: 'Sans poules',
+      value: 'double'
+    }];
 
   constructor() { }
 

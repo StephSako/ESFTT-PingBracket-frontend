@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -20,7 +20,8 @@ export class EditJoueurComponent implements OnInit {
 
   reactiveForm = new FormGroup({
     nom: new FormControl(''),
-    classement: new FormControl('')
+    classement: new FormControl(''),
+    age: new FormControl('')
   });
   tableaux: TableauInterface[];
   joueur: JoueurInterface = {
@@ -43,6 +44,7 @@ export class EditJoueurComponent implements OnInit {
     this.reactiveForm.setValue({
       nom: this.joueur.nom,
       classement: this.joueur.classement,
+      age: this.joueur.age
     });
   }
 
@@ -92,6 +94,7 @@ export class EditJoueurComponent implements OnInit {
     });
   }
 
+  // TODO ADD AGE FIELD TO EDIT
   editPlayer(): void {
     const tableauxSimlesToRegenerate = this.joueur.tableaux.filter(tableau => tableau.format === 'simple');
     if (this.joueur.tableaux.length > 0 && (this.reactiveForm.get('classement').value !== this.joueur.classement)) {
@@ -127,14 +130,26 @@ export class EditJoueurComponent implements OnInit {
       }, err => { console.error(err); });
     }
     this.joueur.nom = this.reactiveForm.get('nom').value;
+    this.joueur.age = this.reactiveForm.get('age').value;
     this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
   }
 
   isInscrit(tableaux: TableauInterface[], tableau_id: string): boolean {
     return tableaux.some(tableau => tableau._id === tableau_id);
   }
+
   isModified(): boolean {
     return ((this.reactiveForm.get('nom').value !== this.joueur.nom)
-      || (this.reactiveForm.get('classement').value !== this.joueur.classement));
+      || (this.reactiveForm.get('classement').value !== this.joueur.classement)
+      || (this.reactiveForm.get('age').value !== this.joueur.age));
+  }
+
+  enabled(tableau: TableauInterface): boolean {
+    return (tableau.age_minimum !== null && this.joueur.age !== null && this.joueur.age < tableau.age_minimum)
+      || tableau.age_minimum === null;
+  }
+
+  errorAgeJoueur(tableau: TableauInterface): string {
+    return (this.joueur.age === null ? 'L\'âge du joueur est requis' : 'Le joueur doit avoir moins de ' + tableau.age_minimum + ' ans');
   }
 }

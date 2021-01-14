@@ -130,6 +130,5 @@ export class FormulaireComponent implements OnInit {
 
   typing(joueur: JoueurInterface): void {
     joueur.tableaux = joueur.tableaux.filter(tableau => !(joueur.age <= tableau.age_minimum));
-    console.log(joueur.tableaux, joueur.age);
   }
 }

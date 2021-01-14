@@ -146,66 +146,72 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
   else if (nbQualified > 2){
     nbRounds = 2
     rankOrderer = ORDRE_DEMI
-  } else res.status(500).send("Il n'y a pas assez de joueurs ...")
+  }
 
   try {
-    // On initialise tous les matches du bracket
-    for (let i = nbRounds; i > 0; i--) {
-      let matches = []
-      for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
-        matches.push({
-          id: j,
+    if (nbQualified > 0) {
+      // On initialise tous les matches du bracket
+      for (let i = nbRounds; i > 0; i--) {
+        let matches = []
+        for (let j = 1; j <= NB_MATCHES_ROUND[i]; j++) {
+          matches.push({
+            id: j,
+            round: i,
+            joueurs: []
+          })
+        }
+
+        // On créé le document de la rencontre
+        const tableau = new Bracket({
+          _id: new mongoose.Types.ObjectId(),
+          type: (i !== 1 ? 'Winnerbracket' : 'Final'),
+          objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
+          tableau: req.params.tableau,
           round: i,
-          joueurs: []
+          phase: req.params.phase,
+          matches: matches
         })
+        await tableau.save()
       }
 
-      // On créé le document de la rencontre
-      const tableau = new Bracket({
-        _id: new mongoose.Types.ObjectId(),
-        type: (i !== 1 ? 'Winnerbracket' : 'Final'),
-        objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
+      let qualified = [], id_match = 1
+
+      // On créé la liste des joueur/binômes qualifiés
+      if (req.body.format === 'simple') {
+        for (let i = 0; i < poules.length; i++) {
+          qualified = qualified.concat(poules[i].joueurs.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)))
+        }
+      } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
+
+      // On assigne les matches aux joueurs/binômes
+      for (let i = 0; i < rankOrderer.length; i++) {
+        await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i] - 1 : i)], req.params.tableau, req.params.phase)
+
+        if (i % 2 && i !== 0 && req.body.format === 'simple') id_match++ // On incrémente le n° du match tous les 2 joueurs/binômes
+        else if (req.body.format === 'double') {
+          id_match++
+          if (i === (rankOrderer.length / 2) - 1) id_match = 1
+        }
+      }
+
+      // Si des joueurs sont seuls au premier round, ils sont désignés vainqueur et accèdent au second round
+      let firstRound = await Bracket.findOne({
         tableau: req.params.tableau,
-        round: i,
-        phase: req.params.phase,
-        matches: matches
-      })
-      await tableau.save()
-    }
+        phase: req.params.phase
+      }).sort({round: 'desc'})
+      for (let matche of firstRound.matches) {
+        if (!matche.joueurs[1]._id || !matche.joueurs[0]._id) {
+          let winner_id
+          if (!matche.joueurs[1]._id) winner_id = matche.joueurs[0]._id
+          else if (!matche.joueurs[0]._id) winner_id = matche.joueurs[1]._id
 
-    let qualified = [], id_match = 1
-
-    // On créé la liste des joueur/binômes qualifiés
-    if (req.body.format === 'simple') {
-      for (let i = 0; i < poules.length; i++) {
-        qualified = qualified.concat(poules[i].joueurs.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)))
+          await defineMatchStatusAndWinner(matche.round, req.params.tableau, req.params.phase, matche.id, winner_id)
+        }
       }
-    } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
-    // On assigne les matches aux joueurs/binômes
-    for (let i = 0; i < rankOrderer.length; i++) {
-      await setPlayerSpecificMatch(nbRounds, id_match, qualified[(req.body.format === 'simple' ? rankOrderer[i]-1 : i)], req.params.tableau, req.params.phase)
-
-      if (i % 2 && i !== 0 && req.body.format === 'simple') id_match ++ // On incrémente le n° du match tous les 2 joueurs/binômes
-      else if (req.body.format === 'double') {
-        id_match ++
-        if (i === (rankOrderer.length/2)-1) id_match = 1
-      }
+      res.status(200).json({message: "No error"})
     }
-
-    // Si des joueurs sont seuls au premier round, ils sont désignés vainqueur et accèdent au second round
-    let firstRound = await Bracket.findOne({tableau: req.params.tableau, phase: req.params.phase}).sort({round: 'desc'})
-    for (let matche of firstRound.matches){
-      if (!matche.joueurs[1]._id || !matche.joueurs[0]._id){
-        let winner_id
-        if (!matche.joueurs[1]._id) winner_id = matche.joueurs[0]._id
-        else if (!matche.joueurs[0]._id) winner_id = matche.joueurs[1]._id
-
-        await defineMatchStatusAndWinner(matche.round, req.params.tableau, req.params.phase, matche.id, winner_id)
-      }
-    }
-
-    res.status(200).json({message: "No error"})
+    else res.status(500).json({error: "Il n'y a pas assez de "})
   } catch(err) {
     res.status(500).send({error: err})
   }

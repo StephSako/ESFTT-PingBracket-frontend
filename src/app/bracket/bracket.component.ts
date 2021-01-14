@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { NgttTournament } from 'ng-tournament-tree';
 import { TableauInterface } from '../Interface/Tableau';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NotifyService} from '../Service/notify.service';
 
 @Component({
   selector: 'app-bracket',
@@ -26,7 +28,8 @@ export class BracketComponent implements OnInit {
   idTableau: string;
   public bracket: NgttTournament;
 
-  constructor(private tournoiService: BracketService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private tournoiService: BracketService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog,
+              private snackBar: MatSnackBar, private notifyService: NotifyService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -55,7 +58,8 @@ export class BracketComponent implements OnInit {
         this.tournoiService.generateBracket(this.tableau._id, this.tableau.format, this.phase)
           .subscribe(() => this.getBracket(), (err) => {
             this.spinnerShown = false;
-            console.log(err);
+            this.notifyService.notifyUser(err.error.error +
+              (this.tableau.format === 'simple' ? 'joueurs' : 'binômes complets' ), this.snackBar, 'error', 2000, 'OK');
           });
       }
     });

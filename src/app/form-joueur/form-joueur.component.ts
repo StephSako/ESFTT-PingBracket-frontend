@@ -66,11 +66,19 @@ export class FormJoueurComponent implements OnInit {
     this.joueur.classement = this.otherPlayers.filter(joueur => joueur.nom === event.option.value)[0].classement;
   }
 
-  typing(event): void{
+  typingAutocomplete(event): void{
     this.showAutocomplete = event && event.length > 0;
+  }
+
+  typingAge(): void {
+    this.joueur.tableaux = this.joueur.tableaux.filter(tableau => !(this.joueur.age <= tableau.age_minimum));
   }
 
   compareTableauWithOther(tableau1: TableauInterface, tableau2: TableauInterface): boolean {
     return tableau1 && tableau2 ? tableau1.nom === tableau2.nom : tableau1 === tableau2;
+  }
+
+  clickable(tableau: TableauInterface): boolean {
+    return tableau.age_minimum !== null && (this.joueur.age === null || this.joueur.age < tableau.age_minimum);
   }
 }

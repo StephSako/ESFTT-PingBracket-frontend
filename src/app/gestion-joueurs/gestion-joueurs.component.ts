@@ -16,7 +16,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class GestionJoueursComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'classement', 'tableaux', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'classement', 'age', 'tableaux', 'edit', 'delete'];
   allJoueurs: JoueurInterface[] = [];
 
   public joueur: JoueurInterface = {

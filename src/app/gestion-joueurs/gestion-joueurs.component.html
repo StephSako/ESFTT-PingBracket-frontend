@@ -24,6 +24,11 @@
         <td mat-cell *matCellDef="let joueur">{{joueur.classement}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef>Âge</th>
+        <td mat-cell *matCellDef="let joueur">{{joueur.age}}</td>
+      </ng-container>
+
       <ng-container matColumnDef="tableaux">
         <th mat-header-cell *matHeaderCellDef>Tableaux</th>
         <td mat-cell *matCellDef="let joueur">{{showTableauxPlayer(joueur.tableaux) | titlecase}}</td>
