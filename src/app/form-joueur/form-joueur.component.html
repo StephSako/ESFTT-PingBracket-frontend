@@ -1,10 +1,10 @@
 <div fxLayout="row">
-  <div [fxFlex]="createMode ? '25%' : '50%'">
+  <div [fxFlex]="createMode ? '25%' : '80%'" class="center">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur *</mat-label>
-      <input name="nom" [formControl]="nomControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typingAutocomplete($event)">
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
+      <input name="nom" [formControl]="joueurControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typingAutocomplete($event)">
+      <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" [ngClass]="{'hide-autocomplete': !showAutocomplete}">
           {{joueur.nom}} - {{joueur.classement}} points
         </mat-option>
@@ -12,7 +12,7 @@
     </mat-form-field>
   </div>
 
-  <div [fxFlex]="createMode ? '20%' : '25%'">
+  <div *ngIf="createMode" fxFlex="20%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>
@@ -20,10 +20,10 @@
     </mat-form-field>
   </div>
 
-  <div [fxFlex]="createMode ? '20%' : '25%'">
+  <div *ngIf="createMode" fxFlex="20%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>today</mat-icon>
-      <mat-label>Âge (si mineur)</mat-label>
+      <mat-label>Âge</mat-label>
       <input (input)="typingAge()" name="age" [(ngModel)]="joueur.age" type="number" min="0" max="17" matInput>
     </mat-form-field>
   </div>

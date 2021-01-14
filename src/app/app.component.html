@@ -6,7 +6,7 @@
   <span class="spacer"></span>
   <button mat-raised-button *ngIf="accountService.isLoggedIn()" [color]="isActive('gestion')" routerLink="/gestion">Gestion</button>
   <button mat-raised-button routerLink="/formulaire" [color]="isActive('formulaire')">Formulaire</button>
-  <button mat-raised-button *ngIf="!accountService.isLoggedIn()" [color]="isActive('login')" routerLink="/login">Se connecter</button>
+  <button mat-raised-button *ngIf="!accountService.isLoggedIn()" [color]="isActive('login')" routerLink="/login">Espace privé</button>
   <button mat-raised-button *ngIf="accountService.isLoggedIn()" (click)="accountService.logout()" color="warn">Se déconnecter</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

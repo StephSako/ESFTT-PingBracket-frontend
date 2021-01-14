@@ -44,9 +44,7 @@ export class BracketComponent implements OnInit {
       id: 'true',
       action: 'Regénérer le tableau ?',
       option: null,
-      third_button_text: null,
-      action_button_text: 'Régénérer',
-      third_button: false
+      action_button_text: 'Régénérer'
     };
 
     this.dialog.open(DialogComponent, {
@@ -58,6 +56,7 @@ export class BracketComponent implements OnInit {
         this.tournoiService.generateBracket(this.tableau._id, this.tableau.format, this.phase)
           .subscribe(() => this.getBracket(), (err) => {
             this.spinnerShown = false;
+            this.bracket = null;
             this.notifyService.notifyUser(err.error.error +
               (this.tableau.format === 'simple' ? 'joueurs' : 'binômes complets' ), this.snackBar, 'error', 2000, 'OK');
           });

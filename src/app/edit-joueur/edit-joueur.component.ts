@@ -76,9 +76,7 @@ export class EditJoueurComponent implements OnInit {
       id: tableau._id,
       action: 'Désinscrire le joueur du tableau ?',
       option: null,
-      third_button_text: null,
-      action_button_text: 'Désinscrire',
-      third_button: false
+      action_button_text: 'Désinscrire'
     };
 
     this.dialog.open(DialogComponent, {
@@ -96,42 +94,33 @@ export class EditJoueurComponent implements OnInit {
 
   // TODO ADD AGE FIELD TO EDIT
   editPlayer(): void {
-    const tableauxSimlesToRegenerate = this.joueur.tableaux.filter(tableau => tableau.format === 'simple');
     if (this.joueur.tableaux.length > 0 && (this.reactiveForm.get('classement').value !== this.joueur.classement)) {
+      const tableauxSimlesToRegenerate = this.joueur.tableaux.filter(tableau => tableau.format === 'simple');
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
-        action: 'Le classement ' + ((this.reactiveForm.get('nom').value !== this.joueur.nom) ?
-          'et le nom ont eté modifiés' : 'a été modifié') + '. Régénérer les poules ' +
+        action: 'Le classement a été modifié. Régénérer les poules des tableaux ' +
           tableauxSimlesToRegenerate.map(tableau => tableau.nom[0].toUpperCase() + tableau.nom.slice(1)).join(', ') + ' ?',
         option: null,
-        action_button_text: 'Modifier et régénérer les poules',
-        third_button_text: ((this.reactiveForm.get('nom').value !== this.joueur.nom)
-          ? 'Modifier que le nom et ne pas régénérer les poules' : null),
-        third_button: this.reactiveForm.get('nom').value !== this.joueur.nom
+        action_button_text: 'Modifier et régénérer les poules'
       };
 
       this.dialog.open(DialogComponent, {
         width: '85%',
         data: tableauToDelete
       }).afterClosed().subscribe(id_action => {
-        if (id_action) {
-          if (id_action === true) {
-            this.joueur.nom = this.reactiveForm.get('nom').value;
-            this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
-            this.reactiveForm.get('classement').setValue(this.joueur.classement);
-          } // On change que le nom
-          else if (id_action === this.joueur._id) {
-            this.joueur.nom = this.reactiveForm.get('nom').value;
-            this.joueur.classement = this.reactiveForm.get('classement').value;
-            this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
-            this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau._id));
-          } // On change tout le joueur
+        if (id_action === this.joueur._id) {
+          this.joueur.nom = this.reactiveForm.get('nom').value;
+          this.joueur.classement = this.reactiveForm.get('classement').value;
+          this.joueur.age = this.reactiveForm.get('age').value;
+          this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
+          this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau._id));
         }
       }, err => { console.error(err); });
+    } else {
+      this.joueur.nom = this.reactiveForm.get('nom').value;
+      this.joueur.age = this.reactiveForm.get('age').value;
+      this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
     }
-    this.joueur.nom = this.reactiveForm.get('nom').value;
-    this.joueur.age = this.reactiveForm.get('age').value;
-    this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
   }
 
   isInscrit(tableaux: TableauInterface[], tableau_id: string): boolean {

@@ -26,9 +26,7 @@ export class GestionComponent implements OnInit {
       id: 'true',
       action: 'Remettre le tournoi à zéro ?',
       option: 'Les joueurs, poules, binômes de double, tableaux et plats du buffets seront supprimés.',
-      third_button_text: null,
-      action_button_text: 'Remettre à zéro',
-      third_button: false
+      action_button_text: 'Remettre à zéro'
     };
 
     this.dialog.open(DialogComponent, {

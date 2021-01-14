@@ -72,9 +72,7 @@ export class GestionJoueursComponent implements OnInit {
       id: joueur_id,
       action: 'Supprimer le joueur des participants ?',
       option: 'S\'il est enregistré dans des poules, binômes de double ou tableaux, ils pourraient devenir incohérents et incorrectes. Vous devrez alors les regénérer.',
-      third_button: false,
-      action_button_text: 'Supprimer',
-      third_button_text: null
+      action_button_text: 'Supprimer'
     };
 
     this.dialog.open(DialogComponent, {

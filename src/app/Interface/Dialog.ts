@@ -3,6 +3,4 @@ export interface Dialog {
   action: string;
   action_button_text: string;
   option: string;
-  third_button: boolean;
-  third_button_text: string;
 }
