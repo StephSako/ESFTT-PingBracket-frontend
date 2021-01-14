@@ -1,4 +1,17 @@
 <div class="container">
+
+  <mat-card>
+
+    <h2 class="lobster">Nombre de participants de moins de 13 ans : {{buffet.nb_moins_13_ans}}</h2>
+    <h2 class="lobster">Nombre de participants deplus de 13 ans : {{buffet.nb_plus_13_ans}}</h2>
+
+    <h2 class="lobster">Liste des plats confectionnés :</h2>
+    <mat-chip-list *ngIf="!platsCookedEmpty(); else noPlatsAlreadyCooked">
+      <mat-chip *ngFor="let plat of buffet.plats" color="primary" selected>{{ plat }}</mat-chip>
+    </mat-chip-list>
+    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
+  </mat-card>
+
   <mat-card>
 
     <form (submit)="edit()">
@@ -35,7 +48,7 @@
         <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
       </mat-form-field>
 
-      <button mat-raised-button class="center" color="primary">Sauvergarder</button>
+      <button mat-raised-button class="center" color="primary">Sauvegarder</button>
     </form>
 
   </mat-card>

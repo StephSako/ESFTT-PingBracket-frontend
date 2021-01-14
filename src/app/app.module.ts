@@ -39,14 +39,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BracketComponent } from './bracket/bracket.component';
 import { LoginComponent } from './login/login.component';
-import {AuthGuardService} from './auth-guard.service';
-import {AccountService} from './Service/account.service';
+import { AuthGuardService } from './auth-guard.service';
+import { AccountService } from './Service/account.service';
 import { FormulaireComponent } from './formulaire/formulaire.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { ParametresComponent } from './parametres/parametres.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { BuffetComponent } from './buffet/buffet.component';
 import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
+import { GestionFormulaireComponent } from './gestion-formulaire/gestion-formulaire.component';
 
 @NgModule({
   declarations: [
@@ -67,9 +66,8 @@ import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formula
     BracketComponent,
     LoginComponent,
     FormulaireComponent,
-    ParametresComponent,
-    BuffetComponent,
-    ConfirmFormulaireComponent
+    ConfirmFormulaireComponent,
+    GestionFormulaireComponent
   ],
   imports: [
     BrowserModule,

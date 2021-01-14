@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ParametresService } from '../Service/parametres.service';
-import { ParametreInterface } from '../Interface/Parametre';
-import { NotifyService } from '../Service/notify.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {ParametreInterface} from '../Interface/Parametre';
+import {BuffetInterface} from '../Interface/Buffet';
+import {ParametresService} from '../Service/parametres.service';
+import {NotifyService} from '../Service/notify.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {BuffetService} from '../Service/buffet.service';
 
 @Component({
-  selector: 'app-parametres',
-  templateUrl: './parametres.component.html',
-  styleUrls: ['./parametres.component.scss'],
+  selector: 'app-gestion-formulaire',
+  templateUrl: './gestion-formulaire.component.html',
+  styleUrls: ['./gestion-formulaire.component.scss'],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'fr_FR'},
     {
@@ -20,7 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ]
 })
-export class ParametresComponent implements OnInit {
+export class GestionFormulaireComponent implements OnInit {
 
   parametres: ParametreInterface = {
     texte_debut: null,
@@ -31,12 +33,20 @@ export class ParametresComponent implements OnInit {
     texte_buffet: null
   };
 
+  buffet: BuffetInterface = {
+    _id: null,
+    nb_moins_13_ans: null,
+    nb_plus_13_ans: null,
+    plats: null
+  };
+
   constructor(private adapter: DateAdapter<any>, private parametreService: ParametresService, private notifyService: NotifyService,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar, private buffetService: BuffetService) { }
 
   ngOnInit(): void {
     this.adapter.setLocale('fr');
     this.getParametres();
+    this.getBuffet();
   }
 
   getParametres(): void{
@@ -53,4 +63,13 @@ export class ParametresComponent implements OnInit {
       }
     );
   }
+
+  getBuffet(): void {
+    this.buffetService.getBuffet().subscribe(buffet => this.buffet = buffet);
+  }
+
+  platsCookedEmpty(): boolean {
+    return (this.buffet.plats ? this.buffet.plats.length === 0 : false);
+  }
+
 }
