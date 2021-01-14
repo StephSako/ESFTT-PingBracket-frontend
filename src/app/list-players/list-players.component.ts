@@ -86,6 +86,18 @@ export class ListPlayersComponent implements OnInit {
         }, err =>  console.error(err));
   }
 
+  unsubscribePlayer(joueur_id: string): void {
+    this.joueurService.unsubscribe(this.tableau, joueur_id).subscribe(() => {
+      if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
+      else if (this.tableau.format === 'double') {
+        this.updateUnassignedPlayers.emit(); // Regénérer la liste des joueurs inscrits non assignés
+        this.getBinomes.emit();
+      }
+      this.updateJoueurs();
+      this.updateOtherPlayers();
+    }, err => console.error(err));
+  }
+
   unsubscribe(joueur: JoueurInterface): void {
     const playerToDelete: Dialog = {
       id: joueur._id,
@@ -98,21 +110,29 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: playerToDelete
     }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
-        this.joueurService.unsubscribe(this.tableau, id_joueur).subscribe(() => {
-          if (this.tableau.format === 'simple') { this.updatePoules.emit(); }
-          else if (this.tableau.format === 'double') {
-            this.updateUnassignedPlayers.emit(); // Regénérer la liste des joueurs inscrits non assignés
-            this.getBinomes.emit();
-          }
-          this.updateJoueurs();
-          this.updateOtherPlayers();
-        }, err => console.error(err));
-      }
+      if (id_joueur){ this.unsubscribePlayer(id_joueur); }
     });
   }
 
   isInvalidPlayer(): boolean {
     return (this.joueur.nom !== '' && this.joueur.nom !== null);
+  }
+
+  unsubscribeAll(): void {
+    const playersToDelete: Dialog = {
+      id: 'true',
+      action: 'Désinscrire tous les joueurs du tableau ?',
+      option: null,
+      action_button_text: 'Désinscrire'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '45%',
+      data: playersToDelete
+    }).afterClosed().subscribe(id_joueur => {
+      if (id_joueur){
+        this.listJoueurs.forEach(joueur => { this.unsubscribePlayer(joueur._id); });
+      }
+    });
   }
 }
