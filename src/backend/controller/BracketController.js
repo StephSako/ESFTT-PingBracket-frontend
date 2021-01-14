@@ -11,7 +11,7 @@ const ORDRE_SEIZIEME           = [1, 32, 17, 16, 9, 24, 25, 8, 5, 28, 21, 12, 13
 const ORDRE_HUITIEME           = [1, 16, 9, 8, 5, 12, 13, 4, 3, 14, 11, 6, 7, 10, 15, 2]
 const ORDRE_QUART              = [1, 8, 5, 4, 3, 6, 7, 2]
 const ORDRE_DEMI               = [1, 4, 3, 2]
-const ORDRE_FINALE               = [1, 2]
+const ORDRE_FINALE             = [1, 2]
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
