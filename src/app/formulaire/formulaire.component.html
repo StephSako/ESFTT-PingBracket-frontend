@@ -6,6 +6,9 @@
 
   <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque participant</h2>
 
+  <p class="i">Renseigner le classement du joueur seulement s'il possède une license compétiteur. Laissez le champ vide sinon.</p>
+  <p class="i">Renseigner l'âge du joueur seulement s'il est mineur. Laissez le champ vide sinon.</p>
+
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
       <div fxLayout="row">
@@ -20,7 +23,7 @@
         <div fxFlex="15%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>bar_chart</mat-icon>
-            <mat-label>Classement (si compétiteur)</mat-label>
+            <mat-label>Classement</mat-label>
             <input name="classement" [(ngModel)]="joueurItem.classement" type="number" min="0" max="2000" matInput>
           </mat-form-field>
         </div>
@@ -28,7 +31,7 @@
         <div fxFlex="15%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
-            <mat-label>Âge (si mineur)</mat-label>
+            <mat-label>Âge</mat-label>
             <input (input)="typing(joueurItem)" name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="17" matInput>
           </mat-form-field>
         </div>
@@ -63,7 +66,7 @@
       <div fxFlex="15%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>bar_chart</mat-icon>
-          <mat-label>Classement (si compétiteur)</mat-label>
+          <mat-label>Classement</mat-label>
           <input name="classement" [(ngModel)]="joueurData.classement" type="number" min="0" max="2000" matInput>
         </mat-form-field>
       </div>
@@ -71,7 +74,7 @@
       <div fxFlex="15%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>today</mat-icon>
-          <mat-label>Âge (si mineur)</mat-label>
+          <mat-label>Âge</mat-label>
           <input (input)="typing(joueurData)" name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="17" matInput>
         </mat-form-field>
       </div>
@@ -95,22 +98,19 @@
 
   <h2 class="lobster">2. Participation au buffet du soir</h2>
   <p style="white-space: pre-wrap;">{{parametres.texte_buffet}}</p>
-  <br>
 
-  <div fxLayout="row">
-    <div fxFlex="50%">
-      <h3 class="lobster">Nombre de participants au buffet de moins de 13 ans</h3>
-      <mat-form-field appearance="outline">
-        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_moins_13_ans" name="nb_moins_13_ans">
-      </mat-form-field>
-    </div>
+  <div>
+    <h3 style="display: inline-block" class="lobster">Nombre de participants <u>au buffet</u> de moins de 13 ans</h3>
+    <mat-form-field style="display: inline-block; margin-left: 10px;" class="shorten" appearance="outline">
+      <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_moins_13_ans" name="nb_moins_13_ans">
+    </mat-form-field>
+  </div>
 
-    <div fxFlex="50%">
-      <h3 class="lobster">Nombre de participants au buffet de plus de 13 ans</h3>
-      <mat-form-field appearance="outline">
-        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_plus_13_ans" name="nb_plus_13_ans">
-      </mat-form-field>
-    </div>
+  <div>
+    <h3 style="display: inline-block" class="lobster">Nombre de participants <u>au buffet</u> de plus de 13 ans</h3>
+    <mat-form-field style="display: inline-block; margin-left: 10px;" class="shorten" appearance="outline">
+      <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_plus_13_ans" name="nb_plus_13_ans">
+    </mat-form-field>
   </div>
 
   <h3 class="lobster">Plat(s) confectionné(s)</h3>
