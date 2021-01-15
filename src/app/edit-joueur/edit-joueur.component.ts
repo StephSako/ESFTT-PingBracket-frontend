@@ -94,7 +94,7 @@ export class EditJoueurComponent implements OnInit {
 
   editPlayer(): void {
     if (this.joueur.tableaux.filter(tableau => tableau.format === 'simple').length > 0
-      && (this.reactiveForm.get('classement').value !== this.joueur.classement)) {
+      && (this.joueur.classement !== this.joueur.classement)) {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
         action: 'Le classement a été modifié. Régénérer les poules des tableaux ' +
@@ -119,8 +119,8 @@ export class EditJoueurComponent implements OnInit {
     }
     else if (this.joueur.tableaux.filter(tableau => (
       tableau.age_minimum !== null
-      && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum))).length > 0
-      && (this.reactiveForm.get('age').value !== this.joueur.age)) {
+      && (this.joueur.age === null || this.joueur.age >= tableau.age_minimum))).length > 0
+      && (this.joueur.age !== this.joueur.age)) {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
         action: 'L\'âge a été modifié. Désinscrire le joueur et régénérer les poules des tableaux ' + this.joueur.tableaux.filter(

@@ -32,7 +32,7 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge</mat-label>
-            <input (input)="typing(joueurItem)" name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="17" matInput>
+            <input (input)="typing(joueurItem)" name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="99" matInput>
           </mat-form-field>
         </div>
 
@@ -75,7 +75,7 @@
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>today</mat-icon>
           <mat-label>Âge</mat-label>
-          <input (input)="typing(joueurData)" name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="17" matInput>
+          <input (input)="typing(joueurData)" name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="99" matInput>
         </mat-form-field>
       </div>
 
