@@ -66,7 +66,12 @@ export class EditJoueurComponent implements OnInit {
 
   subscribe(tableau: TableauInterface): void {
     this.joueurService.create([tableau], this.joueur).subscribe(() => {
-      this.getJoueur();
+      this.joueur.tableaux.push(tableau);
+      this.joueur.tableaux.sort((tableau1, tableau2) => {
+        if (tableau1.nom < tableau2.nom) { return -1; }
+        if (tableau1.nom > tableau2.nom) { return 1; }
+        return 0;
+      });
       this.generatePoules(tableau._id);
     }, err => console.error(err));
   }
@@ -85,7 +90,7 @@ export class EditJoueurComponent implements OnInit {
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){
         this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
-          this.getJoueur();
+          this.joueur.tableaux = this.joueur.tableaux.filter(tableauFilter => tableauFilter._id !== id_tableau );
           this.generatePoules(tableau._id);
         }, err => { console.error(err); });
       }
@@ -94,7 +99,7 @@ export class EditJoueurComponent implements OnInit {
 
   editPlayer(): void {
     if (this.joueur.tableaux.filter(tableau => tableau.format === 'simple').length > 0
-      && (this.joueur.classement !== this.joueur.classement)) {
+      && (this.reactiveForm.get('classement').value !== this.joueur.classement)) {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
         action: 'Le classement a été modifié. Régénérer les poules des tableaux ' +
@@ -119,8 +124,8 @@ export class EditJoueurComponent implements OnInit {
     }
     else if (this.joueur.tableaux.filter(tableau => (
       tableau.age_minimum !== null
-      && (this.joueur.age === null || this.joueur.age >= tableau.age_minimum))).length > 0
-      && (this.joueur.age !== this.joueur.age)) {
+      && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum))).length > 0
+      && (this.reactiveForm.get('age').value !== this.joueur.age)) {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
         action: 'L\'âge a été modifié. Désinscrire le joueur et régénérer les poules des tableaux ' + this.joueur.tableaux.filter(
@@ -142,7 +147,9 @@ export class EditJoueurComponent implements OnInit {
             && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
             .forEach(tableau => {
             this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
-              this.getJoueur();
+              this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableau => (
+                tableau.age_minimum !== null && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value
+                >= tableau.age_minimum))).includes(value));
               this.generatePoules(tableau._id);
             }, err => { console.error(err); });
           });
