@@ -39,8 +39,8 @@
         </div>
         <div fxFlex="50%" class="center">
           <div *ngIf="enabled(tableau); else ageRequis">
-            <button (click)="subscribe(tableau)" mat-raised-button style="color: green" *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
-            <button (click)="unsubscribe(tableau)" mat-raised-button style="color: red" *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
+            <button [disabled]="ageModifying()" (click)="subscribe(tableau)" mat-raised-button style="color: green" *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
+            <button [disabled]="ageModifying()" (click)="unsubscribe(tableau)" mat-raised-button style="color: red" *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
           </div>
           <ng-template #ageRequis>
             <p class="error_message">{{ errorAgeJoueur(tableau) }}</p>

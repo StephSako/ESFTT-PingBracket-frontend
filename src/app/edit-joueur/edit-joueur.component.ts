@@ -147,9 +147,9 @@ export class EditJoueurComponent implements OnInit {
             && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
             .forEach(tableau => {
             this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
-              this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableau => (
-                tableau.age_minimum !== null && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value
-                >= tableau.age_minimum))).includes(value));
+              this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableauFiltered => (
+                tableauFiltered.age_minimum !== null && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value
+                >= tableauFiltered.age_minimum))).includes(value));
               this.generatePoules(tableau._id);
             }, err => { console.error(err); });
           });
@@ -168,9 +168,15 @@ export class EditJoueurComponent implements OnInit {
   }
 
   isModified(): boolean {
-    return ((this.reactiveForm.get('nom').value !== this.joueur.nom)
-      || (this.reactiveForm.get('classement').value !== this.joueur.classement)
-      || (this.reactiveForm.get('age').value !== this.joueur.age));
+    return ((this.reactiveForm.get('nom').value !== this.joueur.nom) || this.classementModifying() || this.ageModifying());
+  }
+
+  classementModifying(): boolean {
+    return this.reactiveForm.get('classement').value !== this.joueur.classement;
+  }
+
+  ageModifying(): boolean {
+    return this.reactiveForm.get('age').value !== this.joueur.age;
   }
 
   enabled(tableau: TableauInterface): boolean {
