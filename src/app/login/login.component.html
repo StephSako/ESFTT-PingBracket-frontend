@@ -1,30 +1,31 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="center">
     <h1 class="lobster center">Se connecter</h1>
 
     <form (submit)="login()">
+      <div fxLayout="row">
+        <div fxFlex="50%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>account_circle</mat-icon>
+            <mat-label>Username</mat-label>
+            <input [(ngModel)]="credentials.username" name="login_user" matInput [formControl]="loginControl" required>
+            <mat-error *ngIf="loginControl.invalid">{{getErrorMessageLogin()}}</mat-error>
+          </mat-form-field>
+        </div>
 
-      <p>
-        <mat-form-field appearance="outline" class="center">
-          <mat-icon matSuffix>account_circle</mat-icon>
-          <mat-label>Username</mat-label>
-          <input [(ngModel)]="credentials.username" name="login_user" matInput [formControl]="loginControl" required>
-          <mat-error *ngIf="loginControl.invalid">{{getErrorMessageLogin()}}</mat-error>
-        </mat-form-field>
-      </p>
-
-      <p>
-        <mat-form-field appearance="outline" class="center">
-          <mat-icon matSuffix>vpn_key</mat-icon>
-          <mat-label>Mot de passe</mat-label>
-          <input [(ngModel)]="credentials.password" name="password_user" type="password" matInput [formControl]="passwordControl" required>
-          <mat-error *ngIf="passwordControl.invalid">{{getErrorMessagePassword()}}</mat-error>
-        </mat-form-field>
-      </p>
+        <div fxFlex="50%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>vpn_key</mat-icon>
+            <mat-label>Mot de passe</mat-label>
+            <input [(ngModel)]="credentials.password" name="password_user" type="password" matInput [formControl]="passwordControl" required>
+            <mat-error *ngIf="passwordControl.invalid">{{getErrorMessagePassword()}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
 
       <button class="center" mat-raised-button color="primary">
         <mat-icon *ngIf="spinnerShown">
-          <mat-spinner [diameter]="20"></mat-spinner>
+          <mat-spinner color="accent" [diameter]="20"></mat-spinner>
         </mat-icon>
         C'est parti !
       </button>

@@ -2,6 +2,8 @@
 
   <mat-card>
 
+    <h2 class="lobster center">Buffet</h2>
+
     <h3>Nombre de participants de moins de 13 ans : {{buffet.nb_moins_13_ans}}</h3>
     <h3>Nombre de participants deplus de 13 ans : {{buffet.nb_plus_13_ans}}</h3>
 
@@ -35,17 +37,17 @@
 
       <h2 class="lobster">Texte de présentation</h2>
       <mat-form-field>
-        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [(ngModel)]="parametres.texte_debut" name="texte_debut"></textarea>
+        <textarea cdkTextareaAutosize matInput [(ngModel)]="parametres.texte_debut" name="texte_debut"></textarea>
       </mat-form-field>
 
       <h2 class="lobster">Texte du buffet</h2>
       <mat-form-field>
-        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [(ngModel)]="parametres.texte_buffet" name="texte_buffet"></textarea>
+        <textarea cdkTextareaAutosize matInput [(ngModel)]="parametres.texte_buffet" name="texte_buffet"></textarea>
       </mat-form-field>
 
       <h2 class="lobster">Texte de fin</h2>
       <mat-form-field>
-        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
+        <textarea cdkTextareaAutosize matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
       </mat-form-field>
 
       <button mat-raised-button class="center" color="primary">Sauvegarder</button>
