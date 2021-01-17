@@ -1,19 +1,19 @@
 <div class="container">
   <mat-card class="center">
-    <h1 class="lobster center">Se connecter</h1>
+    <h1 class="lobster center">Se connecter à l'espace privé</h1>
 
     <form (submit)="login()">
-      <div fxLayout="row">
-        <div fxFlex="50%">
+      <div fxLayout="row" fxLayout.lt-md="column">
+        <div fxFlex="50%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>account_circle</mat-icon>
-            <mat-label>Username</mat-label>
+            <mat-label>Pseudo</mat-label>
             <input [(ngModel)]="credentials.username" name="login_user" matInput [formControl]="loginControl" required>
             <mat-error *ngIf="loginControl.invalid">{{getErrorMessageLogin()}}</mat-error>
           </mat-form-field>
         </div>
 
-        <div fxFlex="50%">
+        <div fxFlex="50%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>vpn_key</mat-icon>
             <mat-label>Mot de passe</mat-label>

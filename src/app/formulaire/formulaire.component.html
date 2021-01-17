@@ -11,8 +11,8 @@
 
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
-      <div fxLayout="row">
-        <div fxFlex="25%">
+      <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+        <div fxFlex="25%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>title</mat-icon>
             <mat-label>Prénom NOM *</mat-label>
@@ -20,7 +20,7 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="15%">
+        <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>bar_chart</mat-icon>
             <mat-label>Classement</mat-label>
@@ -28,7 +28,7 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="15%">
+        <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge</mat-label>
@@ -36,7 +36,7 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="30%">
+        <div fxFlex="30%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>dns</mat-icon>
             <mat-label>Tableaux *</mat-label>
@@ -46,16 +46,16 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="15%">
-          <button style="width: 100%; margin-top: 10px" mat-raised-button (click)="removeItem(joueurItem)" class="center" color="warn">Supprimer</button>
+        <div fxFlex="15%" fxFlex.lt-md="100%">
+          <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Supprimer</button>
         </div>
       </div>
     </form>
   </div>
 
   <form>
-    <div fxLayout="row">
-      <div fxFlex="25%">
+    <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+      <div fxFlex="25%" fxFlex.lt-md="100%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>title</mat-icon>
           <mat-label>Prénom NOM *</mat-label>
@@ -63,7 +63,7 @@
         </mat-form-field>
       </div>
 
-      <div fxFlex="15%">
+      <div fxFlex="15%" fxFlex.lt-md="100%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>bar_chart</mat-icon>
           <mat-label>Classement</mat-label>
@@ -71,7 +71,7 @@
         </mat-form-field>
       </div>
 
-      <div fxFlex="15%">
+      <div fxFlex="15%" fxFlex.lt-md="100%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>today</mat-icon>
           <mat-label>Âge</mat-label>
@@ -79,7 +79,7 @@
         </mat-form-field>
       </div>
 
-      <div fxFlex="30%">
+      <div fxFlex="30%" fxFlex.lt-md="100%">
         <mat-form-field appearance="outline" class="center">
           <mat-icon matSuffix>dns</mat-icon>
           <mat-label>Tableaux *</mat-label>
@@ -89,8 +89,8 @@
         </mat-form-field>
       </div>
 
-      <div fxFlex="15%">
-        <button style="width: 100%; margin-top: 10px" class="center" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
+      <div fxFlex="15%" fxFlex.lt-md="100%">
+        <button class="center btn_action" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
       </div>
     </div>
 
