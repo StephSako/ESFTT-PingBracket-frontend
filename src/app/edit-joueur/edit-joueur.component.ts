@@ -98,14 +98,20 @@ export class EditJoueurComponent implements OnInit {
   }
 
   editPlayer(): void {
-    if (this.joueur.tableaux.filter(tableau => tableau.format === 'simple').length > 0
-      && (this.reactiveForm.get('classement').value !== this.joueur.classement)) {
+    const classementEdited = this.joueur.tableaux.filter(tableau => tableau.format === 'simple').length > 0
+      && (this.reactiveForm.get('classement').value !== this.joueur.classement);
+    const ageEdited = this.joueur.tableaux.filter(tableau => (
+      tableau.age_minimum !== null
+      && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum))).length > 0
+      && (this.reactiveForm.get('age').value !== this.joueur.age);
+
+    if (classementEdited) {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
-        action: 'Le classement a été modifié. Régénérer les poules des tableaux ' +
+        action: 'Le classement a été modifié.',
+        option: 'Régénérer les poules des tableaux ' +
           this.joueur.tableaux.filter(tableau => tableau.format === 'simple').map(
             tableau => tableau.nom[0].toUpperCase() + tableau.nom.slice(1)).join(', ') + ' ?',
-        option: null,
         action_button_text: 'Modifier le joueur et régénérer les poules'
       };
 
@@ -122,15 +128,12 @@ export class EditJoueurComponent implements OnInit {
         }
       }, err => { console.error(err); });
     }
-    else if (this.joueur.tableaux.filter(tableau => (
-      tableau.age_minimum !== null
-      && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum))).length > 0
-      && (this.reactiveForm.get('age').value !== this.joueur.age)) {
+    if (ageEdited) {
       const tableauToDelete: Dialog = {
         id: this.joueur._id,
-        action: 'L\'âge a été modifié. Désinscrire le joueur et régénérer les poules des tableaux ' + this.joueur.tableaux.filter(
+        action: 'L\'âge a été modifié.',
+        option: 'Désinscrire le joueur et régénérer les poules des tableaux ' + this.joueur.tableaux.filter(
           tableau => tableau.age_minimum !== null).map(tableau => tableau.nom[0].toUpperCase() + tableau.nom.slice(1)).join(', ') + ' ?',
-        option: null,
         action_button_text: 'Modifier le joueur et régénérer les poules'
       };
 
@@ -155,7 +158,7 @@ export class EditJoueurComponent implements OnInit {
           });
         }
       }, err => { console.error(err); });
-    } else {
+    } else if (!ageEdited && !classementEdited) {
       this.joueur.nom = this.reactiveForm.get('nom').value;
       this.joueur.classement = this.reactiveForm.get('classement').value;
       this.joueur.age = this.reactiveForm.get('age').value;
