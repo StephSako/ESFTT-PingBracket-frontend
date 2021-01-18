@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableauInterface } from '../Interface/Tableau';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import {PoulesService} from '../Service/poules.service';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -24,11 +25,11 @@ export class GestionJoueursComponent implements OnInit {
     age: null,
     classement: null,
     _id: null,
-    tableaux: null
+    tableaux: []
   };
 
   constructor(private joueurService: JoueurService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private poulesService: PoulesService) { }
 
   ngOnInit(): void {
     this.getAllJoueurs();
@@ -40,21 +41,30 @@ export class GestionJoueursComponent implements OnInit {
     });
   }
 
+  generatePoules(): void {
+    this.joueur.tableaux.forEach(tableau => {
+      if (tableau.poules) {
+        console.log(tableau.nom);
+        this.poulesService.generatePoules(tableau._id).subscribe(() => {}, err => {
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        });
+      }
+    });
+  }
+
   create(): void {
     this.joueurService.create(
       this.joueur.tableaux, this.joueur).subscribe(() => {
+        this.getAllJoueurs();
+        this.generatePoules();
+        this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
         this.joueur = {
           classement : null,
           nom : null,
           age: null,
           _id : null,
-          tableaux: null
-        };
-        this.getAllJoueurs();
-        this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
-      }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
+          tableaux: []
+        }; }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
   }
 
   openEditDialog(joueur: JoueurInterface): void {

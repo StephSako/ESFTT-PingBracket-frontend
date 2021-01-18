@@ -74,7 +74,8 @@ export class FormJoueurComponent implements OnInit {
   }
 
   typingAge(): void {
-    this.joueur.tableaux = this.joueur.tableaux.filter(tableau => !(this.joueur.age <= tableau.age_minimum));
+    this.joueur.tableaux = this.joueur.tableaux.filter(tableau =>
+      !(this.joueur.age <= tableau.age_minimum && tableau.age_minimum !== null));
   }
 
   compareTableauWithOther(tableau1: TableauInterface, tableau2: TableauInterface): boolean {
