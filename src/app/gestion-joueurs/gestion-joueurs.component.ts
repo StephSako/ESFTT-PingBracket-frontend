@@ -41,8 +41,8 @@ export class GestionJoueursComponent implements OnInit {
     });
   }
 
-  generatePoules(): void {
-    this.joueur.tableaux.forEach(tableau => {
+  generatePoules(tableaux: TableauInterface[]): void {
+    tableaux.forEach(tableau => {
       if (tableau.poules) {
         console.log(tableau.nom);
         this.poulesService.generatePoules(tableau._id).subscribe(() => {}, err => {
@@ -56,7 +56,7 @@ export class GestionJoueursComponent implements OnInit {
     this.joueurService.create(
       this.joueur.tableaux, this.joueur).subscribe(() => {
         this.getAllJoueurs();
-        this.generatePoules();
+        this.generatePoules(this.joueur.tableaux);
         this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
         this.joueur = {
           classement : null,
@@ -77,11 +77,11 @@ export class GestionJoueursComponent implements OnInit {
     });
   }
 
-  delete(joueur_id: string): void {
+  delete(joueur: JoueurInterface): void {
     const playerToDelete: Dialog = {
-      id: joueur_id,
-      action: 'Supprimer le joueur des participants ?',
-      option: 'S\'il est enregistré dans des poules, binômes de double ou tableaux, ils pourraient devenir incohérents et incorrectes. Vous devrez alors les regénérer.',
+      id: joueur._id,
+      action: 'Supprimer le joueur ?',
+      option: 'Les poules seront régénérées dans les tableaux auxquels il est inscrit. Régénérer manuellement les tableaux finaux.',
       action_button_text: 'Supprimer'
     };
 
@@ -89,9 +89,12 @@ export class GestionJoueursComponent implements OnInit {
       width: '55%',
       data: playerToDelete
     }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
-        this.joueurService.delete(id_joueur).subscribe(() => this.getAllJoueurs(), err => console.error(err));
-      }
+      if (id_joueur){ this.joueurService.delete(id_joueur).subscribe(() => {
+        this.getAllJoueurs();
+        this.generatePoules(joueur.tableaux);
+      }, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      }); }
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
