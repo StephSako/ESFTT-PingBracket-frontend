@@ -8,6 +8,8 @@ import { TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
 import { JoueurService } from '../Service/joueur.service';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
 
 @Component({
   selector: 'app-form-joueur',
@@ -33,7 +35,7 @@ export class FormJoueurComponent implements OnInit {
   showAutocomplete = false;
 
   constructor(private route: ActivatedRoute, private gestionService: TableauService, private joueurService: JoueurService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -56,11 +58,15 @@ export class FormJoueurComponent implements OnInit {
   }
 
   getAllTableaux(): void{
-    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux);
+    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   getJoueur(): void{
-    this.joueurService.getPlayer(this.joueur._id).subscribe(joueur => this.joueur = joueur);
+    this.joueurService.getPlayer(this.joueur._id).subscribe(joueur => this.joueur = joueur, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   typingAutocomplete(event): void{

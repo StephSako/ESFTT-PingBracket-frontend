@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {TableauService} from '../Service/tableau.service';
 import {TableauInterface} from '../Interface/Tableau';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NotifyService} from '../Service/notify.service';
 
 @Component({
   selector: 'app-tableau',
@@ -19,7 +21,8 @@ export class TableauComponent implements OnInit {
     age_minimum: null
   };
 
-  constructor(private gestionService: TableauService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private gestionService: TableauService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar,
+              private notifyService: NotifyService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -29,6 +32,8 @@ export class TableauComponent implements OnInit {
   }
 
   getTableau(): void {
-    this.gestionService.getTableau(this.idTableau).subscribe(tableau => this.tableau = tableau);
+    this.gestionService.getTableau(this.idTableau).subscribe(tableau => this.tableau = tableau, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 }

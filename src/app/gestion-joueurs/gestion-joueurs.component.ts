@@ -35,7 +35,9 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   getAllJoueurs(): void {
-    this.joueurService.getAllPlayers().subscribe(joueurs => this.allJoueurs = joueurs);
+    this.joueurService.getAllPlayers().subscribe(joueurs => this.allJoueurs = joueurs, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   create(): void {
@@ -50,11 +52,9 @@ export class GestionJoueursComponent implements OnInit {
         };
         this.getAllJoueurs();
         this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
-      },
-      err => {
-        console.error(err);
-      }
-    );
+      }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   openEditDialog(joueur: JoueurInterface): void {
@@ -82,6 +82,8 @@ export class GestionJoueursComponent implements OnInit {
       if (id_joueur){
         this.joueurService.delete(id_joueur).subscribe(() => this.getAllJoueurs(), err => console.error(err));
       }
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

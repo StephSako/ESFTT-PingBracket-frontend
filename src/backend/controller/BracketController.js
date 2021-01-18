@@ -90,7 +90,7 @@ router.route("/:tableau/:phase").get(function(req, res) {
   Bracket.find({tableau: req.params.tableau, phase: req.params.phase}).populate('tableau').populate({
     path: 'matches.joueurs._id',
     populate: { path: 'joueurs' }
-  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.send(err))
+  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.status(500).send('Impossible de récupérer le bracket'))
 });
 
 // SET WINNER
@@ -101,11 +101,11 @@ router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req
 
     // S'il s'agit des demies-finale, on assigne les perdants en petite finale
     if (Number(req.params.id_round) === 2 && req.body.looserId){
-        await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau, req.params.phase).catch(err => console.log(err))
+        await setPlayerSpecificMatch(1, 2, req.body.looserId, req.params.tableau, req.params.phase)
     }
     res.status(200).json({message: 'OK'})
   } catch(err) {
-    res.status(500).json({error: err})
+    res.status(500).send('Impossible d\'assigner le gagnant')
   }
 });
 
@@ -216,9 +216,9 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
 
       res.status(200).json({message: "No error"})
     }
-    else res.status(500).json({error: "Il n'y a pas assez de "})
-  } catch(err) {
-    res.status(500).json({error: err})
+    else res.status(500).send('Il n\'y a pas assez de ')
+  } catch(e) {
+    res.status(500).send('Impossible de générer le bracket')
   }
 });
 

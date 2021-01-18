@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BracketService } from '../Service/bracket.service';
 import { TableauInterface } from '../Interface/Tableau';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
 
 @Component({
   selector: 'app-match',
@@ -20,7 +22,7 @@ export class MatchComponent implements OnInit {
     age_minimum: null
   };
 
-  constructor(private tournoiService: BracketService) { }
+  constructor(private tournoiService: BracketService, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
 
   ngOnInit(): void {}
 
@@ -29,7 +31,9 @@ export class MatchComponent implements OnInit {
       const looserId = (match.joueurs.length === 2 && (match.joueurs[0]._id && match.joueurs[1]._id) ?
         match.joueurs.filter(joueur => joueur._id._id !== winnerId)[0]._id._id : null);
       this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId, this.phase)
-        .subscribe(() => this.updateBracket.emit());
+        .subscribe(() => this.updateBracket.emit(), err => {
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        });
     }
   }
 

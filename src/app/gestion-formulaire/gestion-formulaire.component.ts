@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import {ParametreInterface} from '../Interface/Parametre';
-import {BuffetInterface} from '../Interface/Buffet';
-import {ParametresService} from '../Service/parametres.service';
-import {NotifyService} from '../Service/notify.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {BuffetService} from '../Service/buffet.service';
+import { ParametreInterface } from '../Interface/Parametre';
+import { BuffetInterface } from '../Interface/Buffet';
+import { ParametresService } from '../Service/parametres.service';
+import { NotifyService } from '../Service/notify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BuffetService } from '../Service/buffet.service';
 
 @Component({
   selector: 'app-gestion-formulaire',
@@ -50,22 +50,24 @@ export class GestionFormulaireComponent implements OnInit {
   }
 
   getParametres(): void{
-    this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres);
+    this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   edit(): void {
     this.parametreService.edit(this.parametres).subscribe(
       message => {
         this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
-      },
-      err => {
-        this.notifyService.notifyUser(err.message, this.snackBar, 'error', 2000, 'OK');
-      }
-    );
+      }, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      });
   }
 
   getBuffet(): void {
-    this.buffetService.getBuffet().subscribe(buffet => this.buffet = buffet);
+    this.buffetService.getBuffet().subscribe(buffet => this.buffet = buffet, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   platsCookedEmpty(): boolean {

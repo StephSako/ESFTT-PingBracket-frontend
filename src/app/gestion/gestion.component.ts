@@ -39,7 +39,7 @@ export class GestionComponent implements OnInit {
             this.gestion_joueur.getAllJoueurs();
             this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2500, 'OK');
           }, err => {
-            this.notifyService.notifyUser(err.message, this.snackBar, 'error', 2500, 'OK');
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
       }
     });

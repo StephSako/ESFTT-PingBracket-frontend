@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 // ALL POULES
 router.route("/:tableau").get(function(req, res) {
-  Poule.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
+  Poule.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule du tableau'))
 });
 
 // UPDATE SPECIFIC POULE
@@ -15,7 +15,7 @@ router.route("/edit/simple/:id_poule").put(function(req, res) {
     $set: {
       joueurs: req.body
     }
-  }).then(() => res.json({message: "La poule a été mise à jour"})).catch(err => res.send(err))
+  }).then(() => res.json({message: "La poule a été mise à jour"})).catch(() => res.status(500).send('Impossible de modifier la poule'))
 });
 
 // UPDATE SPECIFIC DOUBLE BINOME
@@ -32,9 +32,9 @@ router.route("/edit/binome/:idJoueur").put(async function(req, res) {
         }
       })
     }
-    res.status(200).json({message: 'OK, no error'})
+    res.status(200).json({message: 'La poule a été mise à jour'})
   } catch (e) {
-    res.status(500).send(e)
+    res.status(500).send('Impossible de modifier la poule')
   }
 });
 
@@ -87,9 +87,9 @@ router.route("/generate/:tableau").put(async function(req, res) {
     }
   }
   catch (err) {
-    res.status(500).json(err)
+    res.status(500).send('Impossible de générer la poule')
   }
-  Poule.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(err => res.send(err))
+  Poule.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').populate('joueurs.tableaux').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
 });
 
 // UPDATE POULE STATUS
@@ -98,12 +98,12 @@ router.route("/editStatus/:id_poule").put(function(req, res) {
     $set: {
       locked: req.body.locked
     }
-  }).then(() => res.json({message: "Le status de la poule a été mis à jour"})).catch(err => res.send(err))
+  }).then(() => res.json({message: "Le status de la poule a été mis à jour"})).catch(() => res.status(500).send('Impossible de modifier le statut de la poule'))
 });
 
 // REMOVE PLAYER FROM BINOME WHEN DOUBLE CLICKING
 router.route("/remove/from/binome/:id_poule/:id_player").delete(function(req, res) {
-  Poule.updateOne({ _id: req.params.id_poule}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).then(() => res.json({message: "Joueur dissocié"})).catch(err => res.send(err))
+  Poule.updateOne({ _id: req.params.id_poule}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).then(() => res.json({message: "Joueur dissocié"})).catch(() => res.status(500).send('Impossible de dissocier le joueur du binôme après double-click'))
 });
 
 module.exports = router

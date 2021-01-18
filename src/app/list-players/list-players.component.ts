@@ -7,6 +7,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { PoulesService } from '../Service/poules.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
 
 @Component({
   selector: 'app-list-players',
@@ -39,7 +41,7 @@ export class ListPlayersComponent implements OnInit {
   };
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -57,18 +59,19 @@ export class ListPlayersComponent implements OnInit {
   }
 
   updateJoueurs(): void {
-    this.joueurService.getTableauPlayers(this.idTableau).subscribe(joueurs => this.listJoueurs = joueurs);
+    this.joueurService.getTableauPlayers(this.idTableau).subscribe(joueurs => this.listJoueurs = joueurs, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   updateOtherPlayers(): void {
-    this.joueurService.getOtherPlayer(this.idTableau).subscribe(joueurs => {
-      this.otherPlayers = joueurs;
+    this.joueurService.getOtherPlayer(this.idTableau).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   subscribe(): void {
-    this.joueurService.create([this.tableau], this.joueur)
-      .subscribe(() => {
+    this.joueurService.create([this.tableau], this.joueur).subscribe(() => {
           this.joueur = {
             classement : null,
             age : null,
@@ -83,7 +86,9 @@ export class ListPlayersComponent implements OnInit {
           }
           this.updateJoueurs();
           this.updateOtherPlayers();
-        }, err =>  console.error(err));
+        }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   unsubscribePlayer(joueur_id: string): void {
@@ -95,7 +100,9 @@ export class ListPlayersComponent implements OnInit {
       }
       this.updateJoueurs();
       this.updateOtherPlayers();
-    }, err => console.error(err));
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   unsubscribe(joueur: JoueurInterface): void {

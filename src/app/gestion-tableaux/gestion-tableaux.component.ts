@@ -32,12 +32,13 @@ export class GestionTableauxComponent implements OnInit {
   }
 
   getAllTableaux(): void {
-    this.gestionService.getAll().subscribe(allTableaux => this.allTableaux = allTableaux);
+    this.gestionService.getAll().subscribe(allTableaux => this.allTableaux = allTableaux, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   create(): void {
-    this.gestionService.create(this.tableau)
-      .subscribe(() => {
+    this.gestionService.create(this.tableau).subscribe(() => {
           this.tableau = {
             format : null,
             nom : null,
@@ -47,11 +48,9 @@ export class GestionTableauxComponent implements OnInit {
           };
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');
-        },
-        err => {
-          console.error(err);
-        }
-      );
+        }, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      });
   }
 
   edit(tableau: TableauInterface): void {
@@ -62,8 +61,12 @@ export class GestionTableauxComponent implements OnInit {
       if (id_tableau){
         this.gestionService.edit(tableau).subscribe(() => {
           this.getAllTableaux();
-        }, err => { console.error(err); });
+        }, err => {
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        });
       }
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

@@ -9,6 +9,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { JoueurService } from '../Service/joueur.service';
 import { PoulesService } from '../Service/poules.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
 
 @Component({
   selector: 'app-edit-joueur',
@@ -34,7 +36,8 @@ export class EditJoueurComponent implements OnInit {
   createModeInput = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data, private route: ActivatedRoute, private gestionService: TableauService,
-              private joueurService: JoueurService, public dialog: MatDialog, private pouleService: PoulesService) {
+              private joueurService: JoueurService, public dialog: MatDialog, private pouleService: PoulesService,
+              private snackBar: MatSnackBar, private notifyService: NotifyService) {
     this.joueur = data.joueur;
     this.createModeInput = data.createMode;
   }
@@ -53,15 +56,21 @@ export class EditJoueurComponent implements OnInit {
   }
 
   getAllTableaux(): void{
-    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux);
+    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   generatePoules(tableau_id: string): void {
-    this.pouleService.generatePoules(tableau_id).subscribe(() => {}, err => console.log(err));
+    this.pouleService.generatePoules(tableau_id).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   getJoueur(): void{
-    this.joueurService.getPlayer(this.joueur._id).subscribe(joueur => this.joueur = joueur);
+    this.joueurService.getPlayer(this.joueur._id).subscribe(joueur => this.joueur = joueur, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   subscribe(tableau: TableauInterface): void {
@@ -73,7 +82,9 @@ export class EditJoueurComponent implements OnInit {
         return 0;
       });
       this.generatePoules(tableau._id);
-    }, err => console.error(err));
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   unsubscribe(tableau: TableauInterface): void {
@@ -92,7 +103,9 @@ export class EditJoueurComponent implements OnInit {
         this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
           this.joueur.tableaux = this.joueur.tableaux.filter(tableauFilter => tableauFilter._id !== id_tableau );
           this.generatePoules(tableau._id);
-        }, err => { console.error(err); });
+        }, err => {
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        });
       }
     });
   }
@@ -123,10 +136,12 @@ export class EditJoueurComponent implements OnInit {
           this.joueur.nom = this.reactiveForm.get('nom').value;
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
-          this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
+          this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
           this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau._id));
         }
-      }, err => { console.error(err); });
+      });
     }
     if (ageEdited) {
       const tableauToDelete: Dialog = {
@@ -145,7 +160,9 @@ export class EditJoueurComponent implements OnInit {
           this.joueur.nom = this.reactiveForm.get('nom').value;
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
-          this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
+          this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
           this.joueur.tableaux.filter(tableau => (tableau.age_minimum !== null
             && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
             .forEach(tableau => {
@@ -154,7 +171,9 @@ export class EditJoueurComponent implements OnInit {
                 tableauFiltered.age_minimum !== null && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value
                 >= tableauFiltered.age_minimum))).includes(value));
               this.generatePoules(tableau._id);
-            }, err => { console.error(err); });
+            }, err => {
+              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            });
           });
         }
       }, err => { console.error(err); });
@@ -162,7 +181,9 @@ export class EditJoueurComponent implements OnInit {
       this.joueur.nom = this.reactiveForm.get('nom').value;
       this.joueur.classement = this.reactiveForm.get('classement').value;
       this.joueur.age = this.reactiveForm.get('age').value;
-      this.joueurService.edit(this.joueur).subscribe(() => {}, err => console.error(err));
+      this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      });
     }
   }
 

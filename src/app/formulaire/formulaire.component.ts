@@ -7,9 +7,11 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { BuffetInterface } from '../Interface/Buffet';
 import { JoueurInterface } from '../Interface/Joueur';
-import {JoueurService} from '../Service/joueur.service';
-import {BuffetService} from '../Service/buffet.service';
-import {Router} from '@angular/router';
+import { JoueurService } from '../Service/joueur.service';
+import { BuffetService } from '../Service/buffet.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
 
 @Component({
   selector: 'app-formulaire',
@@ -55,7 +57,8 @@ export class FormulaireComponent implements OnInit {
   public listeJoueurs: JoueurInterface[] = [];
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService, private joueurService: JoueurService,
-              private buffetService: BuffetService, private router: Router) { }
+              private buffetService: BuffetService, private router: Router, private snackBar: MatSnackBar,
+              private notifyService: NotifyService) { }
 
   ngOnInit(): void {
     this.tableauService.getAll().subscribe(tableaux => this.tableaux = tableaux, error => console.log(error));
@@ -64,11 +67,15 @@ export class FormulaireComponent implements OnInit {
   }
 
   getParametres(): void{
-    this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres);
+    this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   getPlatsAlreadyCooked(): void{
-    this.buffetService.platsAlreadyCooked().subscribe(plats => this.platsAlreadyCooked = plats);
+    this.buffetService.platsAlreadyCooked().subscribe(plats => this.platsAlreadyCooked = plats, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   add(event: MatChipInputEvent): void {
@@ -101,12 +108,16 @@ export class FormulaireComponent implements OnInit {
   submit(): void {
     // Inscription des joueurs
     if (this.listeJoueurs.length > 0) {
-      this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {}));
+      this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {}, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      }));
     }
 
     // Enregistrement des données du buffet
     if (!(this.buffet.plats.length === 0 && this.buffet.nb_moins_13_ans === 0 && this.buffet.nb_plus_13_ans === 0)){
-      this.buffetService.register(this.buffet).subscribe(() => {});
+      this.buffetService.register(this.buffet).subscribe(() => {}, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      });
     }
     this.router.navigateByUrl('/inscription_terminee').then(() => {});
   }

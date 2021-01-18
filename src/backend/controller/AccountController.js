@@ -16,7 +16,7 @@ router.post('/login', (req, res) => {
       })
       res.json({ token: token })
     } else res.status(500).send("Le mot de passe est incorrect")
-  }).catch(err => res.status(500).send('Ce pseudo n\'existe pas'))
+  }).catch(() => res.status(500).send('Ce pseudo n\'existe pas'))
 })
 
 module.exports = router

@@ -4,6 +4,7 @@
   },
   "nom": "open",
   "format": "simple",
+  "poules": true,
   "consolante": true,
   "age_minimum": null
 },{
@@ -12,6 +13,7 @@
   },
   "nom": "double",
   "format": "double",
+  "poules": false,
   "consolante": false,
   "age_minimum": null
 },{
@@ -20,6 +22,7 @@
   },
   "nom": "famille",
   "format": "simple",
+  "poules": true,
   "consolante": false,
   "age_minimum": null
 },{
@@ -28,6 +31,7 @@
   },
   "nom": "jeune - 13 ans",
   "format": "simple",
+  "poules": true,
   "consolante": true,
   "age_minimum": 13
 },{
@@ -36,6 +40,7 @@
   },
   "nom": "jeune - 11 ans",
   "format": "simple",
+  "poules": true,
   "consolante": false,
   "age_minimum": 11
 }]

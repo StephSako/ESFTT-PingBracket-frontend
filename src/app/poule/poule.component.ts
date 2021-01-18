@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
 import { JoueurService } from '../Service/joueur.service';
 import { TableauService } from '../Service/tableau.service';
-import {NotifyService} from '../Service/notify.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-poule',
@@ -46,20 +46,27 @@ export class PouleComponent implements OnInit {
   }
 
   getAllPoulesBinomes(): void {
-    this.pouleService.getAll(this.tableau._id).subscribe(poules => this.poules = poules);
+    this.pouleService.getAll(this.tableau._id).subscribe(poules => this.poules = poules, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   getSubscribedUnassignedPlayers(): void {
-    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs);
+    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
+        err => { this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'); });
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau._id).subscribe(poules => this.poules = poules);
+    this.pouleService.generatePoules(this.tableau._id).subscribe(poules => this.poules = poules, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => console.log(err));
+    this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
@@ -72,7 +79,9 @@ export class PouleComponent implements OnInit {
           event.previousIndex,
           event.currentIndex);
         this.pouleService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
-          .subscribe(() => {}, err => console.log(err));
+          .subscribe(() => {}, err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
       } else {
         this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
       }
@@ -80,13 +89,17 @@ export class PouleComponent implements OnInit {
   }
 
   unsubscribeDblClick(idPoule, idPlayer): void {
-    this.pouleService.removeFromBinome(idPoule, idPlayer).subscribe(response => {
+    this.pouleService.removeFromBinome(idPoule, idPlayer).subscribe(() => {
       this.getAllPoulesBinomes();
       this.getSubscribedUnassignedPlayers();
-    }, err => console.error(err));
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 
   setStatus(poule: PouleInterface): void {
-    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoulesBinomes(), err => console.error(err));
+    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoulesBinomes(), err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 }

@@ -9,12 +9,12 @@ const mongoose = require('mongoose')
 
 // ALL TABLEAU
 router.route("/").get(function(req, res) {
-  Tableau.find().sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(err => res.send(err))
+  Tableau.find().sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer tous les tableaux'))
 });
 
 // SPECIFIC TABLEAU
 router.route("/:tableau").get(function(req, res) {
-  Tableau.findById(req.params.tableau).then(tableau => res.status(200).json(tableau)).catch(err => res.send(err))
+  Tableau.findById(req.params.tableau).then(tableau => res.status(200).json(tableau)).catch(() => res.status(500).send('Impossible de récupérer le tableau'))
 });
 
 // CREATE TABLEAU
@@ -26,12 +26,12 @@ router.route("/create").post(function(req, res) {
     consolante: req.body.consolante,
     age_minimum: req.body.age_minimum
   })
-  tableau.save().then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
+  tableau.save().then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de créer le tableau'))
 });
 
 // EDIT TABLEAU
 router.route("/edit/:id_tableau").put(function(req, res) {
-  Tableau.update({_id: req.params.id_tableau}, {$set: req.body}).then(result => res.status(200).json({message: result})).catch(err => res.status(500).json({error: err}))
+  Tableau.updateOne({_id: req.params.id_tableau}, {$set: req.body}).then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de modifier le tableau'))
 });
 
 // RESET THE TOURNAMENT
@@ -43,7 +43,7 @@ router.route("/reset").delete(async function(req, res) {
     await Joueur.deleteMany({})
     res.status(200).json({message: 'Tournoi remis à zéro ... prêt pour l\'année prochaine ;)'})
   } catch (e){
-    res.status(500).json({message: e})
+    res.status(500).send('Impossible de réinitiliaser le tournoi')
   }
 
 });

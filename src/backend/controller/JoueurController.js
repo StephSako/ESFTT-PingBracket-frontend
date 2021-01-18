@@ -12,22 +12,22 @@ function getPlayers(option){
 
 // SPECIFIC PLAYER
 router.route("/:id_joueur").get(function(req, res) {
-  Joueur.findById(req.params.id_joueur).populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueur => res.status(200).json(joueur)).catch(err => res.send(err))
+  Joueur.findById(req.params.id_joueur).populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueur => res.status(200).json(joueur)).catch(() => res.status(500).send('Impossible de récupérer le joueur demandé'))
 });
 
 // ALL PLAYERS
 router.route("/").get(function(req, res) {
-  getPlayers().populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers().populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer tous les joueurs'))
 });
 
 // OTHER PLAYERS
 router.route("/unsubscribed/:tableau").get(function(req, res) {
-  getPlayers({'tableaux' : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers({'tableaux' : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer les joueurs non inscrits au tableau'))
 });
 
 // SPECIFIC TABLEAU'S PLAYERS
 router.route("/subscribed/:tableau").get(function(req, res) {
-  getPlayers({'tableaux' : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(err => res.send(err))
+  getPlayers({'tableaux' : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer les joueurs inscrits au tableau'))
 });
 
 // (DOUBLE) GETSUBSCRIBED UNASSIGNED PLAYERS IN ANY BINOME OF SPECIFIC TABLEAU
@@ -37,10 +37,10 @@ router.route("/unassigned/:tableau").get(async function(req, res) {
   let subscribedPlayersIds = await getPlayers({'tableaux' : {$all: [req.params.tableau]}})
 
   try {
-    let subscribedUnassignedPlayers = _.differenceWith(subscribedPlayersIds, assignedPlayersIds,  (subscribed, assigned) => {return subscribed.equals(assigned)})
+    let subscribedUnassignedPlayers = _.differenceWith(subscribedPlayersIds, assignedPlayersIds,  (subscribed, assigned) => { return subscribed.equals(assigned) })
     res.status(200).json(subscribedUnassignedPlayers)
   } catch (e) {
-    res.status(500).json(e)
+    res.status(500).send('Impossible de récupérer les joueurs inscrits non assignés au tableau')
   }
 });
 
@@ -60,7 +60,7 @@ router.route("/create").post(async function(req, res) {
       tableaux: req.body.tableaux.map(tableau => tableau._id),
       classement: (req.body.joueur.classement ? req.body.joueur.classement : 0)
     })
-    await joueur.save().catch(err => res.send(err))
+    await joueur.save()
   }
 
   try {
@@ -82,7 +82,7 @@ router.route("/create").post(async function(req, res) {
     }
     res.status(200).json({message: 'OK'})
   } catch (err) {
-    res.status(500).send(err)
+    res.status(500).send('Impossible d\'inscrire le joueur au tableau')
   }
 });
 
@@ -93,7 +93,7 @@ router.route("/edit/:id_player").put(function(req, res) {
     age: req.body.age,
     classement: (req.body.classement ? req.body.classement : 0)
   }
-  Joueur.updateOne({_id: req.params.id_player}, {$set: joueur}).then(result => res.status(200).json(result)).catch(err => res.send(err))
+  Joueur.updateOne({_id: req.params.id_player}, {$set: joueur}).then(result => res.status(200).json(result)).catch(() => res.status(500).send('Impossible de modifier le joueur'))
 });
 
 // UNSUBSCRIBE PLAYER
@@ -115,10 +115,11 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
     }
     res.status(200).json({message: 'No error'})
   } catch (e) {
-    res.status(500).send(e)
+    res.status(500).send('Impossible de désinscrire le joueur du tableau')
   }
 });
 
+// DELETE PLAYER
 router.route("/delete/:id_player").delete(async function(req, res) {
   // On le supprime des tableaux existants
   await Bracket.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.0.joueurs': {_id: req.params.id_player}}})
@@ -127,7 +128,7 @@ router.route("/delete/:id_player").delete(async function(req, res) {
   await Poule.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
 
   // On le supprime définitivement
-  Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(err => res.status(500).send(err))
+  Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(() => res.status(500).send('Impossible de supprimer le joueur'))
 });
 
 module.exports = router
