@@ -22,6 +22,7 @@ export class PouleComponent implements OnInit {
   tableau: TableauInterface = {
     format: null,
     _id: null,
+    poules: null,
     nom: null,
     consolante: null,
     age_minimum: null

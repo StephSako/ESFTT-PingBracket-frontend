@@ -17,6 +17,7 @@ export class TableauComponent implements OnInit {
     _id: null,
     format: null,
     nom: null,
+    poules: null,
     consolante: null,
     age_minimum: null
   };

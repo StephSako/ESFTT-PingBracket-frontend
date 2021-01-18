@@ -13,6 +13,7 @@ export class EditTableauComponent {
     nom: null,
     format: null,
     _id: null,
+    poules: null,
     consolante: null,
     age_minimum: null
   };

@@ -4,6 +4,7 @@ const tableauSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
   nom: String,
   format: String,
+  poules: Boolean,
   consolante: Boolean,
   age_minimum: Number
 },{ _id : false })

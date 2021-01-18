@@ -12,6 +12,7 @@ export class FormTableauComponent implements OnInit {
     nom: null,
     format: null,
     _id: null,
+    poules: null,
     consolante: null,
     age_minimum: null
   };

@@ -22,6 +22,7 @@ export class ListPlayersComponent implements OnInit {
     format: null,
     _id: null,
     nom: null,
+    poules: null,
     consolante: null,
     age_minimum: null
   };

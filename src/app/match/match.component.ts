@@ -18,6 +18,7 @@ export class MatchComponent implements OnInit {
     format: null,
     _id: null,
     nom: null,
+    poules: null,
     consolante: null,
     age_minimum: null
   };

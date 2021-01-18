@@ -13,12 +13,13 @@ import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
 })
 export class GestionTableauxComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'format', 'age_minimum', 'consolante', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'consolante', 'edit', 'delete'];
   allTableaux: TableauInterface[] = [];
 
   public tableau: TableauInterface = {
     nom: null,
     format: null,
+    poules: null,
     _id: null,
     consolante: null,
     age_minimum: null
@@ -42,6 +43,7 @@ export class GestionTableauxComponent implements OnInit {
           this.tableau = {
             format : null,
             nom : null,
+            poules: null,
             _id : null,
             consolante: null,
             age_minimum: null
@@ -55,7 +57,7 @@ export class GestionTableauxComponent implements OnInit {
 
   edit(tableau: TableauInterface): void {
     this.dialog.open(EditTableauComponent, {
-      width: '80%',
+      width: '90%',
       data: tableau
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){

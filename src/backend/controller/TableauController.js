@@ -23,6 +23,7 @@ router.route("/create").post(function(req, res) {
     _id: new mongoose.Types.ObjectId(),
     nom: req.body.nom.toLowerCase(),
     format: req.body.format,
+    poules: req.body.poules,
     consolante: req.body.consolante,
     age_minimum: req.body.age_minimum
   })

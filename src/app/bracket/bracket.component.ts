@@ -20,6 +20,7 @@ export class BracketComponent implements OnInit {
   @Input() tableau: TableauInterface = {
     _id: null,
     nom: null,
+    poules: null,
     format: null,
     consolante: null,
     age_minimum: null
