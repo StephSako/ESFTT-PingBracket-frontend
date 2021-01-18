@@ -88,7 +88,7 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   isInvalidPlayer(): boolean {
-    return (this.joueur.nom !== '' && this.joueur.nom !== null);
+    return (this.joueur.nom !== '' && this.joueur.nom !== null && this.joueur.nom.trim() !== '');
   }
 
   showTableauxPlayer(tableaux: TableauInterface[]): string {

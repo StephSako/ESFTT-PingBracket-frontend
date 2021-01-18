@@ -23,7 +23,7 @@ export class EditTableauComponent {
   }
 
   isInvalid(): boolean {
-    return (this.tableau.nom !== '' && this.tableau.format !== null && this.tableau.consolante !== null);
+    return (this.tableau.nom !== '' && this.tableau.format !== null && this.tableau.nom.trim() !== '');
   }
 
 }

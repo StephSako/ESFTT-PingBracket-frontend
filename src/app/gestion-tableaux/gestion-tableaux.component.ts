@@ -73,7 +73,7 @@ export class GestionTableauxComponent implements OnInit {
   }
 
   isInvalidTableau(): boolean {
-    return (this.tableau.nom !== '' && this.tableau.nom !== null && this.tableau.format !== null);
+    return (this.tableau.nom !== '' && this.tableau.nom !== null && this.tableau.format !== null && this.tableau.nom.trim() !== '');
   }
 
   showAgeMinimum(age_minimum: number): string {

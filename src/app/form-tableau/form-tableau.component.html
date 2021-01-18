@@ -12,7 +12,7 @@
   <div fxFlex="25%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>vertical_split</mat-icon>
-      <mat-label>Format</mat-label>
+      <mat-label>Format *</mat-label>
       <mat-select [(ngModel)]="tableau.format">
         <mat-option *ngFor="let format of formats" [value]="format.value">{{ format.label }}</mat-option>
       </mat-select>

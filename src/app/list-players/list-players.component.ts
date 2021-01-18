@@ -123,7 +123,8 @@ export class ListPlayersComponent implements OnInit {
   }
 
   isInvalidPlayer(): boolean {
-    return (this.joueur.nom !== '' && this.joueur.nom !== null);
+    return (this.joueur.nom !== '' && this.joueur.nom !== null && this.joueur.nom.trim() !== ''
+      && this.otherPlayers.filter(joueur => this.joueur.nom === joueur.nom).length !== 0);
   }
 
   unsubscribeAll(): void {
