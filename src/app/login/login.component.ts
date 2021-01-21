@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
           },
           err => {
             this.spinnerShown = false;
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           }
         );
     }

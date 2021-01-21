@@ -48,4 +48,8 @@ export class JoueurService {
   public getSubscribedUnassignedDouble(tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}unassigned/${tableau}`);
   }
+
+  public moveAllPlayers(previousTableauId: string, newTableauId: string): Observable<any> {
+    return this.http.put(this.baseURL + 'move', {previousTableauId, newTableauId});
+  }
 }

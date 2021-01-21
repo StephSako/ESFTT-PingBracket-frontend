@@ -131,4 +131,15 @@ router.route("/delete/:id_player").delete(async function(req, res) {
   Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(() => res.status(500).send('Impossible de supprimer le joueur'))
 });
 
+// MOVE ALL SUBSCRIBED PLAYERS IN OTHER TABLEAU
+router.route("/move").put(async function(req, res) {
+  try {
+    await Joueur.updateMany({}, {$pull: {tableaux: {$in: [req.body.previousTableauId]}}})
+    await Joueur.updateMany({}, {$push: {tableaux: req.body.newTableauId}})
+    res.status(200).json({message: 'Les joueurs ont été déplacés vers un autre tableau'})
+  } catch (e) {
+    res.status(500).send('Impossible de basculer les joueurs vers un autre tableau')
+}
+});
+
 module.exports = router

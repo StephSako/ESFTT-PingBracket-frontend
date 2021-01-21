@@ -37,7 +37,7 @@ export class GestionTableauxComponent implements OnInit {
 
   getAllTableaux(): void {
     this.tableauService.getAll().subscribe(allTableaux => this.allTableaux = allTableaux, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -54,7 +54,7 @@ export class GestionTableauxComponent implements OnInit {
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');
         }, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       });
   }
 
@@ -67,11 +67,11 @@ export class GestionTableauxComponent implements OnInit {
         this.tableauService.edit(tableau).subscribe(() => {
           this.getAllTableaux();
         }, err => {
-          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
         });
       }
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -88,10 +88,10 @@ export class GestionTableauxComponent implements OnInit {
       data: tableauToDelete
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){ this.tableauService.delete(id_tableau).subscribe(() => this.getAllTableaux(), err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

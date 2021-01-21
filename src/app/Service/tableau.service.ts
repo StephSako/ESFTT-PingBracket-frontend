@@ -16,6 +16,10 @@ export class TableauService {
     return this.http.get(this.baseURL);
   }
 
+  public tableauEnabledToHostPlayers(ageMinimum: number): Observable<any> {
+    return this.http.get(`${this.baseURL}hostable/${ageMinimum}`);
+  }
+
   public getTableau(id_tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}${id_tableau}`);
   }

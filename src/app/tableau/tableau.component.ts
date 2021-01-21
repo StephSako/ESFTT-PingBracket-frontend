@@ -34,7 +34,7 @@ export class TableauComponent implements OnInit {
 
   getTableau(): void {
     this.gestionService.getTableau(this.idTableau).subscribe(tableau => this.tableau = tableau, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 }

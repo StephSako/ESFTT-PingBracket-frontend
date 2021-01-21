@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
+import {TableauService} from '../Service/tableau.service';
 
 @Component({
   selector: 'app-list-players',
@@ -30,6 +31,7 @@ export class ListPlayersComponent implements OnInit {
   @Output() getBinomes: EventEmitter<any> = new EventEmitter();
   @Output() updateUnassignedPlayers: EventEmitter<any> = new EventEmitter();
   listJoueurs: JoueurInterface[] = [];
+  listTableauHostable: TableauInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
 
@@ -42,7 +44,8 @@ export class ListPlayersComponent implements OnInit {
   };
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
-              private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
+              private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService,
+              private tableauService: TableauService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -54,20 +57,32 @@ export class ListPlayersComponent implements OnInit {
         _id: null,
         tableaux: null
       };
+      console.log(this.tableau.age_minimum);
       this.updateJoueurs();
       this.updateOtherPlayers();
+      if (this.tableau && this.tableau.age_minimum !== null) { this.getTableauxHostable(); }
     });
   }
 
   updateJoueurs(): void {
     this.joueurService.getTableauPlayers(this.idTableau).subscribe(joueurs => this.listJoueurs = joueurs, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  getTableauxHostable(): void {
+    this.tableauService.tableauEnabledToHostPlayers(this.tableau.age_minimum).subscribe(listTableaux =>
+    {
+      this.listTableauHostable = listTableaux;
+      console.log(this.listTableauHostable);
+    }, err => {
+      this.notifyService.notifyUser(err.error.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   updateOtherPlayers(): void {
     this.joueurService.getOtherPlayer(this.idTableau).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -88,7 +103,7 @@ export class ListPlayersComponent implements OnInit {
           this.updateJoueurs();
           this.updateOtherPlayers();
         }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -102,7 +117,7 @@ export class ListPlayersComponent implements OnInit {
       this.updateJoueurs();
       this.updateOtherPlayers();
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -143,5 +158,9 @@ export class ListPlayersComponent implements OnInit {
         this.listJoueurs.forEach(joueur => { this.unsubscribePlayer(joueur._id); });
       }
     });
+  }
+
+  moveAllPlayers(): void {
+    console.log();
   }
 }
