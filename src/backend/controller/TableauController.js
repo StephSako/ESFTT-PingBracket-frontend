@@ -23,8 +23,8 @@ router.route("/player_count").get(function(req, res) {
 });
 
 // GET TABLEAUX ENABLED TO HOST PLAYERS FROM ANOTHER TABLEAU
-router.route("/hostable/:ageMinimum/:format/:poules").get(function(req, res) {
-  Tableau.find({age_minimum: { $gt: req.params.ageMinimum}, poules: req.params.poules, format: req.params.format }).sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer les tableaux hébergeables de joueurs'))
+router.route("/hostable/:tableauToHostId/:ageMinimum/:format/:poules").get(function(req, res) {
+  Tableau.find({age_minimum: { $gte: req.params.ageMinimum}, poules: req.params.poules, format: req.params.format, _id: {$ne: req.params.tableauToHostId } }).sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer les tableaux hébergeables de joueurs'))
 });
 
 // SPECIFIC TABLEAU

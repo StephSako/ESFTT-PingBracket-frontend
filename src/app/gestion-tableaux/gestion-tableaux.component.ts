@@ -32,7 +32,6 @@ export class GestionTableauxComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    console.log(this.playerCountPerTableau);
     this.getAllTableaux();
   }
 
