@@ -46,7 +46,19 @@ router.route("/reset").delete(async function(req, res) {
   } catch (e){
     res.status(500).send('Impossible de réinitiliaser le tournoi')
   }
+});
 
+// DELETE SPECIFIC TABLEAU
+router.route("/delete/:tableau_id").delete(async function(req, res) {
+  try {
+    await Bracket.deleteMany({tableau: req.params.tableau_id})
+    await Poule.deleteMany({tableau: req.params.tableau_id})
+    await Joueur.updateMany({}, {$pull: {tableaux: {$in: [req.params.tableau_id]}}})
+    await Tableau.deleteOne({_id: req.params.tableau_id})
+    res.status(200).json({message: 'Tableau supprimé'})
+  } catch (e){
+    res.status(500).send('Impossible de supprimer le tableau demandé')
+  }
 });
 
 module.exports = router

@@ -216,7 +216,7 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
 
       res.status(200).json({message: "No error"})
     }
-    else res.status(500).send('Il n\'y a pas assez de ')
+    else res.status(500).send('Il n\'y a pas assez de')
   } catch(e) {
     res.status(500).send('Impossible de générer le bracket')
   }

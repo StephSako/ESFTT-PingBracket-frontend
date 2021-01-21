@@ -5,6 +5,9 @@ import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
+import {JoueurInterface} from '../Interface/Joueur';
+import {Dialog} from '../Interface/Dialog';
+import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-gestion-tableaux',
@@ -25,7 +28,7 @@ export class GestionTableauxComponent implements OnInit {
     age_minimum: null
   };
 
-  constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
+  constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -33,13 +36,13 @@ export class GestionTableauxComponent implements OnInit {
   }
 
   getAllTableaux(): void {
-    this.gestionService.getAll().subscribe(allTableaux => this.allTableaux = allTableaux, err => {
+    this.tableauService.getAll().subscribe(allTableaux => this.allTableaux = allTableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   create(): void {
-    this.gestionService.create(this.tableau).subscribe(() => {
+    this.tableauService.create(this.tableau).subscribe(() => {
           this.tableau = {
             format : null,
             nom : null,
@@ -61,12 +64,32 @@ export class GestionTableauxComponent implements OnInit {
       data: tableau
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){
-        this.gestionService.edit(tableau).subscribe(() => {
+        this.tableauService.edit(tableau).subscribe(() => {
           this.getAllTableaux();
         }, err => {
           this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
       }
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  delete(tableau_id: string): void {
+    const tableauToDelete: Dialog = {
+      id: tableau_id,
+      action: 'Supprimer le tableau ?',
+      option: 'Les poules et brackets seront supprimés, et les joueurs désinscris.',
+      action_button_text: 'Supprimer'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '55%',
+      data: tableauToDelete
+    }).afterClosed().subscribe(id_tableau => {
+      if (id_tableau){ this.tableauService.delete(id_tableau).subscribe(() => this.getAllTableaux(), err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      }); }
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });

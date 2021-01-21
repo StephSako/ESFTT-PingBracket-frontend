@@ -31,4 +31,8 @@ export class TableauService {
   public reset(): Observable<any> {
     return this.http.delete(`${this.baseURL}reset`);
   }
+
+  public delete(tableau_id: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${tableau_id}`);
+  }
 }

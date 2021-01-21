@@ -12,7 +12,7 @@
   <mat-card>
     <h2 class="lobster center second_h2">Liste des joueurs ({{listJoueurs.length}} inscrits)</h2>
 
-    <button (click)="unsubscribeAll()" class="center unsubsribleAll" mat-raised-button color="warn">Désinscrire tous les joueurs</button>
+    <button (click)="unsubscribeAll()" *ngIf="listJoueurs.length" class="center unsubsribleAll" mat-raised-button color="warn">Désinscrire tous les joueurs</button>
 
     <table mat-table [dataSource]="listJoueurs">
 

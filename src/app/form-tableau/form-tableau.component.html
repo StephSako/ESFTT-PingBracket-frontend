@@ -22,8 +22,10 @@
   <div fxFlex="20%">
     <mat-form-field appearance="outline">
       <mat-icon matSuffix>today</mat-icon>
-      <mat-label>Age minimum requis</mat-label>
-      <input matInput type="number" min="0" max="17" [(ngModel)]="tableau.age_minimum" name="age_minimum">
+      <mat-label>Catégorie</mat-label>
+      <mat-select [(ngModel)]="tableau.age_minimum">
+        <mat-option *ngFor="let category of categoriesAge" [value]="category.age">{{ category.category | titlecase }} (- de {{category.age}} ans)</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 

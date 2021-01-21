@@ -103,7 +103,7 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
     await Joueur.updateOne({ _id: req.params.id_player}, {$pull: {tableaux: {$in: [req.params.tableau]}}})
 
     if (req.body.format === 'double'){
-      // On supprime le joueur du double auquel il est assigné
+      // On supprime le joueur du binôme auquel il est assigné
       await Poule.updateMany({tableau: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
 
       // On supprime le premier binôme vide trouvé si nécessaire

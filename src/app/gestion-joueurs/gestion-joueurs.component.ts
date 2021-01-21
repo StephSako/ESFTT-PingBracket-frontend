@@ -44,7 +44,6 @@ export class GestionJoueursComponent implements OnInit {
   generatePoules(tableaux: TableauInterface[]): void {
     tableaux.forEach(tableau => {
       if (tableau.poules) {
-        console.log(tableau.nom);
         this.poulesService.generatePoules(tableau._id).subscribe(() => {}, err => {
           this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
