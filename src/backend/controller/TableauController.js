@@ -9,12 +9,12 @@ const mongoose = require('mongoose')
 
 // ALL TABLEAU
 router.route("/").get(function(req, res) {
-  Tableau.find().sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer tous les tableaux'))
+  Tableau.find().sort({nom: 'asc', age_minimum: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer tous les tableaux'))
 });
 
 // GET TABLEAUX ENABLED TO HOST PLAYERS FROM ANOTHER TABLEAU
-router.route("/hostable/:ageMinimum").get(function(req, res) {
-  Tableau.find({age_minimum: { $gt: req.params.ageMinimum} }).sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer les tableaux hébergeables de joueurs'))
+router.route("/hostable/:ageMinimum/:format/:poules").get(function(req, res) {
+  Tableau.find({age_minimum: { $gt: req.params.ageMinimum}, poules: req.params.poules, format: req.params.format }).sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer les tableaux hébergeables de joueurs'))
 });
 
 // SPECIFIC TABLEAU

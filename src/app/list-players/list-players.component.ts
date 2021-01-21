@@ -18,7 +18,8 @@ import { TableauService} from '../Service/tableau.service';
 })
 export class ListPlayersComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'classement', 'delete'];
+  displayedColumns: string[];
+  hostableTableau: TableauInterface;
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -34,14 +35,7 @@ export class ListPlayersComponent implements OnInit {
   listTableauHostable: TableauInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
-
-  public joueur: JoueurInterface = {
-    nom: null,
-    age : null,
-    classement: null,
-    _id: null,
-    tableaux: null
-  };
+  joueur: JoueurInterface;
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
               private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService,
@@ -60,6 +54,7 @@ export class ListPlayersComponent implements OnInit {
       this.getTableau();
       this.updateJoueurs();
       this.updateOtherPlayers();
+      this.hostableTableau = null;
     });
   }
 
@@ -72,6 +67,8 @@ export class ListPlayersComponent implements OnInit {
   getTableau(): void {
     this.tableauService.getTableau(this.idTableau).subscribe(tableau => {
       this.tableau = tableau;
+      this.displayedColumns = (this.tableau.age_minimum !== null ?
+        ['nom', 'classement', 'age', 'delete'] : ['nom', 'classement', 'delete']);
       if (this.tableau.age_minimum) { this.getTableauxHostable(); }
     }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
@@ -79,7 +76,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   getTableauxHostable(): void {
-    this.tableauService.tableauEnabledToHostPlayers(this.tableau.age_minimum).subscribe(
+    this.tableauService.tableauEnabledToHostPlayers(this.tableau).subscribe(
       listTableaux => this.listTableauHostable = listTableaux, err => {
       this.notifyService.notifyUser(err.error.error, this.snackBar, 'error', 2000, 'OK');
     });
@@ -129,7 +126,7 @@ export class ListPlayersComponent implements OnInit {
   unsubscribe(joueur: JoueurInterface): void {
     const playerToDelete: Dialog = {
       id: joueur._id,
-      action: 'Désinscrire le joueur du tableau ?',
+      action: 'Désinscrire le joueur du tableau et régénérer les poules du tableau ?',
       option: null,
       action_button_text: 'Désinscrire'
     };
@@ -166,6 +163,37 @@ export class ListPlayersComponent implements OnInit {
   }
 
   moveAllPlayers(): void {
-    console.log();
+    const playersToDelete: Dialog = {
+      id: this.hostableTableau._id,
+      action: 'Basculer tous les joueurs dans ce tableau et réinitialiser les poules ?',
+      option: null,
+      action_button_text: 'Basculer'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '45%',
+      data: playersToDelete
+    }).afterClosed().subscribe(id_hostable_tableau => {
+      if (id_hostable_tableau){
+        this.joueurService.moveAllPlayers(this.tableau._id, this.hostableTableau._id).subscribe(() =>
+        {
+          this.updateJoueurs();
+          this.generateHostablePoules();
+          this.updatePoules.emit();
+          this.notifyService.notifyUser('Les joueurs ont été basculés', this.snackBar, 'success', 2000, 'OK');
+        }
+          , err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+      }
+    });
+  }
+
+  generateHostablePoules(): void {
+    this.poulesService.generatePoules(this.hostableTableau._id).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  playersMovable(): boolean {
+    return (this.tableau.age_minimum !== null && this.listTableauHostable.length && this.listJoueurs.length > 0);
   }
 }

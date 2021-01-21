@@ -16,8 +16,8 @@ export class TableauService {
     return this.http.get(this.baseURL);
   }
 
-  public tableauEnabledToHostPlayers(ageMinimum: number): Observable<any> {
-    return this.http.get(`${this.baseURL}hostable/${ageMinimum}`);
+  public tableauEnabledToHostPlayers(tableau: TableauInterface): Observable<any> {
+    return this.http.get(`${this.baseURL}hostable/${tableau.age_minimum}/${tableau.format}/${tableau.poules}`);
   }
 
   public getTableau(id_tableau: string): Observable<any> {

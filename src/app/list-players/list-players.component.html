@@ -13,20 +13,20 @@
     <h2 class="lobster center second_h2">Liste des joueurs ({{listJoueurs.length}} inscrit<span *ngIf="listJoueurs.length > 1">s</span>)</h2>
 
     <div fxLayout="row">
-      <div [fxFlex]="listTableauHostable.length && listJoueurs.length ? '50%' : '100%'" class="vertically_centered">
+      <div [fxFlex]="playersMovable() ? '50%' : '100%'" class="vertically_centered">
         <button (click)="unsubscribeAll()" *ngIf="listJoueurs.length" class="center unsubscribeAll" mat-raised-button color="warn">Désinscrire tous les joueurs</button>
       </div>
-      <div fxFlex="50%" *ngIf="listTableauHostable.length && listJoueurs.length" class="vertically_centered">
+      <div fxFlex="50%" *ngIf="playersMovable()" class="vertically_centered">
         <div fxLayout="column">
           <div fxFlex="50%">
-            <button (click)="moveAllPlayers()" class="center movePlayers" mat-raised-button>Basculer tous les joueurs</button>
+            <button [disabled]="hostableTableau === null" (click)="moveAllPlayers()" class="center movePlayers" mat-raised-button>Basculer tous les joueurs</button>
           </div>
           <div fxFlex="50%">
             <mat-form-field appearance="outline" class="center">
               <mat-icon matSuffix>format_list_bulleted</mat-icon>
               <mat-label>Tableaux</mat-label>
-              <mat-select [(ngModel)]="tableau.age_minimum">
-                <mat-option *ngFor="let tableau of listTableauHostable" [value]="tableau._id">{{ tableau.nom | titlecase }}</mat-option>
+              <mat-select [(ngModel)]="hostableTableau">
+                <mat-option *ngFor="let tableau of listTableauHostable" [value]="tableau">{{ tableau.nom | titlecase }} - {{ tableau.age_minimum }} ans</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -44,6 +44,11 @@
       <ng-container matColumnDef="classement">
         <th mat-header-cell *matHeaderCellDef>Classement</th>
         <td mat-cell *matCellDef="let joueur">{{joueur.classement}}</td>
+      </ng-container>
+
+      <ng-container *ngIf="tableau.age_minimum !== null" matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef>Age</th>
+        <td mat-cell *matCellDef="let joueur">{{joueur.age}}</td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
