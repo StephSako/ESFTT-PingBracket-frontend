@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TableauInterface } from '../Interface/Tableau';
+import {PlayerCountPerTableau, TableauInterface} from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
-import {JoueurInterface} from '../Interface/Joueur';
-import {Dialog} from '../Interface/Dialog';
-import {DialogComponent} from '../dialog/dialog.component';
+import { Dialog } from '../Interface/Dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-gestion-tableaux',
@@ -16,8 +15,9 @@ import {DialogComponent} from '../dialog/dialog.component';
 })
 export class GestionTableauxComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'consolante', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'consolante', 'inscrits', 'edit', 'delete'];
   allTableaux: TableauInterface[] = [];
+  playerCountPerTableau: PlayerCountPerTableau[] = null;
 
   public tableau: TableauInterface = {
     nom: null,
@@ -32,13 +32,29 @@ export class GestionTableauxComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    console.log(this.playerCountPerTableau);
     this.getAllTableaux();
   }
 
   getAllTableaux(): void {
-    this.tableauService.getAll().subscribe(allTableaux => this.allTableaux = allTableaux, err => {
+    this.tableauService.getAll().subscribe(allTableaux => {
+      this.allTableaux = allTableaux;
+      this.getPlayerCountPerTableau();
+    }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
+  }
+
+  getPlayerCountPerTableau(): void {
+    this.tableauService.getPlayerCountPerTableau().subscribe(
+      playerCountPerTableau => this.playerCountPerTableau = playerCountPerTableau, err => {
+        this.notifyService.notifyUser(err.error.error, this.snackBar, 'error', 2000, 'OK');
+      });
+  }
+
+  showPlayerCountPerTableau(tableau_id: string): number {
+    return (this.tableau && this.playerCountPerTableau && this.playerCountPerTableau[tableau_id] ?
+      this.playerCountPerTableau[tableau_id] : 0);
   }
 
   create(): void {

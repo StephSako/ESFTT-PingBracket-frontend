@@ -24,6 +24,10 @@ export class TableauService {
     return this.http.get(`${this.baseURL}${id_tableau}`);
   }
 
+  public getPlayerCountPerTableau(): Observable<any> {
+    return this.http.get(`${this.baseURL}player_count`);
+  }
+
   public create(tableau: TableauInterface): Observable<any> {
     return this.http.post(`${this.baseURL}create`, tableau);
   }

@@ -6,3 +6,7 @@ export interface TableauInterface {
   consolante: boolean;
   age_minimum: number;
 }
+
+export interface PlayerCountPerTableau {
+  [key: string]: number;
+}

@@ -6,7 +6,7 @@ import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { PoulesService } from '../Service/poules.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TableauInterface } from '../Interface/Tableau';
+import { TableauInterface} from '../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
 import { TableauService} from '../Service/tableau.service';

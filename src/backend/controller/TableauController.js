@@ -6,10 +6,20 @@ const Poule = require('../model/Poule')
 const Bracket = require('../model/Bracket')
 const Buffet = require('../model/Buffet')
 const mongoose = require('mongoose')
+const _ = require('lodash');
 
 // ALL TABLEAU
 router.route("/").get(function(req, res) {
   Tableau.find().sort({nom: 'asc', age_minimum: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer tous les tableaux'))
+});
+
+// PLAYER COUNT PER TABLEAUX
+router.route("/player_count").get(function(req, res) {
+  Joueur.aggregate([
+    { $project: { tableaux: 1 } },
+    { $unwind: '$tableaux' },
+    { $group: { _id: '$tableaux', count: { $sum: 1 } } }
+  ]).then(counts => res.status(200).json(_.chain(counts).keyBy('_id').mapValues('count').value())).catch(() => res.status(500).send('Impossible de récupérer les nombre de joueurs par tableau'))
 });
 
 // GET TABLEAUX ENABLED TO HOST PLAYERS FROM ANOTHER TABLEAU
