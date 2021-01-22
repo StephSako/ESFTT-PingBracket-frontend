@@ -112,6 +112,16 @@ export class ListPlayersComponent implements OnInit {
     });
   }
 
+  unsubscribeAllPlayers(): void {
+    this.tableauService.unsubscribeAllPlayers(this.tableau._id).subscribe(() => {
+      if (this.tableau.poules) { this.generatePoules(); }
+      this.updateJoueurs();
+      this.updateOtherPlayers();
+    }, err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
   unsubscribe(joueur: JoueurInterface): void {
     const playerToDelete: Dialog = {
       id: joueur._id,
@@ -144,10 +154,8 @@ export class ListPlayersComponent implements OnInit {
     this.dialog.open(DialogComponent, {
       width: '45%',
       data: playersToDelete
-    }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
-        this.listJoueurs.forEach(joueur => { this.unsubscribePlayer(joueur._id); });
-      }
+    }).afterClosed().subscribe(id_tableau => {
+      if (id_tableau){ this.unsubscribeAllPlayers(); }
     });
   }
 

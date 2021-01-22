@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import {PoulesService} from '../Service/poules.service';
 
 @Component({
   selector: 'app-gestion-tableaux',
@@ -15,7 +16,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class GestionTableauxComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'consolante', 'inscrits', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'consolante', 'inscrits', 'edit', 'unsubscribe_all', 'delete'];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
 
@@ -29,7 +30,7 @@ export class GestionTableauxComponent implements OnInit {
   };
 
   constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private poulesService: PoulesService) { }
 
   ngOnInit(): void {
     this.getAllTableaux();
@@ -87,6 +88,38 @@ export class GestionTableauxComponent implements OnInit {
       }
     }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  unsubscribeAllPlayers(tableau_id: string): void {
+    this.tableauService.unsubscribeAllPlayers(tableau_id).subscribe(() => {
+      this.getAllTableaux();
+      if (this.tableau.poules) { this.generatePoules(); }
+      this.notifyService.notifyUser('Joueurs désinscris', this.snackBar, 'success', 2000, 'OK');
+    }, err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  generatePoules(): void {
+    this.poulesService.generatePoules(this.tableau._id).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  unsubscribeAll(tableau_id: string): void {
+    const playersToDelete: Dialog = {
+      id: tableau_id,
+      action: 'Désinscrire tous les joueurs du tableau ?',
+      option: null,
+      action_button_text: 'Désinscrire'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '45%',
+      data: playersToDelete
+    }).afterClosed().subscribe(id_tableau => {
+      if (id_tableau){ this.unsubscribeAllPlayers(id_tableau); }
     });
   }
 
