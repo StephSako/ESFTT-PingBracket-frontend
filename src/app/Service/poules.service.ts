@@ -14,8 +14,8 @@ export class PoulesService {
 
   constructor(private http: HttpClient) { }
 
-  public getAll(tableau: string): Observable<any> {
-    return this.http.get(`${this.baseURL}${tableau}`);
+  public getAll(tableau: string, format: string): Observable<any> {
+    return this.http.get(`${this.baseURL}${tableau}/${format}`);
   }
 
   public editPoule(id_poule: string, newPlayersList: [id: JoueurInterface]): Observable<any> {

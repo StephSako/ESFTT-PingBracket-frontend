@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Binome = require('../model/Binome')
-const Joueur = require('../model/Joueur')
-const mongoose = require('mongoose')
 
 // ALL BINOMES
 router.route("/:tableau").get(function(req, res) {
@@ -27,69 +25,6 @@ router.route("/edit/:idJoueur").put(async function(req, res) {
   } catch (e) {
     res.status(500).send('Impossible de modifier la binome')
   }
-});
-
-// GENERATE BINOMES
-router.route("/generate/:tableau").put(async function(req, res) {
-  try {
-    let binomes = [[],[],[],[],[],[],[],[]]
-    let joueurs = await Joueur.find({tableaux : {$all: [req.params.tableau]}}).sort({classement: 'desc', nom: 'asc'})
-    await Binome.deleteMany({ tableau: req.params.tableau})
-
-    // Formation des binomes
-    let j = 0
-    let mode = 0 // 0 = on monte, 1 = on descend
-    let double = false
-    for (let i = 0; i < joueurs.length; i++){
-      binomes[j].push(joueurs[i]._id)
-
-      if (mode === 0){
-        if (j === (binomes.length-1)){
-          if (double){
-            mode = 1
-            j--
-            double = false
-          }
-          else double = true
-        }
-        else j++
-      } else {
-        if (j === 0){
-          if (double) {
-            mode = 0
-            j++
-            double = false
-          }
-          else double = true
-        }
-        else j--
-      }
-    }
-
-    // Formation des documents
-    for (let i = 0; i < binomes.length; i++){
-      let binome = new Binome({
-        _id: new mongoose.Types.ObjectId(),
-        tableau: req.params.tableau,
-        locked: false,
-        joueurs: binomes[i]
-      })
-      await binome.save()
-    }
-  }
-  catch (err) {
-    res.status(500).send('Impossible de générer le binôme')
-  }
-  Binome.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').populate('joueurs.tableaux').then(binomes => res.status(200).json(binomes)).catch(() => res.status(500).send('Impossible de récupérer le binôme après modification'))
-});
-
-// UPDATE BINOME STATUS
-router.route("/editStatus/:id_binome").put(function(req, res) {
-  Binome.updateOne({_id: req.params.id_binome}, {
-    $set: {
-      locked: req.body.locked
-    }
-  }).then(() => res.json({message: "Le status du binôme a été mis à jour"})).catch(() => res.status(500).send('Impossible de modifier le statut du binôme'))
 });
 
 // REMOVE PLAYER IN BINOME (DOUBLE CLICKING)

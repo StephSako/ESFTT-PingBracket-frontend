@@ -6,8 +6,9 @@ const Joueur = require('../model/Joueur')
 const mongoose = require('mongoose')
 
 // ALL POULES
-router.route("/:tableau").get(function(req, res) {
-  Poule.find({tableau: req.params.tableau}).populate('participants').populate('tableau').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule du tableau'))
+router.route("/:tableau/:format").get(function(req, res) {
+  if (req.params.format === 'simple') Poule.find({tableau: req.params.tableau}).populate('participants').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
+  else if (req.params.format === 'double') Poule.find({tableau: req.params.tableau}).populate('participants').populate({path: 'participants', populate: { path: 'joueurs' }}).then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
 });
 
 // UPDATE SPECIFIC POULE
@@ -16,7 +17,7 @@ router.route("/edit/:id_poule").put(function(req, res) {
     $set: {
       participants: req.body
     }
-  }).then((result) => res.json({message: "La poule a été mise à jour"})).catch(() => res.status(500).send('Impossible de modifier la poule'))
+  }).then(() => res.json({message: "La poule a été mise à jour"})).catch(() => res.status(500).send('Impossible de modifier la poule'))
 });
 
 // GENERATE POULES
@@ -69,9 +70,7 @@ router.route("/generate").put(async function(req, res) {
       })
       await poule.save()
     }
-
-    if (req.body.format === 'simple') Poule.find({tableau: req.body._id}).populate('participants').populate('tableau').populate('participants.tableaux').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
-    else if (req.body.format === 'double') Poule.find({tableau: req.body._id}).populate('participants').populate({path: 'participants.joueurs', options: { sort: { nom: 1 } }}).populate('tableau').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
+    res.status(200).json({message: 'No error'})
   }
   catch (err) {
     res.status(500).send('Impossible de générer la poule')

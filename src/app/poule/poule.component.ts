@@ -46,18 +46,18 @@ export class PouleComponent implements OnInit {
   }
 
   getAllPoules(): void {
-    this.pouleService.getAll(this.tableau._id).subscribe(poules => this.poules = poules, err => {
+    this.pouleService.getAll(this.tableau._id, this.tableau.format).subscribe(poules => this.poules = poules, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau).subscribe(poules => this.poules = poules, err => {
+    this.pouleService.generatePoules(this.tableau).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
-  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void { // TODO : EDIT NOT DONE
+  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
@@ -71,8 +71,7 @@ export class PouleComponent implements OnInit {
   }
 
   showParticipant(objectRef: string, participant_s): string {
-    if (objectRef === 'Binomes') { console.log(participant_s.joueurs[1]); }
     return (objectRef === 'Joueurs' ? participant_s.nom + ' - ' + participant_s.classement + ' points'
-      : participant_s.joueurs[0] + ' - ' + participant_s.joueurs[1]);
+      : participant_s.joueurs[0].nom + ' - ' + participant_s.joueurs[1].nom);
   }
 }
