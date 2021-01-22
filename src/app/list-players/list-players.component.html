@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <table mat-table [dataSource]="listJoueurs">
+    <table mat-table [dataSource]="listJoueurs" *ngIf="listJoueurs.length">
 
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>

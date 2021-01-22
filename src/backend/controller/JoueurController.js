@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
+const Binome = require('../model/Binome')
 const Bracket = require('../model/Bracket')
 const mongoose = require('mongoose')
 const _ = require('lodash');
@@ -30,9 +31,9 @@ router.route("/subscribed/:tableau").get(function(req, res) {
   getPlayers({'tableaux' : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer les joueurs inscrits au tableau'))
 });
 
-// (DOUBLE) GETSUBSCRIBED UNASSIGNED PLAYERS IN ANY BINOME OF SPECIFIC TABLEAU
+// (BINOME) SUBSCRIBED BUT UNASSIGNED PLAYERS FOR A SPECIFIC TABLEAU
 router.route("/unassigned/:tableau").get(async function(req, res) {
-  let assignedPlayers = await Poule.find({tableau: req.params.tableau}).populate('joueurs')
+  let assignedPlayers = await Binome.find({tableau: req.params.tableau}).populate('joueurs')
   let assignedPlayersIds = assignedPlayers.map(poule => poule.joueurs).flat()
   let subscribedPlayersIds = await getPlayers({'tableaux' : {$all: [req.params.tableau]}})
 
@@ -70,13 +71,12 @@ router.route("/create").post(async function(req, res) {
         let nbJoueursInscrits = await Joueur.countDocuments({tableaux : {$all: [req.body.tableaux[i]]}})
 
         if (nbJoueursInscrits % 2 !== 0){
-          let poule = new Poule({
+          let binome = new Binome({
             _id: new mongoose.Types.ObjectId(),
             tableau: req.body.tableaux[i]._id,
-            locked: false,
             joueurs: []
           })
-          await poule.save()
+          await binome.save()
         }
       }
     }
@@ -104,14 +104,14 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
 
     if (req.body.format === 'double'){
       // On supprime le joueur du binôme auquel il est assigné
-      await Poule.updateMany({tableau: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
+      await Binome.updateMany({tableau: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
 
       // On supprime le premier binôme vide trouvé si nécessaire
       let nbJoueursInscrits = await Joueur.countDocuments({tableaux : {$all: [req.params.tableau]}})
-      let nbBinomes = await Poule.countDocuments({tableau : req.params.tableau})
+      let nbBinomes = await Binome.countDocuments({tableau : req.params.tableau})
       if (nbJoueursInscrits % 2 !== 0) nbJoueursInscrits++
       nbJoueursInscrits /= 2
-      if (nbBinomes > nbJoueursInscrits) await Poule.deleteOne({ joueurs: { $exists: true, $size: 0 } })
+      if (nbBinomes > nbJoueursInscrits) await Binome.deleteOne({ joueurs: { $exists: true, $size: 0 } })
     }
     res.status(200).json({message: 'No error'})
   } catch (e) {
@@ -126,6 +126,9 @@ router.route("/delete/:id_player").delete(async function(req, res) {
 
   // On le supprime des poules existantes
   await Poule.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
+
+  // On le supprime des binômes existants
+  await Binome.updateMany({}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
 
   // On le supprime définitivement
   Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(() => res.status(500).send('Impossible de supprimer le joueur'))

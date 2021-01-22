@@ -9,8 +9,8 @@ router.route("/:tableau").get(function(req, res) {
   Binome.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').then(binomes => res.status(200).json(binomes)).catch(() => res.status(500).send('Impossible de récupérer la binome du tableau'))
 });
 
-// UPDATE SPECIFIC DOUBLE BINOME
-router.route("/edit/binome/:idJoueur").put(async function(req, res) {
+// UPDATE SPECIFIC BINOME
+router.route("/edit/:idJoueur").put(async function(req, res) {
   try {
     // On supprime le joueur déplacé de son ancien binôme s'il s'agit d'un échange entre deux binômes
     if (req.body.oldIdBinome) await Binome.updateOne({ _id: req.body.oldIdBinome}, {$pull: {joueurs: {$in: [req.params.idJoueur]}}})

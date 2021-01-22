@@ -1,10 +1,10 @@
 <div class="container">
 
-  <mat-card *ngIf="binomes && subscribedUnassignedPlayers">
+  <mat-card *ngIf="!binomes.length && !subscribedUnassignedPlayers.length">
     <h2 class="center lobster">Il n'y a pas de joueurs inscrits ... pour le moment ;)</h2>
   </mat-card>
 
-  <div fxLayout="column" cdkDropListGroup>
+  <div fxLayout="column" cdkDropListGroup *ngIf="binomes.length || subscribedUnassignedPlayers.length">
     <div fxLayout="row nowrap" fxFlexFill fxLayoutAlign="space-between stretch">
 
       <div fxFlex="30%" fxLayoutAlign="center stretch">

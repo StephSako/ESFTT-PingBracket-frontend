@@ -18,8 +18,8 @@ import { BinomeService } from '../Service/binome.service';
 })
 export class BinomeComponent implements OnInit {
 
-  public binomes: BinomeInterface[] = null;
-  public subscribedUnassignedPlayers: JoueurInterface[] = null;
+  public binomes: BinomeInterface[] = [];
+  public subscribedUnassignedPlayers: JoueurInterface[] = [];
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -58,13 +58,6 @@ export class BinomeComponent implements OnInit {
       err => { this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'); });
   }
 
-  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.binomeService.editBinome(id_poule, event.container.data).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
   editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -74,7 +67,7 @@ export class BinomeComponent implements OnInit {
           event.container.data,
           event.previousIndex,
           event.currentIndex);
-        this.binomeService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
+        this.binomeService.editBinome(event.item.data[1], id_poule, event.container.data, event.item.data[0])
           .subscribe(() => {}, err => {
             this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });

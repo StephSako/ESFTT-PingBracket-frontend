@@ -17,20 +17,12 @@ export class BinomeService {
     return this.http.get(`${this.baseURL}${tableau}`);
   }
 
-  public editBinome(id_binome: string, newPlayersList: [id: JoueurInterface]): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/simple/${id_binome}`, newPlayersList);
-  }
-
-  public editDouble(oldIdBinome: string, newIdBinome: string, newPlayersList: [id: JoueurInterface], idJoueur: string): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/binome/${idJoueur}`, { oldIdBinome, newIdBinome, newPlayersList, idJoueur });
+  public editBinome(oldIdBinome: string, newIdBinome: string, newPlayersList: [id: JoueurInterface], idJoueur: string): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/${idJoueur}`, { oldIdBinome, newIdBinome, newPlayersList, idJoueur });
   }
 
   public setStatus(binome: BinomeInterface): Observable<any> {
     return this.http.put(`${this.baseURL}editStatus/${binome._id}`, { locked: !binome.locked });
-  }
-
-  public generateBinomes(tableau: string): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${tableau}`, null);
   }
 
   public removeFromBinome(idBinome: string, idPlayer: string): Observable<any> {
