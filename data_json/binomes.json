@@ -1,0 +1,15 @@
+[{
+    "_id": {
+      "$oid": "6000a69b890e4f3358f9ff8d"
+    },
+    "joueurs": [
+      {
+        "$oid": "6000a616890e4f3358f9ff66"
+      }
+    ],
+    "tableau": {
+      "$oid": "5fbc43b767e5cb1050ab0445"
+    },
+    "locked": false,
+    "__v": 0
+    }]

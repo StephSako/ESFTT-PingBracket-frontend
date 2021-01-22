@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
 import { JoueurService } from '../Service/joueur.service';
@@ -17,8 +17,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PouleComponent implements OnInit {
 
-  public poules: PouleInterface[];
-  public subscribedUnassignedPlayers: JoueurInterface[];
+  public poules: PouleInterface[] = null;
+  public subscribedUnassignedPlayers: JoueurInterface[] = null;
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -41,20 +41,14 @@ export class PouleComponent implements OnInit {
   getTableau(): void {
     this.gestionService.getTableau(this.router.url.split('/').pop()).subscribe(tableau => {
       this.tableau = tableau;
-      this.getAllPoulesBinomes();
-      if (this.tableau.format === 'double') { this.getSubscribedUnassignedPlayers(); }
+      this.getAllPoules();
     });
   }
 
-  getAllPoulesBinomes(): void {
+  getAllPoules(): void {
     this.pouleService.getAll(this.tableau._id).subscribe(poules => this.poules = poules, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
-  }
-
-  getSubscribedUnassignedPlayers(): void {
-    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
-        err => { this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'); });
   }
 
   generatePoules(): void {
@@ -70,36 +64,8 @@ export class PouleComponent implements OnInit {
     });
   }
 
-  editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
-  if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      if (event.container.data.length < 2 || id_poule === null) {
-        transferArrayItem(event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex);
-        this.pouleService.editDouble(event.item.data[1], id_poule, event.container.data, event.item.data[0])
-          .subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
-          });
-      } else {
-        this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
-      }
-    }
-  }
-
-  unsubscribeDblClick(idPoule, idPlayer): void {
-    this.pouleService.removeFromBinome(idPoule, idPlayer).subscribe(() => {
-      this.getAllPoulesBinomes();
-      this.getSubscribedUnassignedPlayers();
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
   setStatus(poule: PouleInterface): void {
-    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoulesBinomes(), err => {
+    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules(), err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }

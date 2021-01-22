@@ -1,0 +1,46 @@
+<div class="container">
+
+  <mat-card *ngIf="binomes && subscribedUnassignedPlayers">
+    <h2 class="center lobster">Il n'y a pas de joueurs inscrits ... pour le moment ;)</h2>
+  </mat-card>
+
+  <div fxLayout="column" cdkDropListGroup>
+    <div fxLayout="row nowrap" fxFlexFill fxLayoutAlign="space-between stretch">
+
+      <div fxFlex="30%" fxLayoutAlign="center stretch">
+        <div style="width: 100%;">
+          <mat-card>
+            <h2 class="lobster center">Joueurs inscrits</h2>
+
+            <div cdkDropList cdkDropListSortingDisabled [cdkDropListData]="subscribedUnassignedPlayers" class="list" (cdkDropListDropped)="editBinome($event, null)">
+              <div class="box center" [cdkDragData]="[joueur._id, null]" *ngFor="let joueur of subscribedUnassignedPlayers" cdkDrag>
+                <div class="custom-placeholder" *cdkDragPlaceholder></div>
+                {{joueur.nom}} - {{joueur.classement}} points
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <div fxFlex="70%" fxLayoutAlign="center stretch">
+        <div style="width: 100%;">
+          <div fxLayout="row wrap">
+            <div fxFlex="50%" *ngFor="let binome of binomes; let indexList = index">
+              <mat-card [class]="'mat-elevation-z8 ' + (binome.locked ? 'locked' : '')">
+                <h2 class="lobster center">Binôme n°{{indexList+1}}</h2>
+
+                <div cdkDropList [cdkDropListData]="binomes[indexList].joueurs" cdkDropListSortingDisabled class="list" (cdkDropListDropped)="editBinome($event, binome._id)">
+                  <div [cdkDragData]="[joueur._id, binome._id]" [cdkDragDisabled]="binome.locked" class="box center" *ngFor="let joueur of binomes[indexList].joueurs" cdkDrag (dblclick)="unsubscribeDblClick(binome._id, joueur._id)">
+                    <div class="custom-placeholder" *cdkDragPlaceholder></div>
+                    {{joueur.nom}}
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

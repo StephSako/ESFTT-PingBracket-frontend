@@ -32,7 +32,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GestionJoueursComponent } from './gestion-joueurs/gestion-joueurs.component';
 import { GestionTableauxComponent } from './gestion-tableaux/gestion-tableaux.component';
-import { HomeComponent } from './home/home.component';
 import { FormTableauComponent } from './form-tableau/form-tableau.component';
 import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -46,6 +45,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
 import { GestionFormulaireComponent } from './gestion-formulaire/gestion-formulaire.component';
+import { BinomeComponent } from './binome/binome.component';
 
 @NgModule({
   declarations: [
@@ -60,14 +60,14 @@ import { GestionFormulaireComponent } from './gestion-formulaire/gestion-formula
     GestionComponent,
     GestionJoueursComponent,
     GestionTableauxComponent,
-    HomeComponent,
     FormTableauComponent,
     EditTableauComponent,
     BracketComponent,
     LoginComponent,
     FormulaireComponent,
     ConfirmFormulaireComponent,
-    GestionFormulaireComponent
+    GestionFormulaireComponent,
+    BinomeComponent
   ],
   imports: [
     BrowserModule,

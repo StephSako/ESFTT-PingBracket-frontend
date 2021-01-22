@@ -102,7 +102,10 @@ export class GestionTableauxComponent implements OnInit {
       width: '55%',
       data: tableauToDelete
     }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){ this.tableauService.delete(id_tableau).subscribe(() => this.getAllTableaux(), err => {
+      if (id_tableau){ this.tableauService.delete(id_tableau).subscribe(() => {
+        this.getAllTableaux();
+        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
+      }, err => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       }); }
     }, err => {

@@ -1,20 +1,18 @@
 <mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight="200%" selectedIndex="0" *ngIf="tableau._id">
 
   <mat-tab>
-    <ng-template mat-tab-label class="mat-tab-label">
-      Inscriptions
-    </ng-template>
-
-    <app-list-players (updateUnassignedPlayers)="poule.getSubscribedUnassignedPlayers()" (getBinomes)="poule.getAllPoulesBinomes()" (updatePoules)="poule.generatePoules()"></app-list-players>
+    <ng-template mat-tab-label class="mat-tab-label">Inscriptions</ng-template>
+    <app-list-players></app-list-players>
   </mat-tab>
 
-  <mat-tab>
-    <ng-template mat-tab-label class="mat-tab-label">
-      <span *ngIf="tableau.format === 'simple'">Poules</span>
-      <span *ngIf="tableau.format === 'double'">Binômes</span>
-    </ng-template>
+  <mat-tab *ngIf="tableau.format === 'double'">
+    <ng-template mat-tab-label class="mat-tab-label">Binômes</ng-template>
+    <app-binome></app-binome>
+  </mat-tab>
 
-    <app-poule #poule></app-poule>
+  <mat-tab *ngIf="tableau.poules">
+    <ng-template mat-tab-label class="mat-tab-label">Poules</ng-template>
+    <app-poule></app-poule>
   </mat-tab>
 
   <mat-tab>

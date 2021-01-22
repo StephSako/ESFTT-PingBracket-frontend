@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         .subscribe(
           () => {
             this.spinnerShown = false;
-            this.router.navigateByUrl('/home');
+            this.router.navigateByUrl('/gestion');
           },
           err => {
             this.spinnerShown = false;

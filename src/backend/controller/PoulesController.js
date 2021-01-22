@@ -10,32 +10,12 @@ router.route("/:tableau").get(function(req, res) {
 });
 
 // UPDATE SPECIFIC POULE
-router.route("/edit/simple/:id_poule").put(function(req, res) {
+router.route("/edit/:id_poule").put(function(req, res) {
   Poule.updateOne({_id: req.params.id_poule}, {
     $set: {
       joueurs: req.body
     }
   }).then(() => res.json({message: "La poule a été mise à jour"})).catch(() => res.status(500).send('Impossible de modifier la poule'))
-});
-
-// UPDATE SPECIFIC DOUBLE BINOME
-router.route("/edit/binome/:idJoueur").put(async function(req, res) {
-  try {
-    // On supprime le joueur déplacé de son ancien binôme s'il s'agit d'un échange entre deux binômes
-    if (req.body.oldIdPoule) await Poule.updateOne({ _id: req.body.oldIdPoule}, {$pull: {joueurs: {$in: [req.params.idJoueur]}}})
-
-    // On met à jour le nouveau binôme avec la liste des joueurs s'il s'agit d'un échange entre deux binômes
-    if (req.body.newIdPoule) {
-      await Poule.updateOne({_id: req.body.newIdPoule}, {
-        $set: {
-          joueurs: req.body.newPlayersList
-        }
-      })
-    }
-    res.status(200).json({message: 'La poule a été mise à jour'})
-  } catch (e) {
-    res.status(500).send('Impossible de modifier la poule')
-  }
 });
 
 // GENERATE POULES

@@ -1,6 +1,6 @@
 <mat-toolbar>
   <div *ngIf="accountService.isLoggedIn()">
-    <button *ngFor="let tableau of tableaux" mat-raised-button [color]="isActive(tableau._id)" [routerLink]="'/tableau/' + tableau._id"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null"> - {{ tableau.age_minimum}} ans</span></span></button>
+    <button *ngFor="let tableau of tableaux" mat-raised-button [color]="isActive(tableau._id)" [routerLink]="'/tableau/' + tableau._id"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></button>
   </div>
 
   <span class="spacer"></span>

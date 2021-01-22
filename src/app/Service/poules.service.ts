@@ -18,11 +18,7 @@ export class PoulesService {
   }
 
   public editPoule(id_poule: string, newPlayersList: [id: JoueurInterface]): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/simple/${id_poule}`, newPlayersList);
-  }
-
-  public editDouble(oldIdPoule: string, newIdPoule: string, newPlayersList: [id: JoueurInterface], idJoueur: string): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/binome/${idJoueur}`, { oldIdPoule, newIdPoule, newPlayersList, idJoueur });
+    return this.http.put(`${this.baseURL}edit/${id_poule}`, newPlayersList);
   }
 
   public setStatus(poule: PouleInterface): Observable<any> {
@@ -31,9 +27,5 @@ export class PoulesService {
 
   public generatePoules(tableau: string): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${tableau}`, null);
-  }
-
-  public removeFromBinome(idPoule: string, idPlayer: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}remove/from/binome/${idPoule}/${idPlayer}`);
   }
 }
