@@ -102,7 +102,7 @@ export class GestionTableauxComponent implements OnInit {
   }
 
   generatePoules(): void {
-    this.poulesService.generatePoules(this.tableau._id).subscribe(() => {}, err => {
+    this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }

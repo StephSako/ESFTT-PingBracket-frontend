@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableauInterface } from '../Interface/Tableau';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import {PoulesService} from '../Service/poules.service';
+import { PoulesService } from '../Service/poules.service';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -44,7 +44,7 @@ export class GestionJoueursComponent implements OnInit {
   generatePoules(tableaux: TableauInterface[]): void {
     tableaux.forEach(tableau => {
       if (tableau.poules) {
-        this.poulesService.generatePoules(tableau._id).subscribe(() => {}, err => {
+        this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
           this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
         });
       }

@@ -25,7 +25,7 @@ export class BinomeService {
     return this.http.put(`${this.baseURL}editStatus/${binome._id}`, { locked: !binome.locked });
   }
 
-  public removeFromBinome(idBinome: string, idPlayer: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}remove/from/binome/${idBinome}/${idPlayer}`);
+  public removePlayer(idBinome: string, idPlayer: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}remove_player/${idBinome}/${idPlayer}`);
   }
 }

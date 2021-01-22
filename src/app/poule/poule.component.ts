@@ -17,8 +17,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PouleComponent implements OnInit {
 
-  public poules: PouleInterface[] = null;
-  public subscribedUnassignedPlayers: JoueurInterface[] = null;
+  public poules: PouleInterface[] = [];
+  public subscribedUnassignedPlayers: JoueurInterface[] = [];
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -52,12 +52,12 @@ export class PouleComponent implements OnInit {
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau._id).subscribe(poules => this.poules = poules, err => {
+    this.pouleService.generatePoules(this.tableau).subscribe(poules => this.poules = poules, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
-  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
+  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void { // TODO : EDIT NOT DONE
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
@@ -68,5 +68,11 @@ export class PouleComponent implements OnInit {
     this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules(), err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
+  }
+
+  showParticipant(objectRef: string, participant_s): string {
+    if (objectRef === 'Binomes') { console.log(participant_s.joueurs[1]); }
+    return (objectRef === 'Joueurs' ? participant_s.nom + ' - ' + participant_s.classement + ' points'
+      : participant_s.joueurs[0] + ' - ' + participant_s.joueurs[1]);
   }
 }

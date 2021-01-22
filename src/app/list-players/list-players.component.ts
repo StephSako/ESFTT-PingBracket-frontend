@@ -184,7 +184,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   generateHostablePoules(): void {
-    this.poulesService.generatePoules(this.hostableTableau._id).subscribe(() => {}, err => {
+    this.poulesService.generatePoules(this.hostableTableau).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
@@ -194,7 +194,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   generatePoules(): void {
-    this.poulesService.generatePoules(this.tableau._id).subscribe(() => {}, err => {
+    this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }

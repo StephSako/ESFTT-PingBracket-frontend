@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 // ALL BINOMES
 router.route("/:tableau").get(function(req, res) {
-  Binome.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').then(binomes => res.status(200).json(binomes)).catch(() => res.status(500).send('Impossible de récupérer la binome du tableau'))
+  Binome.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').then(binomes => res.status(200).json(binomes)).catch(() => res.status(500).send('Impossible de récupérer le binôme du tableau'))
 });
 
 // UPDATE SPECIFIC BINOME
@@ -78,9 +78,9 @@ router.route("/generate/:tableau").put(async function(req, res) {
     }
   }
   catch (err) {
-    res.status(500).send('Impossible de générer la binome')
+    res.status(500).send('Impossible de générer le binôme')
   }
-  Binome.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').populate('joueurs.tableaux').then(binomes => res.status(200).json(binomes)).catch(() => res.status(500).send('Impossible de récupérer la binome après modification'))
+  Binome.find({tableau: req.params.tableau}).populate('joueurs').populate('tableau').populate('joueurs.tableaux').then(binomes => res.status(200).json(binomes)).catch(() => res.status(500).send('Impossible de récupérer le binôme après modification'))
 });
 
 // UPDATE BINOME STATUS
@@ -89,11 +89,11 @@ router.route("/editStatus/:id_binome").put(function(req, res) {
     $set: {
       locked: req.body.locked
     }
-  }).then(() => res.json({message: "Le status de la binome a été mis à jour"})).catch(() => res.status(500).send('Impossible de modifier le statut de la binome'))
+  }).then(() => res.json({message: "Le status du binôme a été mis à jour"})).catch(() => res.status(500).send('Impossible de modifier le statut du binôme'))
 });
 
-// REMOVE PLAYER FROM BINOME WHEN DOUBLE CLICKING
-router.route("/remove/from/binome/:id_binome/:id_player").delete(function(req, res) {
+// REMOVE PLAYER IN BINOME (DOUBLE CLICKING)
+router.route("/remove_player/:id_binome/:id_player").delete(function(req, res) {
   Binome.updateOne({ _id: req.params.id_binome}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).then(() => res.json({message: "Joueur dissocié"})).catch(() => res.status(500).send('Impossible de dissocier le joueur du binôme après double-click'))
 });
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
+import {TableauInterface} from '../Interface/Tableau';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class PoulesService {
     return this.http.put(`${this.baseURL}editStatus/${poule._id}`, { locked: !poule.locked });
   }
 
-  public generatePoules(tableau: string): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${tableau}`, null);
+  public generatePoules(tableau: TableauInterface): Observable<any> {
+    return this.http.put(`${this.baseURL}generate`, tableau);
   }
 }

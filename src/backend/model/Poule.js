@@ -2,14 +2,15 @@ const mongoose = require('mongoose')
 
 const pouleSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
+  objectRef: String,
   tableau: {
     type: mongoose.Types.ObjectId,
     ref: 'Tableaux'
   },
   locked: Boolean,
-  joueurs: [{
+  participants: [{
       type: mongoose.Types.ObjectId,
-      ref: 'Joueurs'
+      refPath: 'objectRef'
   }],
 },{ _id : false })
 

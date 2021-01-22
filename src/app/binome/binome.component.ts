@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PouleInterface } from '../Interface/Poule';
 import { JoueurInterface } from '../Interface/Joueur';
 import { TableauInterface } from '../Interface/Tableau';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,16 +57,16 @@ export class BinomeComponent implements OnInit {
       err => { this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'); });
   }
 
-  editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
+  editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_binome: string): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      if (event.container.data.length < 2 || id_poule === null) {
+      if (event.container.data.length < 2 || id_binome === null) {
         transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
           event.currentIndex);
-        this.binomeService.editBinome(event.item.data[1], id_poule, event.container.data, event.item.data[0])
+        this.binomeService.editBinome(event.item.data[1], id_binome, event.container.data, event.item.data[0])
           .subscribe(() => {}, err => {
             this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
@@ -77,8 +76,8 @@ export class BinomeComponent implements OnInit {
     }
   }
 
-  unsubscribeDblClick(idPoule, idPlayer): void {
-    this.binomeService.removeFromBinome(idPoule, idPlayer).subscribe(() => {
+  unsubscribeDblClick(idBinome, idPlayer): void {
+    this.binomeService.removePlayer(idBinome, idPlayer).subscribe(() => {
       this.getAllBinomes();
       this.getSubscribedUnassignedPlayers();
     }, err => {
@@ -86,8 +85,8 @@ export class BinomeComponent implements OnInit {
     });
   }
 
-  setStatus(poule: PouleInterface): void {
-    this.binomeService.setStatus(poule).subscribe(() => this.getAllBinomes(), err => {
+  setStatus(binome: BinomeInterface): void {
+    this.binomeService.setStatus(binome).subscribe(() => this.getAllBinomes(), err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }

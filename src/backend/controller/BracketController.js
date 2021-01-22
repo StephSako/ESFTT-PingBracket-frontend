@@ -167,16 +167,16 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
         }
 
         // On créé le document de la rencontre
-        const tableau = new Bracket({
+        const bracket = new Bracket({
           _id: new mongoose.Types.ObjectId(),
           type: (i !== 1 ? 'Winnerbracket' : 'Final'),
-          objectRef: (req.body.format === 'double' ? 'Poules' : 'Joueurs'),
+          objectRef: (req.body.format === 'double' ? 'Binomes' : 'Joueurs'),
           tableau: req.params.tableau,
           round: i,
           phase: req.params.phase,
           matches: matches
         })
-        await tableau.save()
+        await bracket.save()
       }
 
       let qualified = [], id_match = 1

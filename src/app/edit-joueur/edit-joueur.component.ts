@@ -61,8 +61,8 @@ export class EditJoueurComponent implements OnInit {
     });
   }
 
-  generatePoules(tableau_id: string): void {
-    this.pouleService.generatePoules(tableau_id).subscribe(() => {}, err => {
+  generatePoules(tableau: TableauInterface): void {
+    this.pouleService.generatePoules(tableau).subscribe(() => {}, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
@@ -81,7 +81,7 @@ export class EditJoueurComponent implements OnInit {
         if (tableau1.nom > tableau2.nom) { return 1; }
         return 0;
       });
-      this.generatePoules(tableau._id);
+      this.generatePoules(tableau);
     }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
@@ -102,7 +102,7 @@ export class EditJoueurComponent implements OnInit {
       if (id_tableau){
         this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
           this.joueur.tableaux = this.joueur.tableaux.filter(tableauFilter => tableauFilter._id !== id_tableau );
-          this.generatePoules(tableau._id);
+          this.generatePoules(tableau);
         }, err => {
           this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
         });
@@ -139,7 +139,7 @@ export class EditJoueurComponent implements OnInit {
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
             this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
-          this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau._id));
+          this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau));
         }
       });
     }
@@ -170,7 +170,7 @@ export class EditJoueurComponent implements OnInit {
               this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableauFiltered => (
                 tableauFiltered.age_minimum !== null && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value
                 >= tableauFiltered.age_minimum))).includes(value));
-              this.generatePoules(tableau._id);
+              this.generatePoules(tableau);
             }, err => {
               this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
             });
