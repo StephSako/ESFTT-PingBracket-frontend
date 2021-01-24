@@ -51,7 +51,7 @@ export class GestionFormulaireComponent implements OnInit {
 
   getParametres(): void{
     this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -60,13 +60,13 @@ export class GestionFormulaireComponent implements OnInit {
       message => {
         this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
   }
 
   getBuffet(): void {
     this.buffetService.getBuffet().subscribe(buffet => this.buffet = buffet, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

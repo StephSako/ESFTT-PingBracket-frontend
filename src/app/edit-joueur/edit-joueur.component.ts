@@ -57,19 +57,19 @@ export class EditJoueurComponent implements OnInit {
 
   getAllTableaux(): void{
     this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   generatePoules(tableau: TableauInterface): void {
     this.pouleService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   getJoueur(): void{
     this.joueurService.getPlayer(this.joueur._id).subscribe(joueur => this.joueur = joueur, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -83,7 +83,7 @@ export class EditJoueurComponent implements OnInit {
       });
       this.generatePoules(tableau);
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -104,7 +104,7 @@ export class EditJoueurComponent implements OnInit {
           this.joueur.tableaux = this.joueur.tableaux.filter(tableauFilter => tableauFilter._id !== id_tableau );
           this.generatePoules(tableau);
         }, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
       }
     });
@@ -137,7 +137,7 @@ export class EditJoueurComponent implements OnInit {
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
           this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau));
         }
@@ -161,7 +161,7 @@ export class EditJoueurComponent implements OnInit {
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
           this.joueur.tableaux.filter(tableau => (tableau.age_minimum !== null
             && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
@@ -172,7 +172,7 @@ export class EditJoueurComponent implements OnInit {
                 >= tableauFiltered.age_minimum))).includes(value));
               this.generatePoules(tableau);
             }, err => {
-              this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
             });
           });
         }
@@ -182,7 +182,7 @@ export class EditJoueurComponent implements OnInit {
       this.joueur.classement = this.reactiveForm.get('classement').value;
       this.joueur.age = this.reactiveForm.get('age').value;
       this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
     }
   }

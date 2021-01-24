@@ -1,0 +1,48 @@
+<div class="container">
+
+  <mat-card>
+    <h2 class="lobster">Modifier l'identifiant</h2>
+    <mat-form-field appearance="outline" class="center">
+      <mat-icon matSuffix>account_circle</mat-icon>
+      <mat-label>Pseudo</mat-label>
+      <input [(ngModel)]="username" name="login_user" matInput [formControl]="loginControl" required>
+      <mat-error *ngIf="loginControl.invalid">{{getErrorMessageLogin()}}</mat-error>
+    </mat-form-field>
+
+    <button [disabled]="showButtonEditUsername()" class="center" mat-raised-button color="primary" (click)="editUsername()">Modifier</button>
+  </mat-card>
+
+  <mat-card>
+    <h2 class="lobster">Modifier le mot de passe</h2>
+    <div fxLayout="row" class="edit_password">
+      <div fxFlex="33%">
+        <mat-form-field appearance="outline" class="center">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <mat-label>Mot de passe actuel</mat-label>
+          <input [(ngModel)]="actualPassword" name="password_user" type="password" matInput [formControl]="actualPasswordControl" required>
+          <mat-error *ngIf="loginControl.invalid">{{getErrorMessageActualPassword()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="33%">
+        <mat-form-field appearance="outline" class="center">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <mat-label>Nouveau mot de passe</mat-label>
+          <input [(ngModel)]="newPassword" name="new_password_user" type="password" matInput [formControl]="newPasswordControl" required>
+          <mat-error *ngIf="newPasswordControl.invalid">{{getErrorMessageNewPassword()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="33%">
+        <mat-form-field appearance="outline" class="center">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <mat-label>Retapez le nouveau mot de passe</mat-label>
+          <input [(ngModel)]="newPasswordCheck" name="new_password_user_verif" type="password" matInput [formControl]="newPasswordCheckControl" required>
+          <mat-error *ngIf="newPasswordCheckControl.invalid">{{getErrorMessageNewPasswordCheck()}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <button class="center" mat-raised-button color="primary" (click)="editPassword()">Modifier</button>
+  </mat-card>
+</div>

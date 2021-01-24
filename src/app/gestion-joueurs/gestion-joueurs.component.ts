@@ -37,7 +37,7 @@ export class GestionJoueursComponent implements OnInit {
 
   getAllJoueurs(): void {
     this.joueurService.getAllPlayers().subscribe(joueurs => this.allJoueurs = joueurs, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -45,7 +45,7 @@ export class GestionJoueursComponent implements OnInit {
     tableaux.forEach(tableau => {
       if (tableau.poules) {
         this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
       }
     });
@@ -63,7 +63,7 @@ export class GestionJoueursComponent implements OnInit {
           age: null,
           _id : null,
           tableaux: []
-        }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+        }; }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
   }
 
   openEditDialog(joueur: JoueurInterface): void {
@@ -92,10 +92,10 @@ export class GestionJoueursComponent implements OnInit {
         this.getAllJoueurs();
         this.generatePoules(joueur.tableaux);
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

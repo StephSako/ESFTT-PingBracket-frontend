@@ -22,7 +22,7 @@ export class AppComponent {
 
   getAllTableaux(): void{
     this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

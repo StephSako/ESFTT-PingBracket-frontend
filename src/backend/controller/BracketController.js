@@ -96,7 +96,6 @@ router.route("/:tableau/:phase").get(function(req, res) {
 // SET WINNER
 router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req, res) {
   try {
-
     await defineMatchStatusAndWinner(req.params.id_round, req.params.tableau, req.params.phase, req.params.id_match, req.body.winnerId)
 
     // S'il s'agit des demies-finale, on assigne les perdants en petite finale
@@ -115,13 +114,14 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
   await Bracket.deleteMany({ tableau: req.params.tableau, phase: req.params.phase})
 
   let option
-  if (req.body.format === 'double') option = {tableau: req.params.tableau, joueurs: { $size: 2 } }
+  if (req.body.format === 'double') option = {tableau: req.params.tableau, 'participants.$.joueurs': { $size: 2 } } // TODO ISSUE EMPTY
   else option = {tableau: req.params.tableau}
   let poules = await Poule.find(option)
+  console.log(poules)
 
   // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
   let nbQualified = 0, nbRounds, rankOrderer
-  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.joueurs.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)).length)
+  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)).length)
   else nbQualified = poules.length
 
   if (nbQualified > 64){
@@ -181,10 +181,10 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
 
       let qualified = [], id_match = 1
 
-      // On créé la liste des joueur/binômes qualifiés
+      // On créé la liste des joueurs/binômes qualifiés
       if (req.body.format === 'simple') {
         for (let i = 0; i < poules.length; i++) {
-          qualified = qualified.concat(poules[i].joueurs.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)))
+          qualified = qualified.concat(poules[i].participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)))
         }
       } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
 
@@ -213,12 +213,11 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
           await defineMatchStatusAndWinner(matche.round, req.params.tableau, req.params.phase, matche.id, winner_id)
         }
       }
-
       res.status(200).json({message: "No error"})
     }
     else res.status(500).send('Il n\'y a pas assez de')
   } catch(e) {
-    res.status(500).send('Impossible de générer le bracket')
+    res.status(500).send(e/*'Impossible de générer le bracket'*/)
   }
 });
 

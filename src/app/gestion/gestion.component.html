@@ -6,19 +6,21 @@
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Participants</ng-template>
-
     <app-gestion-joueurs #gestion_joueur></app-gestion-joueurs>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Tableaux</ng-template>
-
     <app-gestion-tableaux></app-gestion-tableaux>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Formulaire</ng-template>
-
     <app-gestion-formulaire></app-gestion-formulaire>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label class="mat-tab-label">Privé</ng-template>
+    <app-gestion-account></app-gestion-account>
   </mat-tab>
 </mat-tab-group>

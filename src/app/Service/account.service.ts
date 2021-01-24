@@ -37,6 +37,40 @@ export class AccountService {
     );
   }
 
+  public editUsername(username: string): Observable<any> {
+    const _id = this.getUserDetails()._id;
+    const URL = this.http.put(`${this.baseURL}edit/username`, {username, _id});
+
+    return URL.pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      }),
+      catchError(err => {
+        return throwError(err.error);
+      })
+    );
+  }
+
+  public editPassword(actualPassword: string, newPassword: string): Observable<any> {
+    const _id = this.getUserDetails()._id;
+    const URL = this.http.put(`${this.baseURL}edit/password`, {actualPassword, newPassword, _id});
+
+    return URL.pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      }),
+      catchError(err => {
+        return throwError(err.error);
+      })
+    );
+  }
+
   private getToken(): string {
     if (!this.token) { this.token = localStorage.getItem('userToken'); }
     return this.token;

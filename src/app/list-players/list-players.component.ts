@@ -57,7 +57,7 @@ export class ListPlayersComponent implements OnInit {
 
   updateJoueurs(): void {
     this.joueurService.getTableauPlayers(this.idTableau).subscribe(joueurs => this.listJoueurs = joueurs, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -68,20 +68,20 @@ export class ListPlayersComponent implements OnInit {
         ['nom', 'classement', 'age', 'delete'] : ['nom', 'classement', 'delete']);
       if (this.tableau.age_minimum) { this.getTableauxHostable(); }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   getTableauxHostable(): void {
     this.tableauService.tableauEnabledToHostPlayers(this.tableau).subscribe(
       listTableaux => this.listTableauHostable = listTableaux, err => {
-      this.notifyService.notifyUser(err.error.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   updateOtherPlayers(): void {
     this.joueurService.getOtherPlayer(this.idTableau).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -98,7 +98,7 @@ export class ListPlayersComponent implements OnInit {
       this.updateJoueurs();
       this.updateOtherPlayers();
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -108,7 +108,7 @@ export class ListPlayersComponent implements OnInit {
       this.updateJoueurs();
       this.updateOtherPlayers();
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -118,7 +118,7 @@ export class ListPlayersComponent implements OnInit {
       this.updateJoueurs();
       this.updateOtherPlayers();
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -178,14 +178,14 @@ export class ListPlayersComponent implements OnInit {
           this.generateHostablePoules();
           this.generatePoules();
           this.notifyService.notifyUser('Les joueurs ont été basculés', this.snackBar, 'success', 2000, 'OK');
-        }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+        }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
       }
     });
   }
 
   generateHostablePoules(): void {
     this.poulesService.generatePoules(this.hostableTableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -195,7 +195,7 @@ export class ListPlayersComponent implements OnInit {
 
   generatePoules(): void {
     this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 }

@@ -46,6 +46,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
 import { GestionFormulaireComponent } from './gestion-formulaire/gestion-formulaire.component';
 import { BinomeComponent } from './binome/binome.component';
+import { FormAccountComponent } from './form-account/form-account.component';
+import { GestionAccountComponent } from './gestion-account/gestion-account.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { BinomeComponent } from './binome/binome.component';
     FormulaireComponent,
     ConfirmFormulaireComponent,
     GestionFormulaireComponent,
-    BinomeComponent
+    BinomeComponent,
+    FormAccountComponent,
+    GestionAccountComponent
   ],
   imports: [
     BrowserModule,

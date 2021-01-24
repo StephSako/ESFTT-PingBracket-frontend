@@ -41,14 +41,14 @@ export class GestionTableauxComponent implements OnInit {
       this.allTableaux = allTableaux;
       this.getPlayerCountPerTableau();
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   getPlayerCountPerTableau(): void {
     this.tableauService.getPlayerCountPerTableau().subscribe(
       playerCountPerTableau => this.playerCountPerTableau = playerCountPerTableau, err => {
-        this.notifyService.notifyUser(err.error.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       });
   }
 
@@ -70,7 +70,7 @@ export class GestionTableauxComponent implements OnInit {
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');
         }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
   }
 
@@ -83,11 +83,11 @@ export class GestionTableauxComponent implements OnInit {
         this.tableauService.edit(tableau).subscribe(() => {
           this.getAllTableaux();
         }, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
       }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -97,13 +97,13 @@ export class GestionTableauxComponent implements OnInit {
       if (this.tableau.poules) { this.generatePoules(); }
       this.notifyService.notifyUser('Joueurs désinscris', this.snackBar, 'success', 2000, 'OK');
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   generatePoules(): void {
     this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -139,10 +139,10 @@ export class GestionTableauxComponent implements OnInit {
         this.getAllTableaux();
         this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

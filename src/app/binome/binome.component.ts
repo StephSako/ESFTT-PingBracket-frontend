@@ -48,13 +48,13 @@ export class BinomeComponent implements OnInit {
 
   getAllBinomes(): void {
     this.binomeService.getAll(this.tableau._id).subscribe(binomes => this.binomes = binomes, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   getSubscribedUnassignedPlayers(): void {
     this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
-      err => { this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'); });
+      err => { this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'); });
   }
 
   editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_binome: string): void {
@@ -68,7 +68,7 @@ export class BinomeComponent implements OnInit {
           event.currentIndex);
         this.binomeService.editBinome(event.item.data[1], id_binome, event.container.data, event.item.data[0])
           .subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
       } else {
         this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
@@ -81,13 +81,13 @@ export class BinomeComponent implements OnInit {
       this.getAllBinomes();
       this.getSubscribedUnassignedPlayers();
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   setStatus(binome: BinomeInterface): void {
     this.binomeService.setStatus(binome).subscribe(() => this.getAllBinomes(), err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 }
