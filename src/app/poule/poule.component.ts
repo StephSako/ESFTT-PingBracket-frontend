@@ -71,7 +71,11 @@ export class PouleComponent implements OnInit {
   }
 
   showParticipant(objectRef: string, participant_s): string {
-    return (objectRef === 'Joueurs' ? participant_s.nom + ' - ' + participant_s.classement + ' points'
-      : participant_s.joueurs[0].nom + ' - ' + participant_s.joueurs[1].nom);
+    if (objectRef === 'Joueurs'){
+      return participant_s.nom + ' - ' + participant_s.classement + ' points';
+    } else if (objectRef === 'Binomes') {
+      return (participant_s.joueurs[0] !== undefined ? participant_s.joueurs[0].nom : '') +
+        (participant_s.joueurs[1] !== undefined ? ' - ' + participant_s.joueurs[1].nom : '') + ' TEST';
+    }
   }
 }

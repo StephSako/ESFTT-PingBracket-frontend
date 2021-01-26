@@ -20,7 +20,7 @@ export class BracketService {
     return this.http.put(`${this.baseURL}edit/${tableau}/${phase}/${actualRound}/${actualIdMatch}`, {winnerId, looserId});
   }
 
-  public generateBracket(bracket: string, format: string, phase: string): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, { format });
+  public generateBracket(bracket: string, format: string, phase: string, poules: boolean): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, { format, poules });
   }
 }

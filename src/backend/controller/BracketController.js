@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Bracket = require('../model/Bracket')
+const Binome = require('../model/Binome')
 const Poule = require('../model/Poule')
 const mongoose = require('mongoose')
 
@@ -90,7 +91,7 @@ router.route("/:tableau/:phase").get(function(req, res) {
   Bracket.find({tableau: req.params.tableau, phase: req.params.phase}).populate('tableau').populate({
     path: 'matches.joueurs._id',
     populate: { path: 'joueurs' }
-  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(err => res.status(500).send('Impossible de récupérer le bracket'))
+  }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(() => res.status(500).send('Impossible de récupérer le bracket'))
 });
 
 // SET WINNER
@@ -108,20 +109,60 @@ router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+router.route("/recuperer/test/test/test/:tableau").get(function(req, res) {
+  Poule.find({tableau: req.params.tableau}).populate('participants').populate({path: 'participants', populate: { path: 'joueurs', select: '_id'}}).then(poules => {
+    res.json(poules)
+  }).catch(e => console.log(e))
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 // GENERATE BRACKET
 router.route("/generate/:tableau/:phase").put(async function(req, res) {
   // On supprime tous les matches
   await Bracket.deleteMany({ tableau: req.params.tableau, phase: req.params.phase})
 
-  let option
-  if (req.body.format === 'double') option = {tableau: req.params.tableau, 'participants.$.joueurs': { $size: 2 } } // TODO ISSUE EMPTY
-  else option = {tableau: req.params.tableau}
-  let poules = await Poule.find(option)
-  console.log(poules)
+  let poules
+  if (req.body.format === 'double'){
+    if (req.body.poules) {
+      poules = await Poule.find({tableau: req.params.tableau}).populate('participants')
+      poules.forEach(poule => {
+        poule.participants = poule.participants.filter(participant => participant.joueurs.length === 2)
+      })
+    } else {
+      poules = await Binome.find({tableau: req.params.tableau, joueurs: {$size: 2}})
+    }
+  } else if (req.body.format === 'simple') {
+    if (req.body.poules) {
+      poules = await Poule.find({tableau: req.params.tableau})
+    } else {
+      res.status(500).send("Il n'existe pas de tableau simple sans poules.")
+    }
+  }
 
-  // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs qualifiés / binômes
+  // On calcule combien de rounds sont nécessaires en fonction du nombre de joueurs / binômes qualifiés si le tableau a des poules
   let nbQualified = 0, nbRounds, rankOrderer
-  if (req.body.format === 'simple') poules.forEach(poule => nbQualified += poule.participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)).length)
+  if (req.body.poules) poules.forEach(poule => nbQualified += poule.participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)).length)
   else nbQualified = poules.length
 
   if (nbQualified > 64){
@@ -182,11 +223,14 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
       let qualified = [], id_match = 1
 
       // On créé la liste des joueurs/binômes qualifiés
-      if (req.body.format === 'simple') {
+      if (req.body.poules) {
         for (let i = 0; i < poules.length; i++) {
-          qualified = qualified.concat(poules[i].participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4)))
+          qualified = qualified.concat(poules[i].participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4))) // Nous qualifions les 2 premiers de la poule en phase finale, 4 en consolante
         }
-      } else qualified = shuffle(poules.map(poule => poule._id)) // On mélange les binômes aléatoirement
+        if (req.body.format === 'double') qualified = shuffle(qualified) // On mélange les binômes aléatoirement
+      } else { // Seul le format 'double' peut ne pas avoir de poules
+        qualified = shuffle(poules.map(binome => binome._id))
+      }
 
       // On assigne les matches aux joueurs/binômes
       for (let i = 0; i < rankOrderer.length; i++) {
@@ -199,7 +243,7 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
         }
       }
 
-      // Si des joueurs sont seuls au premier round, ils sont désignés vainqueur et accèdent au second round
+      // Si des joueurs/binômes sont seuls au premier round, ils sont désignés vainqueurs et accèdent au second round
       let firstRound = await Bracket.findOne({
         tableau: req.params.tableau,
         phase: req.params.phase
