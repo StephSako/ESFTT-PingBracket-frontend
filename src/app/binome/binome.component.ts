@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { BinomeInterface } from '../Interface/Binome';
 import { BinomeService } from '../Service/binome.service';
+import {PoulesService} from '../Service/poules.service';
 
 @Component({
   selector: 'app-binome',
@@ -29,8 +30,8 @@ export class BinomeComponent implements OnInit {
   };
 
   constructor(private binomeService: BinomeService, private router: Router, private route: ActivatedRoute,
-              private joueurService: JoueurService, private gestionService: TableauService, private notifyService: NotifyService,
-              private snackBar: MatSnackBar) { }
+              private poulesService: PoulesService, private joueurService: JoueurService, private gestionService: TableauService,
+              private notifyService: NotifyService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -43,6 +44,12 @@ export class BinomeComponent implements OnInit {
       this.tableau = tableau;
       this.getAllBinomes();
       if (this.tableau.format === 'double') { this.getSubscribedUnassignedPlayers(); }
+    });
+  }
+
+  generatePoules(): void {
+    this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -67,7 +74,7 @@ export class BinomeComponent implements OnInit {
           event.previousIndex,
           event.currentIndex);
         this.binomeService.editBinome(event.item.data[1], id_binome, event.container.data, event.item.data[0])
-          .subscribe(() => {}, err => {
+          .subscribe(() => { this.generatePoules(); }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
       } else {
@@ -79,14 +86,9 @@ export class BinomeComponent implements OnInit {
   unsubscribeDblClick(idBinome, idPlayer): void {
     this.binomeService.removePlayer(idBinome, idPlayer).subscribe(() => {
       this.getAllBinomes();
+      this.generatePoules();
       this.getSubscribedUnassignedPlayers();
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
-  setStatus(binome: BinomeInterface): void {
-    this.binomeService.setStatus(binome).subscribe(() => this.getAllBinomes(), err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }

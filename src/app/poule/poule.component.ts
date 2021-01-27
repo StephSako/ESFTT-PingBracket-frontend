@@ -18,7 +18,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class PouleComponent implements OnInit {
 
   public poules: PouleInterface[] = [];
-  public subscribedUnassignedPlayers: JoueurInterface[] = [];
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -75,7 +74,7 @@ export class PouleComponent implements OnInit {
       return participant_s.nom + ' - ' + participant_s.classement + ' points';
     } else if (objectRef === 'Binomes') {
       return (participant_s.joueurs[0] !== undefined ? participant_s.joueurs[0].nom : '') +
-        (participant_s.joueurs[1] !== undefined ? ' - ' + participant_s.joueurs[1].nom : '') + ' TEST';
+        (participant_s.joueurs[1] !== undefined ? ' - ' + participant_s.joueurs[1].nom : '');
     }
   }
 }

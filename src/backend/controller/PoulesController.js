@@ -4,6 +4,7 @@ const Poule = require('../model/Poule')
 const Binome = require('../model/Binome')
 const Joueur = require('../model/Joueur')
 const mongoose = require('mongoose')
+const helper = require('./Helper');
 
 // ALL POULES
 router.route("/:tableau/:format").get(function(req, res) {
@@ -26,7 +27,10 @@ router.route("/generate").put(async function(req, res) {
     let poules = [[],[],[],[],[],[],[],[]]
     let participants = []
     if (req.body.format === 'simple') participants = await Joueur.find({ tableaux : {$all: [req.body._id]}}).sort({classement: 'desc', nom: 'asc'})
-    else if (req.body.format === 'double') participants = await Binome.find({ tableau : req.body._id}) // TODO SHUFFLE
+    else if (req.body.format === 'double'){
+      participants = await Binome.find({ tableau : req.body._id, joueurs: {$size: 2}})
+      participants = helper.shuffle(participants)
+    }
     await Poule.deleteMany({ tableau: req.body._id})
 
     // Formation des poules

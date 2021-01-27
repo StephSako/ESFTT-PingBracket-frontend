@@ -4,6 +4,7 @@ const Bracket = require('../model/Bracket')
 const Binome = require('../model/Binome')
 const Poule = require('../model/Poule')
 const mongoose = require('mongoose')
+const helper = require('./Helper');
 
 const NB_MATCHES_ROUND         = { "7": 64, "6": 32, "5": 16, "4": 8, "3": 4, "2": 2, "1": 2 }
 const ORDRE_SOIXANTEQUATREIEME = [1, 128, 65, 64, 3, 96, 97, 32, 17, 112, 81, 48, 49, 80, 113, 16, 9, 120, 73, 56, 41, 88, 105, 24, 25, 104, 89, 40, 57, 72, 121, 8, 5, 124, 69, 60, 37, 92, 101, 28, 21, 108, 85, 44, 53, 76, 117, 12, 13, 116, 77, 52, 45, 84, 109, 20, 29, 100, 93, 36, 61, 68, 125, 4, 3, 126, 67, 62, 35, 94, 99, 30, 19, 110, 83, 46, 51, 78, 115, 14, 11, 118, 75, 54, 3, 86, 107, 22, 27, 102, 91, 38, 59, 70, 123, 6, 7, 122, 71, 58, 39, 90, 103, 26, 23, 106, 87, 42, 55, 74, 119, 10, 15, 114, 79, 50, 47, 82, 111, 18, 31, 98, 95, 34, 63, 66, 127, 2]
@@ -14,13 +15,6 @@ const ORDRE_QUART              = [1, 8, 5, 4, 3, 6, 7, 2]
 const ORDRE_DEMI               = [1, 4, 3, 2]
 const ORDRE_FINALE             = [1, 2]
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
 // Push player into a specific match
 async function setPlayerSpecificMatch(id_round, id_match, id_player, tableau, phase){
   await Bracket.updateOne(
@@ -227,9 +221,9 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
         for (let i = 0; i < poules.length; i++) {
           qualified = qualified.concat(poules[i].participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4))) // Nous qualifions les 2 premiers de la poule en phase finale, 4 en consolante
         }
-        if (req.body.format === 'double') qualified = shuffle(qualified) // On mélange les binômes aléatoirement
+        if (req.body.format === 'double') qualified = helper.shuffle(qualified) // On mélange les binômes aléatoirement
       } else { // Seul le format 'double' peut ne pas avoir de poules
-        qualified = shuffle(poules.map(binome => binome._id))
+        qualified = helper.shuffle(poules.map(binome => binome._id))
       }
 
       // On assigne les matches aux joueurs/binômes

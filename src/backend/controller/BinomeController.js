@@ -32,4 +32,9 @@ router.route("/remove_player/:id_binome/:id_player").delete(function(req, res) {
   Binome.updateOne({ _id: req.params.id_binome}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).then(() => res.json({message: "Joueur dissocié"})).catch(() => res.status(500).send('Impossible de dissocier le joueur du binôme après double-click'))
 });
 
+// REMOVE ALL BINOMES
+router.route("/reset/:tableau").delete(function(req, res) {
+  Binome.deleteMany({ tableau: req.params.tableau }).then(() => res.json({message: "No error"})).catch(() => res.status(500).send('Impossible de supprimer tous les binômes'))
+});
+
 module.exports = router

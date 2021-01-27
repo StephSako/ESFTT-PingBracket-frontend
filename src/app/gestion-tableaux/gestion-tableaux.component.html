@@ -54,7 +54,7 @@
       <ng-container matColumnDef="unsubscribe_all">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let tableau">
-          <button *ngIf="showPlayerCountPerTableau(tableau._id)" (click)="unsubscribeAll(tableau._id)" class="center" mat-raised-button style="color: white; background-color: #f57646">Désinscrire les joueurs</button>
+          <button *ngIf="showPlayerCountPerTableau(tableau._id)" (click)="unsubscribeAll(tableau)" class="center" mat-raised-button style="color: white; background-color: #f57646">Désinscrire les joueurs</button>
         </td>
       </ng-container>
 

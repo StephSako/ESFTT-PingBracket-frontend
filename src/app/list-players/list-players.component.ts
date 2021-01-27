@@ -10,6 +10,7 @@ import { TableauInterface} from '../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
 import { TableauService} from '../Service/tableau.service';
+import {BinomeService} from '../Service/binome.service';
 
 @Component({
   selector: 'app-list-players',
@@ -36,7 +37,7 @@ export class ListPlayersComponent implements OnInit {
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
               private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService,
-              private tableauService: TableauService) { }
+              private tableauService: TableauService, private binomeService: BinomeService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -114,7 +115,8 @@ export class ListPlayersComponent implements OnInit {
 
   unsubscribeAllPlayers(): void {
     this.tableauService.unsubscribeAllPlayers(this.tableau._id).subscribe(() => {
-      if (this.tableau.poules) { this.generatePoules(); }
+      if (this.tableau.format === 'double') { this.removeAllBinomes(); }
+      else if (this.tableau.poules) { this.generatePoules(); }
       this.updateJoueurs();
       this.updateOtherPlayers();
     }, err => {
@@ -195,6 +197,14 @@ export class ListPlayersComponent implements OnInit {
 
   generatePoules(): void {
     this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  removeAllBinomes(): void {
+    this.binomeService.removeAll(this.tableau._id).subscribe(() => {
+      if (this.tableau.poules) { this.generatePoules(); }
+    }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
