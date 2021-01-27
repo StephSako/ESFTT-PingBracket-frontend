@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { BinomeInterface } from '../Interface/Binome';
 import { BinomeService } from '../Service/binome.service';
-import {PoulesService} from '../Service/poules.service';
+import { PoulesService } from '../Service/poules.service';
 
 @Component({
   selector: 'app-binome',
@@ -29,9 +29,9 @@ export class BinomeComponent implements OnInit {
     age_minimum: null
   };
 
-  constructor(private binomeService: BinomeService, private router: Router, private route: ActivatedRoute,
+  constructor(private binomeService: BinomeService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
               private poulesService: PoulesService, private joueurService: JoueurService, private gestionService: TableauService,
-              private notifyService: NotifyService, private snackBar: MatSnackBar) { }
+              private notifyService: NotifyService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -74,7 +74,9 @@ export class BinomeComponent implements OnInit {
           event.previousIndex,
           event.currentIndex);
         this.binomeService.editBinome(event.item.data[1], id_binome, event.container.data, event.item.data[0])
-          .subscribe(() => { this.generatePoules(); }, err => {
+          .subscribe(() => {
+            if (this.tableau.poules) { this.generatePoules(); }
+          }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
       } else {

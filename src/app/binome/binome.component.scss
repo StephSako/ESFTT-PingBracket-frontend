@@ -1,5 +1,5 @@
 .mat-card {
-  margin: 8px;
+  margin: 3%;
 }
 
 .list {
@@ -75,4 +75,18 @@ p.error_message {
   margin-bottom: 0;
   margin-top: 10px;
     width: auto;
+}
+
+.listPlayers {
+  position: fixed;
+  left: 33.5%;
+  overflow-y: scroll;
+  height: 80%;
+  width: 80% !important;
+  z-index: 1;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
 }
