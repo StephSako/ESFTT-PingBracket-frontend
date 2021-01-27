@@ -103,34 +103,6 @@ router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-router.route("/recuperer/test/test/test/:tableau").get(function(req, res) {
-  Poule.find({tableau: req.params.tableau}).populate('participants').populate({path: 'participants', populate: { path: 'joueurs', select: '_id'}}).then(poules => {
-    res.json(poules)
-  }).catch(e => console.log(e))
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
 // GENERATE BRACKET
 router.route("/generate/:tableau/:phase").put(async function(req, res) {
   // On supprime tous les matches
@@ -221,8 +193,7 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
         for (let i = 0; i < poules.length; i++) {
           qualified = qualified.concat(poules[i].participants.slice((req.params.phase === 'finale' ? 0 : 2), (req.params.phase === 'finale' ? 2 : 4))) // Nous qualifions les 2 premiers de la poule en phase finale, 4 en consolante
         }
-        if (req.body.format === 'double') qualified = helper.shuffle(qualified) // On mélange les binômes aléatoirement
-      } else { // Seul le format 'double' peut ne pas avoir de poules
+      } else { // Seul le format 'double' peux ne pas avoir de poules
         qualified = helper.shuffle(poules.map(binome => binome._id))
       }
 
