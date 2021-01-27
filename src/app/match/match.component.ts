@@ -28,13 +28,15 @@ export class MatchComponent implements OnInit {
   ngOnInit(): void {}
 
   setWinner(match: any, winnerId: string): void{
-    if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
-      const looserId = (match.joueurs.length === 2 && (match.joueurs[0]._id && match.joueurs[1]._id) ?
-        match.joueurs.filter(joueur => joueur._id._id !== winnerId)[0]._id._id : null);
-      this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId, this.phase)
-        .subscribe(() => this.updateBracket.emit(), err => {
-          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-        });
+    if (match.joueurs.length !== 1) {
+      if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
+        const looserId = (match.joueurs.length === 2 && (match.joueurs[0]._id && match.joueurs[1]._id) ?
+          match.joueurs.filter(joueur => joueur._id._id !== winnerId)[0]._id._id : null);
+        this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId, this.phase)
+          .subscribe(() => this.updateBracket.emit(), err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
+      }
     }
   }
 
