@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../Service/account.service';
-import {FormControl, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {NotifyService} from '../Service/notify.service';
+import { FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../Service/notify.service';
 
 @Component({
   selector: 'app-gestion-account',
@@ -59,7 +59,8 @@ export class GestionAccountComponent implements OnInit {
     if (this.newPassword !== this.newPasswordCheck) {
       this.newPassword = '';
       this.newPasswordCheck = '';
-      this.notifyService.notifyUser('Les mots de passe ne correspondent pas', this.snackBar, 'error', 2000, 'OK')
+      this.notifyService.notifyUser('Les mots de passe ne correspondent pas',
+        this.snackBar, 'error', 2000, 'OK');
     } else {
       this.accountService.editPassword(this.actualPassword, this.newPassword).subscribe(() => {
         this.notifyService.notifyUser('Mot de passe modifié', this.snackBar, 'success', 2000, 'OK');

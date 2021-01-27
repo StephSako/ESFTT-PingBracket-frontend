@@ -6,7 +6,8 @@ const parametreSchema = mongoose.Schema({
   titre: String,
   texte_debut: String,
   texte_buffet: String,
-  texte_fin: String
+  texte_fin: String,
+  open: Boolean
 })
 
 module.exports = mongoose.model('Parametres', parametreSchema, "Parametres")

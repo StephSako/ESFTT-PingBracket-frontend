@@ -30,7 +30,8 @@ export class GestionFormulaireComponent implements OnInit {
     date: null,
     titre: null,
     texte_fin: null,
-    texte_buffet: null
+    texte_buffet: null,
+    open: null
   };
 
   buffet: BuffetInterface = {
@@ -72,6 +73,13 @@ export class GestionFormulaireComponent implements OnInit {
 
   platsCookedEmpty(): boolean {
     return (this.buffet.plats ? this.buffet.plats.length === 0 : false);
+  }
+
+  openCloseFormulaire(): void {
+    this.parametreService.openCloseFormulaire(this.parametres._id, !this.parametres.open).subscribe(result => {
+      this.notifyService.notifyUser(result.message, this.snackBar, 'success', 2000, 'OK');
+      this.parametres.open = !this.parametres.open;
+    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
   }
 
 }

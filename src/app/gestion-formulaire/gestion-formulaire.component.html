@@ -1,18 +1,9 @@
 <div class="container">
 
   <mat-card>
-    <h2 class="lobster center">Buffet</h2>
-    <h3>Nombre de participants de moins de 13 ans : {{buffet.nb_moins_13_ans}}</h3>
-    <h3>Nombre de participants deplus de 13 ans : {{buffet.nb_plus_13_ans}}</h3>
 
-    <h3>Liste des plats confectionnés :</h3>
-    <mat-chip-list *ngIf="!platsCookedEmpty(); else noPlatsAlreadyCooked">
-      <mat-chip *ngFor="let plat of buffet.plats" color="primary" selected>{{ plat }}</mat-chip>
-    </mat-chip-list>
-    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
-  </mat-card>
-  <mat-card>
-
+    <button [style]="'backgroundColor:' + (parametres.open ? 'red': 'green')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button>
+    <br>
     <form (submit)="edit()">
       <div fxLayout="row">
         <div fxFlex="33%" class="center">
@@ -50,5 +41,17 @@
       <button mat-raised-button class="center" color="primary">Modifier</button>
     </form>
 
+  </mat-card>
+
+  <mat-card>
+    <h2 class="lobster center">Buffet</h2>
+    <h3>Nombre de participants de moins de 13 ans : {{buffet.nb_moins_13_ans}}</h3>
+    <h3>Nombre de participants deplus de 13 ans : {{buffet.nb_plus_13_ans}}</h3>
+
+    <h3>Liste des plats confectionnés :</h3>
+    <mat-chip-list *ngIf="!platsCookedEmpty(); else noPlatsAlreadyCooked">
+      <mat-chip *ngFor="let plat of buffet.plats" color="primary" selected>{{ plat }}</mat-chip>
+    </mat-chip-list>
+    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
   </mat-card>
 </div>

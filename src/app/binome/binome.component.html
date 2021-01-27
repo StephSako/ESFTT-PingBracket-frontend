@@ -35,6 +35,8 @@
                     {{joueur.nom}}
                   </div>
                 </div>
+
+                <p *ngIf="binome.joueurs.length === 1" class="center error_message">Binôme inqualifiable car incomplet</p>
               </mat-card>
             </div>
           </div>

@@ -29,7 +29,8 @@ export class FormulaireComponent implements OnInit {
     date: null,
     titre: null,
     texte_buffet: null,
-    texte_fin: null
+    texte_fin: null,
+    open: null
   };
 
   /* Paramètres de l'input avec les Chips */
