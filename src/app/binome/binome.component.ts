@@ -82,6 +82,6 @@ export class BinomeComponent implements OnInit {
   }
 
   nbPlayers(): number {
-    return this.binomes.map(binome => binome.joueurs.length).reduce((a, b) => a + b);
+    return (this.binomes.length > 0 ? this.binomes.map(binome => binome.joueurs.length).reduce((a, b) => a + b) : 0);
   }
 }
