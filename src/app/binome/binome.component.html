@@ -29,7 +29,8 @@
       <div fxFlex="33%" fxLayoutAlign="center stretch" class="listPlayers">
         <div style="width: 91%;">
           <mat-card>
-            <h1 class="lobster center">Joueurs inscrits</h1>
+            <h1 style="margin-bottom: 0;" class="lobster center">Joueurs inscrits</h1>
+            <h2 class="lobster center">({{ nbPlayers() }} assigné<span *ngIf="nbPlayers() > 1">s</span>) - ({{ subscribedUnassignedPlayers.length }} disponible<span *ngIf="nbPlayers() > 1">s</span>)</h2>
 
             <div cdkDropList cdkDropListSortingDisabled [cdkDropListData]="subscribedUnassignedPlayers" class="list" (cdkDropListDropped)="editBinome($event, null)">
               <div class="box center" [cdkDragData]="[joueur._id, null]" *ngFor="let joueur of subscribedUnassignedPlayers" cdkDrag>

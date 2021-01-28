@@ -80,4 +80,8 @@ export class BinomeComponent implements OnInit {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
+
+  nbPlayers(): number {
+    return this.binomes.map(binome => binome.joueurs.length).reduce((a, b) => a + b);
+  }
 }

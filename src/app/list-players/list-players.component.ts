@@ -32,7 +32,6 @@ export class ListPlayersComponent implements OnInit {
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
-  idTableau: string;
   joueur: JoueurInterface;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
@@ -44,7 +43,6 @@ export class ListPlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
-      this.idTableau = this.router.url.split('/').pop();
       this.joueur = {
         nom: null,
         age : null,
@@ -52,22 +50,22 @@ export class ListPlayersComponent implements OnInit {
         _id: null,
         tableaux: null
       };
-      this.getTableau();
-      this.getAllPlayers();
-      this.getUnsubscribedPlayers();
+      this.getTableau(this.router.url.split('/').pop());
       this.hostableTableau = null;
     });
   }
 
   getAllPlayers(): void {
-    this.joueurService.getTableauPlayers(this.idTableau).subscribe(joueurs => this.listJoueurs = joueurs, err => {
+    this.joueurService.getTableauPlayers(this.tableau._id).subscribe(joueurs => this.listJoueurs = joueurs, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
-  getTableau(): void {
-    this.tableauService.getTableau(this.idTableau).subscribe(tableau => {
+  getTableau(tableau_id: string): void {
+    this.tableauService.getTableau(tableau_id).subscribe(tableau => {
       this.tableau = tableau;
+      this.getAllPlayers();
+      this.getUnsubscribedPlayers();
       this.displayedColumns = (this.tableau.age_minimum !== null ?
         ['nom', 'classement', 'age', 'delete'] : ['nom', 'classement', 'delete']);
       if (this.tableau.age_minimum) { this.getTableauxHostable(); }
@@ -84,7 +82,7 @@ export class ListPlayersComponent implements OnInit {
   }
 
   getUnsubscribedPlayers(): void {
-    this.joueurService.getUnsubscribedPlayer(this.idTableau).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
+    this.joueurService.getUnsubscribedPlayer(this.tableau._id).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }

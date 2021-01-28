@@ -106,12 +106,12 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
       // On supprime le joueur du binôme auquel il est assigné
       await Binome.updateMany({tableau: req.params.tableau}, {$pull: {joueurs: {$in: [req.params.id_player]}}})
 
-      // On supprime le premier binôme vide trouvé si nécessaire
-      let nbJoueursInscrits = await Joueur.countDocuments({tableaux : {$all: [req.params.tableau]}})
+      // On supprime le premier binôme vide en trop
+      let nbMinBinomesNecessaires = await Joueur.countDocuments({tableaux : {$all: [req.params.tableau]}})
       let nbBinomes = await Binome.countDocuments({tableau : req.params.tableau})
-      if (nbJoueursInscrits % 2 !== 0) nbJoueursInscrits++
-      nbJoueursInscrits /= 2
-      if (nbBinomes > nbJoueursInscrits) await Binome.deleteOne({ joueurs: { $exists: true, $size: 0 } })
+      if (nbMinBinomesNecessaires % 2 !== 0) nbMinBinomesNecessaires++
+      nbMinBinomesNecessaires /= 2
+      if (nbBinomes > nbMinBinomesNecessaires) await Binome.deleteOne({ joueurs: { $exists: true, $size: 0 } })
     }
     res.status(200).json({message: 'No error'})
   } catch (e) {
