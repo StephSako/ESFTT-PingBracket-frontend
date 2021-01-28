@@ -58,7 +58,7 @@ export class BracketComponent implements OnInit {
           .subscribe(() => this.getBracket(), (err) => {
             this.spinnerShown = false;
             this.bracket = null;
-            this.notifyService.notifyUser((this.tableau.format === 'simple' ? `${err.error} joueurs` : `${err} binômes complets` )
+            this.notifyService.notifyUser((this.tableau.format === 'simple' ? `${err.error} joueurs` : `${err.error} binômes complets` )
               , this.snackBar, 'error', 2000, 'OK');
           });
       }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { JoueurService } from '../Service/joueur.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { TableauInterface} from '../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
 import { TableauService} from '../Service/tableau.service';
-import {BinomeService} from '../Service/binome.service';
+import { BinomeService } from '../Service/binome.service';
 
 @Component({
   selector: 'app-list-players',
@@ -34,6 +34,9 @@ export class ListPlayersComponent implements OnInit {
   otherPlayers: JoueurInterface[] = [];
   idTableau: string;
   joueur: JoueurInterface;
+  @Output() generatePoules: EventEmitter<any> = new EventEmitter();
+  @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
+  @Output() getSubscribedUnassignedPlayers: EventEmitter<any> = new EventEmitter();
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
               private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService,
@@ -50,13 +53,13 @@ export class ListPlayersComponent implements OnInit {
         tableaux: null
       };
       this.getTableau();
-      this.updateJoueurs();
-      this.updateOtherPlayers();
+      this.getAllPlayers();
+      this.getUnsubscribedPlayers();
       this.hostableTableau = null;
     });
   }
 
-  updateJoueurs(): void {
+  getAllPlayers(): void {
     this.joueurService.getTableauPlayers(this.idTableau).subscribe(joueurs => this.listJoueurs = joueurs, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
@@ -80,8 +83,8 @@ export class ListPlayersComponent implements OnInit {
     });
   }
 
-  updateOtherPlayers(): void {
-    this.joueurService.getOtherPlayer(this.idTableau).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
+  getUnsubscribedPlayers(): void {
+    this.joueurService.getUnsubscribedPlayer(this.idTableau).subscribe(joueurs => { this.otherPlayers = joueurs; }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
@@ -95,9 +98,13 @@ export class ListPlayersComponent implements OnInit {
         _id : null,
         tableaux: null
       };
-      if (this.tableau.poules) { this.generatePoules(); }
-      this.updateJoueurs();
-      this.updateOtherPlayers();
+      if (this.tableau.poules && this.tableau.format !== 'double') { this.generatePoules.emit(); }
+      if (this.tableau.format === 'double') {
+        this.getAllBinomes.emit();
+        this.getSubscribedUnassignedPlayers.emit();
+      }
+      this.getAllPlayers();
+      this.getUnsubscribedPlayers();
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
@@ -105,9 +112,13 @@ export class ListPlayersComponent implements OnInit {
 
   unsubscribePlayer(joueur_id: string): void {
     this.joueurService.unsubscribe(this.tableau, joueur_id).subscribe(() => {
-      if (this.tableau.poules) { this.generatePoules(); }
-      this.updateJoueurs();
-      this.updateOtherPlayers();
+      if (this.tableau.poules) { this.generatePoules.emit(); }
+      if (this.tableau.format === 'double') {
+        this.getAllBinomes.emit();
+        this.getSubscribedUnassignedPlayers.emit();
+      }
+      this.getAllPlayers();
+      this.getUnsubscribedPlayers();
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
@@ -115,10 +126,12 @@ export class ListPlayersComponent implements OnInit {
 
   unsubscribeAllPlayers(): void {
     this.tableauService.unsubscribeAllPlayers(this.tableau._id).subscribe(() => {
-      if (this.tableau.format === 'double') { this.removeAllBinomes(); }
-      else if (this.tableau.poules) { this.generatePoules(); }
-      this.updateJoueurs();
-      this.updateOtherPlayers();
+      if (this.tableau.format === 'double') {
+        this.removeAllBinomes();
+      }
+      else if (this.tableau.poules) { this.generatePoules.emit(); }
+      this.getAllPlayers();
+      this.getUnsubscribedPlayers();
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
@@ -136,7 +149,9 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: playerToDelete
     }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){ this.unsubscribePlayer(id_joueur); }
+      if (id_joueur){
+        this.unsubscribePlayer(id_joueur);
+      }
     });
   }
 
@@ -157,7 +172,14 @@ export class ListPlayersComponent implements OnInit {
       width: '45%',
       data: playersToDelete
     }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){ this.unsubscribeAllPlayers(); }
+      if (id_tableau){
+        this.unsubscribeAllPlayers();
+
+        if (this.tableau.format === 'double') {
+          this.getAllBinomes.emit();
+          this.getSubscribedUnassignedPlayers.emit();
+        }
+      }
     });
   }
 
@@ -176,9 +198,13 @@ export class ListPlayersComponent implements OnInit {
       if (id_hostable_tableau){
         this.joueurService.moveAllPlayers(this.tableau._id, this.hostableTableau._id).subscribe(() =>
         {
-          this.updateJoueurs();
+          this.getAllPlayers();
           this.generateHostablePoules();
-          this.generatePoules();
+          if (this.tableau.poules) { this.generatePoules.emit(); }
+          if (this.tableau.format === 'double') {
+            this.getAllBinomes.emit();
+            this.getSubscribedUnassignedPlayers.emit();
+          }
           this.notifyService.notifyUser('Les joueurs ont été basculés', this.snackBar, 'success', 2000, 'OK');
         }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
       }
@@ -195,15 +221,13 @@ export class ListPlayersComponent implements OnInit {
     return (this.tableau.age_minimum !== null && this.listTableauHostable.length && this.listJoueurs.length > 0);
   }
 
-  generatePoules(): void {
-    this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
   removeAllBinomes(): void {
     this.binomeService.removeAll(this.tableau._id).subscribe(() => {
-      if (this.tableau.poules) { this.generatePoules(); }
+      if (this.tableau.poules) { this.generatePoules.emit(); }
+      if (this.tableau.format === 'double') {
+        this.getAllBinomes.emit();
+        this.getSubscribedUnassignedPlayers.emit();
+      }
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JoueurInterface } from '../Interface/Joueur';
 import { TableauInterface } from '../Interface/Tableau';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,8 +18,8 @@ import { PoulesService } from '../Service/poules.service';
 })
 export class BinomeComponent implements OnInit {
 
-  public binomes: BinomeInterface[] = [];
-  public subscribedUnassignedPlayers: JoueurInterface[] = [];
+  @Input() binomes: BinomeInterface[] = [];
+  @Input() subscribedUnassignedPlayers: JoueurInterface[] = [];
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -28,6 +28,9 @@ export class BinomeComponent implements OnInit {
     consolante: null,
     age_minimum: null
   };
+  @Output() generatePoules: EventEmitter<any> = new EventEmitter();
+  @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
+  @Output() getSubscribedUnassignedPlayers: EventEmitter<any> = new EventEmitter();
 
   constructor(private binomeService: BinomeService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
               private poulesService: PoulesService, private joueurService: JoueurService, private gestionService: TableauService,
@@ -42,26 +45,9 @@ export class BinomeComponent implements OnInit {
   getTableau(): void {
     this.gestionService.getTableau(this.router.url.split('/').pop()).subscribe(tableau => {
       this.tableau = tableau;
-      this.getAllBinomes();
-      if (this.tableau.format === 'double') { this.getSubscribedUnassignedPlayers(); }
+      this.getAllBinomes.emit();
+      if (this.tableau.format === 'double') { this.getSubscribedUnassignedPlayers.emit(); }
     });
-  }
-
-  generatePoules(): void {
-    this.poulesService.generatePoules(this.tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
-  getAllBinomes(): void {
-    this.binomeService.getAll(this.tableau._id).subscribe(binomes => this.binomes = binomes, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
-  getSubscribedUnassignedPlayers(): void {
-    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
-      err => { this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'); });
   }
 
   editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_binome: string): void {
@@ -75,7 +61,7 @@ export class BinomeComponent implements OnInit {
           event.currentIndex);
         this.binomeService.editBinome(event.item.data[1], id_binome, event.container.data, event.item.data[0])
           .subscribe(() => {
-            if (this.tableau.poules) { this.generatePoules(); }
+            if (this.tableau.poules) { this.generatePoules.emit(); }
           }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
@@ -87,9 +73,9 @@ export class BinomeComponent implements OnInit {
 
   unsubscribeDblClick(idBinome, idPlayer): void {
     this.binomeService.removePlayer(idBinome, idPlayer).subscribe(() => {
-      this.getAllBinomes();
-      this.generatePoules();
-      this.getSubscribedUnassignedPlayers();
+      this.getAllBinomes.emit();
+      this.generatePoules.emit();
+      this.getSubscribedUnassignedPlayers.emit();
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });

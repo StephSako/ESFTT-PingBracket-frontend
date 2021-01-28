@@ -2,17 +2,26 @@
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Inscriptions</ng-template>
-    <app-list-players></app-list-players>
+    <app-list-players
+      (generatePoules)="generatePoules()"
+      (getAllBinomes)="getAllBinomes()"
+      (getSubscribedUnassignedPlayers)="getSubscribedUnassignedPlayers()">
+    </app-list-players>
   </mat-tab>
 
   <mat-tab *ngIf="tableau.format === 'double'">
     <ng-template mat-tab-label class="mat-tab-label">Binômes</ng-template>
-    <app-binome></app-binome>
+    <app-binome (getSubscribedUnassignedPlayers)="getSubscribedUnassignedPlayers()"
+                (getAllBinomes)="getAllBinomes()"
+                (generatePoules)="generatePoules()"
+                [binomes]="binomes"
+                [subscribedUnassignedPlayers]="subscribedUnassignedPlayers">
+    </app-binome>
   </mat-tab>
 
   <mat-tab *ngIf="tableau.poules">
     <ng-template mat-tab-label class="mat-tab-label">Poules</ng-template>
-    <app-poule></app-poule>
+    <app-poule (getAllPoules)="getAllPoules()" [poules]="poules"></app-poule>
   </mat-tab>
 
   <mat-tab>

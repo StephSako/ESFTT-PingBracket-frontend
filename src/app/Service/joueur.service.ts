@@ -25,7 +25,7 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}subscribed/${tableau}`);
   }
 
-  public getOtherPlayer(tableau: string): Observable<any> {
+  public getUnsubscribedPlayer(tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}unsubscribed/${tableau}`);
   }
 

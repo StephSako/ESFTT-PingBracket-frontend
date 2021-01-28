@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PoulesService } from '../Service/poules.service';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PouleComponent implements OnInit {
 
-  public poules: PouleInterface[] = [];
+  @Input() poules: PouleInterface[] = [];
   tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -26,6 +26,7 @@ export class PouleComponent implements OnInit {
     consolante: null,
     age_minimum: null
   };
+  @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
               private joueurService: JoueurService, private gestionService: TableauService, private notifyService: NotifyService,
@@ -40,19 +41,7 @@ export class PouleComponent implements OnInit {
   getTableau(): void {
     this.gestionService.getTableau(this.router.url.split('/').pop()).subscribe(tableau => {
       this.tableau = tableau;
-      this.getAllPoules();
-    });
-  }
-
-  getAllPoules(): void {
-    this.pouleService.getAll(this.tableau._id, this.tableau.format).subscribe(poules => this.poules = poules, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
-  generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.getAllPoules.emit();
     });
   }
 
@@ -64,7 +53,7 @@ export class PouleComponent implements OnInit {
   }
 
   setStatus(poule: PouleInterface): void {
-    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules(), err => {
+    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules.emit(), err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
