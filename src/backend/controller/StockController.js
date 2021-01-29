@@ -23,4 +23,9 @@ router.route("/delete/:stock_id").delete(function(req, res) {
   Stock.deleteOne({_id: req.params.stock_id}).then(() => res.status(200).json({message: 'Matériel supprimé'})).catch(() => res.status(500).send('Impossible de supprimer le matériel demandé'))
 });
 
+// EDIT STOCK
+router.route("/edit/:stock_id").put(function(req, res) {
+  Stock.updateOne({_id: req.params.stock_id}, {$set: req.body.stock}).then(() => res.status(200).json({message: 'Matériel modifié'})).catch(() => res.status(500).send('Erreur lors de la modification du stock'))
+});
+
 module.exports = router

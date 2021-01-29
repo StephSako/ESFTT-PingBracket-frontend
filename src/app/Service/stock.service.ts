@@ -23,4 +23,8 @@ export class StockService {
   public delete(stock_id: string): Observable<any> {
     return this.http.delete(`${this.baseURL}delete/${stock_id}`);
   }
+
+  public edit(stock: StockInterface): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/${stock._id}`, {stock});
+  }
 }

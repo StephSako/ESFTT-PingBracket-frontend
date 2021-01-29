@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {PlayerCountPerTableau, TableauInterface} from '../Interface/Tableau';
+import { PlayerCountPerTableau, TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
