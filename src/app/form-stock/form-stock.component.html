@@ -1,0 +1,17 @@
+<div fxLayout="row">
+  <div fxFlex="80%" class="center">
+    <mat-form-field appearance="outline" class="center">
+      <mat-icon matSuffix>inventory_2</mat-icon>
+      <mat-label>Nom du matériel *</mat-label>
+      <input name="label" [formControl]="stockControl" [(ngModel)]="stock.label" matInput>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="20%">
+    <mat-form-field appearance="outline" class="center">
+      <mat-icon matSuffix>bar_chart</mat-icon>
+      <mat-label>Stock</mat-label>
+      <input name="stock" type="number" [(ngModel)]="stock.stock" min="0" max="2000" matInput>
+    </mat-form-field>
+  </div>
+</div>

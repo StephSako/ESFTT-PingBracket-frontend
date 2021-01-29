@@ -16,10 +16,6 @@ export class BuffetService {
     return this.http.get(this.baseURL);
   }
 
-  public edit(buffet: BuffetInterface): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${buffet._id}`, {buffet});
-  }
-
   public platsAlreadyCooked(): Observable<any> {
     return this.http.get(`${this.baseURL}platsAlreadyCooked`);
   }

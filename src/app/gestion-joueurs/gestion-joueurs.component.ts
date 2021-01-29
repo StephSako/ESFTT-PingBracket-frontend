@@ -52,8 +52,7 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   create(): void {
-    this.joueurService.create(
-      this.joueur.tableaux, this.joueur).subscribe(() => {
+    this.joueurService.create(this.joueur.tableaux, this.joueur).subscribe(() => {
         this.getAllJoueurs();
         this.generatePoules(this.joueur.tableaux);
         this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
@@ -100,7 +99,7 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   isInvalidPlayer(): boolean {
-    return (this.joueur.nom !== '' && this.joueur.nom !== null && this.joueur.nom.trim() !== '');
+    return (this.joueur.nom !== null && this.joueur.nom.trim() !== '');
   }
 
   showTableauxPlayer(tableaux: TableauInterface[]): string {

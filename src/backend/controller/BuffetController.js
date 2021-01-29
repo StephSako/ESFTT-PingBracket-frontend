@@ -7,11 +7,6 @@ router.route("/").get(function(req, res) {
   Buffet.findOne().then(parametres => res.status(200).json(parametres)).catch(() => res.status(500).send('Impossible de récupérer les données du buffet'))
 });
 
-// EDIT SETTINGS
-router.route("/edit/:id_parametres").put(function(req, res) {
-  Buffet.updateOne({_id: req.params.id_parametres}, {$set: req.body.parametres}).then(() => res.status(200).json({message: 'Paramètres modifiés'})).catch(() => res.status(500).send('Erreur lors de la modification des paramètres'))
-});
-
 // PLATS ALREADY COOKED
 router.route("/platsAlreadyCooked").get(function(req, res) {
   Buffet.findOne().then((buffet) => res.status(200).json(buffet.plats)).catch(() => res.status(500).send('Erreur lors du chargement des plats déjà cuisinés'))

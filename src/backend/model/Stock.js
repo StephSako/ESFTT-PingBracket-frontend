@@ -2,10 +2,8 @@ const mongoose = require('mongoose')
 
 const stockSchema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
-  labek: String,
-  stock: Number,
-  pendingOrdering: Boolean,
-  lastDateOrder: Date
+  label: String,
+  stock: Number
 })
 
 module.exports = mongoose.model('Stocks', stockSchema, "Stocks")

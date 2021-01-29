@@ -3,9 +3,5 @@
       "$oid": "5fbc43b767e5cb1050ab0755"
     },
     "label": "Table 740",
-    "stock": 2,
-    "pendingOrdering": false,
-    "lastDateOrder": {
-        "$date": "2020-06-11T00:00:00Z"
-      }
+    "stock": 2
 }]

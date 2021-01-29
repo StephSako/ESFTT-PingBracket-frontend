@@ -61,6 +61,9 @@ app.use('/api/buffet', BuffetController)
 let BinomeController = require('./src/backend/controller/BinomeController')
 app.use('/api/binome', BinomeController)
 
+let StockController = require('./src/backend/controller/StockController')
+app.use('/api/stock', StockController)
+
 let port = process.env.PORT || 4000
 app.listen(port, function () {
   console.log('Express server listening on port ' + port)
