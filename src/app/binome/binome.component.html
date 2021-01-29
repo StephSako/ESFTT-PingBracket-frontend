@@ -16,7 +16,7 @@
               <div cdkDropList [cdkDropListData]="binomes[indexList].joueurs" cdkDropListSortingDisabled class="list" (cdkDropListDropped)="editBinome($event, binome._id)">
                 <div [cdkDragData]="[joueur._id, binome._id]" [cdkDragDisabled]="binome.locked" class="box center" *ngFor="let joueur of binomes[indexList].joueurs" cdkDrag (dblclick)="unsubscribeDblClick(binome._id, joueur._id)">
                   <div class="custom-placeholder" *cdkDragPlaceholder></div>
-                  {{joueur.nom}}
+                  {{joueur.nom}} - {{joueur.classement}} points
                 </div>
               </div>
 
@@ -51,7 +51,7 @@
               <div cdkDropList [cdkDropListData]="binomes[indexList].joueurs" cdkDropListSortingDisabled class="list" (cdkDropListDropped)="editBinome($event, binome._id)">
                 <div [cdkDragData]="[joueur._id, binome._id]" [cdkDragDisabled]="binome.locked" class="box center" *ngFor="let joueur of binomes[indexList].joueurs" cdkDrag (dblclick)="unsubscribeDblClick(binome._id, joueur._id)">
                   <div class="custom-placeholder" *cdkDragPlaceholder></div>
-                  {{joueur.nom}}
+                  {{joueur.nom}} - {{joueur.classement}} points
                 </div>
               </div>
 

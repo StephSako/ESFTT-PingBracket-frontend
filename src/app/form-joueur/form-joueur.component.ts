@@ -83,6 +83,6 @@ export class FormJoueurComponent implements OnInit {
   }
 
   clickable(tableau: TableauInterface): boolean {
-    return tableau.age_minimum !== null && (this.joueur.age === null || this.joueur.age < tableau.age_minimum);
+    return tableau.age_minimum !== null && (this.joueur.age === null || this.joueur.age >= tableau.age_minimum);
   }
 }

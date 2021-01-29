@@ -76,8 +76,9 @@ router.route("/delete/:tableau_id").delete(async function(req, res) {
   }
 });
 
-// UNSUBSCRIBE ALL PLAYERS
-router.route("/unsubscribe_all").put(function(req, res) {
+// UNSUBSCRIBE ALL PLAYERS OF A SPECIFIC TABLEAU
+router.route("/unsubscribe_all").put(async function(req, res) {
+  await Bracket.deleteMany({tableau: req.body.tableau_id})
   Joueur.updateMany({}, {$pull: {tableaux: {$in: [req.body.tableau_id]}}}).then(result => res.status(200).json({message: 'No error'})).catch(() => res.status(500).send('Impossible de désinscrire tous les joueurs du tableau'))
 });
 

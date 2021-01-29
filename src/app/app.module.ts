@@ -48,6 +48,7 @@ import { GestionFormulaireComponent } from './gestion-formulaire/gestion-formula
 import { BinomeComponent } from './binome/binome.component';
 import { FormAccountComponent } from './form-account/form-account.component';
 import { GestionAccountComponent } from './gestion-account/gestion-account.component';
+import { GestionStockComponent } from './gestion-stock/gestion-stock.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { GestionAccountComponent } from './gestion-account/gestion-account.compo
     GestionFormulaireComponent,
     BinomeComponent,
     FormAccountComponent,
-    GestionAccountComponent
+    GestionAccountComponent,
+    GestionStockComponent
   ],
   imports: [
     BrowserModule,

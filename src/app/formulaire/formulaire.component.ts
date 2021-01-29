@@ -139,7 +139,7 @@ export class FormulaireComponent implements OnInit {
   }
 
   clickable(tableau: TableauInterface, joueurAge: number): boolean {
-    return tableau.age_minimum !== null && (joueurAge === null || joueurAge < tableau.age_minimum);
+    return tableau.age_minimum !== null && (joueurAge === null || joueurAge >= tableau.age_minimum);
   }
 
   typing(joueur: JoueurInterface): void {

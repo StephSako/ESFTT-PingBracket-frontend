@@ -33,7 +33,7 @@
       <mat-icon matSuffix>dns</mat-icon>
       <mat-label>Tableaux</mat-label>
       <mat-select [compareWith]="compareTableauWithOther" [(ngModel)]="joueur.tableaux" multiple>
-        <mat-option [disabled]="clickable(tableau)" *ngFor="let tableau of tableaux" [value]="tableau">{{tableau.nom | titlecase}}</mat-option>
+        <mat-option [disabled]="clickable(tableau)" *ngFor="let tableau of tableaux" [value]="tableau"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></mat-option>
       </mat-select>
     </mat-form-field>
   </div>
