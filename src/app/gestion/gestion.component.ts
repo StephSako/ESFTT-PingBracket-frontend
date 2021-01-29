@@ -30,7 +30,7 @@ export class GestionComponent implements OnInit {
     };
 
     this.dialog.open(DialogComponent, {
-      width: '45%',
+      width: '55%',
       data: accountToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){

@@ -4,6 +4,7 @@ const Tableau = require('../model/Tableau')
 const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
 const Bracket = require('../model/Bracket')
+const Binomes = require('../model/Binome')
 const Buffet = require('../model/Buffet')
 const mongoose = require('mongoose')
 const _ = require('lodash');
@@ -55,6 +56,7 @@ router.route("/reset").delete(async function(req, res) {
   try {
     await Bracket.deleteMany({})
     await Poule.deleteMany({})
+    await Binomes.deleteMany({})
     await Buffet.updateMany({}, { $set: { nb_moins_13_ans: 0, nb_plus_13_ans: 0, plats: [] } })
     await Joueur.deleteMany({})
     res.status(200).json({message: 'Tournoi remis à zéro ... prêt pour l\'année prochaine ;)'})
@@ -64,10 +66,11 @@ router.route("/reset").delete(async function(req, res) {
 });
 
 // DELETE SPECIFIC TABLEAU
-router.route("/delete/:tableau_id").delete(async function(req, res) {
+router.route("/delete/:tableau_id/:format/:poules").delete(async function(req, res) {
   try {
     await Bracket.deleteMany({tableau: req.params.tableau_id})
-    await Poule.deleteMany({tableau: req.params.tableau_id})
+    if (req.params.poules) await Poule.deleteMany({tableau: req.params.tableau_id})
+    if (req.params.format === 'double') await Binomes.deleteMany({tableau: req.params.tableau_id})
     await Joueur.updateMany({}, {$pull: {tableaux: {$in: [req.params.tableau_id]}}})
     await Tableau.deleteOne({_id: req.params.tableau_id})
     res.status(200).json({message: 'Tableau supprimé'})

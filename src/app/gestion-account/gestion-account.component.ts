@@ -11,11 +11,11 @@ import { NotifyService } from '../Service/notify.service';
 })
 export class GestionAccountComponent implements OnInit {
 
-  username: string;
-  actualPasswordHidden: string;
-  actualPassword: string;
-  newPassword: string;
-  newPasswordCheck: string;
+  username: string = null;
+  actualPasswordHidden: string = null;
+  actualPassword: string = null;
+  newPassword: string = null;
+  newPasswordCheck: string = null;
 
   loginControl = new FormControl('', [Validators.required]);
   actualPasswordControl = new FormControl('', [Validators.required]);
@@ -76,5 +76,10 @@ export class GestionAccountComponent implements OnInit {
 
   showButtonEditUsername(): boolean {
     return !(this.username.length > 0);
+  }
+
+  isFilled(): boolean {
+    return (this.newPassword != null && this.newPasswordCheck != null && this.actualPassword != null &&
+      this.newPassword.trim() !== '' && this.newPasswordCheck.trim() !== '' && this.actualPassword.trim() !== '');
   }
 }

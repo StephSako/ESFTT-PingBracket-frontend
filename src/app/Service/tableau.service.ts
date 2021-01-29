@@ -40,8 +40,8 @@ export class TableauService {
     return this.http.delete(`${this.baseURL}reset`);
   }
 
-  public delete(tableau_id: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}delete/${tableau_id}`);
+  public delete(tableau: TableauInterface): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${tableau._id}/${tableau.format}/${tableau.poules}`);
   }
 
   public unsubscribeAllPlayers(tableau_id: string): Observable<any> {

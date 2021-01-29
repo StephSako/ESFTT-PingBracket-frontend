@@ -108,9 +108,9 @@ export class GestionTableauxComponent implements OnInit {
     });
   }
 
-  delete(tableau_id: string): void {
+  delete(tableau: TableauInterface): void {
     const tableauToDelete: Dialog = {
-      id: tableau_id,
+      id: tableau._id,
       action: 'Supprimer le tableau ?',
       option: 'Les poules et brackets seront supprimés, et les joueurs désinscris.',
       action_button_text: 'Supprimer'
@@ -120,7 +120,7 @@ export class GestionTableauxComponent implements OnInit {
       width: '55%',
       data: tableauToDelete
     }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){ this.tableauService.delete(id_tableau).subscribe(() => {
+      if (id_tableau){ this.tableauService.delete(tableau).subscribe(() => {
         this.getAllTableaux();
         this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
       }, err => {
