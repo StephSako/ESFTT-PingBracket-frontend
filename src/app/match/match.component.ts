@@ -50,7 +50,7 @@ export class MatchComponent implements OnInit {
   }
 
   getName(entity: any): string {
-    if (this.tableau.format === 'simple'){ return entity.nom; }
-    else { return (entity.joueurs ? entity.joueurs.map(joueur => joueur.nom).join(' - ') : ''); }
+    if (this.tableau.format === 'simple') { return entity.nom + ' - ' + entity.classement + ' points'; }
+    else if (this.tableau.format === 'double') { return (entity.joueurs ? entity.joueurs.map(joueur => joueur.nom).join(' - ') : ''); }
   }
 }
