@@ -34,6 +34,11 @@
         <td mat-cell *matCellDef="let tableau"><span class="center"><mat-icon *ngIf="tableau.poules">check_circle_outline</mat-icon></span></td>
       </ng-container>
 
+      <ng-container matColumnDef="nbPoules">
+        <th mat-header-cell *matHeaderCellDef><span class="center">Nombre de poules</span></th>
+        <td mat-cell *matCellDef="let tableau"><span class="center">{{ tableau.nbPoules }}</span></td>
+      </ng-container>
+
       <ng-container matColumnDef="consolante">
         <th mat-header-cell *matHeaderCellDef><span class="center">Consolante</span></th>
         <td mat-cell *matCellDef="let tableau"><span class="center"><mat-icon *ngIf="tableau.consolante">check_circle_outline</mat-icon></span></td>

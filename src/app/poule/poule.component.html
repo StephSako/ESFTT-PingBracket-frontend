@@ -5,11 +5,12 @@
   </mat-card>
 
   <div fxLayout="row wrap">
-    <div fxFlex="33%" *ngFor="let poule of poules; let indexList = index">
+    <div [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'" *ngFor="let poule of poules; let indexList = index">
       <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
         <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
 
         <div
+          style="width: 100%"
           cdkDropList
           [cdkDropListData]="poules[indexList].participants"
           class="list"

@@ -5,6 +5,7 @@ export interface TableauInterface {
   poules: boolean;
   consolante: boolean;
   age_minimum: number;
+  nbPoules: number;
 }
 
 export interface PlayerCountPerTableau {

@@ -17,7 +17,7 @@ import { BinomeService } from '../Service/binome.service';
 })
 export class GestionTableauxComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'consolante', 'inscrits', 'edit', 'unsubscribe_all', 'delete'];
+  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'nbPoules', 'consolante', 'inscrits', 'edit', 'unsubscribe_all', 'delete'];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
 
@@ -27,7 +27,8 @@ export class GestionTableauxComponent implements OnInit {
     poules: null,
     _id: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
 
   constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
@@ -66,7 +67,8 @@ export class GestionTableauxComponent implements OnInit {
             poules: null,
             _id : null,
             consolante: null,
-            age_minimum: null
+            age_minimum: null,
+            nbPoules: null
           };
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');

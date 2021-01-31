@@ -24,7 +24,8 @@ export class PouleComponent implements OnInit {
     poules: null,
     nom: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
 

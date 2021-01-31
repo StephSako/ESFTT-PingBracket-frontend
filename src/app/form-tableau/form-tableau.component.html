@@ -1,7 +1,7 @@
 <h2 *ngIf="tableau._id" class="lobster center">Modifier le tableau '{{tableau.nom | titlecase}}'</h2>
 
 <div fxLayout="row">
-  <div fxFlex="35%">
+  <div fxFlex="27%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du tableau *</mat-label>
@@ -9,9 +9,8 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="25%">
+  <div fxFlex="18%">
     <mat-form-field appearance="outline" class="center">
-      <mat-icon matSuffix>vertical_split</mat-icon>
       <mat-label>Format *</mat-label>
       <mat-select [(ngModel)]="tableau.format">
         <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
@@ -19,9 +18,12 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="20%">
+  <div fxFlex="12%">
+    <mat-slide-toggle color="primary" class="center" [(ngModel)]="tableau.consolante">Consolante</mat-slide-toggle>
+  </div>
+
+  <div fxFlex="19%">
     <mat-form-field appearance="outline">
-      <mat-icon matSuffix>today</mat-icon>
       <mat-label>Catégorie</mat-label>
       <mat-select [(ngModel)]="tableau.age_minimum">
         <mat-option *ngFor="let category of categoriesAge" [value]="category.age">{{ category.category | titlecase }} (- de {{category.age}} ans)</mat-option>
@@ -29,11 +31,14 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="10%">
+  <div fxFlex="8%">
     <mat-slide-toggle color="primary" class="center" [(ngModel)]="tableau.poules">Poules</mat-slide-toggle>
   </div>
 
-  <div fxFlex="10%">
-    <mat-slide-toggle color="primary" class="center" [(ngModel)]="tableau.consolante">Consolante</mat-slide-toggle>
+  <div fxFlex="16%" *ngIf="tableau.poules">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Nombre de poules</mat-label>
+      <input [(ngModel)]="tableau.nbPoules" type="number" min="2" max="20" matInput>
+    </mat-form-field>
   </div>
 </div>

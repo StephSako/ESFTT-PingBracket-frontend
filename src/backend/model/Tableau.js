@@ -6,7 +6,8 @@ const tableauSchema = mongoose.Schema({
   format: String,
   poules: Boolean,
   consolante: Boolean,
-  age_minimum: Number
+  age_minimum: Number,
+  nbPoules: Number
 },{ _id : false })
 
 module.exports = mongoose.model('Tableaux', tableauSchema, "Tableaux")

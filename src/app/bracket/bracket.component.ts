@@ -23,7 +23,8 @@ export class BracketComponent implements OnInit {
     poules: null,
     format: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
   spinnerShown: boolean;
   idTableau: string;

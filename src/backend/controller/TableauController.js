@@ -41,7 +41,8 @@ router.route("/create").post(function(req, res) {
     format: req.body.format,
     poules: req.body.poules,
     consolante: req.body.consolante,
-    age_minimum: req.body.age_minimum
+    age_minimum: req.body.age_minimum,
+    nbPoules: req.body.nbPoules
   })
   tableau.save().then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de créer le tableau'))
 });

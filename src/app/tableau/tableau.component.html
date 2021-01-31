@@ -3,7 +3,7 @@
 <mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight="200%" selectedIndex="0" *ngIf="tableau._id">
 
   <mat-tab>
-    <ng-template mat-tab-label class="mat-tab-label">Inscriptions</ng-template>
+    <ng-template mat-tab-label class="mat-tab-label">Participants</ng-template>
     <app-list-players
       (generatePoules)="generatePoules()"
       (getAllBinomes)="getAllBinomes()"

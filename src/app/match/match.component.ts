@@ -20,7 +20,8 @@ export class MatchComponent implements OnInit {
     nom: null,
     poules: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
 
   constructor(private tournoiService: BracketService, private snackBar: MatSnackBar, private notifyService: NotifyService) { }

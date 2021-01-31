@@ -25,7 +25,8 @@ export class TableauComponent implements OnInit {
     nom: null,
     poules: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
   // Input variables
   poules: PouleInterface[] = [];

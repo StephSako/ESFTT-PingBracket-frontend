@@ -14,7 +14,8 @@ export class FormTableauComponent implements OnInit {
     _id: null,
     poules: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
   formats = ['simple', 'double'];
   categoriesAge = [

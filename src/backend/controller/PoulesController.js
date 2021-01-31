@@ -24,7 +24,11 @@ router.route("/edit/:id_poule").put(function(req, res) {
 // GENERATE POULES
 router.route("/generate").put(async function(req, res) {
   try {
-    let poules = [[],[],[],[],[],[],[],[]]
+    let poules = []
+    for (let i = 0; i < req.body.nbPoules; i++){
+      poules.push([])
+    }
+
     let participants = []
     if (req.body.format === 'simple') participants = await Joueur.find({ tableaux : {$all: [req.body._id]}}).sort({classement: 'desc', nom: 'asc'})
     else if (req.body.format === 'double'){

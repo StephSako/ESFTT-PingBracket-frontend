@@ -27,7 +27,8 @@ export class ListPlayersComponent implements OnInit {
     nom: null,
     poules: null,
     consolante: null,
-    age_minimum: null
+    age_minimum: null,
+    nbPoules: null
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
