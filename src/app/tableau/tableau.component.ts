@@ -10,6 +10,9 @@ import { BinomeService } from '../Service/binome.service';
 import { BinomeInterface } from '../Interface/Binome';
 import {JoueurService} from '../Service/joueur.service';
 import {JoueurInterface} from '../Interface/Joueur';
+import {Dialog} from '../Interface/Dialog';
+import {DialogComponent} from '../dialog/dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tableau',
@@ -35,7 +38,7 @@ export class TableauComponent implements OnInit {
 
   constructor(private gestionService: TableauService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar,
               private notifyService: NotifyService, private pouleService: PoulesService, private binomeService: BinomeService,
-              private joueurService: JoueurService) {}
+              private joueurService: JoueurService, public dialog: MatDialog, private tableauService: TableauService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -72,5 +75,28 @@ export class TableauComponent implements OnInit {
   getSubscribedUnassignedPlayers(): void {
     this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
       err => { this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'); });
+  }
+
+  delete(): void {
+    const tableauToDelete: Dialog = {
+      id: this.tableau._id,
+      action: 'Supprimer le tableau ?',
+      option: 'Les poules et brackets seront supprimés, et les joueurs désinscris.',
+      action_button_text: 'Supprimer'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '55%',
+      data: tableauToDelete
+    }).afterClosed().subscribe(id_tableau => {
+      if (id_tableau){ this.tableauService.delete(this.tableau).subscribe(() => {
+        this.router.navigateByUrl('/gestion');
+        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
+      }, err => {
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      }); }
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 }

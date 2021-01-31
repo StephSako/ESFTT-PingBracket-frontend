@@ -1,6 +1,8 @@
 <div class="container">
   <mat-card class="center">
-    <h1 class="lobster center">Se connecter à l'espace privé</h1>
+    <h1 class="lobster center" style="margin-bottom: 4px;">Se connecter à l'espace privé</h1>
+
+    <p style="color: red; font-weight: bold" class="center">Cet espace est réservé aux administrateurs uniquement</p>
 
     <form (submit)="login()">
       <app-form-account [credentials]="credentials"></app-form-account>
