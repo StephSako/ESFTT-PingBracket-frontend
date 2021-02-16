@@ -26,8 +26,4 @@ export class AppComponent {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
-
-  isActive(route: string): string {
-    return (route === this.router.url.split('/').pop() ? 'primary' : '');
-  }
 }
