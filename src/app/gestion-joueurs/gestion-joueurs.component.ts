@@ -103,7 +103,6 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   showTableauxPlayer(tableaux: TableauInterface[]): string {
-    return tableaux.map(tableau => tableau.nom).join(', ');
+    return tableaux.map(tableau => tableau.nom + (tableau.age_minimum ? ' -' + tableau.age_minimum + ' ans' : '')).join(', ');
   }
-
 }

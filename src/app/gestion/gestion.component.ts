@@ -1,11 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { GestionJoueursComponent } from '../gestion-joueurs/gestion-joueurs.component';
 
 @Component({
   selector: 'app-gestion',
@@ -13,8 +12,6 @@ import { GestionJoueursComponent } from '../gestion-joueurs/gestion-joueurs.comp
   styleUrls: ['./gestion.component.scss']
 })
 export class GestionComponent implements OnInit {
-
-  @ViewChild('gestion_joueur') gestion_joueur: GestionJoueursComponent;
 
   constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
               public dialog: MatDialog) { }
@@ -36,7 +33,6 @@ export class GestionComponent implements OnInit {
       if (id_joueur){
         this.gestionService.reset()
           .subscribe(message => {
-            this.gestion_joueur.getAllJoueurs();
             this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2500, 'OK');
           }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');

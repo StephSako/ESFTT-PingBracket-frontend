@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TableauInterface } from '../Interface/Tableau';
 
 @Injectable({
@@ -10,9 +10,17 @@ export class TableauService {
 
   private baseURL = 'http://localhost:4000/api/tableau/';
 
-  constructor(private http: HttpClient) { }
+  private tableauxSource = new BehaviorSubject([]);
+  tableauxMessage = this.tableauxSource.asObservable();
 
-  public getAll(): Observable<any> {
+  constructor(private http: HttpClient) {
+  }
+
+  public changeTableaux(tableaux: TableauInterface[]): void {
+    this.tableauxSource.next(tableaux);
+  }
+
+  public getAllTableaux(): Observable<any> {
     return this.http.get(this.baseURL);
   }
 

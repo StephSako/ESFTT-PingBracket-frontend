@@ -32,15 +32,16 @@ export class GestionTableauxComponent implements OnInit {
   };
 
   constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog, private poulesService: PoulesService, private binomeService: BinomeService) { }
+              public dialog: MatDialog, private poulesService: PoulesService, private binomeService: BinomeService) {}
 
   ngOnInit(): void {
     this.getAllTableaux();
   }
 
   getAllTableaux(): void {
-    this.tableauService.getAll().subscribe(allTableaux => {
+    this.tableauService.getAllTableaux().subscribe(allTableaux => {
       this.allTableaux = allTableaux;
+      this.tableauService.changeTableaux(allTableaux);
       this.getPlayerCountPerTableau();
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');

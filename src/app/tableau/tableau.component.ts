@@ -81,7 +81,7 @@ export class TableauComponent implements OnInit {
     const tableauToDelete: Dialog = {
       id: this.tableau._id,
       action: 'Supprimer le tableau ?',
-      option: 'Les poules et brackets seront supprimés, et les joueurs désinscris.',
+      option: 'Les poules, binômes et brackets seront supprimés, et les joueurs désinscris.',
       action_button_text: 'Supprimer'
     };
 

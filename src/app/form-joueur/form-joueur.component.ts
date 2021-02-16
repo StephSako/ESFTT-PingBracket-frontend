@@ -58,7 +58,7 @@ export class FormJoueurComponent implements OnInit {
   }
 
   getAllTableaux(): void{
-    this.tableauService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
+    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }

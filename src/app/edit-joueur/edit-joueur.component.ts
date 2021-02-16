@@ -56,7 +56,7 @@ export class EditJoueurComponent implements OnInit {
   }
 
   getAllTableaux(): void{
-    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
+    this.gestionService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }

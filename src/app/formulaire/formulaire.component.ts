@@ -62,7 +62,7 @@ export class FormulaireComponent implements OnInit {
               private notifyService: NotifyService) { }
 
   ngOnInit(): void {
-    this.tableauService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
+    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
     this.getParametres();

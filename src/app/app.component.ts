@@ -15,13 +15,14 @@ export class AppComponent {
 
   tableaux: TableauInterface[];
 
-  constructor(public accountService: AccountService, private gestionService: TableauService, private router: Router,
+  constructor(public accountService: AccountService, private tableauService: TableauService, private router: Router,
               private snackBar: MatSnackBar, private notifyService: NotifyService) {
     this.getAllTableaux();
+    this.tableauService.tableauxMessage.subscribe(tableaux => this.tableaux = tableaux);
   }
 
   getAllTableaux(): void{
-    this.gestionService.getAll().subscribe(tableaux => this.tableaux = tableaux, err => {
+    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
