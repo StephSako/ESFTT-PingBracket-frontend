@@ -10,6 +10,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
 import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/gestion', pathMatch: 'full' },
@@ -17,7 +18,9 @@ const routes: Routes = [
   { path: 'gestion', component: GestionComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'formulaire', component: FormulaireComponent },
-  { path: 'inscription_terminee', component: ConfirmFormulaireComponent }
+  { path: 'inscription_terminee', component: ConfirmFormulaireComponent },
+  { path: 'error-page', component: ErrorPageComponent },
+  { path: '**', redirectTo: '/error-page' }
 ];
 
 @NgModule({

@@ -51,6 +51,7 @@ import { GestionAccountComponent } from './gestion-account/gestion-account.compo
 import { GestionStockComponent } from './gestion-stock/gestion-stock.component';
 import { FormStockComponent } from './form-stock/form-stock.component';
 import { EditStockComponent } from './edit-stock/edit-stock.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { EditStockComponent } from './edit-stock/edit-stock.component';
     GestionAccountComponent,
     GestionStockComponent,
     FormStockComponent,
-    EditStockComponent
+    EditStockComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
