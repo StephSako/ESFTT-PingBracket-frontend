@@ -20,11 +20,7 @@ import { NotifyService } from '../Service/notify.service';
 
 export class EditJoueurComponent implements OnInit {
 
-  reactiveForm = new FormGroup({
-    nom: new FormControl(''),
-    classement: new FormControl(''),
-    age: new FormControl('')
-  });
+  reactiveForm: FormGroup;
   tableaux: TableauInterface[];
   joueur: JoueurInterface = {
     nom: null,
@@ -44,15 +40,11 @@ export class EditJoueurComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTableaux();
-    this.reactiveForm.setValue({
-      nom: this.joueur.nom,
-      classement: this.joueur.classement,
-      age: this.joueur.age
+    this.reactiveForm = new FormGroup({
+      nom: new FormControl(this.joueur.nom),
+      classement: new FormControl(this.joueur.classement),
+      age: new FormControl(this.joueur.age)
     });
-  }
-
-  isInvalid(): boolean {
-    return (this.joueur.nom != null);
   }
 
   getAllTableaux(): void{

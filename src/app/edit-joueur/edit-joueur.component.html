@@ -1,14 +1,14 @@
-<form *ngIf="joueur._id" [formGroup]="reactiveForm" (ngSubmit)="editPlayer()">
+<div *ngIf="joueur._id">
   <h2 class="center lobster"><b>Modifier le joueur</b></h2>
 
-  <div fxLayout="row">
+  <form fxLayout="row" [formGroup]="reactiveForm" (ngSubmit)="editPlayer()">
     <div fxFlex="55%">
       <div fxLayout="row">
         <div fxFlex="50%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>title</mat-icon>
             <mat-label>Nom du joueur *</mat-label>
-            <input formControlName="nom" name="nom" matInput>
+            <input formControlName="nom" matInput required>
           </mat-form-field>
         </div>
 
@@ -16,7 +16,7 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>bar_chart</mat-icon>
             <mat-label>Classement</mat-label>
-            <input formControlName="classement" name="classement" type="number" min="0" max="2000" matInput>
+            <input formControlName="classement" type="number" min="0" max="2000" matInput>
           </mat-form-field>
         </div>
 
@@ -24,12 +24,12 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge</mat-label>
-            <input formControlName="age" name="age" type="number" min="0" max="99" matInput>
+            <input formControlName="age" type="number" min="0" max="99" matInput>
           </mat-form-field>
         </div>
       </div>
 
-      <button *ngIf="isModified()" type="submit" mat-raised-button [disabled]="!isInvalid()" class="center shakeit" color="primary">Modifier</button>
+      <button *ngIf="isModified()" type="submit" mat-raised-button [disabled]="!this.reactiveForm.valid" class="center shakeit" color="primary">Modifier</button>
     </div>
 
     <div *ngIf="tableaux" fxFlex="45%">
@@ -48,8 +48,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </form>
 
-</form>
+</div>
 
 <button type="submit" mat-raised-button mat-dialog-close class="center" color="primary">OK</button>

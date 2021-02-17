@@ -11,7 +11,6 @@ export class TableauService {
   private baseURL = 'http://localhost:4000/api/tableau/';
 
   tableauxSource = new Subject();
-  tableauxMessage = this.tableauxSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
