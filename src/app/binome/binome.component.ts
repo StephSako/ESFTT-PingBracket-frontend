@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { JoueurInterface } from '../Interface/Joueur';
 import { TableauInterface } from '../Interface/Tableau';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,6 +32,20 @@ export class BinomeComponent implements OnInit {
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
   @Output() getSubscribedUnassignedPlayers: EventEmitter<any> = new EventEmitter();
+
+  onScrollEvent($event): void{
+    const element = document.getElementById('listPlayers');
+    if (element) {
+      if ($event.path[1].scrollY >= 173) {
+        element.classList.remove('absolutePos');
+        element.classList.add('stickyPos');
+      }
+      else {
+        element.classList.add('absolutePos');
+        element.classList.remove('stickyPos');
+      }
+    }
+  }
 
   constructor(private binomeService: BinomeService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
               private poulesService: PoulesService, private joueurService: JoueurService, private gestionService: TableauService,

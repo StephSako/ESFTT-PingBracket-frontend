@@ -4,7 +4,7 @@
     <h2 class="center lobster">Il n'y a pas de joueurs inscrits ... pour le moment ;)</h2>
   </mat-card>
 
-  <div fxLayout="column" cdkDropListGroup *ngIf="binomes.length || subscribedUnassignedPlayers.length">
+  <div (window:scroll)="onScrollEvent($event)" fxLayout="column" cdkDropListGroup *ngIf="binomes.length || subscribedUnassignedPlayers.length">
     <div fxLayout="row nowrap" fxFlexFill fxLayoutAlign="space-between stretch">
 
       <div fxFlex="33%" fxLayoutAlign="center stretch">
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div fxFlex="33%" fxLayoutAlign="center stretch" class="listPlayers">
+      <div fxFlex="33%" fxLayoutAlign="center stretch" id="listPlayers" class="absolutePos">
         <div style="width: 91%;">
           <mat-card>
             <h1 style="margin-bottom: 0;" class="lobster center">Joueurs inscrits</h1>

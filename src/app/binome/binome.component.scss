@@ -77,13 +77,23 @@ p.error_message {
     width: auto;
 }
 
-.listPlayers {
-  position: fixed;
+#listPlayers {
   left: 33.5%;
   overflow-y: scroll;
-  height: 80%;
   width: 80% !important;
   z-index: 1;
+}
+
+.absolutePos {
+  position: absolute;
+  top: 1.2%;
+  height: 28%;
+}
+
+.stickyPos{
+  position: fixed;
+  top: 9%;
+  height: 90%;
 }
 
 ::-webkit-scrollbar {
