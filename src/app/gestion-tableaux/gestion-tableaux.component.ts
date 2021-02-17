@@ -41,7 +41,7 @@ export class GestionTableauxComponent implements OnInit {
   getAllTableaux(): void {
     this.tableauService.getAllTableaux().subscribe(allTableaux => {
       this.allTableaux = allTableaux;
-      this.tableauService.changeTableaux(allTableaux);
+      this.tableauService.tableauxSource.next(allTableaux);
       this.getPlayerCountPerTableau();
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');

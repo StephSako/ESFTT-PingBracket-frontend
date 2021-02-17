@@ -18,7 +18,7 @@ export class AppComponent {
   constructor(public accountService: AccountService, private tableauService: TableauService, private router: Router,
               private snackBar: MatSnackBar, private notifyService: NotifyService) {
     this.getAllTableaux();
-    this.tableauService.tableauxMessage.subscribe(tableaux => this.tableaux = tableaux);
+    this.tableauService.tableauxMessage.subscribe((tableaux: TableauInterface[]) => this.tableaux = tableaux);
   }
 
   getAllTableaux(): void{

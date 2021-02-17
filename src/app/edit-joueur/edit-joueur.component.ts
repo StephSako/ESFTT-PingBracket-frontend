@@ -139,7 +139,8 @@ export class EditJoueurComponent implements OnInit {
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
-          this.joueur.tableaux.forEach(tableau => this.generatePoules(tableau));
+          const tableaux = this.joueur.tableaux.filter(tableau => tableau.poules);
+          tableaux.forEach(tableau => this.generatePoules(tableau));
         }
       });
     }
