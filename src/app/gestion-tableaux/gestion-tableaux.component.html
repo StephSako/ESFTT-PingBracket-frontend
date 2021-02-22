@@ -12,7 +12,7 @@
   <mat-card>
     <h2 class="lobster center">Liste des tableaux ({{allTableaux.length}})</h2>
 
-    <table mat-table [dataSource]="allTableaux">
+    <table mat-table *ngIf="allTableaux" [dataSource]="allTableaux">
 
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>
@@ -52,7 +52,7 @@
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let tableau">
-          <button (click)="edit(tableau)" class="center" mat-raised-button color="primary">Modifier</button>
+          <button (click)="openEditDialog(tableau)" class="center" mat-raised-button color="primary">Modifier</button>
         </td>
       </ng-container>
 

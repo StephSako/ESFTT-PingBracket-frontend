@@ -61,6 +61,7 @@ export class GestionTableauxComponent implements OnInit {
   }
 
   create(): void {
+    if (!this.tableau.poules) { this.tableau.nbPoules = null; }
     this.tableauService.create(this.tableau).subscribe(() => {
           this.tableau = {
             format : null,
@@ -78,20 +79,12 @@ export class GestionTableauxComponent implements OnInit {
       });
   }
 
-  edit(tableau: TableauInterface): void {
+  openEditDialog(tableau: TableauInterface): void {
     this.dialog.open(EditTableauComponent, {
-      width: '90%',
-      data: tableau
-    }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){
-        this.tableauService.edit(tableau).subscribe(() => {
-          this.getAllTableaux();
-        }, err => {
-          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-        });
+      width: '80%',
+      data: {
+        tableau
       }
-    }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

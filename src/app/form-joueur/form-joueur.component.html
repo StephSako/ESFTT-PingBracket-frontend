@@ -2,7 +2,7 @@
   <div [fxFlex]="createMode ? '25%' : '80%'" class="center">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
-      <mat-label>Nom du joueur *</mat-label>
+      <mat-label>Nom du joueur</mat-label>
       <input name="nom" [formControl]="joueurControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typingAutocomplete($event)">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" [ngClass]="{'hide-autocomplete': !showAutocomplete}">

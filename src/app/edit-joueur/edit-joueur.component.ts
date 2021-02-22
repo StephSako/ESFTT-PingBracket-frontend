@@ -6,7 +6,6 @@ import { TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import { ActivatedRoute } from '@angular/router';
 import { JoueurService } from '../Service/joueur.service';
 import { PoulesService } from '../Service/poules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -31,9 +30,9 @@ export class EditJoueurComponent implements OnInit {
   };
   createModeInput = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data, private route: ActivatedRoute, private gestionService: TableauService,
+  constructor(@Inject(MAT_DIALOG_DATA) public data, private gestionService: TableauService, private snackBar: MatSnackBar,
               private joueurService: JoueurService, public dialog: MatDialog, private pouleService: PoulesService,
-              private snackBar: MatSnackBar, private notifyService: NotifyService) {
+              private notifyService: NotifyService) {
     this.joueur = data.joueur;
     this.createModeInput = data.createMode;
   }
@@ -131,8 +130,7 @@ export class EditJoueurComponent implements OnInit {
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
-          const tableaux = this.joueur.tableaux.filter(tableau => tableau.poules);
-          tableaux.forEach(tableau => this.generatePoules(tableau));
+          this.joueur.tableaux.filter(tableau => tableau.poules).forEach(tableau => this.generatePoules(tableau));
         }
       });
     }

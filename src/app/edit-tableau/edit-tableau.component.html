@@ -1,4 +1,47 @@
-<form>
-  <app-form-tableau [tableau]="tableau"></app-form-tableau>
-  <button type="submit" mat-raised-button [disabled]="!isInvalid()" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
+<h2 class="center lobster"><b>Modifier le tableau</b></h2>
+
+<form [formGroup]="reactiveForm" (ngSubmit)="editTableau()">
+  <div fxLayout="row">
+    <div fxFlex="27%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-label>Nom du tableau</mat-label>
+        <input formControlName="nom" matInput required>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="18%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Format</mat-label>
+        <mat-select formControlName="format" required>
+          <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="12%">
+      <mat-slide-toggle color="primary" class="center" formControlName="consolante">Consolante</mat-slide-toggle>
+    </div>
+
+    <div fxFlex="19%">
+      <mat-form-field appearance="outline">
+        <mat-label>Catégorie</mat-label>
+        <mat-select formControlName="age_minimum">
+          <mat-option *ngFor="let category of categoriesAge" [value]="category.age">{{ category.category | titlecase }} (- de {{category.age}} ans)</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="8%">
+      <mat-slide-toggle color="primary" class="center" formControlName="poules">Poules</mat-slide-toggle>
+    </div>
+
+    <div fxFlex="16%" *ngIf="reactiveForm.get('poules').value">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Nombre de poules</mat-label>
+        <input formControlName="nbPoules" type="number" min="2" max="20" matInput>
+      </mat-form-field>
+    </div>
+  </div>
+  <button type="submit" mat-raised-button [disabled]="!this.reactiveForm.valid" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
 </form>

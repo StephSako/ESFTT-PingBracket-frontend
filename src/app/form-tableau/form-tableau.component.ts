@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TableauInterface } from '../Interface/Tableau';
+import { categoriesAge, formats } from '../options-tableaux';
 
 @Component({
   selector: 'app-form-tableau',
@@ -17,19 +18,14 @@ export class FormTableauComponent implements OnInit {
     age_minimum: null,
     nbPoules: null
   };
-  formats = ['simple', 'double'];
-  categoriesAge = [
-    { category: 'Poussin', age: 10},
-    { category: 'Benjamin 1', age: 11},
-    { category: 'Benjamin 2', age: 12},
-    { category: 'Minime 1', age: 13},
-    { category: 'Minime 2', age: 14},
-    { category: 'Cadet 1', age: 15},
-    { category: 'Cadet 2', age: 17}
-  ];
+  formats: string[] = [];
+  categoriesAge: any[] = [];
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.formats = formats;
+    this.categoriesAge = categoriesAge;
+  }
 
 }
