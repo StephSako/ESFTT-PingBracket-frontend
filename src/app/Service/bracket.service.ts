@@ -23,4 +23,8 @@ export class BracketService {
   public generateBracket(bracket: string, format: string, phase: string, poules: boolean): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, { format, poules });
   }
+
+  public deleteBracket(idTableau: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${idTableau}`);
+  }
 }

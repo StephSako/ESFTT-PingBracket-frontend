@@ -110,7 +110,7 @@ export class EditJoueurComponent implements OnInit {
       && (this.reactiveForm.get('age').value !== this.joueur.age);
 
     if (classementEdited) {
-      const tableauToDelete: Dialog = {
+      const playerToEdit: Dialog = {
         id: this.joueur._id,
         action: 'Le classement a été modifié.',
         option: 'Régénérer les poules des tableaux ' +
@@ -121,7 +121,7 @@ export class EditJoueurComponent implements OnInit {
 
       this.dialog.open(DialogComponent, {
         width: '85%',
-        data: tableauToDelete
+        data: playerToEdit
       }).afterClosed().subscribe(id_action => {
         if (id_action === this.joueur._id) {
           this.joueur.nom = this.reactiveForm.get('nom').value;

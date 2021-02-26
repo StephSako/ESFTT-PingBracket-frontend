@@ -230,4 +230,9 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
   }
 });
 
+// DELETE SPECIFIC OR ALL TABLEAU'S BRACKET(S)
+router.route("/delete/:idTableau").delete(function(req, res) {
+  Bracket.deleteMany({tableau: req.params.idTableau, phase: 'consolante'}).then(() => res.status(200).json({message: 'Consolante supprimée'})).catch(() => res.status(500).send('Impossible de supprimer la consolante demandée'))
+});
+
 module.exports = router
