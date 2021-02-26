@@ -10,6 +10,7 @@ import { PoulesService } from '../Service/poules.service';
 import { categoriesAge, formats } from '../options-tableaux';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import {BinomeService} from '../Service/binome.service';
 
 @Component({
   selector: 'app-edit-tableau',
@@ -25,7 +26,7 @@ export class EditTableauComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data, private snackBar: MatSnackBar, private bracketService: BracketService,
               private notifyService: NotifyService, private tableauService: TableauService, public dialog: MatDialog,
-              private poulesService: PoulesService) {
+              private poulesService: PoulesService, private binomeService: BinomeService) {
     this.tableau = data.tableau;
   }
 
@@ -144,8 +145,9 @@ export class EditTableauComponent implements OnInit {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'Le format a été modifié.',
-        option: 'Regénérer les poules du tableau ?',
-        action_button_text: 'Regénérer'
+        option: 'Regénérer les poules du tableau' + (this.reactiveForm.get('format').value === 'simple' ?
+          ' et supprimer les binômes' : '') + ' ?',
+        action_button_text: 'Confirmer'
       };
 
       this.dialog.open(DialogComponent, {
@@ -161,8 +163,20 @@ export class EditTableauComponent implements OnInit {
           this.tableau.format = this.reactiveForm.get('format').value;
 
           this.tableauService.edit(this.tableau).subscribe(() => {
-            this.generatePoules(this.tableau);
-            this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+            if (this.tableau.poules) { this.generatePoules(this.tableau); }
+            if (this.reactiveForm.get('format').value === 'simple') {
+              this.binomeService.removeAll(this.tableau._id).subscribe(() => {
+                this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+              }, err => {
+                this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+              });
+            } else if (this.reactiveForm.get('format').value === 'double') {
+              this.binomeService.generate(this.tableau._id).subscribe(() => {
+                this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+              }, err => {
+                this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+              });
+            }
           }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });

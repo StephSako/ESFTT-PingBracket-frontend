@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Binome = require('../model/Binome')
+const Joueur = require('../model/Joueur')
+const mongoose = require('mongoose')
 
 // ALL BINOMES
 router.route("/:tableau").get(function(req, res) {
@@ -30,6 +32,28 @@ router.route("/edit/:idJoueur").put(async function(req, res) {
 // REMOVE PLAYER IN BINOME (DOUBLE CLICKING)
 router.route("/remove_player/:id_binome/:id_player").delete(function(req, res) {
   Binome.updateOne({ _id: req.params.id_binome}, {$pull: {joueurs: {$in: [req.params.id_player]}}}).then(() => res.json({message: "Joueur dissocié"})).catch(() => res.status(500).send('Impossible de dissocier le joueur du binôme après double-click'))
+});
+
+// GENERATE BINOMES
+router.route("/generate/:id_tableau").put(async function(req, res) {
+  try {
+    let nbJoueursInscrits = await Joueur.countDocuments({tableaux : {$all: [req.params.id_tableau]}})
+    if (nbJoueursInscrits % 2 !== 0){ nbJoueursInscrits += 1 }
+    nbJoueursInscrits /= 2
+
+    for (let i = 0; i < nbJoueursInscrits; i++) {
+      let binome = new Binome({
+        _id: new mongoose.Types.ObjectId(),
+        tableau: req.params.id_tableau,
+        joueurs: []
+      })
+      await binome.save()
+    }
+
+    res.status(200).json({message: 'OK'})
+  } catch (err) {
+    res.status(500).send('Impossible de générer les binômes')
+  }
 });
 
 // REMOVE ALL BINOMES

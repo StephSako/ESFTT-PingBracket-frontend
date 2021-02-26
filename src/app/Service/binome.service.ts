@@ -27,4 +27,8 @@ export class BinomeService {
   public removeAll(tableau: string): Observable<any> {
     return this.http.delete(`${this.baseURL}reset/${tableau}`);
   }
+
+  public generate(tableau: string): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${tableau}`, null);
+  }
 }
