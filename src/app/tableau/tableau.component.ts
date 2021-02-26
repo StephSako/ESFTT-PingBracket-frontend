@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { TableauService } from '../Service/tableau.service';
 import { TableauInterface } from '../Interface/Tableau';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
 import { PoulesService } from '../Service/poules.service';
 import { PouleInterface } from '../Interface/Poule';
 import { BinomeService } from '../Service/binome.service';
 import { BinomeInterface } from '../Interface/Binome';
-import {JoueurService} from '../Service/joueur.service';
-import {JoueurInterface} from '../Interface/Joueur';
-import {Dialog} from '../Interface/Dialog';
-import {DialogComponent} from '../dialog/dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import { JoueurService } from '../Service/joueur.service';
+import { JoueurInterface } from '../Interface/Joueur';
+import { Dialog } from '../Interface/Dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tableau',
@@ -21,7 +21,6 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class TableauComponent implements OnInit {
 
-  idTableau: string;
   tableau: TableauInterface = {
     _id: null,
     format: null,
@@ -41,14 +40,13 @@ export class TableauComponent implements OnInit {
               private joueurService: JoueurService, public dialog: MatDialog, private tableauService: TableauService) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(() => {
-      this.idTableau = this.router.url.split('/').pop();
-      this.getTableau();
+    this.route.params.subscribe((params: Params) => {
+      this.getTableau(params.tableau);
     });
   }
 
-  getTableau(): void {
-    this.gestionService.getTableau(this.idTableau).subscribe(tableau => this.tableau = tableau, err => {
+  getTableau(idTableau: string): void {
+    this.gestionService.getTableau(idTableau).subscribe(tableau => this.tableau = tableau, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       this.router.navigate(['/error-page']);
     });

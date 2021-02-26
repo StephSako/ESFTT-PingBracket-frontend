@@ -56,9 +56,6 @@ export class EditTableauComponent implements OnInit {
           this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
       }
-    }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
-
 }
