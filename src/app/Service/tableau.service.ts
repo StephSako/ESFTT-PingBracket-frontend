@@ -38,6 +38,10 @@ export class TableauService {
     return this.http.put(`${this.baseURL}edit/${tableau._id}`, tableau);
   }
 
+  public unsubscribeInvalidPlayers(tableau: TableauInterface): Observable<any> {
+    return this.http.put(`${this.baseURL}unsubscribe/invalid/${tableau._id}`, tableau);
+  }
+
   public reset(): Observable<any> {
     return this.http.delete(`${this.baseURL}reset`);
   }

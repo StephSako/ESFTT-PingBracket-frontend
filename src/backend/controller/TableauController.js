@@ -52,6 +52,11 @@ router.route("/edit/:id_tableau").put(function(req, res) {
   Tableau.updateOne({_id: req.params.id_tableau}, {$set: req.body}).then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de modifier le tableau'))
 });
 
+// EDIT TABLEAU'S MINIMUM AGE
+router.route("/unsubscribe/invalid/:id_tableau").put(function(req, res) {
+  Joueur.updateMany({age: { $gte: req.body.age_minimum } }, {$pull: {tableaux: {$in: [req.params.id_tableau]}}}).then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de désinscrire les joueurs invalides'))
+});
+
 // RESET THE TOURNAMENT
 router.route("/reset").delete(async function(req, res) {
   try {

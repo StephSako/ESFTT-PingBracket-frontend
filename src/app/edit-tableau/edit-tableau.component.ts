@@ -108,6 +108,66 @@ export class EditTableauComponent implements OnInit {
           });
         }
       });
+    } else if (ageMinimumEdited) {
+      const tableauToEdit: Dialog = {
+        id: this.tableau._id,
+        action: 'L\'âge minimum a été modifié.',
+        option: 'Désinscrire les joueurs invalides et regénérer les poules du tableau ?',
+        action_button_text: 'Confirmer'
+      };
+
+      this.dialog.open(DialogComponent, {
+        width: '75%',
+        data: tableauToEdit
+      }).afterClosed().subscribe(id_action => {
+        if (id_action === this.tableau._id) {
+          this.tableau.nom = this.reactiveForm.get('nom').value;
+          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
+          this.tableau.poules = this.reactiveForm.get('poules').value;
+          this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
+          this.tableau.consolante = this.reactiveForm.get('consolante').value;
+          this.tableau.format = this.reactiveForm.get('format').value;
+
+          this.tableauService.edit(this.tableau).subscribe(() => {
+            this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => {
+              this.generatePoules(this.tableau);
+              this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+            }, err => {
+              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            });
+          }, err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
+        }
+      });
+    } else if (formatEdited) {
+      const tableauToEdit: Dialog = {
+        id: this.tableau._id,
+        action: 'Le format a été modifié.',
+        option: 'Regénérer les poules du tableau ?',
+        action_button_text: 'Regénérer'
+      };
+
+      this.dialog.open(DialogComponent, {
+        width: '75%',
+        data: tableauToEdit
+      }).afterClosed().subscribe(id_action => {
+        if (id_action === this.tableau._id) {
+          this.tableau.nom = this.reactiveForm.get('nom').value;
+          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
+          this.tableau.poules = this.reactiveForm.get('poules').value;
+          this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
+          this.tableau.consolante = this.reactiveForm.get('consolante').value;
+          this.tableau.format = this.reactiveForm.get('format').value;
+
+          this.tableauService.edit(this.tableau).subscribe(() => {
+            this.generatePoules(this.tableau);
+            this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+          }, err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
+        }
+      });
     } else if (nbPoulesEdited && this.reactiveForm.get('poules').value) {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
@@ -115,8 +175,6 @@ export class EditTableauComponent implements OnInit {
         option: 'Regénérer les poules du tableau ?',
         action_button_text: 'Regénérer'
       };
-
-      console.log(this.reactiveForm.get('nbPoules').value, this.tableau.nbPoules, poulesEdited);
 
       this.dialog.open(DialogComponent, {
         width: '75%',
