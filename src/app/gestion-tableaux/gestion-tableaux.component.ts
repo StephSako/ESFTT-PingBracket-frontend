@@ -28,7 +28,7 @@ export class GestionTableauxComponent implements OnInit {
     _id: null,
     consolante: null,
     age_minimum: null,
-    nbPoules: null
+    nbPoules: 2
   };
 
   constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
@@ -70,7 +70,7 @@ export class GestionTableauxComponent implements OnInit {
             _id : null,
             consolante: null,
             age_minimum: null,
-            nbPoules: null
+            nbPoules: 2
           };
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');
@@ -153,7 +153,8 @@ export class GestionTableauxComponent implements OnInit {
   }
 
   isInvalidTableau(): boolean {
-    return (this.tableau.nom !== null && this.tableau.format !== null && this.tableau.nom.trim() !== '');
+    return (this.tableau.nom !== null && this.tableau.format !== null && this.tableau.nom.trim() !== ''
+      && ((this.tableau.poules && this.tableau.nbPoules !== null) || !this.tableau.poules));
   }
 
   showAgeMinimum(age_minimum: number): string {

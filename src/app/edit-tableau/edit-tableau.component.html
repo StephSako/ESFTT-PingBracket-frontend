@@ -43,5 +43,5 @@
       </mat-form-field>
     </div>
   </div>
-  <button type="submit" mat-raised-button [disabled]="!this.reactiveForm.valid" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
+  <button type="submit" mat-raised-button [disabled]="!isInvalid()" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
 </form>

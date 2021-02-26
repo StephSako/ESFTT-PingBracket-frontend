@@ -9,15 +9,7 @@ import { categoriesAge, formats } from '../options-tableaux';
 })
 export class FormTableauComponent implements OnInit {
 
-  @Input() tableau: TableauInterface = {
-    nom: null,
-    format: null,
-    _id: null,
-    poules: null,
-    consolante: null,
-    age_minimum: null,
-    nbPoules: null
-  };
+  @Input() tableau: TableauInterface;
   formats: string[] = [];
   categoriesAge: any[] = [];
 

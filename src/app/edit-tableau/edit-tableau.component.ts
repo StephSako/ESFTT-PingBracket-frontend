@@ -6,6 +6,7 @@ import { NotifyService } from '../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauService } from '../Service/tableau.service';
 import { BracketService } from '../Service/bracket.service';
+import { PoulesService } from '../Service/poules.service';
 import { categoriesAge, formats } from '../options-tableaux';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -17,22 +18,14 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class EditTableauComponent implements OnInit {
 
-  tableau: TableauInterface = {
-    nom: null,
-    format: null,
-    _id: null,
-    poules: null,
-    consolante: null,
-    age_minimum: null,
-    nbPoules: null
-  };
+  tableau: TableauInterface;
   reactiveForm: FormGroup;
   formats: string[] = [];
   categoriesAge: any[] = [];
 
-  // @ts-ignore
   constructor(@Inject(MAT_DIALOG_DATA) public data, private snackBar: MatSnackBar, private bracketService: BracketService,
-              private notifyService: NotifyService, private tableauService: TableauService, public dialog: MatDialog) {
+              private notifyService: NotifyService, private tableauService: TableauService, public dialog: MatDialog,
+              private poulesService: PoulesService) {
     this.tableau = data.tableau;
   }
 
@@ -59,7 +52,7 @@ export class EditTableauComponent implements OnInit {
     if (consolanteEdited && !this.reactiveForm.get('consolante').value) {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
-        action: 'Le tableau a été modifié.',
+        action: 'La consolante a été décochée.',
         option: 'Supprimer la consolante du tableau ?',
         action_button_text: 'Supprimer'
       };
@@ -72,7 +65,7 @@ export class EditTableauComponent implements OnInit {
           this.tableau.nom = this.reactiveForm.get('nom').value;
           this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
           this.tableau.poules = this.reactiveForm.get('poules').value;
-          this.tableau.nbPoules = this.reactiveForm.get('nbPoules').value;
+          this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
           this.tableau.consolante = this.reactiveForm.get('consolante').value;
           this.tableau.format = this.reactiveForm.get('format').value;
 
@@ -87,6 +80,62 @@ export class EditTableauComponent implements OnInit {
           });
         }
       });
+    } else if (poulesEdited && !this.reactiveForm.get('poules').value) {
+      const tableauToEdit: Dialog = {
+        id: this.tableau._id,
+        action: 'Les poules ont été décochées.',
+        option: 'Supprimer les poules du tableau ?',
+        action_button_text: 'Supprimer'
+      };
+
+      this.dialog.open(DialogComponent, {
+        width: '75%',
+        data: tableauToEdit
+      }).afterClosed().subscribe(id_action => {
+        if (id_action === this.tableau._id) {
+          this.tableau.nom = this.reactiveForm.get('nom').value;
+          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
+          this.tableau.poules = this.reactiveForm.get('poules').value;
+          this.tableau.nbPoules = null;
+          this.tableau.consolante = this.reactiveForm.get('consolante').value;
+          this.tableau.format = this.reactiveForm.get('format').value;
+
+          this.tableauService.edit(this.tableau).subscribe(() => {
+            this.generatePoules(this.tableau);
+            this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+          }, err => {
+            this.notifyService.notifyUser(err.err, this.snackBar, 'error', 2000, 'OK');
+          });
+        }
+      });
+    } else if (nbPoulesEdited && poulesEdited && this.reactiveForm.get('poules').value) {
+      const tableauToEdit: Dialog = {
+        id: this.tableau._id,
+        action: 'Le nombre de poules a été modifié.',
+        option: 'Regénérer les poules du tableau ?',
+        action_button_text: 'Regénérer'
+      };
+
+      this.dialog.open(DialogComponent, {
+        width: '75%',
+        data: tableauToEdit
+      }).afterClosed().subscribe(id_action => {
+        if (id_action === this.tableau._id) {
+          this.tableau.nom = this.reactiveForm.get('nom').value;
+          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
+          this.tableau.poules = this.reactiveForm.get('poules').value;
+          this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
+          this.tableau.consolante = this.reactiveForm.get('consolante').value;
+          this.tableau.format = this.reactiveForm.get('format').value;
+
+          this.tableauService.edit(this.tableau).subscribe(() => {
+            this.generatePoules(this.tableau);
+            this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+          }, err => {
+            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          });
+        }
+      });
     } else {
       this.tableau.nom = this.reactiveForm.get('nom').value;
       this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
@@ -96,10 +145,26 @@ export class EditTableauComponent implements OnInit {
       this.tableau.format = this.reactiveForm.get('format').value;
 
       this.tableauService.edit(this.tableau).subscribe(() => {
-          this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+        if ((poulesEdited && this.reactiveForm.get('poules').value) || (poulesEdited && this.reactiveForm.get('poules').value)) {
+          this.generatePoules(this.tableau);
+        }
+        this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
       }, err => {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
     }
+  }
+
+  generatePoules(tableau: TableauInterface): void {
+    this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
+  }
+
+  isInvalid(): boolean {
+    return (this.reactiveForm.get('nom').value !== null && this.reactiveForm.get('format').value !== null &&
+      this.reactiveForm.get('nom').value.trim() !== ''
+      && ((this.reactiveForm.get('poules').value && this.reactiveForm.get('nbPoules').value !== null)
+        || !this.reactiveForm.get('poules').value));
   }
 }
