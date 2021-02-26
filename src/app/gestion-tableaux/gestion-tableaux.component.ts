@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import { PlayerCountPerTableau, TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
@@ -9,18 +9,20 @@ import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { PoulesService } from '../Service/poules.service';
 import { BinomeService } from '../Service/binome.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gestion-tableaux',
   templateUrl: './gestion-tableaux.component.html',
   styleUrls: ['./gestion-tableaux.component.scss']
 })
-export class GestionTableauxComponent implements OnInit {
+export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
   displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'nbPoules', 'consolante', 'inscrits', 'edit', 'unsubscribe_all', 'delete'];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
+  nbInscritsEventEmitter: Subscription;
 
   public tableau: TableauInterface = {
     nom: null,
@@ -37,6 +39,11 @@ export class GestionTableauxComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTableaux();
+    this.nbInscritsEventEmitter = this.tableauService.nbInscritsChange.subscribe(() => this.getPlayerCountPerTableau());
+  }
+
+  ngOnDestroy(): void {
+    this.nbInscritsEventEmitter.unsubscribe();
   }
 
   getAllTableaux(): void {

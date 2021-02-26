@@ -53,6 +53,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
   create(): void {
     this.joueurService.create(this.joueur.tableaux, this.joueur).subscribe(() => {
         this.getAllJoueurs.emit();
+        this.tableauService.nbInscritsChange.emit();
         this.generatePoules(this.joueur.tableaux);
         this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
         this.joueur = {
@@ -89,6 +90,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
       if (id_joueur){ this.joueurService.delete(id_joueur).subscribe(() => {
         this.getAllJoueurs.emit();
         this.generatePoules(joueur.tableaux);
+        this.tableauService.nbInscritsChange.emit();
       }, err => {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       }); }

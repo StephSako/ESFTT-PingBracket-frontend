@@ -11,12 +11,9 @@ export class TableauService {
   private baseURL = 'http://localhost:4000/api/tableau/';
   tableauxSource = new Subject();
   tableauxChange: EventEmitter<void> = new EventEmitter();
+  nbInscritsChange: EventEmitter<void> = new EventEmitter();
 
   constructor(private http: HttpClient) {}
-
-  public emitNavChangeEvent(): void {
-    this.tableauxChange.emit();
-  }
 
   public getAllTableaux(): Observable<any> {
     return this.http.get(this.baseURL);

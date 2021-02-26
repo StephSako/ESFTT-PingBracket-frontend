@@ -79,6 +79,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         if (tableau1.nom > tableau2.nom) { return 1; }
         return 0;
       });
+      this.tableauService.nbInscritsChange.emit();
       if (tableau.poules) { this.generatePoules(tableau); }
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
@@ -101,6 +102,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
           this.joueur.tableaux = this.joueur.tableaux.filter(tableauFilter => tableauFilter._id !== id_tableau );
           this.generatePoules(tableau);
+          this.tableauService.nbInscritsChange.emit();
         }, err => {
           this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
         });
