@@ -36,15 +36,15 @@ export class EditTableauComponent implements OnInit {
       nom: new FormControl(this.tableau.nom),
       format: new FormControl(this.tableau.format),
       consolante: new FormControl(this.tableau.consolante),
-      nbPoules: new FormControl(this.tableau.nbPoules),
+      nbPoules: new FormControl(this.tableau.poules ? this.tableau.nbPoules : 2),
       age_minimum: new FormControl(this.tableau.age_minimum),
       poules: new FormControl(this.tableau.poules)
     });
   }
 
   editTableau(): void {
-    const nbPoulesEdited = this.reactiveForm.get('nbPoules').value !== this.tableau.nbPoules;
     const poulesEdited = this.reactiveForm.get('poules').value !== this.tableau.poules;
+    const nbPoulesEdited = this.reactiveForm.get('nbPoules').value !== this.tableau.nbPoules && !poulesEdited;
     const formatEdited = this.reactiveForm.get('format').value !== this.tableau.format;
     const consolanteEdited = this.reactiveForm.get('consolante').value !== this.tableau.consolante;
     const ageMinimumEdited = this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum;
@@ -108,13 +108,15 @@ export class EditTableauComponent implements OnInit {
           });
         }
       });
-    } else if (nbPoulesEdited && poulesEdited && this.reactiveForm.get('poules').value) {
+    } else if (nbPoulesEdited && this.reactiveForm.get('poules').value) {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'Le nombre de poules a été modifié.',
         option: 'Regénérer les poules du tableau ?',
         action_button_text: 'Regénérer'
       };
+
+      console.log(this.reactiveForm.get('nbPoules').value, this.tableau.nbPoules, poulesEdited);
 
       this.dialog.open(DialogComponent, {
         width: '75%',
@@ -140,7 +142,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.nom = this.reactiveForm.get('nom').value;
       this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
       this.tableau.poules = this.reactiveForm.get('poules').value;
-      this.tableau.nbPoules = this.reactiveForm.get('nbPoules').value;
+      this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
       this.tableau.consolante = this.reactiveForm.get('consolante').value;
       this.tableau.format = this.reactiveForm.get('format').value;
 
