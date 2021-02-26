@@ -6,12 +6,12 @@
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Participants</ng-template>
-    <app-gestion-joueurs #gestion_joueur></app-gestion-joueurs>
+    <app-gestion-joueurs [allJoueurs]="allJoueurs" (getAllJoueurs)="getAllJoueurs()"></app-gestion-joueurs>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Tableaux</ng-template>
-    <app-gestion-tableaux></app-gestion-tableaux>
+    <app-gestion-tableaux (getAllJoueurs)="getAllJoueurs()"></app-gestion-tableaux>
   </mat-tab>
 
   <mat-tab>

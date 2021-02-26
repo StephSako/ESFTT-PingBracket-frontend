@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableauService } from '../Service/tableau.service';
 import { TableauInterface } from '../Interface/Tableau';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
 import { PoulesService } from '../Service/poules.service';

@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { JoueurService } from '../Service/joueur.service';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Component({
   selector: 'app-gestion',
@@ -13,8 +15,10 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class GestionComponent implements OnInit {
 
+  allJoueurs: JoueurInterface[] = [];
+
   constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private joueurService: JoueurService) { }
 
   ngOnInit(): void {}
 
@@ -38,6 +42,12 @@ export class GestionComponent implements OnInit {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
       }
+    });
+  }
+
+  getAllJoueurs(): void {
+    this.joueurService.getAllPlayers().subscribe(joueurs => this.allJoueurs = joueurs, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

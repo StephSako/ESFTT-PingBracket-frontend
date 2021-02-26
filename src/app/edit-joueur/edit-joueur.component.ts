@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { JoueurInterface } from '../Interface/Joueur';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -10,6 +10,7 @@ import { JoueurService } from '../Service/joueur.service';
 import { PoulesService } from '../Service/poules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../Service/notify.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-joueur',
@@ -17,7 +18,7 @@ import { NotifyService } from '../Service/notify.service';
   styleUrls: ['./edit-joueur.component.scss']
 })
 
-export class EditJoueurComponent implements OnInit {
+export class EditJoueurComponent implements OnInit, OnDestroy {
 
   reactiveForm: FormGroup;
   tableaux: TableauInterface[];
@@ -29,8 +30,9 @@ export class EditJoueurComponent implements OnInit {
     tableaux: null
   };
   createModeInput = false;
+  private tableauxSubscription: Subscription;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data, private gestionService: TableauService, private snackBar: MatSnackBar,
+  constructor(@Inject(MAT_DIALOG_DATA) public data, private tableauService: TableauService, private snackBar: MatSnackBar,
               private joueurService: JoueurService, public dialog: MatDialog, private pouleService: PoulesService,
               private notifyService: NotifyService) {
     this.joueur = data.joueur;
@@ -39,6 +41,7 @@ export class EditJoueurComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTableaux();
+    this.tableauxSubscription = this.tableauService.tableauxSource.subscribe((tableaux: TableauInterface[]) => this.tableaux = tableaux);
     this.reactiveForm = new FormGroup({
       nom: new FormControl(this.joueur.nom),
       classement: new FormControl(this.joueur.classement),
@@ -46,8 +49,12 @@ export class EditJoueurComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.tableauxSubscription.unsubscribe();
+  }
+
   getAllTableaux(): void{
-    this.gestionService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
+    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
@@ -72,7 +79,7 @@ export class EditJoueurComponent implements OnInit {
         if (tableau1.nom > tableau2.nom) { return 1; }
         return 0;
       });
-      this.generatePoules(tableau);
+      if (tableau.poules) { this.generatePoules(tableau); }
     }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });

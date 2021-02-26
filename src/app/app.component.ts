@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TableauInterface } from './Interface/Tableau';
 import { TableauService } from './Service/tableau.service';
 import { Router } from '@angular/router';
 import { AccountService } from './Service/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from './Service/notify.service';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',

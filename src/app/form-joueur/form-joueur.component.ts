@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { JoueurInterface } from '../Interface/Joueur';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { TableauInterface } from '../Interface/Tableau';
@@ -16,7 +16,7 @@ import { NotifyService } from '../Service/notify.service';
   templateUrl: './form-joueur.component.html',
   styleUrls: ['./form-joueur.component.scss']
 })
-export class FormJoueurComponent implements OnInit {
+export class FormJoueurComponent implements OnInit, OnDestroy {
 
   @Input() joueur: JoueurInterface = {
     nom: null,
@@ -29,7 +29,8 @@ export class FormJoueurComponent implements OnInit {
   @Input() createMode = false;
   @Input() ageMinimumRequis = 0;
   tableaux: TableauInterface[];
-
+  private tableauxSubscription: Subscription;
+  private tableauxEventEmitter: Subscription;
   joueurControl = new FormControl('');
   optionsListJoueurs: Observable<JoueurInterface[]>;
   showAutocomplete = false;
@@ -40,6 +41,8 @@ export class FormJoueurComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.getAllTableaux();
+      this.tableauxSubscription = this.tableauService.tableauxSource.subscribe((tableaux: TableauInterface[]) => this.tableaux = tableaux);
+      this.tableauxEventEmitter = this.tableauService.tableauxChange.subscribe(() => this.getAllTableaux());
       if (this.otherPlayers) {
         this.optionsListJoueurs = this.joueurControl.valueChanges.pipe(
           startWith(''),
@@ -47,6 +50,11 @@ export class FormJoueurComponent implements OnInit {
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.tableauxSubscription.unsubscribe();
+    this.tableauxEventEmitter.unsubscribe();
   }
 
   _filter(value: string): JoueurInterface[] {
@@ -58,7 +66,10 @@ export class FormJoueurComponent implements OnInit {
   }
 
   getAllTableaux(): void{
-    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
+    this.tableauService.getAllTableaux().subscribe(tableaux => {
+      this.tableaux = tableaux;
+      console.log('update');
+    }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }

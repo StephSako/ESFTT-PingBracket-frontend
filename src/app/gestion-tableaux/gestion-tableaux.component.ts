@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { PlayerCountPerTableau, TableauInterface } from '../Interface/Tableau';
 import { TableauService } from '../Service/tableau.service';
 import { NotifyService } from '../Service/notify.service';
@@ -17,6 +17,7 @@ import { BinomeService } from '../Service/binome.service';
 })
 export class GestionTableauxComponent implements OnInit {
 
+  @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
   displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'nbPoules', 'consolante', 'inscrits', 'edit', 'unsubscribe_all', 'delete'];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
@@ -118,6 +119,7 @@ export class GestionTableauxComponent implements OnInit {
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){ this.tableauService.delete(tableau).subscribe(() => {
         this.getAllTableaux();
+        this.getAllJoueurs.emit();
         this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
       }, err => {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
@@ -130,6 +132,7 @@ export class GestionTableauxComponent implements OnInit {
   unsubscribeAllPlayers(tableau: TableauInterface): void {
     this.tableauService.unsubscribeAllPlayers(tableau._id).subscribe(() => {
       this.getAllTableaux();
+      this.getAllJoueurs.emit();
       if (tableau.format === 'double') { this.removeAllBinomes(tableau); }
       else if (tableau.poules) { this.generatePoules(tableau); }
       this.notifyService.notifyUser('Tous les joueurs ont été désinscris', this.snackBar, 'success', 2000, 'OK');

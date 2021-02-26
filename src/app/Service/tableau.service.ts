@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { TableauInterface } from '../Interface/Tableau';
@@ -9,10 +9,14 @@ import { TableauInterface } from '../Interface/Tableau';
 export class TableauService {
 
   private baseURL = 'http://localhost:4000/api/tableau/';
-
   tableauxSource = new Subject();
+  tableauxChange: EventEmitter<void> = new EventEmitter();
 
   constructor(private http: HttpClient) {}
+
+  public emitNavChangeEvent(): void {
+    this.tableauxChange.emit();
+  }
 
   public getAllTableaux(): Observable<any> {
     return this.http.get(this.baseURL);

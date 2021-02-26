@@ -10,7 +10,7 @@ import { PoulesService } from '../Service/poules.service';
 import { categoriesAge, formats } from '../options-tableaux';
 import { Dialog } from '../Interface/Dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import {BinomeService} from '../Service/binome.service';
+import { BinomeService } from '../Service/binome.service';
 
 @Component({
   selector: 'app-edit-tableau',
@@ -72,6 +72,7 @@ export class EditTableauComponent implements OnInit {
 
           this.tableauService.edit(this.tableau).subscribe(() => {
             this.bracketService.deleteBracket(this.tableau._id).subscribe(() => {
+              this.tableauService.tableauxChange.emit();
               this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
             }, (err) => {
               this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
@@ -103,6 +104,7 @@ export class EditTableauComponent implements OnInit {
 
           this.tableauService.edit(this.tableau).subscribe(() => {
             this.generatePoules(this.tableau);
+            this.tableauService.tableauxChange.emit();
             this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
           }, err => {
             this.notifyService.notifyUser(err.err, this.snackBar, 'error', 2000, 'OK');
@@ -132,6 +134,7 @@ export class EditTableauComponent implements OnInit {
           this.tableauService.edit(this.tableau).subscribe(() => {
             this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => {
               this.generatePoules(this.tableau);
+              this.tableauService.tableauxChange.emit();
               this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
             }, err => {
               this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
@@ -172,6 +175,7 @@ export class EditTableauComponent implements OnInit {
               });
             } else if (this.reactiveForm.get('format').value === 'double') {
               this.binomeService.generate(this.tableau._id).subscribe(() => {
+                this.tableauService.tableauxChange.emit();
                 this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
               }, err => {
                 this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
@@ -204,6 +208,7 @@ export class EditTableauComponent implements OnInit {
 
           this.tableauService.edit(this.tableau).subscribe(() => {
             this.generatePoules(this.tableau);
+            this.tableauService.tableauxChange.emit();
             this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
           }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
@@ -222,6 +227,7 @@ export class EditTableauComponent implements OnInit {
         if ((poulesEdited && this.reactiveForm.get('poules').value) || (poulesEdited && this.reactiveForm.get('poules').value)) {
           this.generatePoules(this.tableau);
         }
+        this.tableauService.tableauxChange.emit();
         this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
       }, err => {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
