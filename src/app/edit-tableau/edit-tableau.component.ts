@@ -45,80 +45,34 @@ export class EditTableauComponent implements OnInit {
 
   editTableau(): void {
     const poulesEdited = this.reactiveForm.get('poules').value !== this.tableau.poules;
-    const nbPoulesEdited = this.reactiveForm.get('nbPoules').value !== this.tableau.nbPoules && !poulesEdited;
+    const nbPoulesEdited = this.reactiveForm.get('nbPoules').value !== this.tableau.nbPoules && !poulesEdited &&
+      this.reactiveForm.get('poules').value;
     const formatEdited = this.reactiveForm.get('format').value !== this.tableau.format;
     const consolanteEdited = this.reactiveForm.get('consolante').value !== this.tableau.consolante
       && !this.reactiveForm.get('consolante').value;
     const ageMinimumEdited = this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum;
 
-    if (consolanteEdited) {
+    if (consolanteEdited || (poulesEdited && !this.reactiveForm.get('poules').value) || ageMinimumEdited
+      || (formatEdited && this.reactiveForm.get('format').value === 'simple')) {
+
+      let optionMessage = '';
+      if (consolanteEdited || (poulesEdited && !this.reactiveForm.get('poules').value) ||
+        (formatEdited && this.reactiveForm.get('format').value === 'simple')) { optionMessage += 'Suppression : '; }
+      if (consolanteEdited) { optionMessage += '- la consolante '; }
+      if (poulesEdited && !this.reactiveForm.get('poules').value) { optionMessage += '- les poules'; }
+      if (formatEdited) {
+        if (this.reactiveForm.get('format').value === 'simple') { optionMessage += '- les binômes'; }
+      }
+      if (consolanteEdited || (poulesEdited && !this.reactiveForm.get('poules').value) ||
+        (formatEdited && this.reactiveForm.get('format').value === 'simple')) { optionMessage += '. '; }
+
+      if (ageMinimumEdited) { optionMessage += 'Les joueurs de -' + this.reactiveForm.get('age_minimum').value +
+        ' ans seront désinscrits.'; }
+
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
-        action: 'La consolante a été décochée.',
-        option: 'Supprimer la consolante du tableau ?',
-        action_button_text: 'Supprimer'
-      };
-
-      this.dialog.open(DialogComponent, {
-        width: '75%',
-        data: tableauToEdit
-      }).afterClosed().subscribe(id_action => {
-        if (id_action === this.tableau._id) {
-          this.tableau.nom = this.reactiveForm.get('nom').value;
-          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
-          this.tableau.poules = this.reactiveForm.get('poules').value;
-          this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
-          this.tableau.consolante = this.reactiveForm.get('consolante').value;
-          this.tableau.format = this.reactiveForm.get('format').value;
-
-          this.tableauService.edit(this.tableau).subscribe(() => {
-            this.bracketService.deleteBracket(this.tableau._id).subscribe(() => {
-              this.tableauService.tableauxChange.emit();
-              this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
-            }, (err) => {
-              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-            });
-          }, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-          });
-        }
-      });
-    } else if (poulesEdited && !this.reactiveForm.get('poules').value) {
-      const tableauToEdit: Dialog = {
-        id: this.tableau._id,
-        action: 'Les poules ont été décochées.',
-        option: 'Supprimer les poules du tableau ?',
-        action_button_text: 'Supprimer'
-      };
-
-      this.dialog.open(DialogComponent, {
-        width: '75%',
-        data: tableauToEdit
-      }).afterClosed().subscribe(id_action => {
-        if (id_action === this.tableau._id) {
-          this.tableau.nom = this.reactiveForm.get('nom').value;
-          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
-          this.tableau.poules = this.reactiveForm.get('poules').value;
-          this.tableau.nbPoules = null;
-          this.tableau.consolante = this.reactiveForm.get('consolante').value;
-          this.tableau.format = this.reactiveForm.get('format').value;
-
-          this.tableauService.edit(this.tableau).subscribe(() => {
-            this.poulesService.deletePoules(this.tableau._id).subscribe(() => {
-              this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
-            }, (err) => {
-              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-            });
-          }, err => {
-            this.notifyService.notifyUser(err.err, this.snackBar, 'error', 2000, 'OK');
-          });
-        }
-      });
-    } else if (ageMinimumEdited) {
-      const tableauToEdit: Dialog = {
-        id: this.tableau._id,
-        action: 'L\'âge minimum a été modifié.',
-        option: 'Désinscrire les joueurs invalides et regénérer les poules du tableau ?',
+        action: 'Des informations ont été modifées.',
+        option: optionMessage,
         action_button_text: 'Confirmer'
       };
 
@@ -135,61 +89,41 @@ export class EditTableauComponent implements OnInit {
           this.tableau.format = this.reactiveForm.get('format').value;
 
           this.tableauService.edit(this.tableau).subscribe(() => {
-            this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => {
-              this.generatePoules(this.tableau);
-              this.tableauService.tableauxChange.emit();
-              this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
-            }, err => {
-              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-            });
-          }, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-          });
-        }
-      });
-    } else if (formatEdited) {
-      const tableauToEdit: Dialog = {
-        id: this.tableau._id,
-        action: 'Le format a été modifié.',
-        option: 'Regénérer les poules du tableau' + (this.reactiveForm.get('format').value === 'simple' ?
-          ' et supprimer les binômes' : '') + ' ?',
-        action_button_text: 'Confirmer'
-      };
-
-      this.dialog.open(DialogComponent, {
-        width: '75%',
-        data: tableauToEdit
-      }).afterClosed().subscribe(id_action => {
-        if (id_action === this.tableau._id) {
-          this.tableau.nom = this.reactiveForm.get('nom').value;
-          this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
-          this.tableau.poules = this.reactiveForm.get('poules').value;
-          this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
-          this.tableau.consolante = this.reactiveForm.get('consolante').value;
-          this.tableau.format = this.reactiveForm.get('format').value;
-
-          this.tableauService.edit(this.tableau).subscribe(() => {
-            if (this.tableau.poules) { this.generatePoules(this.tableau); }
-            if (this.reactiveForm.get('format').value === 'simple') {
-              this.binomeService.removeAll(this.tableau._id).subscribe(() => {
-                this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
-              }, err => {
-                this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-              });
-            } else if (this.reactiveForm.get('format').value === 'double') {
-              this.binomeService.generate(this.tableau._id).subscribe(() => {
+            if (consolanteEdited) {
+              this.bracketService.deleteBracket(this.tableau._id).subscribe(() => {
                 this.tableauService.tableauxChange.emit();
-                this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
-              }, err => {
-                this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-              });
+              }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
             }
-          }, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-          });
+
+            if (poulesEdited && !this.reactiveForm.get('poules').value) {
+              this.poulesService.deletePoules(this.tableau._id).subscribe(() => {
+              }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+            }
+
+            if (ageMinimumEdited) {
+              this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => {
+                this.generatePoules(this.tableau);
+                this.tableauService.tableauxChange.emit();
+              }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+            }
+
+            if (formatEdited) {
+              this.tableauService.edit(this.tableau).subscribe(() => {
+                if (this.tableau.poules) { this.generatePoules(this.tableau); }
+                if (this.reactiveForm.get('format').value === 'simple') {
+                  this.binomeService.removeAll(this.tableau._id).subscribe(() => {
+                  }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+                } else if (this.reactiveForm.get('format').value === 'double') {
+                  this.binomeService.generate(this.tableau._id).subscribe(() => {
+                    this.tableauService.tableauxChange.emit();
+                  }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+                }
+              }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+            }
+          }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
         }
       });
-    } else if (nbPoulesEdited && this.reactiveForm.get('poules').value) {
+    } else if (nbPoulesEdited) {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'Le nombre de poules a été modifié.',
@@ -212,7 +146,6 @@ export class EditTableauComponent implements OnInit {
           this.tableauService.edit(this.tableau).subscribe(() => {
             this.generatePoules(this.tableau);
             this.tableauService.tableauxChange.emit();
-            this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
           }, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
@@ -229,10 +162,7 @@ export class EditTableauComponent implements OnInit {
       this.tableauService.edit(this.tableau).subscribe(() => {
         if (poulesEdited && this.reactiveForm.get('poules').value) { this.generatePoules(this.tableau); }
         this.tableauService.tableauxChange.emit();
-        this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
-      }, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-      });
+      }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
     }
   }
 
