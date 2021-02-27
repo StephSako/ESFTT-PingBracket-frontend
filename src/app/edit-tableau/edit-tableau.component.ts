@@ -47,10 +47,11 @@ export class EditTableauComponent implements OnInit {
     const poulesEdited = this.reactiveForm.get('poules').value !== this.tableau.poules;
     const nbPoulesEdited = this.reactiveForm.get('nbPoules').value !== this.tableau.nbPoules && !poulesEdited;
     const formatEdited = this.reactiveForm.get('format').value !== this.tableau.format;
-    const consolanteEdited = this.reactiveForm.get('consolante').value !== this.tableau.consolante;
+    const consolanteEdited = this.reactiveForm.get('consolante').value !== this.tableau.consolante
+      && !this.reactiveForm.get('consolante').value;
     const ageMinimumEdited = this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum;
 
-    if (consolanteEdited && !this.reactiveForm.get('consolante').value) {
+    if (consolanteEdited) {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'La consolante a été décochée.',
@@ -103,9 +104,11 @@ export class EditTableauComponent implements OnInit {
           this.tableau.format = this.reactiveForm.get('format').value;
 
           this.tableauService.edit(this.tableau).subscribe(() => {
-            this.generatePoules(this.tableau);
-            this.tableauService.tableauxChange.emit();
-            this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+            this.poulesService.deletePoules(this.tableau._id).subscribe(() => {
+              this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
+            }, (err) => {
+              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            });
           }, err => {
             this.notifyService.notifyUser(err.err, this.snackBar, 'error', 2000, 'OK');
           });
@@ -224,9 +227,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.format = this.reactiveForm.get('format').value;
 
       this.tableauService.edit(this.tableau).subscribe(() => {
-        if ((poulesEdited && this.reactiveForm.get('poules').value) || (poulesEdited && this.reactiveForm.get('poules').value)) {
-          this.generatePoules(this.tableau);
-        }
+        if (poulesEdited && this.reactiveForm.get('poules').value) { this.generatePoules(this.tableau); }
         this.tableauService.tableauxChange.emit();
         this.notifyService.notifyUser('Tableau modifié avec succès', this.snackBar, 'success', 1500, 'OK');
       }, err => {

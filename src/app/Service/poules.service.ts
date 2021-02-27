@@ -29,4 +29,8 @@ export class PoulesService {
   public generatePoules(tableau: TableauInterface): Observable<any> {
     return this.http.put(`${this.baseURL}generate`, tableau);
   }
+
+  public deletePoules(idTableau: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${idTableau}`);
+  }
 }

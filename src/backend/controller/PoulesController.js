@@ -94,4 +94,9 @@ router.route("/editStatus/:id_poule").put(function(req, res) {
   }).then(() => res.json({message: "Le status de la poule a été mis à jour"})).catch(() => res.status(500).send('Impossible de modifier le statut de la poule'))
 });
 
+// DELETE ALL TABLEAU'S POULES
+router.route("/delete/:idTableau").delete(function(req, res) {
+  Poule.deleteMany({tableau: req.params.idTableau}).then(() => res.status(200).json({message: 'Poules supprimées'})).catch(() => res.status(500).send('Impossible de supprimer les poules demandées'))
+});
+
 module.exports = router
