@@ -50,7 +50,8 @@ export class EditTableauComponent implements OnInit {
     const formatEdited = this.reactiveForm.get('format').value !== this.tableau.format;
     const consolanteEdited = this.reactiveForm.get('consolante').value !== this.tableau.consolante
       && !this.reactiveForm.get('consolante').value;
-    const ageMinimumEdited = this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum;
+    const ageMinimumEdited = this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum
+      && this.reactiveForm.get('age_minimum').value !== null;
 
     if (consolanteEdited || (poulesEdited && !this.reactiveForm.get('poules').value) || ageMinimumEdited
       || (formatEdited && this.reactiveForm.get('format').value === 'simple')) {
@@ -91,7 +92,7 @@ export class EditTableauComponent implements OnInit {
           this.tableauService.edit(this.tableau).subscribe(() => {
             if (consolanteEdited) {
               this.bracketService.deleteBracket(this.tableau._id).subscribe(() => {
-                this.tableauService.tableauxChange.emit();
+                this.tableauService.tableauxChange.emit(); // TODO OPTIMIZE
               }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
             }
 
@@ -103,7 +104,7 @@ export class EditTableauComponent implements OnInit {
             if (ageMinimumEdited) {
               this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => {
                 this.generatePoules(this.tableau);
-                this.tableauService.tableauxChange.emit();
+                this.tableauService.tableauxChange.emit(); // TODO OPTIMIZE
               }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
             }
 
@@ -113,7 +114,8 @@ export class EditTableauComponent implements OnInit {
                 if (this.reactiveForm.get('format').value === 'simple') {
                   this.binomeService.removeAll(this.tableau._id).subscribe(() => {
                   }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
-                } else if (this.reactiveForm.get('format').value === 'double') {
+                }
+                else if (this.reactiveForm.get('format').value === 'double') {
                   this.binomeService.generate(this.tableau._id).subscribe(() => {
                     this.tableauService.tableauxChange.emit();
                   }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));

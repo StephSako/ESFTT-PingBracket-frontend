@@ -1,6 +1,7 @@
 export const formats: string[] = ['simple', 'double'];
 
 export const categoriesAge: any[] = [
+  { category: 'Aucun', age: null},
   { category: 'Poussin', age: 10},
   { category: 'Benjamin 1', age: 11},
   { category: 'Benjamin 2', age: 12},

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
-import {TableauInterface} from '../Interface/Tableau';
+import { TableauInterface } from '../Interface/Tableau';
 
 @Injectable({
   providedIn: 'root'

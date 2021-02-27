@@ -26,7 +26,11 @@
     <mat-form-field appearance="outline">
       <mat-label>Catégorie</mat-label>
       <mat-select [(ngModel)]="tableau.age_minimum">
-        <mat-option *ngFor="let category of categoriesAge" [value]="category.age">{{ category.category | titlecase }} (- de {{category.age}} ans)</mat-option>
+        <mat-option *ngFor="let category of categoriesAge" [value]="category.age">
+          <span [style.font-style]="!category.age ? 'italic' : ''">
+            {{ category.category | titlecase }}<span *ngIf="category.age"> (- de {{category.age}} ans)</span>
+          </span>
+        </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
