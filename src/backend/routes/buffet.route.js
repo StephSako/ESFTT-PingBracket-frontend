@@ -7,6 +7,6 @@ router.get('/', AuthMiddleware, BuffetController.getBuffet);
 
 router.get('/platsAlreadyCooked', AuthMiddleware, BuffetController.platsAlreadyCooked);
 
-router.get('/register', AuthMiddleware, BuffetController.register);
+router.post('/register', AuthMiddleware, BuffetController.register);
 
 module.exports = router;

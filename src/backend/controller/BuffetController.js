@@ -17,5 +17,5 @@ exports.register = async (req, res) => {
       nb_moins_13_ans: req.body.nb_moins_13_ans,
       nb_plus_13_ans: req.body.nb_plus_13_ans
     }
-  }).then((result) => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible d\'enregistrer les données du buufet'))
+  }).then((result) => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible d\'enregistrer les données du buffet'))
 }
