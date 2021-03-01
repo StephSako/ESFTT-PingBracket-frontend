@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   getAllTableaux(): void{
     this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 }

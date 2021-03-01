@@ -3,7 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {TokenPayloadLogin, TokenResponse, UserInterface} from '../Interface/Account';
+import { TokenPayloadLogin, TokenResponse, UserInterface } from '../Interface/Account';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +22,7 @@ export class AccountService {
   }
 
   public login(user: TokenPayloadLogin): Observable<any> {
-    const URL = this.http.post(this.baseURL + 'login', user);
-
-    return URL.pipe(
+    return this.http.post(this.baseURL + 'login', user).pipe(
       map((data: TokenResponse) => {
         if (data.token) {
           this.saveToken(data.token);
@@ -71,7 +69,7 @@ export class AccountService {
     );
   }
 
-  private getToken(): string {
+  public getToken(): string {
     if (!this.token) { this.token = localStorage.getItem('userToken'); }
     return this.token;
   }

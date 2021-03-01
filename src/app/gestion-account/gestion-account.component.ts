@@ -52,7 +52,7 @@ export class GestionAccountComponent implements OnInit {
   editUsername(): void {
     this.accountService.editUsername(this.username).subscribe(() => {
       this.notifyService.notifyUser('Identifiant modifié', this.snackBar, 'success', 2000, 'OK');
-    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
   }
 
   editPassword(): void {
@@ -68,7 +68,7 @@ export class GestionAccountComponent implements OnInit {
         this.newPasswordCheckControl.reset();
         this.actualPasswordControl.reset();
       }, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
         this.actualPassword = '';
       });
     }

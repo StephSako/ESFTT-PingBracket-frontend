@@ -1,10 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const Parametre = require('../model/Parametre')
+const jwt = require("jsonwebtoken")
 
 // GET FIELDS
 router.route("/").get(function(req, res) {
+  jwt.verify(req.headers['authorization'], process.env.SECRET_KEY, function (err, decoded) {
+    if (err) {
+      res.status(500).send("Vous n'etes pas connecté");
+      return;
+    }
   Parametre.findOne().then(parametres => res.status(200).json(parametres)).catch(() => res.status(500).send('Impossible de récupérer les champs du formulaire'))
+  })
 });
 
 // EDIT FORMULAIRE FIELDS

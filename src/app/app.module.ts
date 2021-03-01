@@ -52,6 +52,8 @@ import { GestionStockComponent } from './gestion-stock/gestion-stock.component';
 import { FormStockComponent } from './form-stock/form-stock.component';
 import { EditStockComponent } from './edit-stock/edit-stock.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptorInterceptor} from './Service/auth-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -109,7 +111,11 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     MatDividerModule,
     MatDatepickerModule
   ],
-  providers: [AccountService, AuthGuardService],
+  providers: [AccountService, AuthGuardService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

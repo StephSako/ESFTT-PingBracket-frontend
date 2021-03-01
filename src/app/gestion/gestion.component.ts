@@ -39,7 +39,7 @@ export class GestionComponent implements OnInit {
           .subscribe(message => {
             this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2500, 'OK');
           }, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
       }
     });
@@ -47,7 +47,7 @@ export class GestionComponent implements OnInit {
 
   getAllJoueurs(): void {
     this.joueurService.getAllPlayers().subscribe(joueurs => this.allJoueurs = joueurs, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

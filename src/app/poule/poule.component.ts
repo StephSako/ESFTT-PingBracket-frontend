@@ -49,13 +49,13 @@ export class PouleComponent implements OnInit {
   editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   setStatus(poule: PouleInterface): void {
     this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules.emit(), err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

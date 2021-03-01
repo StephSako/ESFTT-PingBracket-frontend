@@ -4,8 +4,6 @@ const Account = require('../model/Account')
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 
-process.env.SECRET_KEY = 'secret'
-
 // LOGIN
 router.post('/login', (req, res) => {
   Account.findOne({ username: req.body.username }).then(account => {

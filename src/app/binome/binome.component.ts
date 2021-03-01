@@ -78,7 +78,7 @@ export class BinomeComponent implements OnInit {
           .subscribe(() => {
             if (this.tableau.poules) { this.generatePoules.emit(); }
           }, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
       } else {
         this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
@@ -92,7 +92,7 @@ export class BinomeComponent implements OnInit {
       this.generatePoules.emit();
       this.getSubscribedUnassignedPlayers.emit();
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

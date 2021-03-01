@@ -33,6 +33,8 @@ app.use(function (req, res, next) {
 const path = require('path')
 app.use(express.static(path.join(__dirname, 'dist/')))
 
+process.env.SECRET_KEY = 'secret'
+
 app.get('/api', function (req, res) {
   res.json({ status: 'Working' })
 })
