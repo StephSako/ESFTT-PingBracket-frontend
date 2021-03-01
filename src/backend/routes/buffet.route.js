@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const BuffetController = require("../controller/BuffetController");
+const AuthMiddleware = require("../middleware/auth-middleware");
 
-router.get('/', BuffetController.getBuffet);
+router.get('/', AuthMiddleware, BuffetController.getBuffet);
 
-router.get('/platsAlreadyCooked', BuffetController.platsAlreadyCooked);
+router.get('/platsAlreadyCooked', AuthMiddleware, BuffetController.platsAlreadyCooked);
 
-router.get('/register', BuffetController.register);
+router.get('/register', AuthMiddleware, BuffetController.register);
 
 module.exports = router;

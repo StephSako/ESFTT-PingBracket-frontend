@@ -20,7 +20,7 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     }
     request = request.clone({
       setHeaders: {
-        Authorization: this.authService.getToken()
+        Authorization: (this.authService.getToken() ? this.authService.getToken() : 'ANONYMOUSLY_LOGGED')
       }
     });
     return next.handle(request);

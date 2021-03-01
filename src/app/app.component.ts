@@ -21,7 +21,9 @@ export class AppComponent implements OnInit, OnDestroy{
               private snackBar: MatSnackBar, private notifyService: NotifyService) {}
 
   ngOnInit(): void {
-    this.getAllTableaux();
+    if (this.accountService.isLoggedIn()) {
+      this.getAllTableaux();
+    }
     this.tableauxSubscription = this.tableauService.tableauxSource.subscribe((tableaux: TableauInterface[]) => this.tableaux = tableaux);
   }
 

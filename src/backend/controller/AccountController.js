@@ -6,7 +6,7 @@ exports.login = (req, res) => {
   Account.findOne({ username: req.body.username }).then(account => {
     // console.log( bcrypt.hashSync(req.body.password, 12))
     if (bcrypt.compareSync(req.body.password, account.password)) {
-      let token = jwt.sign(account.toJSON(), process.env.SECRET_KEY, {
+      let token = jwt.sign(account.toJSON(), process.env.APP_SECRET, {
         expiresIn: '1d'
       })
       res.json({ token: token })
@@ -16,7 +16,7 @@ exports.login = (req, res) => {
 
 exports.editUsername = (req, res) => {
   Account.findByIdAndUpdate({_id: req.body._id}, {username: req.body.username}, {new: true, useFindAndModify: false}).then(result => {
-    let token = jwt.sign(result.toJSON(), process.env.SECRET_KEY, {
+    let token = jwt.sign(result.toJSON(), process.env.APP_SECRET, {
       expiresIn: '1d'
     })
     res.json({token: token})
@@ -27,7 +27,7 @@ exports.editPassword = (req, res) => {
   Account.findOne({ _id: req.body._id }).then(account => {
     if (bcrypt.compareSync(req.body.actualPassword, account.password)) {
       Account.findByIdAndUpdate({_id: req.body._id}, {password: bcrypt.hashSync(req.body.newPassword, 12)}, {new: true, useFindAndModify: false}).then(result => {
-        let token = jwt.sign(result.toJSON(), process.env.SECRET_KEY, {
+        let token = jwt.sign(result.toJSON(), process.env.APP_SECRET, {
           expiresIn: '1d'
         })
         res.json({token: token})
