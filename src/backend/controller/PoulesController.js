@@ -1,28 +1,23 @@
-const express = require('express')
-const router = express.Router()
 const Poule = require('../model/Poule')
 const Binome = require('../model/Binome')
 const Joueur = require('../model/Joueur')
 const mongoose = require('mongoose')
 const helper = require('./Helper');
 
-// ALL POULES
-router.route("/:tableau/:format").get(function(req, res) {
+exports.getPoules = (req, res) => {
   if (req.params.format === 'simple') Poule.find({tableau: req.params.tableau}).populate('participants').then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
   else if (req.params.format === 'double') Poule.find({tableau: req.params.tableau}).populate('participants').populate({path: 'participants', populate: { path: 'joueurs' }}).then(poules => res.status(200).json(poules)).catch(() => res.status(500).send('Impossible de récupérer la poule après modification'))
-});
+}
 
-// UPDATE SPECIFIC POULE
-router.route("/edit/:id_poule").put(function(req, res) {
+exports.editPoule = (req, res) => {
   Poule.updateOne({_id: req.params.id_poule}, {
     $set: {
       participants: req.body
     }
   }).then(() => res.json({message: "La poule a été mise à jour"})).catch(() => res.status(500).send('Impossible de modifier la poule'))
-});
+}
 
-// GENERATE POULES
-router.route("/generate").put(async function(req, res) {
+exports.generatePoule = async (req, res) => {
   try {
     let poules = []
     for (let i = 0; i < req.body.nbPoules; i++){
@@ -83,20 +78,16 @@ router.route("/generate").put(async function(req, res) {
   catch (err) {
     res.status(500).send('Impossible de générer la poule')
   }
-});
+}
 
-// UPDATE POULE STATUS
-router.route("/editStatus/:id_poule").put(function(req, res) {
+exports.updateStatus = (req, res) => {
   Poule.updateOne({_id: req.params.id_poule}, {
     $set: {
       locked: req.body.locked
     }
   }).then(() => res.json({message: "Le status de la poule a été mis à jour"})).catch(() => res.status(500).send('Impossible de modifier le statut de la poule'))
-});
+}
 
-// DELETE ALL TABLEAU'S POULES
-router.route("/delete/:idTableau").delete(function(req, res) {
+exports.deleteAllPoulesOfSpecificTableau = (req, res) => {
   Poule.deleteMany({tableau: req.params.idTableau}).then(() => res.status(200).json({message: 'Poules supprimées'})).catch(() => res.status(500).send('Impossible de supprimer les poules demandées'))
-});
-
-module.exports = router
+}

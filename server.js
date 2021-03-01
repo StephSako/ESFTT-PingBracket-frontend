@@ -39,32 +39,32 @@ app.get('/api', function (req, res) {
   res.json({ status: 'Working' })
 })
 
-let BracketController = require('./src/backend/controller/BracketController')
-app.use('/api/bracket', BracketController)
+let BracketRoute = require('./src/backend/routes/bracket.route')
+app.use('/api/bracket', BracketRoute)
 
-let JoueurController = require('./src/backend/controller/JoueurController')
-app.use('/api/joueur', JoueurController)
+let JoueurRoute = require('./src/backend/routes/joueur.route')
+app.use('/api/joueur', JoueurRoute)
 
-let PoulesController = require('./src/backend/controller/PoulesController')
-app.use('/api/poule', PoulesController)
+let PoulesRoute = require('./src/backend/routes/poule.route')
+app.use('/api/poule', PoulesRoute)
 
-let TableauController = require('./src/backend/controller/TableauController')
-app.use('/api/tableau', TableauController)
+let TableauRoute = require('./src/backend/routes/tableau.route')
+app.use('/api/tableau', TableauRoute)
 
-let AccountController = require('./src/backend/controller/AccountController')
-app.use('/api/account', AccountController)
+let AccountRoute = require('./src/backend/routes/account.route')
+app.use('/api/account', AccountRoute)
 
-let ParametreController = require('./src/backend/controller/ParametreController')
-app.use('/api/parametre', ParametreController)
+let ParametreRoute = require('./src/backend/routes/parametre.route')
+app.use('/api/parametre', ParametreRoute)
 
-let BuffetController = require('./src/backend/controller/BuffetController')
-app.use('/api/buffet', BuffetController)
+let BuffetRoute = require('./src/backend/routes/buffet.route')
+app.use('/api/buffet', BuffetRoute)
 
-let BinomeController = require('./src/backend/controller/BinomeController')
-app.use('/api/binome', BinomeController)
+let BinomeRoute = require('./src/backend/routes/binome.route')
+app.use('/api/binome', BinomeRoute)
 
-let StockController = require('./src/backend/controller/StockController')
-app.use('/api/stock', StockController)
+let StockRoute = require('./src/backend/routes/stock.route')
+app.use('/api/stock', StockRoute)
 
 let port = process.env.PORT || 4000
 app.listen(port, function () {

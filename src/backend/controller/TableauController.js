@@ -1,5 +1,3 @@
-const express = require('express')
-const router = express.Router()
 const Tableau = require('../model/Tableau')
 const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
@@ -9,32 +7,27 @@ const Buffet = require('../model/Buffet')
 const mongoose = require('mongoose')
 const _ = require('lodash');
 
-// ALL TABLEAU
-router.route("/").get(function(req, res) {
+exports.getTableaux = (req, res) => {
   Tableau.find().sort({nom: 'asc', age_minimum: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer tous les tableaux'))
-});
+}
 
-// PLAYER COUNT PER TABLEAUX
-router.route("/player_count").get(function(req, res) {
+exports.playerCountPerTableau = (req, res) => {
   Joueur.aggregate([
     { $project: { tableaux: 1 } },
     { $unwind: '$tableaux' },
     { $group: { _id: '$tableaux', count: { $sum: 1 } } }
   ]).then(counts => res.status(200).json(_.chain(counts).keyBy('_id').mapValues('count').value())).catch(() => res.status(500).send('Impossible de récupérer les nombre de joueurs par tableau'))
-});
+}
 
-// GET TABLEAUX ENABLED TO HOST PLAYERS FROM ANOTHER TABLEAU
-router.route("/hostable/:tableauToHostId/:ageMinimum/:format/:poules").get(function(req, res) {
+exports.hostableTableaux = (req, res) => {
   Tableau.find({age_minimum: { $gte: req.params.ageMinimum}, poules: req.params.poules, format: req.params.format, _id: {$ne: req.params.tableauToHostId } }).sort({nom: 'asc'}).then(tableaux => res.status(200).json(tableaux)).catch(() => res.status(500).send('Impossible de récupérer les tableaux hébergeables de joueurs'))
-});
+}
 
-// SPECIFIC TABLEAU
-router.route("/:tableau").get(function(req, res) {
+exports.getSpecific = (req, res) => {
   Tableau.findById(req.params.tableau).then(tableau => res.status(200).json(tableau)).catch(() => res.status(500).send('Impossible de récupérer le tableau'))
-});
+}
 
-// CREATE TABLEAU
-router.route("/create").post(function(req, res) {
+exports.createTableau = (req, res) => {
   const tableau = new Tableau({
     _id: new mongoose.Types.ObjectId(),
     nom: req.body.nom.toLowerCase(),
@@ -45,20 +38,17 @@ router.route("/create").post(function(req, res) {
     nbPoules: req.body.nbPoules
   })
   tableau.save().then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de créer le tableau'))
-});
+}
 
-// EDIT TABLEAU
-router.route("/edit/:id_tableau").put(function(req, res) {
+exports.editTableau = (req, res) => {
   Tableau.updateOne({_id: req.params.id_tableau}, {$set: req.body}).then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de modifier le tableau'))
-});
+}
 
-// EDIT TABLEAU'S MINIMUM AGE
-router.route("/unsubscribe/invalid/:id_tableau").put(function(req, res) {
+exports.unsubscribeInvalidPlayers = (req, res) => {
   Joueur.updateMany({age: { $gte: req.body.age_minimum } }, {$pull: {tableaux: {$in: [req.params.id_tableau]}}}).then(result => res.status(200).json({message: result})).catch(() => res.status(500).send('Impossible de désinscrire les joueurs invalides'))
-});
+}
 
-// RESET THE TOURNAMENT
-router.route("/reset").delete(async function(req, res) {
+exports.resetTournament = async (req, res) => {
   try {
     await Bracket.deleteMany({})
     await Poule.deleteMany({})
@@ -69,10 +59,9 @@ router.route("/reset").delete(async function(req, res) {
   } catch (e){
     res.status(500).send('Impossible de réinitiliaser le tournoi')
   }
-});
+}
 
-// DELETE SPECIFIC TABLEAU
-router.route("/delete/:tableau_id/:format/:poules").delete(async function(req, res) {
+exports.deleteTableau = async (req, res) => {
   try {
     await Bracket.deleteMany({tableau: req.params.tableau_id})
     if (req.params.poules) await Poule.deleteMany({tableau: req.params.tableau_id})
@@ -83,12 +72,9 @@ router.route("/delete/:tableau_id/:format/:poules").delete(async function(req, r
   } catch (e){
     res.status(500).send('Impossible de supprimer le tableau demandé')
   }
-});
+}
 
-// UNSUBSCRIBE ALL PLAYERS OF A SPECIFIC TABLEAU
-router.route("/unsubscribe_all").put(async function(req, res) {
+exports.unsubscribeAllPlayers = async (req, res) => {
   await Bracket.deleteMany({tableau: req.body.tableau_id})
-  Joueur.updateMany({}, {$pull: {tableaux: {$in: [req.body.tableau_id]}}}).then(result => res.status(200).json({message: 'No error'})).catch(() => res.status(500).send('Impossible de désinscrire tous les joueurs du tableau'))
-});
-
-module.exports = router
+  Joueur.updateMany({}, {$pull: {tableaux: {$in: [req.body.tableau_id]}}}).then(() => res.status(200).json({message: 'No error'})).catch(() => res.status(500).send('Impossible de désinscrire tous les joueurs du tableau'))
+}

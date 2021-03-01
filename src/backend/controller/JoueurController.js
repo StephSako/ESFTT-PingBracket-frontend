@@ -1,5 +1,3 @@
-const express = require('express')
-const router = express.Router()
 const Joueur = require('../model/Joueur')
 const Poule = require('../model/Poule')
 const Binome = require('../model/Binome')
@@ -11,28 +9,23 @@ function getPlayers(option){
   return Joueur.find(option).sort({nom: 'asc'})
 }
 
-// SPECIFIC PLAYER
-router.route("/:id_joueur").get(function(req, res) {
+exports.getPlayer = (req, res) => {
   Joueur.findById(req.params.id_joueur).populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueur => res.status(200).json(joueur)).catch(() => res.status(500).send('Impossible de récupérer le joueur demandé'))
-});
+}
 
-// ALL PLAYERS
-router.route("/").get(function(req, res) {
+exports.getAllPlayers = (req, res) => {
   getPlayers().populate({path: 'tableaux', options: { sort: { nom: 1 } }}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer tous les joueurs'))
-});
+}
 
-// OTHER PLAYERS
-router.route("/unsubscribed/:tableau").get(function(req, res) {
+exports.unsubscribedPlayers = (req, res) => {
   getPlayers({'tableaux' : {$ne: req.params.tableau}}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer les joueurs non inscrits au tableau'))
-});
+}
 
-// SPECIFIC TABLEAU'S PLAYERS
-router.route("/subscribed/:tableau").get(function(req, res) {
+exports.subscribedPlayersOfSpecificTableau = (req, res) => {
   getPlayers({'tableaux' : {$all: [req.params.tableau]}}).then(joueurs => res.status(200).json(joueurs)).catch(() => res.status(500).send('Impossible de récupérer les joueurs inscrits au tableau'))
-});
+}
 
-// (BINOME) SUBSCRIBED BUT UNASSIGNED PLAYERS FOR A SPECIFIC TABLEAU
-router.route("/unassigned/:tableau").get(async function(req, res) {
+exports.unassignedPlayersBinomes = async (req, res) => {
   let assignedPlayers = await Binome.find({tableau: req.params.tableau}).populate('joueurs')
   let assignedPlayersIds = assignedPlayers.map(poule => poule.joueurs).flat()
   let subscribedPlayersIds = await getPlayers({'tableaux' : {$all: [req.params.tableau]}})
@@ -43,10 +36,9 @@ router.route("/unassigned/:tableau").get(async function(req, res) {
   } catch (e) {
     res.status(500).send('Impossible de récupérer les joueurs inscrits non assignés au tableau')
   }
-});
+}
 
-// SUBSCRIBE PLAYER
-router.route("/create").post(async function(req, res) {
+exports.subscribePlayer = async (req, res) => {
   let searchedJoueur = await Joueur.findOne({nom: req.body.joueur.nom})
   if (searchedJoueur) {
     await Joueur.updateOne(
@@ -84,20 +76,18 @@ router.route("/create").post(async function(req, res) {
   } catch (err) {
     res.status(500).send('Impossible d\'inscrire le joueur au tableau')
   }
-});
+}
 
-// EDIT PLAYER
-router.route("/edit/:id_player").put(function(req, res) {
+exports.editPlayer = (req, res) => {
   const joueur = {
     nom: req.body.nom,
     age: req.body.age,
     classement: (req.body.classement ? req.body.classement : 0)
   }
   Joueur.updateOne({_id: req.params.id_player}, {$set: joueur}).then(result => res.status(200).json(result)).catch(() => res.status(500).send('Impossible de modifier le joueur'))
-});
+}
 
-// UNSUBSCRIBE PLAYER
-router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
+exports.unsubscribedPlayer = async (req, res) => {
   try {
     // On supprime le tableau du joueur
     await Joueur.updateOne({ _id: req.params.id_player}, {$pull: {tableaux: {$in: [req.params.tableau]}}})
@@ -117,10 +107,9 @@ router.route("/unsubscribe/:id_player/:tableau").put(async function(req, res) {
   } catch (e) {
     res.status(500).send('Impossible de désinscrire le joueur du tableau')
   }
-});
+}
 
-// DELETE PLAYER
-router.route("/delete/:id_player").delete(async function(req, res) {
+exports.deletePlayer = async (req, res) => {
   // On le supprime des tableaux existants
   await Bracket.updateMany({objectRef: 'Joueurs'}, {$pull: {'matches.0.joueurs': {_id: req.params.id_player}}})
 
@@ -132,10 +121,9 @@ router.route("/delete/:id_player").delete(async function(req, res) {
 
   // On le supprime définitivement
   Joueur.deleteOne({ _id: req.params.id_player}).then(result => res.status(200).json(result)).catch(() => res.status(500).send('Impossible de supprimer le joueur'))
-});
+}
 
-// MOVE ALL SUBSCRIBED PLAYERS IN ANOTHER TABLEAU
-router.route("/move").put(async function(req, res) {
+exports.movePlayers = async (req, res) => {
   try {
     await Joueur.updateMany({ tableaux: {
       $all : [req.body.previousTableauId],
@@ -145,7 +133,5 @@ router.route("/move").put(async function(req, res) {
     res.status(200).json({message: 'Les joueurs ont été déplacés vers un autre tableau'})
   } catch (e) {
     res.status(500).send('Impossible de basculer les joueurs vers un autre tableau')
+  }
 }
-});
-
-module.exports = router

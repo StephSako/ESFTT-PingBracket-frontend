@@ -1,5 +1,3 @@
-const express = require('express')
-const router = express.Router()
 const Bracket = require('../model/Bracket')
 const Binome = require('../model/Binome')
 const Poule = require('../model/Poule')
@@ -80,16 +78,14 @@ async function defineMatchStatusAndWinner(id_round, tableau, phase, id_match, wi
   }
 }
 
-// GET BRACKET OF SPECIFIC TABLEAU
-router.route("/:tableau/:phase").get(function(req, res) {
+exports.poulesOfSpecificTableau = (req, res) => {
   Bracket.find({tableau: req.params.tableau, phase: req.params.phase}).populate('tableau').populate({
     path: 'matches.joueurs._id',
     populate: { path: 'joueurs' }
   }).sort({round: 'desc'}).then(matches => res.status(200).json({rounds: matches})).catch(() => res.status(500).send('Impossible de récupérer le bracket'))
-});
+}
 
-// SET WINNER
-router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req, res) {
+exports.setWinner = async (req, res) => {
   try {
     await defineMatchStatusAndWinner(req.params.id_round, req.params.tableau, req.params.phase, req.params.id_match, req.body.winnerId)
 
@@ -101,10 +97,9 @@ router.route("/edit/:tableau/:phase/:id_round/:id_match").put(async function(req
   } catch(err) {
     res.status(500).send('Impossible d\'assigner le gagnant')
   }
-});
+}
 
-// GENERATE BRACKET
-router.route("/generate/:tableau/:phase").put(async function(req, res) {
+exports.generateBracket = async (req, res) => {
   // On supprime tous les matches
   await Bracket.deleteMany({ tableau: req.params.tableau, phase: req.params.phase})
 
@@ -228,11 +223,9 @@ router.route("/generate/:tableau/:phase").put(async function(req, res) {
   } catch(e) {
     res.status(500).send('Impossible de générer le bracket')
   }
-});
+}
 
 // DELETE SPECIFIC OR ALL TABLEAU'S BRACKET(S)
-router.route("/delete/:idTableau").delete(function(req, res) {
+exports.deleteBracket_s = (req, res) => {
   Bracket.deleteMany({tableau: req.params.idTableau, phase: 'consolante'}).then(() => res.status(200).json({message: 'Consolante supprimée'})).catch(() => res.status(500).send('Impossible de supprimer la consolante demandée'))
-});
-
-module.exports = router
+}
