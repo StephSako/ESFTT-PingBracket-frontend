@@ -13,12 +13,13 @@ export class AccountService {
 
   private baseURL = 'http://localhost:4000/api/account/';
   private token: string;
+  private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   private saveToken(token: string): void {
-    localStorage.setItem('userToken', token);
     this.token = token;
+    localStorage.setItem('userToken', token);
   }
 
   public login(user: TokenPayloadLogin): Observable<any> {
@@ -30,7 +31,7 @@ export class AccountService {
         return data;
       }),
       catchError(err => {
-        return throwError(err.error);
+        return throwError(err);
       })
     );
   }
@@ -47,7 +48,7 @@ export class AccountService {
         return data;
       }),
       catchError(err => {
-        return throwError(err.error);
+        return throwError(err);
       })
     );
   }
@@ -64,7 +65,7 @@ export class AccountService {
         return data;
       }),
       catchError(err => {
-        return throwError(err.error);
+        return throwError(err);
       })
     );
   }
@@ -88,7 +89,9 @@ export class AccountService {
 
   public isLoggedIn(): boolean {
     const user = this.getUserDetails();
-    if (user) { return user.exp > Date.now() / 1000; }
+    if (user) {
+      return user.exp > Date.now() / 1000;
+    }
     else { return false; }
   }
 
@@ -96,5 +99,9 @@ export class AccountService {
     this.token = '';
     window.localStorage.removeItem('userToken');
     this.router.navigateByUrl('/login').then(() => {});
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
   }
 }

@@ -95,24 +95,24 @@ export class EditTableauComponent implements OnInit {
 
           this.tableauService.edit(this.tableau).subscribe(() => {
             if (consolanteEdited) {
-              this.bracketService.deleteBracket(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err.error));
+              this.bracketService.deleteBracket(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
             }
 
             if (poulesEdited && !this.tableau.poules) {
-              this.poulesService.deletePoules(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err.error));
+              this.poulesService.deletePoules(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
             }
 
             if (ageMinimumEdited) {
               this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => this.tableauService.tableauxChange.emit(),
-                  err => this.emitErrorSnackbar(err.error));
+                  err => this.emitErrorSnackbar(err));
             }
 
             if (formatEdited) {
                 if (this.tableau.format === 'simple') {
-                  this.binomeService.removeAll(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err.error));
+                  this.binomeService.removeAll(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
                 }
                 else if (this.tableau.format === 'double') {
-                  this.binomeService.generate(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err.error));
+                  this.binomeService.generate(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
                 }
             }
 
@@ -124,7 +124,7 @@ export class EditTableauComponent implements OnInit {
             if (nbPoulesEdited || ageMinimumEdited || (formatEdited && this.tableau.poules)) {
               this.generatePoules(this.tableau);
             }
-          }, err => this.emitErrorSnackbar(err.error));
+          }, err => this.emitErrorSnackbar(err));
         }
       });
     } else {
@@ -138,12 +138,12 @@ export class EditTableauComponent implements OnInit {
       this.tableauService.edit(this.tableau).subscribe(() => {
         if (poulesEdited && this.tableau.poules) { this.generatePoules(this.tableau); }
         this.tableauService.tableauxChange.emit();
-      }, err => this.emitErrorSnackbar(err.error));
+      }, err => this.emitErrorSnackbar(err));
     }
   }
 
   generatePoules(tableau: TableauInterface): void {
-    this.poulesService.generatePoules(tableau).subscribe(() => {}, err => this.emitErrorSnackbar(err.error));
+    this.poulesService.generatePoules(tableau).subscribe(() => {}, err => this.emitErrorSnackbar(err));
   }
 
   isInvalid(): boolean {

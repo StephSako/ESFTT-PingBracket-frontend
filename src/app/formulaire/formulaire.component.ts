@@ -67,7 +67,7 @@ export class FormulaireComponent implements OnInit {
 
   getTableaux(): void{
     this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -79,13 +79,13 @@ export class FormulaireComponent implements OnInit {
         this.getPlatsAlreadyCooked();
       }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   getPlatsAlreadyCooked(): void{
     this.buffetService.platsAlreadyCooked().subscribe(plats => this.platsAlreadyCooked = plats, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -120,14 +120,14 @@ export class FormulaireComponent implements OnInit {
     // Inscription des joueurs
     if (this.listeJoueurs.length > 0) {
       this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {}, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       }));
     }
 
     // Enregistrement des données du buffet
     if (!(this.buffet.plats.length === 0 && this.buffet.nb_moins_13_ans === 0 && this.buffet.nb_plus_13_ans === 0)){
       this.buffetService.register(this.buffet).subscribe(() => {}, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
     }
     this.router.navigateByUrl('/inscription_terminee').then(() => {});

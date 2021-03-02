@@ -5,8 +5,6 @@ export interface TokenPayloadLogin {
 
 export interface TokenResponse {
   token: string;
-  success: boolean;
-  message: string;
 }
 
 export interface UserInterface {
