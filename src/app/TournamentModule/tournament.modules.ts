@@ -7,7 +7,7 @@ import { BracketComponent } from './bracket/bracket.component';
 import { BinomeComponent } from './binome/binome.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TournamentRoutingModule } from './tournament-routing.module';
+import { SharedModules } from '../SharedModule/shared.modules';
 
 
 @NgModule({
@@ -48,9 +49,9 @@ import { TournamentRoutingModule } from './tournament-routing.module';
     MatTableModule,
     MatChipsModule,
     MatTabsModule,
-    TournamentRoutingModule
+    FormsModule,
+    TournamentRoutingModule,
+    SharedModules
   ]
 })
-export class TournamentModules {
-
-}
+export class TournamentModules {}

@@ -3,7 +3,7 @@ import { FormAccountComponent } from './form-account/form-account.component';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -27,9 +27,8 @@ import { AuthRoutingModule } from './auth-routing.module';
     MatProgressSpinnerModule,
     MatButtonModule,
     FlexLayoutModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    FormsModule
   ]
 })
-export class AuthModules {
-
-}
+export class AuthModules {}

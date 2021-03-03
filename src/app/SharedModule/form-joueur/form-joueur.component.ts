@@ -1,15 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { JoueurInterface } from '../Interface/Joueur';
+import { JoueurInterface } from '../../Interface/Joueur';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { TableauInterface } from '../Interface/Tableau';
-import { TableauService } from '../Service/tableau.service';
-import { JoueurService } from '../Service/joueur.service';
+import { TableauInterface } from '../../Interface/Tableau';
+import { TableauService } from '../../Service/tableau.service';
+import { JoueurService } from '../../Service/joueur.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NotifyService } from '../Service/notify.service';
+import { NotifyService } from '../../Service/notify.service';
 
 @Component({
   selector: 'app-form-joueur',

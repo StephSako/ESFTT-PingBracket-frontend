@@ -29,6 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { GestionRoutingModule } from './gestion-routing.module';
+import { SharedModules } from '../SharedModule/shared.modules';
 
 @NgModule({
   declarations: [
@@ -64,9 +65,8 @@ import { GestionRoutingModule } from './gestion-routing.module';
     MatSlideToggleModule,
     FlexLayoutModule,
     MatAutocompleteModule,
-    GestionRoutingModule
+    GestionRoutingModule,
+    SharedModules
   ]
 })
-export class GestionModules {
-
-}
+export class GestionModules {}
