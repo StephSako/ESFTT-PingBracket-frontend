@@ -2,7 +2,6 @@
   <div fxLayout="row" fxLayout.lt-md="column">
     <div fxFlex="50%" fxFlex.lt-md="100%">
       <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>account_circle</mat-icon>
         <mat-label>Pseudo</mat-label>
         <input formControlName="username" name="username" type="text" matInput required>
         <mat-error *ngIf="!reactiveForm.get('username').value">
@@ -13,9 +12,9 @@
 
     <div fxFlex="50%" fxFlex.lt-md="100%">
       <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>vpn_key</mat-icon>
+        <mat-icon (click)="togglePasswordVisibility()" matSuffix>{{ passwordVisibility ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-label>Mot de passe</mat-label>
-        <input formControlName="password" name="password" type="password" matInput required>
+        <input formControlName="password" name="password" [type]="inputPasswordType" matInput required>
         <mat-error *ngIf="!reactiveForm.get('password').value">
           Mot de passe <strong>obligatoire</strong>
         </mat-error>

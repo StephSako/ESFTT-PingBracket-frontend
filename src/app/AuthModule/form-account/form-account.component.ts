@@ -18,6 +18,8 @@ export class FormAccountComponent implements OnInit {
     password: '',
   };
   spinnerShown: boolean;
+  passwordVisibility = false;
+  inputPasswordType = 'password';
   reactiveForm: FormGroup;
 
   constructor(private authService: AccountService, private router: Router, private snackBar: MatSnackBar,
@@ -46,5 +48,10 @@ export class FormAccountComponent implements OnInit {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       }
     );
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisibility = !this.passwordVisibility;
+    this.inputPasswordType = this.passwordVisibility ? 'text' : 'password';
   }
 }
