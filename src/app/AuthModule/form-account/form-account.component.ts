@@ -1,6 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TokenPayloadLogin } from '../../Interface/Account';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from '../../Service/account.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from '../../Service/notify.service';
 
 @Component({
   selector: 'app-form-account',
@@ -9,29 +13,38 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class FormAccountComponent implements OnInit {
 
-  @Input() credentials: TokenPayloadLogin = {
+  public credentials: TokenPayloadLogin = {
     username: '',
     password: '',
   };
+  spinnerShown: boolean;
+  reactiveForm: FormGroup;
 
-  loginControl = new FormControl('', [Validators.required]);
-  passwordControl = new FormControl('', [Validators.required]);
-
-  constructor() { }
+  constructor(private authService: AccountService, private router: Router, private snackBar: MatSnackBar,
+              private notifyService: NotifyService) { }
 
   ngOnInit(): void {
+    this.spinnerShown = false;
+    this.reactiveForm = new FormGroup({
+      username: new FormControl(this.credentials.username, [Validators.required]),
+      password: new FormControl(this.credentials.password, [Validators.required])
+    });
   }
 
-  getErrorMessageLogin(): string {
-    if (this.loginControl.hasError('required')) {
-      return 'Identifiant obligatoire';
-    }
+  login(): void {
+    this.spinnerShown = true;
+    this.credentials = {
+      username: this.reactiveForm.get('username').value,
+      password: this.reactiveForm.get('password').value
+    };
+    this.authService.login(this.credentials).subscribe(() => {
+        this.spinnerShown = false;
+        this.router.navigateByUrl('/gestion');
+      },
+      err => {
+        this.spinnerShown = false;
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      }
+    );
   }
-
-  getErrorMessagePassword(): string {
-    if (this.passwordControl.hasError('required')) {
-      return 'Mot de passe obligatoire';
-    }
-  }
-
 }

@@ -3,16 +3,7 @@
     <h1 class="lobster center" style="margin-bottom: 4px;">Se connecter à l'espace privé</h1>
 
     <p style="color: red; font-weight: bold" class="center">Cet espace est réservé aux administrateurs uniquement</p>
+    <app-form-account></app-form-account>
 
-    <form (submit)="login()">
-      <app-form-account [credentials]="credentials"></app-form-account>
-
-      <button class="center" mat-raised-button color="primary">
-        <mat-icon *ngIf="spinnerShown">
-          <mat-spinner color="accent" [diameter]="20"></mat-spinner>
-        </mat-icon>
-        C'est parti !
-      </button>
-    </form>
   </mat-card>
 </div>
