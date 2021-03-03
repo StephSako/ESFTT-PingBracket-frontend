@@ -130,7 +130,7 @@ export class FormulaireComponent implements OnInit {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
     }
-    this.router.navigateByUrl('/inscription_terminee').then(() => {});
+    this.router.navigateByUrl('/submitted').then(() => {});
   }
 
   disabledAddPlayer(joueurData: JoueurInterface): boolean {

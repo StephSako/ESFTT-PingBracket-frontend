@@ -9,8 +9,6 @@ import { GestionJoueursComponent } from './gestion-joueurs/gestion-joueurs.compo
 import { GestionTableauxComponent } from './gestion-tableaux/gestion-tableaux.component';
 import { FormTableauComponent } from './form-tableau/form-tableau.component';
 import { EditTableauComponent } from './edit-tableau/edit-tableau.component';
-import { FormulaireComponent } from './formulaire/formulaire.component';
-import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
 import { GestionFormulaireComponent } from './gestion-formulaire/gestion-formulaire.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -43,8 +41,6 @@ import { SharedModules } from '../SharedModule/shared.modules';
     GestionTableauxComponent,
     FormTableauComponent,
     EditTableauComponent,
-    FormulaireComponent,
-    ConfirmFormulaireComponent,
     GestionFormulaireComponent
   ],
   imports: [

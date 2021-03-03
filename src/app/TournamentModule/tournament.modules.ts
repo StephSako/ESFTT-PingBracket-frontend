@@ -22,6 +22,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TournamentRoutingModule } from './tournament-routing.module';
 import { SharedModules } from '../SharedModule/shared.modules';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -43,6 +44,8 @@ import { SharedModules } from '../SharedModule/shared.modules';
     MatIconModule,
     MatProgressSpinnerModule,
     NgTournamentTreeModule,
+    NgTournamentTreeModule,
+    BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
