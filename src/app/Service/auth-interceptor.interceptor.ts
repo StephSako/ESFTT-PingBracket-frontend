@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AccountService } from './account.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthInterceptorInterceptor implements HttpInterceptor {
@@ -16,7 +17,7 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
       setHeaders: {
-        Authorization: (this.authService.getToken() ? this.authService.getToken() : 'ANONYMOUSLY_LOGGED')
+        Authorization: (this.authService.getToken() ? this.authService.getToken() : environment.anonymousHeader)
       }
     });
     return next.handle(request);
