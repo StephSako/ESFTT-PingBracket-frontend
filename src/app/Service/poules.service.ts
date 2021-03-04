@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
 import { PouleInterface } from '../Interface/Poule';
 import { TableauInterface } from '../Interface/Tableau';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PoulesService {
 
-  private baseURL = 'http://localhost:4000/api/poule/';
+  private baseURL = environment.endpointNodeApi + 'poule/';
 
   constructor(private http: HttpClient) { }
 

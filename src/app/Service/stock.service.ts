@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { StockInterface } from '../Interface/Stock';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StockService {
 
-  private baseURL = 'http://localhost:4000/api/stock/';
+  private baseURL = environment.endpointNodeApi + 'stock/';
 
   constructor(private http: HttpClient) { }
 

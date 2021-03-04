@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  anonymousHeader: 'ANONYMOUSLY_LOGGED'
+  anonymousHeader: 'ANONYMOUSLY_LOGGED',
+  endpointNodeApi: 'http://localhost:4000/api/'
 };
 
 /*

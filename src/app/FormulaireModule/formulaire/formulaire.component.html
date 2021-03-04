@@ -1,8 +1,8 @@
-<mat-card *ngIf="!parametres.open">
+<mat-card *ngIf="parametres.open !== null && !parametres.open">
   <h1 class="lobster center">Les inscriptions ne sont pas encore ouvertes. Revenez plus tard ;)</h1>
 </mat-card >
 
-<mat-card *ngIf="parametres.open">
+<mat-card *ngIf="parametres.open !== null && parametres.open">
   <h1 class="center lobster">{{parametres.titre}}</h1>
   <h2 class="center lobster">{{parametres.date | date:"dd/MM/yyyy"}}</h2>
 

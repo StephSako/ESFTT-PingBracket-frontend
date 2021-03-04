@@ -4,6 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TokenPayloadLogin, TokenResponse, UserInterface } from '../Interface/Account';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { TokenPayloadLogin, TokenResponse, UserInterface } from '../Interface/Ac
 
 export class AccountService {
 
-  private baseURL = 'http://localhost:4000/api/account/';
+  private baseURL = environment.endpointNodeApi + 'account/';
   private token: string;
   private tokenExpirationTimer: any;
 

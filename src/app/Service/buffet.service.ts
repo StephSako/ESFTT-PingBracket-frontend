@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BuffetInterface } from '../Interface/Buffet';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuffetService {
 
-  private baseURL = 'http://localhost:4000/api/buffet/';
+  private baseURL = environment.endpointNodeApi + 'buffet/';
 
   constructor(private http: HttpClient) { }
 

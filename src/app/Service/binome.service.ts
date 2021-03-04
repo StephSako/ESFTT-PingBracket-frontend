@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BinomeService {
 
-  private baseURL = 'http://localhost:4000/api/binome/';
+  private baseURL = environment.endpointNodeApi + 'binome/';
 
   constructor(private http: HttpClient) { }
 

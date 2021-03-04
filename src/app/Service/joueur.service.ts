@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
 import {TableauInterface} from '../Interface/Tableau';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JoueurService {
 
-  private baseURL = 'http://localhost:4000/api/joueur/';
+  private baseURL = environment.endpointNodeApi + 'joueur/';
 
   constructor(private http: HttpClient) { }
 

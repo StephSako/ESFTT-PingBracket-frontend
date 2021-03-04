@@ -2,13 +2,14 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { TableauInterface } from '../Interface/Tableau';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableauService {
 
-  private baseURL = 'http://localhost:4000/api/tableau/';
+  private baseURL = environment.endpointNodeApi + 'tableau/';
   tableauxSource = new Subject();
   tableauxChange: EventEmitter<void> = new EventEmitter();
   nbInscritsChange: EventEmitter<void> = new EventEmitter();
