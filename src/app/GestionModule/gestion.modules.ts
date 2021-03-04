@@ -28,6 +28,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { GestionRoutingModule } from './gestion-routing.module';
 import { SharedModules } from '../SharedModule/shared.modules';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { SharedModules } from '../SharedModule/shared.modules';
     FlexLayoutModule,
     MatAutocompleteModule,
     GestionRoutingModule,
-    SharedModules
+    SharedModules,
+    AngularEditorModule
   ]
 })
 export class GestionModules {}

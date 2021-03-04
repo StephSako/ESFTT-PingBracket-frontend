@@ -4,21 +4,18 @@
 
     <h1 style="margin-bottom: 10px" class="lobster center special_margin">Le formulaire</h1>
 
-    <button [style]="'backgroundColor:' + (parametres.open ? 'red': 'green')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button>
-    <br>
-    <form (submit)="edit()">
-      <div fxLayout="row">
-        <div fxFlex="33%" class="center">
-          <h2 class="lobster special_margin">Titre</h2>
-          <mat-form-field appearance="outline">
-            <input matInput [(ngModel)]="parametres.titre" name="titre">
-          </mat-form-field>
-        </div>
+    <button [style]="'backgroundColor:' + (parametres.open ? 'red': 'green')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button><br>
 
-        <div fxFlex="33%" class="center">
-          <h2 class="lobster special_margin">Date du tournoi</h2>
+    <form (ngSubmit)="edit()" [formGroup]="reactiveForm">
+
+      <h2 class="lobster special_margin">Titre</h2>
+      <angular-editor id="editor1" formControlName="titre" [config]="editorConfig"></angular-editor>
+
+      <h2 class="lobster special_margin">Date du tournoi</h2>
+      <div fxLayout="row">
+        <div fxFlex="15%">
           <mat-form-field appearance="outline">
-            <input matInput [matDatepicker]="dp" [(ngModel)]="parametres.date" name="date_tournoi">
+            <input matInput [matDatepicker]="dp" formControlName="date">
             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
             <mat-datepicker #dp></mat-datepicker>
           </mat-form-field>
@@ -26,21 +23,15 @@
       </div>
 
       <h2 class="lobster special_margin">Texte de présentation</h2>
-      <mat-form-field>
-        <textarea cdkTextareaAutosize matInput [(ngModel)]="parametres.texte_debut" name="texte_debut"></textarea>
-      </mat-form-field>
+      <angular-editor id="editor2" formControlName="texte_debut" [config]="editorConfig"></angular-editor>
 
       <h2 class="lobster special_margin">Texte du buffet</h2>
-      <mat-form-field>
-        <textarea cdkTextareaAutosize matInput [(ngModel)]="parametres.texte_buffet" name="texte_buffet"></textarea>
-      </mat-form-field>
+      <angular-editor id="editor3" formControlName="texte_buffet" [config]="editorConfig"></angular-editor>
 
       <h2 class="lobster special_margin">Texte de fin</h2>
-      <mat-form-field>
-        <textarea cdkTextareaAutosize matInput [(ngModel)]="parametres.texte_fin" name="texte_fin"></textarea>
-      </mat-form-field>
+      <angular-editor id="editor4" formControlName="texte_fin" [config]="editorConfig"></angular-editor>
 
-      <button mat-raised-button class="center" color="primary">Modifier</button>
+      <button type="submit" mat-raised-button class="center" color="primary" style="margin-top: 10px">Sauvegarder</button>
     </form>
 
   </mat-card>

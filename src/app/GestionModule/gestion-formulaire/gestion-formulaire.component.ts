@@ -7,6 +7,8 @@ import { ParametresService } from '../../Service/parametres.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BuffetService } from '../../Service/buffet.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-gestion-formulaire',
@@ -23,6 +25,8 @@ import { BuffetService } from '../../Service/buffet.service';
   ]
 })
 export class GestionFormulaireComponent implements OnInit {
+
+  reactiveForm: FormGroup;
 
   parametres: ParametreInterface = {
     texte_debut: null,
@@ -41,22 +45,76 @@ export class GestionFormulaireComponent implements OnInit {
     plats: null
   };
 
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '0',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'}
+    ],
+    customClasses: [],
+    uploadUrl: 'v1/image',
+    uploadWithCredentials: false,
+    sanitize: false,
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      ['customClasses', 'undo', 'redo', 'heading', 'link', 'unlink', 'removeFormat', 'toggleEditorMode', 'insertVideo']
+    ]
+  };
+
   constructor(private adapter: DateAdapter<any>, private parametreService: ParametresService, private notifyService: NotifyService,
               private snackBar: MatSnackBar, private buffetService: BuffetService) { }
 
   ngOnInit(): void {
+    this.reactiveForm = new FormGroup({
+      titre: new FormControl(''),
+      texte_debut: new FormControl(''),
+      texte_buffet: new FormControl(''),
+      texte_fin: new FormControl(''),
+      date: new FormControl('')
+    });
     this.adapter.setLocale('fr');
     this.getParametres();
     this.getBuffet();
   }
 
   getParametres(): void{
-    this.parametreService.getParametres().subscribe(parametres => this.parametres = parametres, err => {
+    this.parametreService.getParametres().subscribe(parametres => {
+      this.parametres = parametres;
+      this.reactiveForm.patchValue({
+        titre: this.parametres.titre,
+        texte_debut: this.parametres.texte_debut,
+        texte_buffet: this.parametres.texte_buffet,
+        texte_fin: this.parametres.texte_fin,
+        date: this.parametres.date
+      });
+    }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   edit(): void {
+    this.parametres = {
+      _id: this.parametres._id,
+      titre: this.reactiveForm.get('titre').value,
+      open: this.parametres.open,
+      date: this.reactiveForm.get('date').value,
+      texte_debut: this.reactiveForm.get('texte_debut').value,
+      texte_buffet: this.reactiveForm.get('texte_buffet').value,
+      texte_fin: this.reactiveForm.get('texte_fin').value
+    };
     this.parametreService.edit(this.parametres).subscribe(
       message => {
         this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
