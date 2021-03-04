@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { TableauInterface } from '../../Interface/Tableau';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -81,7 +81,7 @@ export class BinomeComponent implements OnInit {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
       } else {
-        this.notifyService.notifyUser('Le binôme est déjà complet', this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
       }
     }
   }
@@ -92,7 +92,7 @@ export class BinomeComponent implements OnInit {
       if (this.tableau.poules) { this.generatePoules.emit(); }
       this.getSubscribedUnassignedPlayers.emit();
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

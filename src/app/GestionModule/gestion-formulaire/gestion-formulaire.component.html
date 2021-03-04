@@ -2,12 +2,14 @@
 
   <mat-card>
 
+    <h1 style="margin-bottom: 10px" class="lobster center special_margin">Le formulaire</h1>
+
     <button [style]="'backgroundColor:' + (parametres.open ? 'red': 'green')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button>
     <br>
     <form (submit)="edit()">
       <div fxLayout="row">
         <div fxFlex="33%" class="center">
-          <h2 class="lobster special_margin">Titre du formulaire</h2>
+          <h2 class="lobster special_margin">Titre</h2>
           <mat-form-field appearance="outline">
             <input matInput [(ngModel)]="parametres.titre" name="titre">
           </mat-form-field>
@@ -44,7 +46,7 @@
   </mat-card>
 
   <mat-card>
-    <h1 class="lobster center special_margin">Données du buffet</h1>
+    <h1 class="lobster center special_margin">Le buffet</h1>
     <div fxLayout="row">
       <div fxFlex="50%">
         <h2 class="center lobster special_margin">Nombre de participants de moins de 13 ans</h2>
