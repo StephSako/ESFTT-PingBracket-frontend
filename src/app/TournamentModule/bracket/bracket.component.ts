@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';

@@ -1,10 +1,10 @@
 <h1 mat-dialog-title class="center">
-  {{data.action}}
+  {{ data.action }}
 </h1>
 <h2 mat-dialog-content class="center" *ngIf="data.option" style="white-space: pre-wrap;">
-  {{data.option}}
+  {{ data.option }}
 </h2>
 <div mat-dialog-actions class="center">
   <button mat-button mat-dialog-close >Annuler</button>
-  <button mat-button color="primary" [mat-dialog-close]="data.id" cdkFocusInitial>{{data.action_button_text}}</button>
+  <button mat-button color="primary" [mat-dialog-close]="data.id" cdkFocusInitial>{{ data.action_button_text }}</button>
 </div>

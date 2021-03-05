@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Dialog } from '../Interface/Dialog';
+import { Dialog } from '../../Interface/Dialog';
 
 @Component({
   selector: 'app-dialog',

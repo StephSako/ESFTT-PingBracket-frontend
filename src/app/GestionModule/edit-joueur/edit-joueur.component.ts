@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TableauInterface } from '../../Interface/Tableau';
 import { TableauService } from '../../Service/tableau.service';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { JoueurService } from '../../Service/joueur.service';
 import { PoulesService } from '../../Service/poules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

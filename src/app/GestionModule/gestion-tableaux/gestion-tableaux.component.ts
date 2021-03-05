@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTableauComponent } from '../edit-tableau/edit-tableau.component';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { PoulesService } from '../../Service/poules.service';
 import { BinomeService } from '../../Service/binome.service';
 import { Subscription } from 'rxjs';

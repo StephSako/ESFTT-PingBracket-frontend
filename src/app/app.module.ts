@@ -5,13 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DialogComponent } from './dialog/dialog.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { TournamentModules } from './TournamentModule/tournament.modules';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { WildcardModules } from './wildcard.modules';
 import { CoreModules } from './core.modules';
@@ -20,22 +16,18 @@ import { FormulaireModules } from './FormulaireModule/formulaire.modules';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DialogComponent
+    AppComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
     MatToolbarModule,
-    HttpClientModule,
     MatSnackBarModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     TournamentModules,
     FormulaireModules,
     WildcardModules,

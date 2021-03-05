@@ -7,7 +7,7 @@ import { EditJoueurComponent } from '../edit-joueur/edit-joueur.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TableauInterface } from '../../Interface/Tableau';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { PoulesService } from '../../Service/poules.service';
 import { Subscription } from 'rxjs';
 import { TableauService } from '../../Service/tableau.service';

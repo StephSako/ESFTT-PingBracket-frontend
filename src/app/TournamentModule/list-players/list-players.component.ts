@@ -3,7 +3,7 @@ import { JoueurService } from '../../Service/joueur.service';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { PoulesService } from '../../Service/poules.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface} from '../../Interface/Tableau';

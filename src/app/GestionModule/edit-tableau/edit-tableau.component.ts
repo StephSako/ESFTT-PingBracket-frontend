@@ -9,7 +9,7 @@ import { BracketService } from '../../Service/bracket.service';
 import { PoulesService } from '../../Service/poules.service';
 import { categoriesAge, formats } from '../../options-tableaux';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BinomeService } from '../../Service/binome.service';
 
 @Component({

@@ -3,7 +3,7 @@ import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { StockInterface } from '../../Interface/Stock';
 import { StockService } from '../../Service/stock.service';
 import { EditStockComponent } from '../edit-stock/edit-stock.component';

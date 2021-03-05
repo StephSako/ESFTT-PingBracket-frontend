@@ -3,7 +3,7 @@ import { TableauService } from '../../Service/tableau.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../../Interface/Dialog';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { JoueurService } from '../../Service/joueur.service';
 import { JoueurInterface } from '../../Interface/Joueur';

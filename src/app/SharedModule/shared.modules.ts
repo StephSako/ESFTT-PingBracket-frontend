@@ -8,10 +8,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
-    FormJoueurComponent
+    FormJoueurComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     MatSelectModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   exports: [
     FormJoueurComponent
