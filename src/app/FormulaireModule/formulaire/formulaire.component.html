@@ -3,10 +3,10 @@
 </mat-card >
 
 <mat-card *ngIf="parametres.open !== null && parametres.open">
-  <h1 class="center lobster">{{parametres.titre}}</h1>
+  <p [innerHTML]="parametres.titre" class="center"></p>
   <h2 class="center lobster">{{parametres.date | date:"dd/MM/yyyy"}}</h2>
 
-  <p style="white-space: pre-wrap;">{{parametres.texte_debut}}</p>
+  <p [innerHTML]="parametres.texte_debut"></p>
 
   <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque participant</h2>
 
@@ -100,8 +100,8 @@
 
   </form><br>
 
-  <h2 class="lobster">2. Participation au buffet du soir</h2>
-  <p style="white-space: pre-wrap;">{{parametres.texte_buffet}}</p>
+  <h2 class="lobster">2. Participation au buffet du soir (facultatif)</h2>
+  <p [innerHTML]="parametres.texte_buffet"></p>
 
   <div>
     <h3 style="display: inline-block" class="lobster">Nombre de participants <u>au buffet</u> de moins de 13 ans</h3>
@@ -131,6 +131,7 @@
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              [matChipInputAddOnBlur]="addOnBlur"
              type="text"
+             placeholder="Facultatif"
              (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
   </mat-form-field>
@@ -139,11 +140,9 @@
   <mat-chip-list *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked">
     <mat-chip *ngFor="let plat of platsAlreadyCooked" color="primary" selected>{{ plat }}</mat-chip>
   </mat-chip-list>
-  <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
+  <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br>
 
-  <br>
-  <p style="white-space: pre-wrap;">{{parametres.texte_fin}}</p>
-  <br>
+  <p [innerHTML]="parametres.texte_fin"></p><br>
 
   <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>
 

@@ -97,7 +97,7 @@ export class ListPlayersComponent implements OnInit {
         _id : null,
         tableaux: null
       };
-      if (this.tableau.poules && this.tableau.format !== 'double') { this.generatePoules.emit(); }
+      if (this.tableau.poules && this.tableau.format === 'simple') { this.generatePoules.emit(); }
       if (this.tableau.format === 'double') {
         this.getAllBinomes.emit();
         this.getSubscribedUnassignedPlayers.emit();

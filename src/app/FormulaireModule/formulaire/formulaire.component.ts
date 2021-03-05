@@ -12,6 +12,7 @@ import { BuffetService } from '../../Service/buffet.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
+import {PoulesService} from '../../Service/poules.service';
 
 @Component({
   selector: 'app-formulaire',
@@ -59,7 +60,7 @@ export class FormulaireComponent implements OnInit {
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService, private joueurService: JoueurService,
               private buffetService: BuffetService, private router: Router, private snackBar: MatSnackBar,
-              private notifyService: NotifyService) { }
+              private notifyService: NotifyService, private pouleService: PoulesService) { }
 
   ngOnInit(): void {
     this.getParametres();
@@ -119,7 +120,11 @@ export class FormulaireComponent implements OnInit {
   submit(): void {
     // Inscription des joueurs
     if (this.listeJoueurs.length > 0) {
-      this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {}, err => {
+      this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {
+        joueur.tableaux.forEach(tableau => {
+          if (tableau.poules && tableau.format === 'simple') { this.generatePoules(tableau); }
+        });
+      }, err => {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       }));
     }
@@ -152,5 +157,11 @@ export class FormulaireComponent implements OnInit {
 
   typing(joueur: JoueurInterface): void {
     joueur.tableaux = joueur.tableaux.filter(tableau => !(joueur.age <= tableau.age_minimum && tableau.age_minimum !== null));
+  }
+
+  generatePoules(tableau: TableauInterface): void {
+    this.pouleService.generatePoules(tableau).subscribe(() => {}, err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+    });
   }
 }

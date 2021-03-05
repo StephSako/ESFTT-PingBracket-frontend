@@ -35,9 +35,9 @@ export class TableauComponent implements OnInit {
   binomes: BinomeInterface[] = [];
   subscribedUnassignedPlayers: JoueurInterface[] = [];
 
-  constructor(private gestionService: TableauService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar,
+  constructor(private tableauService: TableauService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar,
               private notifyService: NotifyService, private pouleService: PoulesService, private binomeService: BinomeService,
-              private joueurService: JoueurService, public dialog: MatDialog, private tableauService: TableauService) {}
+              private joueurService: JoueurService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -46,7 +46,7 @@ export class TableauComponent implements OnInit {
   }
 
   getTableau(idTableau: string): void {
-    this.gestionService.getTableau(idTableau).subscribe(tableau => this.tableau = tableau, err => {
+    this.tableauService.getTableau(idTableau).subscribe(tableau => this.tableau = tableau, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       this.router.navigate(['/error-page']);
     });
