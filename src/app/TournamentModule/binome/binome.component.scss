@@ -86,8 +86,8 @@ p.error_message {
 
 .absolutePos {
   position: absolute;
-  top: 1.2%;
-  height: 28%;
+  top: 19px;
+  height: 470px;
 }
 
 .stickyPos{
@@ -99,4 +99,8 @@ p.error_message {
 ::-webkit-scrollbar {
   width: 0;
   background: transparent;
+}
+
+::ng-deep .mat-tab-body-wrapper {
+  min-height: 495px;
 }

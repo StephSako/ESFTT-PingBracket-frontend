@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { NgttTournament } from 'ng-tournament-tree';
 import { TableauInterface } from '../../Interface/Tableau';
@@ -34,9 +34,9 @@ export class BracketComponent implements OnInit {
               private snackBar: MatSnackBar, private notifyService: NotifyService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(() => {
+    this.route.params.subscribe((params: Params) => {
       this.spinnerShown = false;
-      this.idTableau = this.router.url.split('/').pop();
+      this.idTableau = params.tableau;
       this.getBracket();
     });
   }
@@ -59,7 +59,7 @@ export class BracketComponent implements OnInit {
           .subscribe(() => this.getBracket(), (err) => {
             this.spinnerShown = false;
             this.bracket = null;
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
       }
     });
@@ -70,7 +70,7 @@ export class BracketComponent implements OnInit {
       this.bracket = matches;
       this.spinnerShown = false;
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
