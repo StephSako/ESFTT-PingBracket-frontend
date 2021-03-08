@@ -12,11 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { NoSanitizePipe } from './no-sanitize.pipe';
 
 @NgModule({
   declarations: [
     FormulaireComponent,
-    ConfirmFormulaireComponent
+    ConfirmFormulaireComponent,
+    NoSanitizePipe
   ],
   imports: [
     RouterModule,

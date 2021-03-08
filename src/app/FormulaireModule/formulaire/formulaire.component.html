@@ -6,7 +6,7 @@
   <p [innerHTML]="parametres.titre" class="center"></p>
   <h2 class="center lobster">{{parametres.date | date:"dd/MM/yyyy"}}</h2>
 
-  <p [innerHTML]="parametres.texte_debut"></p>
+  <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
 
   <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque participant</h2>
 
@@ -101,7 +101,7 @@
   </form><br>
 
   <h2 class="lobster">2. Participation au buffet du soir (facultatif)</h2>
-  <p [innerHTML]="parametres.texte_buffet"></p>
+  <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
   <div>
     <h3 style="display: inline-block" class="lobster">Nombre de participants <u>au buffet</u> de moins de 13 ans</h3>
@@ -142,7 +142,7 @@
   </mat-chip-list>
   <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br>
 
-  <p [innerHTML]="parametres.texte_fin"></p><br>
+  <div [innerHTML]="parametres.texte_fin | noSanitize"></div><br>
 
   <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>
 

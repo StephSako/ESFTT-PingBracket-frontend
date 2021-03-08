@@ -65,12 +65,11 @@ export class GestionFormulaireComponent implements OnInit {
       {class: 'calibri', name: 'Calibri'}
     ],
     customClasses: [],
-    uploadUrl: 'v1/image',
     uploadWithCredentials: false,
     sanitize: false,
     toolbarPosition: 'top',
     toolbarHiddenButtons: [
-      ['customClasses', 'undo', 'redo', 'heading', 'link', 'unlink', 'removeFormat', 'toggleEditorMode', 'insertVideo']
+      ['customClasses', 'undo', 'redo', 'heading', 'link', 'unlink', 'removeFormat', 'insertVideo']
     ]
   };
 

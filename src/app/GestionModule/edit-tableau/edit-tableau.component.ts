@@ -51,7 +51,7 @@ export class EditTableauComponent implements OnInit {
     const consolanteEdited = this.reactiveForm.get('consolante').value !== this.tableau.consolante
       && !this.reactiveForm.get('consolante').value;
     const ageMinimumEdited = this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum
-      && this.reactiveForm.get('age_minimum').value !== null;
+      && this.reactiveForm.get('age_minimum').value !== null && this.reactiveForm.get('age_minimum').value < this.tableau.age_minimum;
 
     if (consolanteEdited || (poulesEdited && !this.reactiveForm.get('poules').value) || ageMinimumEdited
       || (formatEdited && this.reactiveForm.get('format').value === 'simple') || nbPoulesEdited) {
@@ -68,10 +68,10 @@ export class EditTableauComponent implements OnInit {
         (formatEdited && this.reactiveForm.get('format').value === 'simple')) { optionMessage += '. '; }
 
       if (ageMinimumEdited) { optionMessage += 'Les joueurs de -' + this.reactiveForm.get('age_minimum').value +
-        ' ans seront désinscrits.'; }
+        ' ans seront désinscrits. '; }
 
       if (nbPoulesEdited || ageMinimumEdited || (formatEdited && this.reactiveForm.get('poules').value)) {
-        optionMessage += 'Les poules seront regénérées.';
+        optionMessage += 'Les poules seront regénérées. ';
       }
 
       const tableauToEdit: Dialog = {
