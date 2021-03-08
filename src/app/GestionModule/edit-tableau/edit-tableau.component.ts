@@ -103,8 +103,10 @@ export class EditTableauComponent implements OnInit {
             }
 
             if (ageMinimumEdited) {
-              this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => this.tableauService.tableauxChange.emit(),
-                  err => this.emitErrorSnackbar(err));
+              this.tableauService.unsubscribeInvalidPlayers(this.tableau).subscribe(() => {
+                this.tableauService.tableauxChange.emit();
+                this.tableauService.nbInscritsChange.emit();
+              }, err => this.emitErrorSnackbar(err));
             }
 
             if (formatEdited) {
