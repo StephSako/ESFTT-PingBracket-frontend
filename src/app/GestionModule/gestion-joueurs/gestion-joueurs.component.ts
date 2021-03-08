@@ -67,7 +67,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   openEditDialog(joueur: JoueurInterface): void {
     this.dialog.open(EditJoueurComponent, {
-      width: '80%',
+      width: '90%',
       data: {
         joueur,
         createMode: false

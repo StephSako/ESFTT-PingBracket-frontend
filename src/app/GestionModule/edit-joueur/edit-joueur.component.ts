@@ -209,6 +209,6 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
   }
 
   errorAgeJoueur(tableau: TableauInterface): string {
-    return (this.joueur.age === null ? 'L\'âge du joueur est requis' : 'Le joueur doit avoir moins de ' + tableau.age_minimum + ' ans');
+    return (this.joueur.age === null ? 'Âge requis' : 'Âge supérieur à ' + tableau.age_minimum + ' ans');
   }
 }

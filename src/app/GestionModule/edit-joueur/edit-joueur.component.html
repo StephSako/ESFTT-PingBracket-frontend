@@ -35,7 +35,7 @@
     <div *ngIf="tableaux" fxFlex="45%">
       <div fxLayout="row" *ngFor="let tableau of tableaux" class="row">
         <div fxFlex="50%" class="center">
-          <h2 class="lobster"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h2>
+          <h2 style="margin-bottom: 8px; margin-top: 8px" class="lobster"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h2>
         </div>
         <div fxFlex="50%" class="center">
           <div *ngIf="enabled(tableau); else ageRequis">
