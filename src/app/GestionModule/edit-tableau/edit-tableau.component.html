@@ -28,7 +28,7 @@
         <mat-label>Catégorie</mat-label>
         <mat-select formControlName="age_minimum">
           <mat-option *ngFor="let category of categoriesAge" [value]="category.age">
-          <span [style.font-style]="!category.age ? 'italic' : ''">
+          <span [class]="!category.age ? 'fontItalic' : ''">
             {{ category.category | titlecase }}<span *ngIf="category.age"> (- de {{category.age}} ans)</span>
           </span>
           </mat-option>

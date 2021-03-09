@@ -35,12 +35,12 @@
     <div *ngIf="tableaux" fxFlex="45%">
       <div fxLayout="row" *ngFor="let tableau of tableaux" class="row">
         <div fxFlex="50%" class="center">
-          <h2 style="margin-bottom: 8px; margin-top: 8px" class="lobster"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h2>
+          <h2 class="labelTableau lobster"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h2>
         </div>
         <div fxFlex="50%" class="center">
           <div *ngIf="enabled(tableau); else ageRequis">
-            <button [disabled]="ageModifying()" (click)="subscribe(tableau)" mat-raised-button style="color: green" *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
-            <button [disabled]="ageModifying()" (click)="unsubscribe(tableau)" mat-raised-button style="color: red; height: 100%; margin-top: 2px; margin-bottom: 2px" *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
+            <button class="enabledButtons" [disabled]="ageModifying()" (click)="subscribe(tableau)" mat-raised-button *ngIf="!isInscrit(joueur.tableaux, tableau._id)">Inscrire</button>
+            <button class="disabledButtons" [disabled]="ageModifying()" (click)="unsubscribe(tableau)" mat-raised-button *ngIf="isInscrit(joueur.tableaux, tableau._id)">Désinscrire</button>
           </div>
           <ng-template #ageRequis>
             <p class="error_message">{{ errorAgeJoueur(tableau) }}</p>

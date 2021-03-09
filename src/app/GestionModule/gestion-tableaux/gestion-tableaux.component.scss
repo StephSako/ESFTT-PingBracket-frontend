@@ -10,6 +10,15 @@ td {
   padding: 5px !important;
 }
 
+tr {
+  height: auto;
+}
+
 mat-icon {
   vertical-align: middle;
+}
+
+.unsubscribeBtn {
+  color: white;
+  background-color: #f57646;
 }

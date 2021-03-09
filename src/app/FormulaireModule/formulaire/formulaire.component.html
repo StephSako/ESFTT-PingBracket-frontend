@@ -103,16 +103,16 @@
   <h2 class="lobster">2. Participation au buffet du soir (facultatif)</h2>
   <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
-  <div>
-    <h3 style="display: inline-block" class="lobster">Nombre de participants <u>au buffet</u> de moins de 13 ans</h3>
-    <mat-form-field style="display: inline-block; margin-left: 10px;" class="shorten" appearance="outline">
+  <div class="nbParticipants">
+    <h3 class="lobster">Nombre de participants <u>au buffet</u> de moins de 13 ans</h3>
+    <mat-form-field class="shorten" appearance="outline">
       <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_moins_13_ans" name="nb_moins_13_ans">
     </mat-form-field>
   </div>
 
-  <div>
-    <h3 style="display: inline-block" class="lobster">Nombre de participants <u>au buffet</u> de plus de 13 ans</h3>
-    <mat-form-field style="display: inline-block; margin-left: 10px;" class="shorten" appearance="outline">
+  <div class="nbParticipants">
+    <h3 class="lobster">Nombre de participants <u>au buffet</u> de plus de 13 ans</h3>
+    <mat-form-field class="shorten" appearance="outline">
       <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_plus_13_ans" name="nb_plus_13_ans">
     </mat-form-field>
   </div>

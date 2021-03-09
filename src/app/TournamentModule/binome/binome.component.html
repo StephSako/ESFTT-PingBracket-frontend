@@ -8,7 +8,7 @@
     <div fxLayout="row nowrap" fxFlexFill fxLayoutAlign="space-between stretch">
 
       <div fxFlex="33%" fxLayoutAlign="center stretch">
-        <div style="width: 100%;">
+        <div class="listBinomes">
           <div *ngFor="let binome of binomes; let indexList = index; let isEven = even;">
             <mat-card [class]="'mat-elevation-z8 ' + (binome.locked ? 'locked' : '')" *ngIf="isEven">
               <h3 class="lobster center">Binôme n°{{indexList+1}}</h3>
@@ -27,9 +27,9 @@
       </div>
 
       <div fxFlex="33%" fxLayoutAlign="center stretch" id="listPlayers" class="absolutePos">
-        <div style="width: 91%;">
+        <div class="listPlayers">
           <mat-card>
-            <h1 style="margin-bottom: 0;" class="lobster center">Joueurs inscrits</h1>
+            <h1 class="lobster center labelJoueursInscrits">Joueurs inscrits</h1>
             <h2 class="lobster center">({{ nbPlayers() }} assigné<span *ngIf="nbPlayers() > 1">s</span>) - ({{ subscribedUnassignedPlayers.length }} disponible<span *ngIf="subscribedUnassignedPlayers.length > 1">s</span>)</h2>
 
             <div cdkDropList cdkDropListSortingDisabled [cdkDropListData]="subscribedUnassignedPlayers" class="list" (cdkDropListDropped)="editBinome($event, null)">
@@ -43,7 +43,7 @@
       </div>
 
       <div fxFlex="33%" fxLayoutAlign="center stretch">
-        <div style="width: 100%;">
+        <div class="listBinomes">
           <div *ngFor="let binome of binomes; let indexList = index; let isOdd = odd;">
             <mat-card [class]="'mat-elevation-z8 ' + (binome.locked ? 'locked' : '')" *ngIf="isOdd">
               <h3 class="lobster center">Binôme n°{{indexList+1}}</h3>

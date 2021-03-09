@@ -14,6 +14,16 @@ i {
   margin-bottom: 10px;
 }
 
+.nbParticipants {
+  h3, mat-form-field {
+    display: inline-block;
+  }
+
+  mat-form-field {
+    margin-left: 10px;
+  }
+}
+
 .form_inputs_player {
   margin-top: 5px;
 }

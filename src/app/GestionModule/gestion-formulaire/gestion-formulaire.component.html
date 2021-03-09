@@ -2,9 +2,9 @@
 
   <mat-card>
 
-    <h1 style="margin-bottom: 10px" class="lobster center special_margin">Le formulaire</h1>
+    <h1 class="lobster center special_margin">Le formulaire</h1>
 
-    <button [style]="'backgroundColor:' + (parametres.open ? 'red': 'green')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button><br>
+    <button [class]="(parametres.open ? 'disabledButtons': 'enabledButtons')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button><br>
 
     <form (ngSubmit)="edit()" [formGroup]="reactiveForm">
 
@@ -31,7 +31,7 @@
       <h2 class="lobster special_margin">Texte de fin</h2>
       <angular-editor id="editor4" formControlName="texte_fin" [config]="editorConfig"></angular-editor>
 
-      <button type="submit" mat-raised-button class="center" color="primary" style="margin-top: 20px">Sauvegarder</button>
+      <button type="submit" mat-raised-button class="center saveBtn" color="primary">Sauvegarder</button>
     </form>
   </mat-card>
 

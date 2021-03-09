@@ -7,6 +7,20 @@ mat-card {
 }
 
 .special_margin {
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   margin-top: 16px;
+}
+
+.enabledButtons {
+  background-color: green;
+  color: white;
+}
+
+.disabledButtons {
+  background-color: red;
+  color: white;
+}
+
+.saveBtn {
+  margin-top: 20px;
 }

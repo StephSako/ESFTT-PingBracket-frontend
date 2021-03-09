@@ -1,11 +1,11 @@
 <div class="ngtt__match-wrapper">
   <ng-container *ngFor="let joueur of match.joueurs">
     <div fxLayout="row">
-      <div style="display: flex; align-items: center; margin-left: 2%" *ngIf="match.joueurs.length === 2 && !(!match.joueurs[0].winner && !match.joueurs[1].winner) && match.round === 1">
-        <mat-icon *ngIf="match.id === 1 && joueur.winner" matSuffix style="color: yellow">emoji_events</mat-icon>
-        <mat-icon *ngIf="match.id === 1 && !joueur.winner" matSuffix style="color: white">looks_two</mat-icon>
-        <mat-icon *ngIf="match.id === 2 && joueur.winner" matSuffix style="color: #ff7918">looks_3</mat-icon>
-        <mat-icon *ngIf="match.id === 2 && !joueur.winner" matSuffix style="color: #d9d9d9">looks_4</mat-icon>
+      <div id="finale" *ngIf="match.joueurs.length === 2 && !(!match.joueurs[0].winner && !match.joueurs[1].winner) && match.round === 1">
+        <mat-icon id="yellow" *ngIf="match.id === 1 && joueur.winner" matSuffix>emoji_events</mat-icon>
+        <mat-icon id="white" *ngIf="match.id === 1 && !joueur.winner" matSuffix>looks_two</mat-icon>
+        <mat-icon id="bronze" *ngIf="match.id === 2 && joueur.winner" matSuffix>looks_3</mat-icon>
+        <mat-icon id="silver" *ngIf="match.id === 2 && !joueur.winner" matSuffix>looks_4</mat-icon>
       </div>
 
       <div class="ngtt__team-wrapper">

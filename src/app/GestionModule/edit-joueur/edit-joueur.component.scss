@@ -12,6 +12,19 @@ mat-form-field {
   line-height: 32px;
 }
 
+h2.labelTableau {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.enabledButtons {
+  color: green !important;
+}
+
+.disabledButtons {
+  color: #ff0000 !important;
+}
+
 .shakeit {
   animation: shake 0.82s infinite cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);

@@ -1,7 +1,7 @@
 <div class="container">
 
   <mat-card>
-    <h2 class="lobster center">Ajouter du matériel</h2>
+    <h2 class="lobster center">Ajouter de matériel</h2>
 
     <form (submit)="create()">
       <app-form-stock [stock]="stock"></app-form-stock>
@@ -38,8 +38,8 @@
         </td>
       </ng-container>
 
-      <tr style="height: auto" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr style="height: auto" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </table>
   </mat-card>
