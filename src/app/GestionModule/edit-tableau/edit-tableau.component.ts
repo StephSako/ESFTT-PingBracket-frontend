@@ -148,7 +148,7 @@ export class EditTableauComponent implements OnInit {
     this.poulesService.generatePoules(tableau).subscribe(() => {}, err => this.emitErrorSnackbar(err));
   }
 
-  isInvalid(): boolean {
+  isValid(): boolean {
     return (this.reactiveForm.get('nom').value !== null && this.reactiveForm.get('format').value !== null &&
       this.reactiveForm.get('nom').value.trim() !== ''
       && ((this.reactiveForm.get('poules').value && this.reactiveForm.get('nbPoules').value !== null)

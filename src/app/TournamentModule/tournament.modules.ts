@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TournamentRoutingModule } from './tournament-routing.module';
 import { SharedModules } from '../SharedModule/shared.modules';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
+    MatAutocompleteModule,
     MatSelectModule,
     MatTableModule,
     MatChipsModule,

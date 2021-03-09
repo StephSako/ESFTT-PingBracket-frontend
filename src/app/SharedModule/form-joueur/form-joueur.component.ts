@@ -1,8 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { JoueurInterface } from '../../Interface/Joueur';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { TableauInterface } from '../../Interface/Tableau';
 import { TableauService } from '../../Service/tableau.service';
@@ -25,15 +23,9 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     _id: null,
     tableaux: null
   };
-  @Input() otherPlayers: JoueurInterface[];
-  @Input() createMode = false;
-  @Input() ageMinimumRequis = 0;
   tableaux: TableauInterface[];
   private tableauxSubscription: Subscription;
   private tableauxEventEmitter: Subscription;
-  joueurControl = new FormControl('');
-  optionsListJoueurs: Observable<JoueurInterface[]>;
-  showAutocomplete = false;
 
   constructor(private route: ActivatedRoute, private tableauService: TableauService, private joueurService: JoueurService,
               public dialog: MatDialog, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
@@ -43,12 +35,6 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
       this.getAllTableaux();
       this.tableauxSubscription = this.tableauService.tableauxSource.subscribe((tableaux: TableauInterface[]) => this.tableaux = tableaux);
       this.tableauxEventEmitter = this.tableauService.tableauxChange.subscribe(() => this.getAllTableaux());
-      if (this.otherPlayers) {
-        this.optionsListJoueurs = this.joueurControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value))
-        );
-      }
     });
   }
 
@@ -57,22 +43,10 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     this.tableauxEventEmitter.unsubscribe();
   }
 
-  _filter(value: string): JoueurInterface[] {
-    if (value && this.otherPlayers != null){
-      const filterValue = value.toLowerCase();
-      return this.otherPlayers.filter(joueur => joueur.nom.toLowerCase().includes(filterValue)
-        && (this.ageMinimumRequis !== null ? (joueur.age !== null && joueur.age < this.ageMinimumRequis) : true));
-    } else { return []; }
-  }
-
-  getAllTableaux(): void{
+  getAllTableaux(): void {
     this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
-  }
-
-  typingAutocomplete(event): void{
-    this.showAutocomplete = event && event.length > 0;
   }
 
   typingAge(): void {

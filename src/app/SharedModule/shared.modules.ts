@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormJoueurComponent } from './form-joueur/form-joueur.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -19,7 +18,6 @@ import { DialogComponent } from './dialog/dialog.component';
   ],
   imports: [
     CommonModule,
-    MatAutocompleteModule,
     MatIconModule,
     MatInputModule,
     FlexLayoutModule,

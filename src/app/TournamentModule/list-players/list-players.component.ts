@@ -11,6 +11,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { TableauService} from '../../Service/tableau.service';
 import { BinomeService } from '../../Service/binome.service';
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-players',
@@ -34,6 +37,9 @@ export class ListPlayersComponent implements OnInit {
   listTableauHostable: TableauInterface[] = [];
   otherPlayers: JoueurInterface[] = [];
   joueur: JoueurInterface;
+  joueurControl = new FormControl('');
+  optionsListJoueurs: Observable<JoueurInterface[]>;
+  showAutocomplete = false;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
   @Output() getSubscribedUnassignedPlayers: EventEmitter<any> = new EventEmitter();
@@ -53,7 +59,25 @@ export class ListPlayersComponent implements OnInit {
       };
       this.getTableau(this.router.url.split('/').pop());
       this.hostableTableau = null;
+      if (this.otherPlayers) {
+        this.optionsListJoueurs = this.joueurControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      }
     });
+  }
+
+  _filter(value: string): JoueurInterface[] {
+    if (value && this.otherPlayers != null){
+      const filterValue = value.toLowerCase();
+      return this.otherPlayers.filter(joueur => joueur.nom.toLowerCase().includes(filterValue)
+        && (this.tableau.age_minimum !== null ? (joueur.age !== null && joueur.age < this.tableau.age_minimum) : true));
+    } else { return []; }
+  }
+
+  typingAutocomplete(event): void{
+    this.showAutocomplete = event && event.length > 0;
   }
 
   getAllPlayers(): void {

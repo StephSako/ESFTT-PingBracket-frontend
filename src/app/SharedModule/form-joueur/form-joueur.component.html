@@ -1,18 +1,13 @@
 <div fxLayout="row">
-  <div [fxFlex]="createMode ? '25%' : '80%'" class="center">
+  <div fxFlex="25%" class="center">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Nom du joueur</mat-label>
-      <input name="nom" [formControl]="joueurControl" [(ngModel)]="joueur.nom" [matAutocomplete]="auto" matInput (ngModelChange)="typingAutocomplete($event)">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let joueur of optionsListJoueurs | async" [value]="joueur.nom" [ngClass]="{'hide-autocomplete': !showAutocomplete}">
-          {{joueur.nom}} - {{joueur.classement}} points
-        </mat-option>
-      </mat-autocomplete>
+      <input name="nom" type="text" [(ngModel)]="joueur.nom" matInput>
     </mat-form-field>
   </div>
 
-  <div *ngIf="createMode" fxFlex="20%">
+  <div fxFlex="20%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Classement</mat-label>
@@ -20,7 +15,7 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="createMode" fxFlex="20%">
+  <div fxFlex="20%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>today</mat-icon>
       <mat-label>Âge</mat-label>
@@ -28,7 +23,7 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="createMode" fxFlex="35%">
+  <div fxFlex="35%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>dns</mat-icon>
       <mat-label>Tableaux</mat-label>

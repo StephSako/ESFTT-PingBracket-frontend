@@ -4,7 +4,7 @@
     <h2 class="lobster center">Inscrire un joueur</h2>
 
     <form (submit)="create()">
-      <app-form-joueur [otherPlayers]="null" [createMode]="true" [joueur]="joueur"></app-form-joueur>
+      <app-form-joueur [joueur]="joueur"></app-form-joueur>
       <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidPlayer()">Créer</button>
     </form>
   </mat-card>
