@@ -1,28 +1,29 @@
 # PingBracket
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
+## Déploiement
 
-## Development server
+ssh pi@192.168.1.16
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+sudo apt update && sudo apt -y upgrade
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+nvm install 12.13.0
+npm install -g npm@8.3.0
+npm install -g @angular/cli@10.1.7
+[LOCAL FRONT] ng build --prod
+[LOCAL FRONT] scp -r ./dist/ping-bracket pi@192.168.1.16:~/Documents/ping-bracket-frontend
+[PI FRONT] sudo cp ~/Documents/ping-bracket-frontend/* /var/www/html/
+[LOCAL BACK] scp -r ./controller ./middleware ./model ./routes .env package.json server.js pi@192.168.1.16:~/Documents/ping-bracket-backend
+[PI BACK] npm i
+[PI BACK] npm install -g pm2
+[PI BACK] pm2 start server.js
+[PI BACK] sudo nano /etc/apache2/sites-available/000-default.conf
+	-> Ajouter ProxyPass / http://localhost:3000/
+[PI BACK] systemctl restart apache2
+[PI BACK] cd /etc/apache2/sites-enabled
+[PI BACK] sudo a2enmod (prompt : 'proxy' et 'proxy_http')
+[PI BACK] sudo systemctl reload apache2
+[PI BACK] sudo systemctl stop apache2
+[PI BACK] sudo systemctl start apache2
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-"# PingBracket" 
+--------
+sudo service apache2 restart
