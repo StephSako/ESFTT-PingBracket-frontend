@@ -12,7 +12,7 @@
   <div fxFlex="18%">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Format</mat-label>
-      <mat-select [(ngModel)]="tableau.format" required>
+      <mat-select [(ngModel)]="tableau.format" required (selectionChange)="simpleFormatPouleOnChange()">
         <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
       </mat-select>
     </mat-form-field>
