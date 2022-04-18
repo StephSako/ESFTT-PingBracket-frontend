@@ -93,8 +93,8 @@ export class FormulaireComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    if ((value || '').trim()) { this.buffet.plats.push(value.trim()); } // Add our fruit
-    if (input) { input.value = ''; } // Reset the input value
+    if ((value || '').trim()) { this.buffet.plats.push(value.trim()); }
+    if (input) { input.value = ''; }
   }
 
   remove(plat: string): void {
