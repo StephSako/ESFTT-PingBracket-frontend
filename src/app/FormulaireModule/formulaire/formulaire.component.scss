@@ -33,6 +33,14 @@ i {
   margin-top: 10px
 }
 
+.shorten {
+  width: 20%;
+}
+
+:host ::ng-deep img {
+  width: 100%;
+}
+
 @media screen and (max-width: 960px) {
   .form_inputs_player {
     margin-top: 35px;
@@ -43,6 +51,8 @@ i {
   }
 }
 
-.shorten {
-  width: 20%;
+@media screen and (min-width: 960px) {
+  :host ::ng-deep img {
+    width: 45%;
+  }
 }
