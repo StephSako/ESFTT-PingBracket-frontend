@@ -26,7 +26,7 @@ export class GestionComponent implements OnInit {
     const accountToDelete: Dialog = {
       id: 'true',
       action: 'Remettre le tournoi à zéro pour une nouvelle année ?',
-      option: `Les joueurs, poules, binômes de double, phases finales, plats et nombre de participants du buffets seront supprimés.\n\nLes paramètres du formulaire, le stock du matériel et les tableaux seront conservés.`,
+      option: `Les joueurs, poules, binômes de double, phases finales, plats et nombre de participants du buffets seront supprimés.\n\nLes paramètres du formulaire, les stocks et les tableaux seront conservés.`,
       action_button_text: 'Remettre à zéro'
     };
 

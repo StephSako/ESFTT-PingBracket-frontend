@@ -1,7 +1,7 @@
 <div class="container">
 
   <mat-card>
-    <h2 class="lobster center">Ajouter de matériel</h2>
+    <h2 class="lobster center">Ajouter du stock</h2>
 
     <form (submit)="create()">
       <app-form-stock [stock]="stock"></app-form-stock>
@@ -10,7 +10,7 @@
   </mat-card>
 
   <mat-card>
-    <h2 class="lobster center">Stock du matériel</h2>
+    <h2 class="lobster center">Stock</h2>
 
     <table mat-table *ngIf="allStocks.length > 0" [dataSource]="allStocks">
 

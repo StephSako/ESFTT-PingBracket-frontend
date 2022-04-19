@@ -1,12 +1,12 @@
 <form *ngIf="stock._id" [formGroup]="reactiveForm" (ngSubmit)="editStock()">
-  <h2 class="center lobster"><b>Modifier le matériel</b></h2>
+  <h2 class="center lobster"><b>Modifier le stock</b></h2>
 
   <div fxLayout="row">
     <div fxFlex="80%">
       <mat-form-field appearance="outline" class="center">
         <mat-icon matSuffix>inventory_2</mat-icon>
-        <mat-label>Nom du matériel *</mat-label>
-        <input formControlName="label" name="label" matInput>
+        <mat-label>Nom du stock</mat-label>
+        <input formControlName="label" name="label" matInput required>
       </mat-form-field>
     </div>
 

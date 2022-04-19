@@ -2,8 +2,8 @@
   <div fxFlex="80%" class="center">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>inventory_2</mat-icon>
-      <mat-label>Nom du matériel *</mat-label>
-      <input name="label" [formControl]="stockControl" [(ngModel)]="stock.label" matInput>
+      <mat-label>Nom du stock</mat-label>
+      <input name="label" [formControl]="stockControl" [(ngModel)]="stock.label" matInput required>
     </mat-form-field>
   </div>
 

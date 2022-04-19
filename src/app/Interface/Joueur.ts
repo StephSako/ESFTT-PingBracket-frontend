@@ -5,5 +5,6 @@ export interface JoueurInterface {
   classement?: number;
   nom: string;
   age: number;
+  buffet: boolean;
   tableaux: TableauInterface[];
 }

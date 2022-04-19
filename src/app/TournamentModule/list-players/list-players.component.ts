@@ -53,6 +53,7 @@ export class ListPlayersComponent implements OnInit {
       this.joueur = {
         nom: null,
         age : null,
+        buffet: null,
         classement: null,
         _id: null,
         tableaux: null
@@ -119,6 +120,7 @@ export class ListPlayersComponent implements OnInit {
         age : null,
         nom : null,
         _id : null,
+        buffet: null,
         tableaux: null
       };
       if (this.tableau.poules && this.tableau.format === 'simple') { this.generatePoules.emit(); }

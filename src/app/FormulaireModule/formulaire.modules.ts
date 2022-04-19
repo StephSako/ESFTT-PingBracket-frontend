@@ -13,6 +13,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { NoSanitizePipe } from './no-sanitize.pipe';
+import {MatTableModule} from '@angular/material/table';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { NoSanitizePipe } from './no-sanitize.pipe';
     MatIconModule,
     FlexLayoutModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule,
+    MatSlideToggleModule
   ]
 })
 export class FormulaireModules {}

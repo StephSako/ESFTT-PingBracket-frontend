@@ -20,7 +20,7 @@ import { TableauService } from '../../Service/tableau.service';
 export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['nom', 'classement', 'age', 'tableaux', 'edit', 'delete'];
+  displayedColumns: string[] = ['nom', 'classement', 'age', 'tableaux', 'buffet', 'edit', 'delete'];
   @Input() allJoueurs: JoueurInterface[] = [];
   private tableauxEventEmitter: Subscription;
 
@@ -28,6 +28,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     nom: null,
     age: null,
     classement: null,
+    buffet: null,
     _id: null,
     tableaux: []
   };
@@ -61,6 +62,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
           nom : null,
           age: null,
           _id : null,
+          buffet: null,
           tableaux: []
         }; }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
   }

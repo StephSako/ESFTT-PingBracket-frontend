@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import {PoulesService} from '../../Service/poules.service';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-formulaire',
@@ -20,7 +21,6 @@ import {PoulesService} from '../../Service/poules.service';
   styleUrls: ['./formulaire.component.scss']
 })
 export class FormulaireComponent implements OnInit {
-
   /* Champs du formulaire pour les joueurs */
   tableaux: TableauInterface[];
 
@@ -53,10 +53,12 @@ export class FormulaireComponent implements OnInit {
     tableaux: [],
     classement: null,
     nom: null,
+    buffet: true,
     age: null,
     _id: null
   };
   public listeJoueurs: JoueurInterface[] = [];
+  public dataSource = new MatTableDataSource<JoueurInterface>([]);
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService, private joueurService: JoueurService,
               private buffetService: BuffetService, private router: Router, private snackBar: MatSnackBar,
@@ -107,10 +109,12 @@ export class FormulaireComponent implements OnInit {
       tableaux: [],
       classement: null,
       nom: null,
+      buffet: true,
       age: null,
       _id: null
     };
     this.listeJoueurs.push($item);
+    this.dataSource.data = this.listeJoueurs;
   }
 
   removeItem($item): void {

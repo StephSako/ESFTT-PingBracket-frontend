@@ -26,6 +26,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
     nom: null,
     age : null,
     classement: null,
+    buffet: null,
     _id: null,
     tableaux: null
   };
@@ -45,7 +46,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
     this.reactiveForm = new FormGroup({
       nom: new FormControl(this.joueur.nom),
       classement: new FormControl(this.joueur.classement),
-      age: new FormControl(this.joueur.age)
+      age: new FormControl(this.joueur.age),
+      buffet: new FormControl(this.joueur.buffet)
     });
   }
 
@@ -61,12 +63,6 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
 
   generatePoules(tableau: TableauInterface): void {
     this.pouleService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-  }
-
-  getJoueur(): void{
-    this.joueurService.getPlayer(this.joueur._id).subscribe(joueur => this.joueur = joueur, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
@@ -136,6 +132,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.joueur.nom = this.reactiveForm.get('nom').value;
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
+          this.joueur.buffet = this.reactiveForm.get('buffet').value;
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
@@ -160,6 +157,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.joueur.nom = this.reactiveForm.get('nom').value;
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
+          this.joueur.buffet = this.reactiveForm.get('buffet').value;
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
             this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
           });
@@ -181,6 +179,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       this.joueur.nom = this.reactiveForm.get('nom').value;
       this.joueur.classement = this.reactiveForm.get('classement').value;
       this.joueur.age = this.reactiveForm.get('age').value;
+      this.joueur.buffet = this.reactiveForm.get('buffet').value;
       this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
         this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
       });
@@ -192,7 +191,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
   }
 
   isModified(): boolean {
-    return ((this.reactiveForm.get('nom').value !== this.joueur.nom) || this.classementModifying() || this.ageModifying());
+    return ((this.reactiveForm.get('nom').value !== this.joueur.nom) || this.classementModifying() || this.ageModifying()
+      || this.buffetModifying());
   }
 
   classementModifying(): boolean {
@@ -201,6 +201,10 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
 
   ageModifying(): boolean {
     return this.reactiveForm.get('age').value !== this.joueur.age;
+  }
+
+  buffetModifying(): boolean {
+    return this.reactiveForm.get('buffet').value !== this.joueur.buffet;
   }
 
   enabled(tableau: TableauInterface): boolean {

@@ -52,3 +52,15 @@ i, .fontItalic {
 b, strong {
   font-weight: bold;
 }
+
+table {
+  width: 100%;
+}
+
+td {
+  padding: 5px !important;
+}
+
+tr {
+  height: auto !important;
+}

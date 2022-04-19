@@ -1,5 +1,5 @@
 <mat-card *ngIf="parametres.open !== null && !parametres.open">
-  <h1 class="lobster center">Les inscriptions ne sont pas encore disponibles. Patience patience 😊🏓 ...</h1>
+  <h1 class="lobster center">Les inscriptions au tournoi sont fermées ...</h1>
 </mat-card >
 
 <mat-card *ngIf="parametres.open !== null && parametres.open">
@@ -8,10 +8,12 @@
 
   <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
 
-  <h2 class="lobster">1. Remplissez les champs du formulaire pour chaque participant</h2>
+  <h2 class="lobster">1. Remplissez le formulaire pour chaque joueur participant</h2>
 
-  <p><i>Renseigner le classement du joueur seulement s'il possède une license compétiteur. Laissez le champ vide sinon.</i></p>
-  <p><i>Renseigner l'âge du joueur seulement s'il est mineur. Laissez le champ vide sinon.</i></p>
+  <p><i><strong>Seulement si le joueur est compétiteur</strong>, renseignez le classement mensuel (laissez le champ vide sinon).</i></p>
+  <p><i><strong>Seulement si le joueur est mineur</strong>, renseignez l'âge (laissez le champ vide sinon).</i></p>
+
+  <p class="alerte"><i>Cliquez bien sur le bouton <strong>'Inscrire'</strong> pour chaque joueur</i></p>
 
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
@@ -27,7 +29,7 @@
         <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>bar_chart</mat-icon>
-            <mat-label>Classement</mat-label>
+            <mat-label>Classement mensuel</mat-label>
             <input name="classement" [(ngModel)]="joueurItem.classement" type="number" min="0" max="2000" matInput>
           </mat-form-field>
         </div>
@@ -51,7 +53,7 @@
         </div>
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
-          <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Supprimer</button>
+          <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Désinscrire</button>
         </div>
       </div>
     </form>
@@ -94,32 +96,60 @@
       </div>
 
       <div fxFlex="15%" fxFlex.lt-md="100%">
-        <button class="center btn_action" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Ajouter</button>
+        <button class="center btn_action" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Inscrire</button>
       </div>
     </div>
 
   </form><br>
 
-  <h2 class="lobster">2. Participation au buffet du soir (facultatif)</h2>
+  <h2 class="lobster">2. Participation au buffet du soir</h2>
   <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
   <div class="nbParticipants">
-    <h3 class="lobster">Nombre de participants <u>au buffet</u> de moins de 13 ans</h3>
+    <h3 class="lobster">Nombre de convives de moins de 13 ans (au total)</h3>
     <mat-form-field class="shorten" appearance="outline">
       <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_moins_13_ans" name="nb_moins_13_ans">
     </mat-form-field>
   </div>
 
   <div class="nbParticipants">
-    <h3 class="lobster">Nombre de participants <u>au buffet</u> de plus de 13 ans</h3>
+    <h3 class="lobster">Nombre de convives de plus de 13 ans (au total)</h3>
     <mat-form-field class="shorten" appearance="outline">
       <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_plus_13_ans" name="nb_plus_13_ans">
     </mat-form-field>
   </div>
 
+  <div *ngIf="listeJoueurs.length">
+    <br>
+    <h3 class="lobster">Participation des joueurs</h3>
+
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let joueur"> {{joueur.nom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="buffet">
+        <th mat-header-cell *matHeaderCellDef>Buffet</th>
+        <td mat-cell *matCellDef="let joueur">
+          <mat-slide-toggle
+            [color]="'primary'"
+            (change)="joueur.buffet = !joueur.buffet"
+            [checked]="joueur.buffet">
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['nom', 'buffet']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['nom', 'buffet'];"></tr>
+    </table>
+  </div>
+
+  <br>
+  <br>
   <h3 class="lobster">Plat(s) confectionné(s)</h3>
 
-  <p><i>Cliquez sur la touche 'Entrée' de votre clavier pour ajouter le plat dans votre liste.</i></p>
+  <p class="alerte"><i>Appuyez sur la touche <strong>'Entrée'</strong> de votre clavier pour ajouter un plat à votre liste</i></p>
 
   <mat-form-field class="chip-list" appearance="outline">
     <mat-chip-list #chipList aria-label="Fruit selection">
@@ -131,17 +161,21 @@
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              [matChipInputAddOnBlur]="addOnBlur"
              type="text"
-             placeholder="Facultatif"
+             placeholder="Plats préparés"
              (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
   </mat-form-field>
 
-  <p>Plats déjà préparés :</p>
+  <br>
+  <br>
+  <p><i>Plats déjà préparés :</i></p>
   <mat-chip-list *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked">
     <mat-chip *ngFor="let plat of platsAlreadyCooked" color="primary" selected>{{ plat }}</mat-chip>
   </mat-chip-list>
   <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br>
 
+  <br>
+  <br>
   <div [innerHTML]="parametres.texte_fin | noSanitize"></div><br>
 
   <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>

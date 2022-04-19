@@ -19,7 +19,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="12%">
+    <div fxFlex="14%">
       <mat-slide-toggle color="primary" class="center" formControlName="consolante">Consolante</mat-slide-toggle>
     </div>
 
@@ -36,11 +36,11 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="8%">
+    <div fxFlex="12%">
       <mat-slide-toggle color="primary" class="center" formControlName="poules">Poules</mat-slide-toggle>
     </div>
 
-    <div fxFlex="16%" *ngIf="reactiveForm.get('poules').value">
+    <div fxFlex="10%" *ngIf="reactiveForm.get('poules').value">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nombre de poules</mat-label>
         <input formControlName="nbPoules" type="number" min="2" max="20" matInput>

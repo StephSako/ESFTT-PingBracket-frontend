@@ -62,7 +62,7 @@ export class GestionStockComponent implements OnInit {
   delete(stock: StockInterface): void {
     const stockToDelete: Dialog = {
       id: stock._id,
-      action: 'Supprimer le matériel ?',
+      action: 'Supprimer le stock ?',
       option: null,
       action_button_text: 'Supprimer'
     };

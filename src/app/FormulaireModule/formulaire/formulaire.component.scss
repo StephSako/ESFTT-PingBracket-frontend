@@ -1,3 +1,8 @@
+table {
+  width: 50%;
+  margin-left: 10px;
+}
+
 mat-card {
   margin: 20px !important;
 }
@@ -24,6 +29,10 @@ i {
   }
 }
 
+.mat-form-field {
+  height: 60px;
+}
+
 .form_inputs_player {
   margin-top: 5px;
 }
@@ -31,6 +40,10 @@ i {
 .btn_action {
   width: 100%;
   margin-top: 10px
+}
+
+p.alerte {
+  color: red
 }
 
 .shorten {
@@ -48,6 +61,11 @@ i {
 
   .btn_action {
     margin-top: 0;
+  }
+
+  table {
+    width: 100%;
+    margin-left: 0;
   }
 }
 

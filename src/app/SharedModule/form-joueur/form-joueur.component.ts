@@ -19,6 +19,7 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
   @Input() joueur: JoueurInterface = {
     nom: null,
     classement: null,
+    buffet: null,
     age: null,
     _id: null,
     tableaux: null
