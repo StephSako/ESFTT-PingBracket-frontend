@@ -8,7 +8,7 @@
 
   <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
 
-  <h2 class="lobster">1. Remplissez le formulaire pour chaque joueur participant</h2>
+  <h2 class="lobster">1. Remplissez le formulaire pour chaque participant</h2>
 
   <p><i><strong>Seulement si le joueur est compétiteur</strong>, renseignez le classement mensuel (laissez le champ vide sinon).</i></p>
   <p><i><strong>Seulement si le joueur est mineur</strong>, renseignez l'âge (laissez le champ vide sinon).</i></p>
@@ -121,7 +121,7 @@
 
   <div *ngIf="listeJoueurs.length">
     <br>
-    <h3 class="lobster">Participation des joueurs</h3>
+    <h3 class="lobster">Participation des joueurs au buffet</h3>
 
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="nom">
