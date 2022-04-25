@@ -14,6 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import {PoulesService} from '../../Service/poules.service';
 import {MatTableDataSource} from '@angular/material/table';
+import { Title } from '@angular/platform-browser';
+import { combineLatest, of } from 'rxjs';
 
 @Component({
   selector: 'app-formulaire',
@@ -62,10 +64,11 @@ export class FormulaireComponent implements OnInit {
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService, private joueurService: JoueurService,
               private buffetService: BuffetService, private router: Router, private snackBar: MatSnackBar,
-              private notifyService: NotifyService, private pouleService: PoulesService) { }
+              private notifyService: NotifyService, private pouleService: PoulesService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.getParametres();
+    this.titleService.setTitle('Tournoi ESFTT - Formulaire');
   }
 
   getTableaux(): void{
@@ -125,6 +128,7 @@ export class FormulaireComponent implements OnInit {
     // Inscription des joueurs
     if (this.listeJoueurs.length > 0) {
       this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {
+        this.notifyService.notifyUser('Liste des joueurs enregistrée', this.snackBar, 'success', 2000, 'OK');
         joueur.tableaux.forEach(tableau => {
           if (tableau.poules && tableau.format === 'simple') { this.generatePoules(tableau); }
         });
@@ -134,11 +138,11 @@ export class FormulaireComponent implements OnInit {
     }
 
     // Enregistrement des données du buffet
-    if (!(this.buffet.plats.length === 0 && this.buffet.nb_moins_13_ans === 0 && this.buffet.nb_plus_13_ans === 0)){
-      this.buffetService.register(this.buffet).subscribe(() => {}, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-      });
-    }
+    this.buffetService.register(this.buffet).subscribe(() => {
+      this.notifyService.notifyUser('Buffet validé', this.snackBar, 'success', 2000, 'OK');
+    }, err => {
+      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    });
     this.router.navigateByUrl('/submitted').then(() => {});
   }
 
@@ -147,8 +151,7 @@ export class FormulaireComponent implements OnInit {
   }
 
   disabledSubmit(): boolean {
-    return (this.listeJoueurs.length === 0 && this.buffet.plats.length === 0 && this.buffet.nb_moins_13_ans === 0
-      && this.buffet.nb_plus_13_ans === 0);
+    return (this.listeJoueurs.length === 0);
   }
 
   platsAlreadyCookedEmpty(): boolean {

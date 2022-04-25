@@ -8,12 +8,13 @@
 
   <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
 
-  <h2 class="lobster">1. Remplissez le formulaire pour chaque participant</h2>
+  <br>
+  <h2 class="lobster">1. Inscription aux tableaux</h2>
 
-  <p><i><strong>Seulement si le joueur est compétiteur</strong>, renseignez le classement mensuel (laissez le champ vide sinon).</i></p>
+  <p><i><strong>Seulement si le joueur est compétiteur</strong>, renseignez le classement mensuel du mois en cours, nous corrigerons automatiquement en Juin (laissez le champ vide sinon).</i></p>
   <p><i><strong>Seulement si le joueur est mineur</strong>, renseignez l'âge (laissez le champ vide sinon).</i></p>
 
-  <p class="alerte"><i>Cliquez bien sur le bouton <strong>'Inscrire'</strong> pour chaque joueur</i></p>
+  <p class="alerte"><i>Cliquez bien sur le bouton <strong>'Valider ce joueur'</strong> pour chaque joueur et ainsi de suite</i></p>
 
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
@@ -53,7 +54,7 @@
         </div>
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
-          <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Désinscrire</button>
+          <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Enlever</button>
         </div>
       </div>
     </form>
@@ -96,12 +97,13 @@
       </div>
 
       <div fxFlex="15%" fxFlex.lt-md="100%">
-        <button class="center btn_action" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Inscrire</button>
+        <button class="center btn_action" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Valider ce joueur</button>
       </div>
     </div>
 
   </form><br>
 
+  <br>
   <h2 class="lobster">2. Participation au buffet du soir</h2>
   <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
@@ -146,7 +148,6 @@
   </div>
 
   <br>
-  <br>
   <h3 class="lobster">Plat(s) confectionné(s)</h3>
 
   <p class="alerte"><i>Appuyez sur la touche <strong>'Entrée'</strong> de votre clavier pour ajouter un plat à votre liste</i></p>
@@ -167,7 +168,6 @@
   </mat-form-field>
 
   <br>
-  <br>
   <p><i>Plats déjà préparés :</i></p>
   <mat-chip-list *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked">
     <mat-chip *ngFor="let plat of platsAlreadyCooked" color="primary" selected>{{ plat }}</mat-chip>
@@ -175,9 +175,11 @@
   <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br>
 
   <br>
-  <br>
-  <div [innerHTML]="parametres.texte_fin | noSanitize"></div><br>
-
+  <h2 class="lobster">3. Validez le formulaire !</h2>
   <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>
+  <br>
+  <br>
+
+  <div [innerHTML]="parametres.texte_fin | noSanitize"></div><br>
 
 </mat-card>
