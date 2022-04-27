@@ -176,7 +176,12 @@
 
   <br>
   <h2 class="lobster">3. Validez le formulaire !</h2>
-  <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">Envoyer !</button>
+  <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">
+    <mat-icon *ngIf="spinnerShown">
+      <mat-spinner color="accent" [diameter]="20"></mat-spinner>
+    </mat-icon>
+    Envoyer !
+  </button>
   <br>
   <br>
 

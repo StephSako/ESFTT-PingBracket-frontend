@@ -99,7 +99,7 @@ export class AccountService {
   public logout(): void {
     this.token = '';
     window.localStorage.removeItem('userToken');
-    this.router.navigateByUrl('/login').then(() => {});
+    this.router.navigateByUrl('/login');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }

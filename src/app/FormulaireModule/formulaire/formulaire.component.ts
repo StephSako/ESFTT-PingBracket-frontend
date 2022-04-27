@@ -15,7 +15,6 @@ import { NotifyService } from '../../Service/notify.service';
 import {PoulesService} from '../../Service/poules.service';
 import {MatTableDataSource} from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
-import { combineLatest, of } from 'rxjs';
 
 @Component({
   selector: 'app-formulaire',
@@ -25,6 +24,7 @@ import { combineLatest, of } from 'rxjs';
 export class FormulaireComponent implements OnInit {
   /* Champs du formulaire pour les joueurs */
   tableaux: TableauInterface[];
+  spinnerShown: boolean;
 
   parametres: ParametreInterface = {
     texte_debut: null,
@@ -67,6 +67,7 @@ export class FormulaireComponent implements OnInit {
               private notifyService: NotifyService, private pouleService: PoulesService, private titleService: Title) { }
 
   ngOnInit(): void {
+    this.spinnerShown = false;
     this.getParametres();
     this.titleService.setTitle('Tournoi ESFTT - Formulaire');
   }
@@ -124,26 +125,30 @@ export class FormulaireComponent implements OnInit {
     this.listeJoueurs.splice( this.listeJoueurs.indexOf($item), 1);
   }
 
-  submit(): void {
-    // Inscription des joueurs
-    if (this.listeJoueurs.length > 0) {
-      this.listeJoueurs.forEach(joueur => this.joueurService.create(joueur.tableaux, joueur).subscribe(() => {
-        this.notifyService.notifyUser('Liste des joueurs enregistrée', this.snackBar, 'success', 2000, 'OK');
-        joueur.tableaux.forEach(tableau => {
-          if (tableau.poules && tableau.format === 'simple') { this.generatePoules(tableau); }
-        });
-      }, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-      }));
-    }
+  async submit() {
+    this.spinnerShown = true;
+    let errOf: string[] = [];
+    let tabOf: any = [];
 
     // Enregistrement des données du buffet
-    this.buffetService.register(this.buffet).subscribe(() => {
-      this.notifyService.notifyUser('Buffet validé', this.snackBar, 'success', 2000, 'OK');
-    }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-    });
-    this.router.navigateByUrl('/submitted').then(() => {});
+    tabOf.push(this.buffetService.register(this.buffet));
+
+    if (this.listeJoueurs.length > 0) {
+      // Inscription des joueurs
+      this.listeJoueurs.forEach(joueur => tabOf.push(this.joueurService.create(joueur.tableaux, joueur)));
+
+      // Tableaux des joueurs souscris
+      const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[...new Set(this.listeJoueurs.map(joueur => joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple')).flat())];
+      if (tableauxSubscribed.length > 0) tableauxSubscribed.forEach(tabSub => tabOf.push(this.pouleService.generatePoules(tabSub)));
+    }
+
+    for (let obs of tabOf){
+      await obs().toPromise().then().catch(err => errOf.push(err));
+    };
+
+    this.spinnerShown = false;
+    if (errOf.length > 0) this.notifyService.notifyUser(errOf.join(' - '), this.snackBar, 'error', 20000, 'OK');
+    else this.router.navigateByUrl('/submitted');
   }
 
   disabledAddPlayer(joueurData: JoueurInterface): boolean {
@@ -151,7 +156,7 @@ export class FormulaireComponent implements OnInit {
   }
 
   disabledSubmit(): boolean {
-    return (this.listeJoueurs.length === 0);
+    return (this.listeJoueurs.length === 0) || this.spinnerShown;
   }
 
   platsAlreadyCookedEmpty(): boolean {
@@ -164,11 +169,5 @@ export class FormulaireComponent implements OnInit {
 
   typing(joueur: JoueurInterface): void {
     joueur.tableaux = joueur.tableaux.filter(tableau => !(joueur.age <= tableau.age_minimum && tableau.age_minimum !== null));
-  }
-
-  generatePoules(tableau: TableauInterface): void {
-    this.pouleService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
-    });
   }
 }

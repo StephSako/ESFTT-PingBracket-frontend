@@ -16,6 +16,10 @@ mat-card {
   color: white;
 }
 
+mat-chip.center {
+  width: fit-content;
+}
+
 .disabledButtons {
   background-color: red;
   color: white;
