@@ -138,7 +138,7 @@ export class FormulaireComponent implements OnInit {
       this.listeJoueurs.forEach(joueur => tabOf.push(this.joueurService.create(joueur.tableaux, joueur)));
 
       // Tableaux des joueurs souscris
-      const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[...new Set(this.listeJoueurs.map(joueur => joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple')).flat())];
+      const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[...new Set(this.listeJoueurs.map(joueur => joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple')).reduce((acc, val) => acc.concat(val), []))];
       if (tableauxSubscribed.length > 0) tableauxSubscribed.forEach(tabSub => tabOf.push(this.pouleService.generatePoules(tabSub)));
     }
 
