@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NoSanitizePipe } from './no-sanitize.pipe';
 import {MatTableModule} from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     FormsModule,
     MatCardModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
     MatInputModule,
     MatIconModule,
     FlexLayoutModule,

@@ -143,7 +143,7 @@ export class FormulaireComponent implements OnInit {
     }
 
     for (let obs of tabOf){
-      await obs().toPromise().then().catch(err => errOf.push(err));
+      await obs.toPromise().then().catch(err => errOf.push(err));
     };
 
     this.spinnerShown = false;
