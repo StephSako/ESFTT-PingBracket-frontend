@@ -23,16 +23,17 @@ import { Title } from '@angular/platform-browser';
 })
 export class FormulaireComponent implements OnInit {
   /* Champs du formulaire pour les joueurs */
-  tableaux: TableauInterface[];
-  spinnerShown: boolean;
+  public tableaux: TableauInterface[];
+  public spinnerShown: boolean = false;
 
-  parametres: ParametreInterface = {
+  public parametres: ParametreInterface = {
     texte_debut: null,
     _id: null,
     date: null,
     titre: null,
     texte_buffet: null,
     texte_fin: null,
+    consignes_tableaux: null,
     open: null
   };
 
@@ -42,13 +43,13 @@ export class FormulaireComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  buffet: BuffetInterface = {
+  public buffet: BuffetInterface = {
     nb_plus_13_ans: 0,
     nb_moins_13_ans: 0,
     _id: null,
     plats: []
   };
-  platsAlreadyCooked: string[];
+  public platsAlreadyCooked: string[] = [];
 
   /* Dupliquer le formulaire pour un nouveau joueur */
   public joueurData: JoueurInterface = {
@@ -67,7 +68,6 @@ export class FormulaireComponent implements OnInit {
               private notifyService: NotifyService, private pouleService: PoulesService, private titleService: Title) { }
 
   ngOnInit(): void {
-    this.spinnerShown = false;
     this.getParametres();
     this.titleService.setTitle('Tournoi ESFTT - Formulaire');
   }
@@ -156,7 +156,7 @@ export class FormulaireComponent implements OnInit {
   }
 
   disabledSubmit(): boolean {
-    return (this.listeJoueurs.length === 0) || this.spinnerShown;
+    return (this.listeJoueurs.length === 0 && this.buffet.nb_moins_13_ans === 0 && this.buffet.nb_plus_13_ans === 0 && this.buffet.plats.length === 0) || this.spinnerShown;
   }
 
   platsAlreadyCookedEmpty(): boolean {

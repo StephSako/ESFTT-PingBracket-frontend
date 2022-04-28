@@ -10,11 +10,7 @@
 
   <br>
   <h2 class="lobster">1. Inscription aux tableaux</h2>
-
-  <p><i><strong>Seulement si le joueur est compétiteur</strong>, renseignez le classement mensuel du mois en cours, nous corrigerons automatiquement en Juin (laissez le champ vide sinon).</i></p>
-  <p><i><strong>Seulement si le joueur est mineur</strong>, renseignez l'âge (laissez le champ vide sinon).</i></p>
-
-  <p class="alerte"><i>Cliquez bien sur le bouton <strong>'Valider ce joueur'</strong> pour chaque joueur et ainsi de suite</i></p>
+  <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div><br>
 
   <div *ngFor="let joueurItem of listeJoueurs">
     <form>
