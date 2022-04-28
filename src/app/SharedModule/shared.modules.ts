@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogComponent } from './dialog/dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DialogComponent } from './dialog/dialog.component';
     FormsModule,
     HttpClientModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSlideToggleModule
   ],
   exports: [
     FormJoueurComponent
