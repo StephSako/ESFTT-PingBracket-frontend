@@ -12,9 +12,11 @@ import { BuffetService } from '../../Service/buffet.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
-import {PoulesService} from '../../Service/poules.service';
-import {MatTableDataSource} from '@angular/material/table';
+import { PoulesService } from '../../Service/poules.service';
+import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
+import { LogsService } from 'src/app/Service/logs.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-formulaire',
@@ -64,8 +66,9 @@ export class FormulaireComponent implements OnInit {
   public dataSource = new MatTableDataSource<JoueurInterface>([]);
 
   constructor(private tableauService: TableauService, private parametreService: ParametresService, private joueurService: JoueurService,
-              private buffetService: BuffetService, private router: Router, private snackBar: MatSnackBar,
-              private notifyService: NotifyService, private pouleService: PoulesService, private titleService: Title) { }
+              private buffetService: BuffetService, private router: Router, private snackBar: MatSnackBar, private logsService: LogsService,
+              private notifyService: NotifyService, private pouleService: PoulesService, private titleService: Title,
+              private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.getParametres();
@@ -130,20 +133,29 @@ export class FormulaireComponent implements OnInit {
     let errOf: string[] = [];
     let tabOf: any = [];
 
+    // On construit le log
+    let logMessage: string = this.datepipe.transform(new Date(), 'dd/MM/yyyy HH:mm') + ' :\n';
+    logMessage += 'Buffet :\n  - moins de 13 ans : ' + this.buffet.nb_moins_13_ans + '\n  - plus de 13 ans : ' + this.buffet.nb_plus_13_ans + '\n  - plats préparés : ' + (this.buffet.plats.length > 0 ? this.buffet.plats.join(', ') : '/') + '\n\n';
+
     // Enregistrement des données du buffet
     tabOf.push(this.buffetService.register(this.buffet));
 
     if (this.listeJoueurs.length > 0) {
       // Inscription des joueurs
-      this.listeJoueurs.forEach(joueur => tabOf.push(this.joueurService.create(joueur.tableaux, joueur)));
+      this.listeJoueurs.forEach(joueur => {
+        logMessage += joueur.nom.toUpperCase() + ' - ' + ((joueur.classement || joueur.classement > 0) ? joueur.classement + ' pts' : '/' ) + ' - ' + (joueur.age ? + joueur.age + ' ans' : '/' ) + ' - [' + joueur.tableaux.map(t => t.nom.toUpperCase()).join(' , ') + '] - buffet : ' + (joueur.buffet ? 'oui' : 'non') + '\n';
+        tabOf.push(this.joueurService.create(joueur.tableaux, joueur));
+      });
 
       // Tableaux des joueurs souscris
       const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[...new Set(this.listeJoueurs.map(joueur => joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple')).reduce((acc, val) => acc.concat(val), []))];
       if (tableauxSubscribed.length > 0) tableauxSubscribed.forEach(tabSub => tabOf.push(this.pouleService.generatePoules(tabSub)));
-    }
+    } else logMessage += '(pas de joueurs)';
+
+    tabOf.push(this.logsService.addLogs(logMessage));
 
     for (let obs of tabOf){
-      await obs.toPromise().then().catch(err => errOf.push(err));
+      await obs.toPromise().then().catch(err => errOf.push(err.error));
     };
 
     this.spinnerShown = false;

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormulaireRoutingModule } from './formulaire-routing.module';
 import { MatCardModule } from '@angular/material/card';
@@ -13,8 +13,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { NoSanitizePipe } from './no-sanitize.pipe';
-import {MatTableModule} from '@angular/material/table';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
@@ -39,6 +39,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatButtonModule,
     MatTableModule,
     MatSlideToggleModule
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class FormulaireModules {}

@@ -174,7 +174,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
             });
           });
         }
-      }, err => { console.error(err); });
+      });
     } else if (!ageEdited && !classementEdited) {
       this.joueur.nom = this.reactiveForm.get('nom').value;
       this.joueur.classement = this.reactiveForm.get('classement').value;

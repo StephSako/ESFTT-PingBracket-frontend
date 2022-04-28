@@ -29,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
 import { GestionRoutingModule } from './gestion-routing.module';
 import { SharedModules } from '../SharedModule/shared.modules';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     GestionTableauxComponent,
     FormTableauComponent,
     EditTableauComponent,
-    GestionFormulaireComponent
+    GestionFormulaireComponent,
+    LogsTableauComponent
   ],
   imports: [
     RouterModule,
