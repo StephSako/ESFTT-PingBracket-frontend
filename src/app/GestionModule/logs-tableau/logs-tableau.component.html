@@ -1,7 +1,10 @@
 
 <div class="container">
+  <button type="submit" mat-raised-button class="center saveBtn" color="warn" (click)="emptyLogs()">Vider les logs</button>
+
   <mat-card>
-    <table mat-table [dataSource]="logs">
+    <p *ngIf="logs.length == 0"><i>Pas de logs enregistrés ...</i></p>
+    <table mat-table [dataSource]="logs" *ngIf="logs.length > 0">
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>N°</th>
         <td class="position" mat-cell *matCellDef="let logMessage">{{ logMessage.position + 1 }}</td>

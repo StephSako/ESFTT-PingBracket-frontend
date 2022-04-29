@@ -1,24 +1,41 @@
 <div class="container">
 
   <mat-card>
-    <h1 class="lobster center special_margin">Le buffet</h1>
-    <div fxLayout="row">
-      <div fxFlex="50%">
-        <h2 class="center lobster special_margin">Nombre de participants de moins de 13 ans</h2>
-        <mat-chip color="primary" class="center" selected>{{buffet.nb_moins_13_ans}}</mat-chip>
-      </div>
-      <div fxFlex="50%">
-        <h2 class="center lobster special_margin">Nombre de participants de plus de 13 ans</h2>
-        <mat-chip color="primary" class="center" selected>{{buffet.nb_plus_13_ans}}</mat-chip>
-      </div>
-    </div>
 
+    <form (ngSubmit)="editBuffet()" [formGroup]="reactiveFormBuffet" id="formBuffet">
+      <h1 class="lobster center special_margin">Le buffet</h1>
 
-    <h2 class="lobster">Liste des plats cuisinés :</h2>
-    <mat-chip-list *ngIf="!platsCookedEmpty(); else noPlatsAlreadyCooked">
-      <mat-chip *ngFor="let plat of buffet.plats" color="primary" selected>{{ plat }}</mat-chip>
-    </mat-chip-list>
-    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template>
+      <div class="nbParticipants">
+        <h3 class="lobster">Nombre de convives de moins de 13 ans</h3>
+        <mat-form-field class="shorten" appearance="outline">
+          <input matInput type="number" min="0" max="20" id="nb_moins_13_ans" formControlName="nb_moins_13_ans">
+        </mat-form-field>
+      </div>
+
+      <div class="nbParticipants">
+        <h3 class="lobster">Nombre de convives de plus de 13 ans</h3>
+        <mat-form-field class="shorten" appearance="outline">
+          <input matInput type="number" min="0" max="20" id="nb_plus_13_ans" formControlName="nb_plus_13_ans">
+        </mat-form-field>
+      </div>
+
+      <h3 class="lobster">Liste des plats cuisinés :</h3>
+      <mat-form-field class="chip-list" appearance="outline">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip *ngFor="let plat of buffet.plats" [selectable]="selectable" [removable]="removable" (removed)="remove(plat)" color="primary" selected>
+            {{plat}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                type="text"
+                (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
+
+      <button type="submit" mat-raised-button class="center saveBtn" color="primary">Sauvegarder le buffet</button>
+    </form>
   </mat-card>
 
   <mat-card>
@@ -26,7 +43,7 @@
 
     <button [class]="(parametres.open ? 'disabledButtons': 'enabledButtons')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button><br>
 
-    <form (ngSubmit)="edit()" [formGroup]="reactiveForm">
+    <form (ngSubmit)="editFormulaire()" [formGroup]="reactiveFormFormulaire">
 
       <h2 class="lobster special_margin">Titre</h2>
       <angular-editor id="editor1" formControlName="titre" [config]="editorConfig"></angular-editor>
@@ -54,7 +71,7 @@
       <h2 class="lobster special_margin">Texte de fin</h2>
       <angular-editor id="editor4" formControlName="texte_fin" [config]="editorConfig"></angular-editor>
 
-      <button type="submit" mat-raised-button class="center saveBtn" color="primary">Sauvegarder</button>
+      <button type="submit" mat-raised-button class="center saveBtn" color="primary">Sauvegarder le formulaire</button>
     </form>
   </mat-card>
 </div>

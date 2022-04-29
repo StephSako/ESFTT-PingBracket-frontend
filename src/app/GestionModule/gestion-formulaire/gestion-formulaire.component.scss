@@ -2,8 +2,18 @@ mat-form-field {
   width: 100%;
 }
 
-mat-card {
-  margin: 20px !important;
+form#formBuffet mat-form-field.shorten {
+  width: 6%;
+}
+
+.nbParticipants {
+  h3, mat-form-field {
+    display: inline-block;
+  }
+
+  mat-form-field {
+    margin-left: 10px;
+  }
 }
 
 .special_margin {

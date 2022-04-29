@@ -19,14 +19,14 @@ export class ParametresService {
   }
 
   public edit(parametres: ParametreInterface): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${parametres._id}`, {parametres});
+    return this.http.put(`${this.baseURL}edit`, {parametres});
   }
 
   public reset(): Observable<any> {
     return this.http.delete(this.baseURL);
   }
 
-  public openCloseFormulaire(parametres_id: string, open: boolean): Observable<any> {
-    return this.http.put(`${this.baseURL}change_form_state/${parametres_id}`, {open});
+  public openCloseFormulaire(open: boolean): Observable<any> {
+    return this.http.put(`${this.baseURL}change_form_state`, {open});
   }
 }

@@ -24,4 +24,8 @@ export class BuffetService {
   public register(buffet: BuffetInterface): Observable<any> {
     return this.http.post(`${this.baseURL}register`, buffet);
   }
+
+  public edit(buffet: BuffetInterface): Observable<any> {
+    return this.http.post(`${this.baseURL}edit`, buffet);
+  }
 }

@@ -20,4 +20,8 @@ export class LogsService {
   public addLogs(log: string): Observable<any> {
     return this.http.put(`${this.baseURL}add`, { log });
   }
+
+  public emptyLogs(): Observable<any> {
+    return this.http.post(`${this.baseURL}empty`, null);
+  }
 }

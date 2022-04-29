@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LogsService } from 'src/app/Service/logs.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyService } from 'src/app/Service/notify.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Dialog } from 'src/app/Interface/Dialog';
+import { DialogComponent } from 'src/app/SharedModule/dialog/dialog.component';
 
 @Component({
   selector: 'app-logs-tableau',
@@ -9,9 +14,13 @@ import { LogsService } from 'src/app/Service/logs.service';
 export class LogsTableauComponent implements OnInit {
   public logs = [];
 
-  constructor(private logsService: LogsService) { }
+  constructor(private logsService: LogsService, private snackBar: MatSnackBar, private notifyService: NotifyService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.getLogs();
+  }
+
+  public getLogs(): void {
     this.logsService.getAll().subscribe((res) => {
       this.logs = res.map((log, i) => {
         return {
@@ -19,7 +28,27 @@ export class LogsTableauComponent implements OnInit {
           logMessage: log
         };
       });
-    });
+    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
   }
 
+  public emptyLogs(): void {
+    const logsToEmpty: Dialog = {
+      id: 'true',
+      action: 'Vider les logs ?',
+      option: null,
+      action_button_text: 'Supprimer'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '55%',
+      data: logsToEmpty
+    }).afterClosed().subscribe(id_joueur => {
+      if (id_joueur){
+        this.logsService.emptyLogs().subscribe(result => {
+          this.getLogs();
+          this.notifyService.notifyUser(result.message, this.snackBar, 'success', 2000, 'OK');
+        }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+      }
+    });
+  }
 }

@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BuffetService } from '../../Service/buffet.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-gestion-formulaire',
@@ -25,8 +27,14 @@ import { FormControl, FormGroup } from '@angular/forms';
   ]
 })
 export class GestionFormulaireComponent implements OnInit {
+  /* Paramètres de l'input avec les Chips */
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  reactiveForm: FormGroup;
+  reactiveFormFormulaire: FormGroup;
+  reactiveFormBuffet: FormGroup;
 
   parametres: ParametreInterface = {
     texte_debut: null,
@@ -78,7 +86,7 @@ export class GestionFormulaireComponent implements OnInit {
               private snackBar: MatSnackBar, private buffetService: BuffetService) { }
 
   ngOnInit(): void {
-    this.reactiveForm = new FormGroup({
+    this.reactiveFormFormulaire = new FormGroup({
       titre: new FormControl(''),
       texte_debut: new FormControl(''),
       texte_buffet: new FormControl(''),
@@ -86,15 +94,19 @@ export class GestionFormulaireComponent implements OnInit {
       consignes_tableaux: new FormControl(''),
       date: new FormControl('')
     });
+    this.reactiveFormBuffet = new FormGroup({
+      nb_moins_13_ans: new FormControl(0),
+      nb_plus_13_ans: new FormControl(0),
+    });
     this.adapter.setLocale('fr');
     this.getParametres();
     this.getBuffet();
   }
 
   getParametres(): void{
-    this.parametreService.getParametres().subscribe(parametres => {
+    this.parametreService.getParametres().subscribe((parametres: ParametreInterface) => {
       this.parametres = parametres;
-      this.reactiveForm.patchValue({
+      this.reactiveFormFormulaire.patchValue({
         titre: this.parametres.titre,
         texte_debut: this.parametres.texte_debut,
         texte_buffet: this.parametres.texte_buffet,
@@ -107,40 +119,68 @@ export class GestionFormulaireComponent implements OnInit {
     });
   }
 
-  edit(): void {
+  editFormulaire(): void {
     this.parametres = {
       _id: this.parametres._id,
-      titre: this.reactiveForm.get('titre').value,
+      titre: this.reactiveFormFormulaire.get('titre').value,
       open: this.parametres.open,
-      date: this.reactiveForm.get('date').value,
-      texte_debut: this.reactiveForm.get('texte_debut').value,
-      texte_buffet: this.reactiveForm.get('texte_buffet').value,
-      texte_fin: this.reactiveForm.get('texte_fin').value,
-      consignes_tableaux: this.reactiveForm.get('consignes_tableaux').value
+      date: this.reactiveFormFormulaire.get('date').value,
+      texte_debut: this.reactiveFormFormulaire.get('texte_debut').value,
+      texte_buffet: this.reactiveFormFormulaire.get('texte_buffet').value,
+      texte_fin: this.reactiveFormFormulaire.get('texte_fin').value,
+      consignes_tableaux: this.reactiveFormFormulaire.get('consignes_tableaux').value
     };
     this.parametreService.edit(this.parametres).subscribe(
       message => {
         this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
       }, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      });
+  }
+
+  editBuffet(): void {
+    this.buffet = {
+      _id: this.parametres._id,
+      nb_moins_13_ans: this.reactiveFormBuffet.get('nb_moins_13_ans').value,
+      nb_plus_13_ans: this.reactiveFormBuffet.get('nb_plus_13_ans').value,
+      plats:this.buffet.plats
+    };
+    this.buffetService.edit(this.buffet).subscribe(
+      message => {
+        this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
+      }, err => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       });
   }
 
   getBuffet(): void {
-    this.buffetService.getBuffet().subscribe(buffet => this.buffet = buffet, err => {
+    this.buffetService.getBuffet().subscribe((buffet: BuffetInterface) => {
+      this.buffet = buffet;
+      this.reactiveFormBuffet.patchValue({
+        nb_moins_13_ans: this.buffet.nb_moins_13_ans,
+        nb_plus_13_ans: this.buffet.nb_plus_13_ans,
+      });
+    }, err => {
       this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
-  platsCookedEmpty(): boolean {
-    return (this.buffet.plats ? this.buffet.plats.length === 0 : false);
-  }
-
   openCloseFormulaire(): void {
-    this.parametreService.openCloseFormulaire(this.parametres._id, !this.parametres.open).subscribe(result => {
+    this.parametreService.openCloseFormulaire(!this.parametres.open).subscribe(result => {
       this.notifyService.notifyUser(result.message, this.snackBar, 'success', 2000, 'OK');
       this.parametres.open = !this.parametres.open;
     }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
   }
 
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) { this.buffet.plats.push(value.trim()); }
+    if (input) { input.value = ''; }
+  }
+
+  remove(plat: string): void {
+    const index = this.buffet.plats.indexOf(plat);
+    if (index >= 0) { this.buffet.plats.splice(index, 1); }
+  }
 }
