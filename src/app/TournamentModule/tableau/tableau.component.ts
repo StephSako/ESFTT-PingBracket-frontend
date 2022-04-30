@@ -26,6 +26,7 @@ export class TableauComponent implements OnInit {
     format: null,
     nom: null,
     poules: null,
+    is_launched: null,
     consolante: null,
     age_minimum: null,
     nbPoules: null
@@ -52,6 +53,28 @@ export class TableauComponent implements OnInit {
     });
   }
 
+  changeStateTableau(): void {
+    const stateToChange: Dialog = {
+      id: 'true',
+      action: this.tableau.is_launched === 1 ? 'Terminer le tableau ?' : 'Lancer le tableau ?',
+      option: this.tableau.is_launched === 0 ? 'Aucun joueur ne pourra plus s\'y inscrire et les compositions des poules ' + (this.tableau.format === 'double' ? 'ainsi que des binômes ' : '') + 'resteront inchangé' + (this.tableau.format === 'double' ? '' : 'e') + 's' : 'Les phases finales resteront inchangées',
+      action_button_text: this.tableau.is_launched === 1 ? 'Terminer' : 'Lancer'
+    };
+
+    this.dialog.open(DialogComponent, {
+      width: '55%',
+      data: stateToChange
+    }).afterClosed().subscribe(response => {
+      if (response){
+        this.tableau.is_launched++;
+        this.tableauService.tableauxEditSource.next(this.tableau);
+        this.tableauService.changeLaunchState(this.tableau).subscribe(() => {}, err => {
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        });
+      }
+    });
+  }
+
   // Output functions
   getAllPoules(): void {
     this.pouleService.getAll(this.tableau._id, this.tableau.format).subscribe(poules => this.poules = poules, err => {
@@ -60,7 +83,7 @@ export class TableauComponent implements OnInit {
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau).subscribe(() => { this.getAllPoules(); }, err => {
+    this.pouleService.generatePoules(this.tableau).subscribe(() => this.getAllPoules(), err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
@@ -73,7 +96,7 @@ export class TableauComponent implements OnInit {
 
   getSubscribedUnassignedPlayers(): void {
     this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
-      err => { this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'); });
+      err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
   }
 
   delete(): void {

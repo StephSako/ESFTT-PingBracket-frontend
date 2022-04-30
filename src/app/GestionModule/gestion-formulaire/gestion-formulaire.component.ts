@@ -115,7 +115,7 @@ export class GestionFormulaireComponent implements OnInit {
         date: this.parametres.date
       });
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -161,7 +161,7 @@ export class GestionFormulaireComponent implements OnInit {
         nb_plus_13_ans: this.buffet.nb_plus_13_ans,
       });
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -169,18 +169,18 @@ export class GestionFormulaireComponent implements OnInit {
     this.parametreService.openCloseFormulaire(!this.parametres.open).subscribe(result => {
       this.notifyService.notifyUser(result.message, this.snackBar, 'success', 2000, 'OK');
       this.parametres.open = !this.parametres.open;
-    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
   }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    if ((value || '').trim()) { this.buffet.plats.push(value.trim()); }
+    if ((value || '').trim()) this.buffet.plats.push(value.trim());
     if (input) { input.value = ''; }
   }
 
   remove(plat: string): void {
     const index = this.buffet.plats.indexOf(plat);
-    if (index >= 0) { this.buffet.plats.splice(index, 1); }
+    if (index >= 0) this.buffet.plats.splice(index, 1);
   }
 }

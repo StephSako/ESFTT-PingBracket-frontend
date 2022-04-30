@@ -28,7 +28,7 @@ export class LogsTableauComponent implements OnInit {
           logMessage: log
         };
       });
-    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
   }
 
   public emptyLogs(): void {
@@ -42,12 +42,12 @@ export class LogsTableauComponent implements OnInit {
     this.dialog.open(DialogComponent, {
       width: '55%',
       data: logsToEmpty
-    }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
+    }).afterClosed().subscribe(response => {
+      if (response){
         this.logsService.emptyLogs().subscribe(result => {
           this.getLogs();
           this.notifyService.notifyUser(result.message, this.snackBar, 'success', 2000, 'OK');
-        }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+        }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
       }
     });
   }

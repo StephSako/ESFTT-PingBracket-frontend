@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   tableaux: TableauInterface[];
   private tableauxSubscription: Subscription;
+  private tableauxEditionSubscription: Subscription;
 
   constructor(public accountService: AccountService, private tableauService: TableauService, private router: Router,
               private snackBar: MatSnackBar, private notifyService: NotifyService) {}
@@ -25,10 +26,17 @@ export class AppComponent implements OnInit, OnDestroy{
       this.getAllTableaux();
     }
     this.tableauxSubscription = this.tableauService.tableauxSource.subscribe((tableaux: TableauInterface[]) => this.tableaux = tableaux);
+    this.tableauxEditionSubscription = this.tableauService.tableauxEditSource.subscribe((tableau: TableauInterface) => {
+      this.tableaux.map(tab => {
+        if (tab._id === tableau._id) tab.is_launched = tableau.is_launched;
+        return tableau;
+      });
+    });
   }
 
   ngOnDestroy(): void {
     this.tableauxSubscription.unsubscribe();
+    this.tableauxEditionSubscription.unsubscribe();
   }
 
   getAllTableaux(): void{

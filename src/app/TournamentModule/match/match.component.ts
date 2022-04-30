@@ -17,6 +17,7 @@ export class MatchComponent implements OnInit {
   @Input() tableau: TableauInterface = {
     format: null,
     _id: null,
+    is_launched: null,
     nom: null,
     poules: null,
     consolante: null,
@@ -35,7 +36,7 @@ export class MatchComponent implements OnInit {
           match.joueurs.filter(joueur => joueur._id._id !== winnerId)[0]._id._id : null);
         this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId, this.phase)
           .subscribe(() => this.updateBracket.emit(), err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
       }
     }

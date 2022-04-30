@@ -72,7 +72,7 @@ export class AccountService {
   }
 
   public getToken(): string {
-    if (!this.token) { this.token = localStorage.getItem('userToken'); }
+    if (!this.token) this.token = localStorage.getItem('userToken');
     return this.token;
   }
 

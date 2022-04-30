@@ -24,6 +24,7 @@ export class BracketComponent implements OnInit {
     format: null,
     consolante: null,
     age_minimum: null,
+    is_launched: null,
     nbPoules: null
   };
   spinnerShown: boolean;

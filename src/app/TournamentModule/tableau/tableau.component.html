@@ -1,6 +1,10 @@
 <h1 class="lobster center"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h1>
 
-<button mat-raised-button class="center" color="warn" (click)="delete()">Supprimer le tableau</button>
+<div id="actionButtons">
+  <button mat-raised-button id="launchTableau" *ngIf="tableau.is_launched === 0" (click)="changeStateTableau()">Lancer le tableau</button>
+  <button mat-raised-button id="finishTableau" *ngIf="tableau.is_launched === 1" (click)="changeStateTableau()">Terminer le tableau</button>
+  <button mat-raised-button color="warn" (click)="delete()">Supprimer le tableau</button>
+</div>
 
 <mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight="200%" selectedIndex="0" *ngIf="tableau._id">
 

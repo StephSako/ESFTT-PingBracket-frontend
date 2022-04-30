@@ -2,14 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { TableauInterface } from '../../Interface/Tableau';
 import { ActivatedRoute, Router } from '@angular/router';
-import { JoueurService } from '../../Service/joueur.service';
 import { TableauService } from '../../Service/tableau.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { BinomeInterface } from '../../Interface/Binome';
 import { BinomeService } from '../../Service/binome.service';
-import { PoulesService } from '../../Service/poules.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-binome',
@@ -25,10 +24,12 @@ export class BinomeComponent implements OnInit {
     _id: null,
     poules: null,
     nom: null,
+    is_launched: null,
     consolante: null,
     age_minimum: null,
     nbPoules: null
   };
+  private tableauxEditionSubscription: Subscription;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
   @Output() getSubscribedUnassignedPlayers: EventEmitter<any> = new EventEmitter();
@@ -48,20 +49,27 @@ export class BinomeComponent implements OnInit {
   }
 
   constructor(private binomeService: BinomeService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
-              private poulesService: PoulesService, private joueurService: JoueurService, private gestionService: TableauService,
-              private notifyService: NotifyService) { }
+    private notifyService: NotifyService, private gestionService: TableauService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.getTableau();
+
+      this.tableauxEditionSubscription = this.gestionService.tableauxEditSource.subscribe((tableau: TableauInterface) => {
+        this.tableau = tableau;
+      });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.tableauxEditionSubscription.unsubscribe();
   }
 
   getTableau(): void {
     this.gestionService.getTableau(this.router.url.split('/').pop()).subscribe(tableau => {
       this.tableau = tableau;
       this.getAllBinomes.emit();
-      if (this.tableau.format === 'double') { this.getSubscribedUnassignedPlayers.emit(); }
+      if (this.tableau.format === 'double') this.getSubscribedUnassignedPlayers.emit();
     });
   }
 
@@ -76,9 +84,9 @@ export class BinomeComponent implements OnInit {
           event.currentIndex);
         this.binomeService.editBinome(event.item.data[1], id_binome, event.container.data, event.item.data[0])
           .subscribe(() => {
-            if (this.tableau.poules) { this.generatePoules.emit(); }
+            if (this.tableau.poules && this.tableau.is_launched === 0) this.generatePoules.emit();
           }, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
       } else {
         this.notifyService.notifyUser('Le binôme est complet', this.snackBar, 'error', 2000, 'OK');
@@ -89,7 +97,7 @@ export class BinomeComponent implements OnInit {
   unsubscribeDblClick(idBinome, idPlayer): void {
     this.binomeService.removePlayer(idBinome, idPlayer).subscribe(() => {
       this.getAllBinomes.emit();
-      if (this.tableau.poules) { this.generatePoules.emit(); }
+      if (this.tableau.poules && this.tableau.is_launched === 0) this.generatePoules.emit();
       this.getSubscribedUnassignedPlayers.emit();
     }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');

@@ -138,7 +138,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.format = this.reactiveForm.get('format').value;
 
       this.tableauService.edit(this.tableau).subscribe(() => {
-        if (poulesEdited && this.tableau.poules) { this.generatePoules(this.tableau); }
+        if (poulesEdited && this.tableau.poules) this.generatePoules(this.tableau);
         this.tableauService.tableauxChange.emit();
       }, err => this.emitErrorSnackbar(err));
     }

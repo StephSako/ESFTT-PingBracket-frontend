@@ -45,8 +45,8 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
   }
 
   getAllTableaux(): void {
-    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux.filter(t => t.is_launched === 0), err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

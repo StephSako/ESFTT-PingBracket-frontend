@@ -12,6 +12,7 @@ import { WildcardModules } from './wildcard.modules';
 import { CoreModules } from './core.modules';
 import { HttpClientModule } from '@angular/common/http';
 import { FormulaireModules } from './FormulaireModule/formulaire.modules';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormulaireModules } from './FormulaireModule/formulaire.modules';
     BrowserModule,
     AppRoutingModule,
     MatButtonModule,
+    MatIconModule,
     MatToolbarModule,
     MatSnackBarModule,
     HttpClientModule,

@@ -11,6 +11,7 @@ export class TableauService {
 
   private baseURL = environment.endpointNodeApi + 'tableau/';
   tableauxSource = new Subject();
+  tableauxEditSource = new Subject();
   tableauxChange: EventEmitter<void> = new EventEmitter();
   nbInscritsChange: EventEmitter<void> = new EventEmitter();
 
@@ -38,6 +39,10 @@ export class TableauService {
 
   public edit(tableau: TableauInterface): Observable<any> {
     return this.http.put(`${this.baseURL}edit/${tableau._id}`, tableau);
+  }
+
+  public changeLaunchState(tableau: TableauInterface): Observable<any> {
+    return this.http.put(`${this.baseURL}change_launch_state/${tableau._id}`,  { is_launched: tableau.is_launched });
   }
 
   public unsubscribeInvalidPlayers(tableau: TableauInterface): Observable<any> {

@@ -12,3 +12,21 @@ h1 {
 ::ng-deep .mat-tab-body-content {
   min-height: 400px !important;
 }
+
+#actionButtons {
+  display: flex;
+  justify-content: center;
+
+  & button {
+    color: white;
+    margin: 0 5px;
+
+    &#launchTableau {
+      background-color: green;
+    }
+
+    &#finishTableau {
+      background-color: #3f51b5;
+    }
+  }
+}

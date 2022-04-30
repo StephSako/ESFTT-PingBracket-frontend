@@ -57,13 +57,13 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
 
   getAllTableaux(): void{
     this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   generatePoules(tableau: TableauInterface): void {
     this.pouleService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -76,9 +76,9 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         return 0;
       });
       this.tableauService.nbInscritsChange.emit();
-      if (tableau.poules) { this.generatePoules(tableau); }
+      if (tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -100,7 +100,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.generatePoules(tableau);
           this.tableauService.nbInscritsChange.emit();
         }, err => {
-          this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
         });
       }
     });
@@ -134,9 +134,9 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.joueur.age = this.reactiveForm.get('age').value;
           this.joueur.buffet = this.reactiveForm.get('buffet').value;
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
-          this.joueur.tableaux.filter(tableau => tableau.poules).forEach(tableau => this.generatePoules(tableau));
+          this.joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0).forEach(tableau => this.generatePoules(tableau));
         }
       });
     }
@@ -159,19 +159,20 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.joueur.age = this.reactiveForm.get('age').value;
           this.joueur.buffet = this.reactiveForm.get('buffet').value;
           this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
           this.joueur.tableaux.filter(tableau => (tableau.age_minimum !== null
             && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
             .forEach(tableau => {
-            this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
-              this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableauFiltered => (
-                tableauFiltered.age_minimum !== null && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value
-                >= tableauFiltered.age_minimum))).includes(value));
-              this.generatePoules(tableau);
-            }, err => {
-              this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
-            });
+              this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
+                this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableauFiltered => (
+                  tableauFiltered.age_minimum !== null &&
+                  (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableauFiltered.age_minimum))).includes(value));
+
+                  if (tableau.format === 'simple' && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
+              }, err => {
+                this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+              });
           });
         }
       });
@@ -181,7 +182,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       this.joueur.age = this.reactiveForm.get('age').value;
       this.joueur.buffet = this.reactiveForm.get('buffet').value;
       this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       });
     }
   }

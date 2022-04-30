@@ -4,6 +4,7 @@ export interface TableauInterface {
   format: string;
   poules: boolean;
   consolante: boolean;
+  is_launched: number;
   age_minimum: number;
   nbPoules: number;
 }

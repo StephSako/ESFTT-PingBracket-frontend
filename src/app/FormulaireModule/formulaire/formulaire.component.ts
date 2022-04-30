@@ -76,8 +76,8 @@ export class FormulaireComponent implements OnInit {
   }
 
   getTableaux(): void{
-    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux.filter(t => t.is_launched === 0), err => {
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -89,26 +89,26 @@ export class FormulaireComponent implements OnInit {
         this.getPlatsAlreadyCooked();
       }
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   getPlatsAlreadyCooked(): void{
     this.buffetService.platsAlreadyCooked().subscribe(plats => this.platsAlreadyCooked = plats, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    if ((value || '').trim()) { this.buffet.plats.push(value.trim()); }
+    if ((value || '').trim()) this.buffet.plats.push(value.trim());
     if (input) { input.value = ''; }
   }
 
   remove(plat: string): void {
     const index = this.buffet.plats.indexOf(plat);
-    if (index >= 0) { this.buffet.plats.splice(index, 1); }
+    if (index >= 0) this.buffet.plats.splice(index, 1);
   }
 
   addJoueur($item): void {
@@ -148,7 +148,7 @@ export class FormulaireComponent implements OnInit {
       });
 
       // Tableaux des joueurs souscris
-      const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[...new Set(this.listeJoueurs.map(joueur => joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple')).reduce((acc, val) => acc.concat(val), []))];
+      const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[...new Set(this.listeJoueurs.map(joueur => joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0)).reduce((acc, val) => acc.concat(val), []))];
       if (tableauxSubscribed.length > 0) tableauxSubscribed.forEach(tabSub => tabOf.push(this.pouleService.generatePoules(tabSub)));
     } else logMessage += '(pas de joueurs)';
 

@@ -5,10 +5,10 @@ import { PouleInterface } from '../../Interface/Poule';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableauInterface } from '../../Interface/Tableau';
-import { JoueurService } from '../../Service/joueur.service';
 import { TableauService } from '../../Service/tableau.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-poule',
@@ -23,20 +23,29 @@ export class PouleComponent implements OnInit {
     _id: null,
     poules: null,
     nom: null,
+    is_launched: null,
     consolante: null,
     age_minimum: null,
     nbPoules: null
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
+  private tableauxEditionSubscription: Subscription;
 
-  constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute,
-              private joueurService: JoueurService, private gestionService: TableauService, private notifyService: NotifyService,
-              private snackBar: MatSnackBar) { }
+  constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
+    private gestionService: TableauService, private notifyService: NotifyService,) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.getTableau();
+
+      this.tableauxEditionSubscription = this.gestionService.tableauxEditSource.subscribe((tableau: TableauInterface) => {
+        this.tableau = tableau;
+      });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.tableauxEditionSubscription.unsubscribe();
   }
 
   getTableau(): void {
@@ -49,13 +58,13 @@ export class PouleComponent implements OnInit {
   editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
   setStatus(poule: PouleInterface): void {
     this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules.emit(), err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 

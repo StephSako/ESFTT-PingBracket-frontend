@@ -43,7 +43,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   generatePoules(tableau: TableauInterface): void {
     this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
@@ -53,7 +53,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
         this.tableauService.nbInscritsChange.emit();
 
         this.joueur.tableaux.forEach(tableau => {
-          if (tableau.poules && tableau.format === 'simple') { this.generatePoules(tableau); }
+          if (tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
         });
 
         this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
@@ -64,7 +64,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
           _id : null,
           buffet: null,
           tableaux: []
-        }; }, err => this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK'));
+        }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
   }
 
   openEditDialog(joueur: JoueurInterface): void {
@@ -81,7 +81,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     const playerToDelete: Dialog = {
       id: joueur._id,
       action: 'Supprimer le joueur ?',
-      option: 'Les poules seront régénérées dans les tableaux auxquels il est inscrit. Régénérer manuellement les tableaux finaux.',
+      option: 'Les poules seront régénérées dans les tableaux auxquels il est inscrit. Régénérez manuellement les tableaux finaux.',
       action_button_text: 'Supprimer'
     };
 
@@ -89,19 +89,19 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
       width: '55%',
       data: playerToDelete
     }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){ this.joueurService.delete(id_joueur).subscribe(() => {
-        this.getAllJoueurs.emit();
+      if (id_joueur){
+        this.joueurService.delete(id_joueur).subscribe(() => {
+          this.getAllJoueurs.emit();
+          joueur.tableaux.forEach(tableau => {
+            if (tableau.poules && tableau.is_launched === 0) this.generatePoules(tableau);
+          });
 
-        this.joueur.tableaux.forEach(tableau => {
-          if (tableau.poules) { this.generatePoules(tableau); }
-        });
-
-        this.tableauService.nbInscritsChange.emit();
-      }, err => {
-        this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+          this.tableauService.nbInscritsChange.emit();
+        }, err => {
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
     });
   }
 
