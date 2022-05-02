@@ -40,6 +40,14 @@ export class PouleComponent implements OnInit {
 
       this.tableauxEditionSubscription = this.gestionService.tableauxEditSource.subscribe((tableau: TableauInterface) => {
         this.tableau = tableau;
+
+        // On change le visuel des toutes les poules si le tableau est terminé
+        if (this.tableau.is_launched === 2) {
+          this.poules = this.poules.map(poule => {
+            poule.locked = true;
+            return poule;
+          })
+        }
       });
     });
   }

@@ -56,8 +56,8 @@ export class TableauComponent implements OnInit {
   changeStateTableau(): void {
     const stateToChange: Dialog = {
       id: 'true',
-      action: this.tableau.is_launched === 1 ? 'Terminer le tableau ?' : 'Lancer le tableau ?',
-      option: this.tableau.is_launched === 0 ? 'Aucun joueur ne pourra plus s\'y inscrire et les compositions' + (this.tableau.poules ? ' des poules ' : '') + (this.tableau.format === 'double' ? (this.tableau.poules ? 'ainsi que ' : '') + ' des binômes ' : '') + 'resteront inchangé' + (this.tableau.format === 'double' ? '' : 'e') + 's' : 'Les phases finales resteront inchangées',
+      action: this.tableau.is_launched === 1 ? 'Terminer le tableau ?' : 'Lancer les ' + (this.tableau.poules ? 'poules' : 'phases finales') + ' ?',
+      option: this.tableau.is_launched === 0 ? 'Aucun joueur ne pourra plus s\'inscrire ni se désinscrire au tableau' + (this.tableau.format === 'double' ? ' et les binômes seront bloqués' : '') : 'Les ' + (this.tableau.poules ? 'poules' : 'binômes') + ' et phases finales seront validé' + (this.tableau.poules ? 'e' : '') +'s et bloqué' + (this.tableau.poules ? 'e' : '') +'s',
       action_button_text: this.tableau.is_launched === 1 ? 'Terminer' : 'Lancer'
     };
 
@@ -68,7 +68,9 @@ export class TableauComponent implements OnInit {
       if (response){
         this.tableau.is_launched++;
         this.tableauService.tableauxEditSource.next(this.tableau);
-        this.tableauService.changeLaunchState(this.tableau).subscribe(() => {}, err => {
+        this.tableauService.changeLaunchState(this.tableau).subscribe(() => {
+          if (this.tableau.poules && this.tableau.is_launched === 2) this.pouleService.validateAllPoules(this.tableau._id).subscribe();
+        }, err => {
           this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
         });
       }

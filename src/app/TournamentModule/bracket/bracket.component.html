@@ -1,5 +1,5 @@
 <div class="center" *ngIf="tableau">
-  <button (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
+  <button [disabled]="tableau.is_launched === 2" (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
     <mat-icon *ngIf="spinnerShown">
       <mat-spinner color="warn" [diameter]="20"></mat-spinner>
     </mat-icon>

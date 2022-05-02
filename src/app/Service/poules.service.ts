@@ -34,4 +34,8 @@ export class PoulesService {
   public deletePoules(idTableau: string): Observable<any> {
     return this.http.delete(`${this.baseURL}delete/${idTableau}`);
   }
+
+  public validateAllPoules(id_tableau: string): Observable<any> {
+    return this.http.put(`${this.baseURL}validate_all_poules/${id_tableau}`, null);
+  }
 }

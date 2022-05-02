@@ -6,17 +6,20 @@
 
   <div fxLayout="row wrap">
     <div [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'" *ngFor="let poule of poules; let indexList = index">
-      <mat-card [class]="'mat-elevation-z8 ' + (poule.locked ? 'locked' : '')">
-        <h2 class="lobster center">Poule n°{{indexList+1}}</h2>
+      <mat-card class="mat-elevation-z8">
+        <h2 class="lobster center">
+          <mat-icon *ngIf="poule.locked" class="locked">check_circle</mat-icon>
+          Poule n°{{indexList+1}}
+        </h2>
 
         <div
           cdkDropList
           [cdkDropListData]="poules[indexList].participants"
           class="list"
           (cdkDropListDropped)="editPoule($event, poule._id)">
-          <div [cdkDragData]="[poule._id, participant._id]" [cdkDragDisabled]="poule.locked || tableau.is_launched > 1" class="box center" *ngFor="let participant of poules[indexList].participants" cdkDrag>{{ showParticipant(poules[indexList].objectRef, participant) }}</div>
+          <div [cdkDragData]="[poule._id, participant._id]" [cdkDragDisabled]="poule.locked" class="box center" *ngFor="let participant of poules[indexList].participants" cdkDrag>{{ showParticipant(poules[indexList].objectRef, participant) }}</div>
         </div>
-        <button (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" [color]="(poule.locked ? 'locked' : 'unlocked')">{{(poule.locked ? 'Modifier' : 'Valider')}}</button>
+        <button [disabled]="tableau.is_launched === 2" (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" color="primary">{{(poule.locked ? 'Modifier' : 'Valider')}}</button>
 
       </mat-card>
     </div>

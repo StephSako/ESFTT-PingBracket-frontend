@@ -77,10 +77,11 @@ button {
   margin-top: 16px;
 }
 
-.locked {
-  background-color: #238c23;
 
-  h2 {
-    color: white;
+mat-icon {
+  vertical-align: sub;
+
+  &.locked {
+    color: #238c23;
   }
 }
