@@ -1,5 +1,11 @@
 export const formats: string[] = ['simple', 'double'];
 
+export const statuts: any[] = [
+  { libelle: 'En attente', value: 0 },
+  { libelle: 'Démarré', value: 1 },
+  { libelle: 'Terminé', value: 2 }
+];
+
 export const categoriesAge: any[] = [
   { category: 'Aucun', age: null},
   { category: 'Poussin', age: 10},

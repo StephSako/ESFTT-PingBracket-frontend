@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauService } from '../../Service/tableau.service';
 import { BracketService } from '../../Service/bracket.service';
 import { PoulesService } from '../../Service/poules.service';
-import { categoriesAge, formats } from '../../options-tableaux';
+import { categoriesAge, formats, statuts } from '../../options-tableaux';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BinomeService } from '../../Service/binome.service';
@@ -21,8 +21,9 @@ export class EditTableauComponent implements OnInit {
 
   tableau: TableauInterface;
   reactiveForm: FormGroup;
-  formats: string[] = [];
-  categoriesAge: any[] = [];
+  formats: string[] = formats;
+  statuts: any[] = statuts;
+  categoriesAge: any[] = categoriesAge;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data, private snackBar: MatSnackBar, private bracketService: BracketService,
               private notifyService: NotifyService, private tableauService: TableauService, public dialog: MatDialog,
@@ -31,11 +32,10 @@ export class EditTableauComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formats = formats;
-    this.categoriesAge = categoriesAge;
     this.reactiveForm = new FormGroup({
       nom: new FormControl(this.tableau.nom),
       format: new FormControl(this.tableau.format),
+      is_launched: new FormControl(this.tableau.is_launched),
       consolante: new FormControl(this.tableau.consolante),
       nbPoules: new FormControl(this.tableau.poules ? this.tableau.nbPoules : 2),
       age_minimum: new FormControl(this.tableau.age_minimum),
@@ -89,6 +89,7 @@ export class EditTableauComponent implements OnInit {
           this.tableau.nom = this.reactiveForm.get('nom').value;
           this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
           this.tableau.poules = this.reactiveForm.get('poules').value;
+          this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
           this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
           this.tableau.consolante = this.reactiveForm.get('consolante').value;
           this.tableau.format = this.reactiveForm.get('format').value;
@@ -132,6 +133,7 @@ export class EditTableauComponent implements OnInit {
     } else {
       this.tableau.nom = this.reactiveForm.get('nom').value;
       this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
+      this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
       this.tableau.poules = this.reactiveForm.get('poules').value;
       this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
       this.tableau.consolante = this.reactiveForm.get('consolante').value;

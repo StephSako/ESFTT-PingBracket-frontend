@@ -10,11 +10,22 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="18%">
+    <div fxFlex="13%">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Format</mat-label>
         <mat-select formControlName="format" required>
           <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="13%">
+      <mat-form-field appearance="outline">
+        <mat-label>Statut</mat-label>
+        <mat-select formControlName="is_launched" required>
+          <mat-option *ngFor="let statut of statuts" [value]="statut.value">
+            {{ statut.libelle }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

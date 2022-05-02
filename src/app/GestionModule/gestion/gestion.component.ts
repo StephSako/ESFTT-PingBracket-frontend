@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TableauService } from '../../Service/tableau.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Dialog } from '../../Interface/Dialog';
@@ -7,6 +6,8 @@ import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { JoueurService } from '../../Service/joueur.service';
 import { JoueurInterface } from '../../Interface/Joueur';
+import { Router } from '@angular/router';
+import { TableauService } from 'src/app/Service/tableau.service';
 
 @Component({
   selector: 'app-gestion',
@@ -17,8 +18,8 @@ export class GestionComponent implements OnInit {
 
   allJoueurs: JoueurInterface[] = [];
 
-  constructor(private gestionService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog, private joueurService: JoueurService) { }
+  constructor(private router: Router, private notifyService: NotifyService, private snackBar: MatSnackBar,
+              public dialog: MatDialog, private joueurService: JoueurService, private tableauService: TableauService) { }
 
   ngOnInit(): void {}
 
@@ -26,7 +27,7 @@ export class GestionComponent implements OnInit {
     const accountToDelete: Dialog = {
       id: 'true',
       action: 'Remettre le tournoi à zéro pour une nouvelle année ?',
-      option: `Les joueurs, poules, binômes de double, phases finales, plats et nombre de convives du buffets seront supprimés.\n\nLes paramètres du formulaire, les stocks et les tableaux seront conservés.`,
+      option: `Les joueurs, poules, binômes de double, phases finales, plats et nombre de convives du buffets seront supprimés, et les tableaux relancés.\n\nLes paramètres du formulaire, les stocks et les tableaux seront conservés.`,
       action_button_text: 'Remettre à zéro'
     };
 
@@ -35,13 +36,21 @@ export class GestionComponent implements OnInit {
       data: accountToDelete
     }).afterClosed().subscribe(id_joueur => {
       if (id_joueur){
-        this.gestionService.reset()
+        this.tableauService.reset()
           .subscribe(message => {
-            this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2500, 'OK');
+            this.reloadComponent(message.message);
           }, err => {
             this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
           });
       }
+    });
+  }
+
+  reloadComponent(message: string): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/']).then(() => {
+      this.notifyService.notifyUser(message, this.snackBar, 'success', 2000, 'OK');
     });
   }
 
