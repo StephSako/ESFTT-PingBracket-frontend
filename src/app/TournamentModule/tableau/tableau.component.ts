@@ -57,7 +57,7 @@ export class TableauComponent implements OnInit {
     const stateToChange: Dialog = {
       id: 'true',
       action: this.tableau.is_launched === 1 ? 'Terminer le tableau ?' : 'Lancer le tableau ?',
-      option: this.tableau.is_launched === 0 ? 'Aucun joueur ne pourra plus s\'y inscrire et les compositions des poules ' + (this.tableau.format === 'double' ? 'ainsi que des binômes ' : '') + 'resteront inchangé' + (this.tableau.format === 'double' ? '' : 'e') + 's' : 'Les phases finales resteront inchangées',
+      option: this.tableau.is_launched === 0 ? 'Aucun joueur ne pourra plus s\'y inscrire et les compositions' + (this.tableau.poules ? ' des poules ' : '') + (this.tableau.format === 'double' ? (this.tableau.poules ? 'ainsi que ' : '') + ' des binômes ' : '') + 'resteront inchangé' + (this.tableau.format === 'double' ? '' : 'e') + 's' : 'Les phases finales resteront inchangées',
       action_button_text: this.tableau.is_launched === 1 ? 'Terminer' : 'Lancer'
     };
 

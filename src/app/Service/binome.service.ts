@@ -29,7 +29,8 @@ export class BinomeService {
     return this.http.delete(`${this.baseURL}reset/${tableau}`);
   }
 
-  public generate(tableau: string): Observable<any> {
+  // Si un tableau devient un format 'double', on créé ses binômes
+  public generateBinomes(tableau: string): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${tableau}`, null);
   }
 }

@@ -24,10 +24,18 @@ h2.labelTableau {
 
 .enabledButtons {
   color: green !important;
+
+  &.enCours {
+    color: black !important;
+  }
 }
 
 .disabledButtons {
   color: #ff0000 !important;
+
+  &.enCours {
+    color: black !important;
+  }
 }
 
 .shakeit {

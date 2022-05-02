@@ -115,7 +115,7 @@ export class EditTableauComponent implements OnInit {
                   this.binomeService.removeAll(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
                 }
                 else if (this.tableau.format === 'double') {
-                  this.binomeService.generate(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
+                  this.binomeService.generateBinomes(this.tableau._id).subscribe(() => {}, err => this.emitErrorSnackbar(err));
                 }
             }
 
