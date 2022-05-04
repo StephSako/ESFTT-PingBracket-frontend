@@ -14,26 +14,22 @@ export class AccountService {
 
   private baseURL = environment.endpointNodeApi + 'account/';
   private token: string;
-  private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   private saveToken(token: string): void {
     this.token = token;
     localStorage.setItem('userToken', token);
+    this.launchAutoLogout();
   }
 
   public login(user: TokenPayloadLogin): Observable<any> {
     return this.http.post(this.baseURL + 'login', user).pipe(
       map((data: TokenResponse) => {
-        if (data.token) {
-          this.saveToken(data.token);
-        }
+        if (data.token) this.saveToken(data.token)
         return data;
       }),
-      catchError(err => {
-        return throwError(err);
-      })
+      catchError(err => throwError(err))
     );
   }
 
@@ -43,14 +39,10 @@ export class AccountService {
 
     return URL.pipe(
       map((data: TokenResponse) => {
-        if (data.token) {
-          this.saveToken(data.token);
-        }
+        if (data.token) this.saveToken(data.token);
         return data;
       }),
-      catchError(err => {
-        return throwError(err);
-      })
+      catchError(err => throwError(err))
     );
   }
 
@@ -60,14 +52,10 @@ export class AccountService {
 
     return URL.pipe(
       map((data: TokenResponse) => {
-        if (data.token) {
-          this.saveToken(data.token);
-        }
+        if (data.token) this.saveToken(data.token);
         return data;
       }),
-      catchError(err => {
-        return throwError(err);
-      })
+      catchError(err => throwError(err))
     );
   }
 
@@ -81,28 +69,25 @@ export class AccountService {
     let payload;
     if (token) {
       payload = token.split('.')[1];
-      payload = window.atob(payload);
+      payload = atob(payload);
       return JSON.parse(payload);
-    } else {
-      return null;
-    }
+    } else return null;
   }
 
   public isLoggedIn(): boolean {
     const user = this.getUserDetails();
-    if (user) {
-      return user.exp > Date.now() / 1000;
-    }
-    else { return false; }
+    return user ? user.exp * 1000 > Date.now() : false;
   }
 
   public logout(): void {
     this.token = '';
-    window.localStorage.removeItem('userToken');
+    localStorage.removeItem('userToken');
     this.router.navigateByUrl('/login');
-    if (this.tokenExpirationTimer) {
-      clearTimeout(this.tokenExpirationTimer);
-    }
-    this.tokenExpirationTimer = null;
+  }
+
+  public launchAutoLogout(): void {
+    setTimeout(() => {
+      this.logout();
+    }, ((this.getUserDetails().exp * 1000) - Date.now()))
   }
 }

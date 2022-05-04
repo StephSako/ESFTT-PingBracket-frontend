@@ -5,7 +5,7 @@ import { FormulaireComponent } from './formulaire/formulaire.component';
 import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formulaire.component';
 
 const routes: Routes = [
-  { path: 'formulaire', component: FormulaireComponent },
+  { path: '', component: FormulaireComponent, pathMatch: 'full' },
   { path: 'submitted', component: ConfirmFormulaireComponent }
 ];
 

@@ -34,24 +34,31 @@ export class FormAccountComponent implements OnInit {
   }
 
   login(): void {
-    this.spinnerShown = true;
-    this.credentials = {
-      username: this.reactiveForm.get('username').value,
-      password: this.reactiveForm.get('password').value
-    };
-    this.authService.login(this.credentials).subscribe(() => {
-        this.spinnerShown = false;
-        this.router.navigateByUrl('/gestion');
-      },
-      err => {
-        this.spinnerShown = false;
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
-      }
-    );
+    if (this.invalidForm()) this.notifyService.notifyUser('Renseignez le pseudo et le mot de passe', this.snackBar, 'error', 2000, 'OK');
+    else {
+      this.spinnerShown = true;
+      this.credentials = {
+        username: this.reactiveForm.get('username').value,
+        password: this.reactiveForm.get('password').value
+      };
+      this.authService.login(this.credentials).subscribe(() => {
+          this.spinnerShown = false;
+          this.router.navigateByUrl('/gestion');
+        },
+        err => {
+          this.spinnerShown = false;
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        }
+      );
+    }
   }
 
   togglePasswordVisibility(): void {
     this.passwordVisibility = !this.passwordVisibility;
     this.inputPasswordType = this.passwordVisibility ? 'text' : 'password';
+  }
+
+  public invalidForm(): boolean {
+    return !this.reactiveForm.get('username').value || !this.reactiveForm.get('password').value;
   }
 }

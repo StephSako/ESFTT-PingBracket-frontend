@@ -4,15 +4,14 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { AccountService } from './Service/account.service';
 
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class UnauthGuardService implements CanActivate {
 
   constructor(private accountService: AccountService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.accountService.isLoggedIn()) { return true; }
+    if (state.url === '/login' && !this.accountService.isLoggedIn()) { return true; }
     else {
-      this.accountService.logout();
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/gestion');
       return false;
     }
   }
