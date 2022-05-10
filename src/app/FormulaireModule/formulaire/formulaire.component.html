@@ -11,7 +11,7 @@
 
     <br>
     <h2 class="lobster">1. Inscription aux tableaux</h2>
-    <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div><br>
+    <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div>
 
     <div *ngFor="let joueurItem of listeJoueurs">
       <form>
@@ -105,16 +105,16 @@
     <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
     <div class="nbParticipants">
-      <h3 class="lobster">Nombre de convives de moins de 13 ans (au total)</h3>
+      <h3 class="lobster">Nombre d'enfants au total</h3>
       <mat-form-field class="shorten" appearance="outline">
-        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_moins_13_ans" name="nb_moins_13_ans">
+        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.enfant" name="enfant">
       </mat-form-field>
     </div>
 
     <div class="nbParticipants">
-      <h3 class="lobster">Nombre de convives de plus de 13 ans (au total)</h3>
+      <h3 class="lobster">Nombre d'ados/adultes au total</h3>
       <mat-form-field class="shorten" appearance="outline">
-        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.nb_plus_13_ans" name="nb_plus_13_ans">
+        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.ado_adulte" name="ado_adulte">
       </mat-form-field>
     </div>
 

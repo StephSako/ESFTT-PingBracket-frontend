@@ -46,8 +46,8 @@ export class FormulaireComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public buffet: BuffetInterface = {
-    nb_plus_13_ans: 0,
-    nb_moins_13_ans: 0,
+    ado_adulte: 0,
+    enfant: 0,
     _id: null,
     plats: []
   };
@@ -135,7 +135,7 @@ export class FormulaireComponent implements OnInit {
 
     // On construit le log
     let logMessage: string = this.datepipe.transform(new Date(), 'dd/MM/yyyy HH:mm') + ' :\n';
-    logMessage += 'Buffet :\n  - moins de 13 ans : ' + this.buffet.nb_moins_13_ans + '\n  - plus de 13 ans : ' + this.buffet.nb_plus_13_ans + '\n  - plats préparés : ' + (this.buffet.plats.length > 0 ? this.buffet.plats.join(', ') : '/') + '\n\n';
+    logMessage += 'Buffet :\n  - enfants : ' + this.buffet.enfant + '\n  - ados/adultes : ' + this.buffet.ado_adulte + '\n  - plats préparés : ' + (this.buffet.plats.length > 0 ? this.buffet.plats.join(', ') : '/') + '\n\n';
 
     // Enregistrement des données du buffet
     tabOf.push(this.buffetService.register(this.buffet));
@@ -168,7 +168,7 @@ export class FormulaireComponent implements OnInit {
   }
 
   disabledSubmit(): boolean {
-    return (this.listeJoueurs.length === 0 && this.buffet.nb_moins_13_ans === 0 && this.buffet.nb_plus_13_ans === 0 && this.buffet.plats.length === 0) || this.spinnerShown;
+    return (this.listeJoueurs.length === 0 && this.buffet.enfant === 0 && this.buffet.ado_adulte === 0 && this.buffet.plats.length === 0) || this.spinnerShown;
   }
 
   platsAlreadyCookedEmpty(): boolean {

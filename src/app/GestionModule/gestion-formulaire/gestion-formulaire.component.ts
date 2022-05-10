@@ -49,8 +49,8 @@ export class GestionFormulaireComponent implements OnInit {
 
   buffet: BuffetInterface = {
     _id: null,
-    nb_moins_13_ans: null,
-    nb_plus_13_ans: null,
+    enfant: null,
+    ado_adulte: null,
     plats: null
   };
 
@@ -95,8 +95,8 @@ export class GestionFormulaireComponent implements OnInit {
       date: new FormControl('')
     });
     this.reactiveFormBuffet = new FormGroup({
-      nb_moins_13_ans: new FormControl(0),
-      nb_plus_13_ans: new FormControl(0),
+      enfant: new FormControl(0),
+      ado_adulte: new FormControl(0),
     });
     this.adapter.setLocale('fr');
     this.getParametres();
@@ -141,8 +141,8 @@ export class GestionFormulaireComponent implements OnInit {
   editBuffet(): void {
     this.buffet = {
       _id: this.parametres._id,
-      nb_moins_13_ans: this.reactiveFormBuffet.get('nb_moins_13_ans').value,
-      nb_plus_13_ans: this.reactiveFormBuffet.get('nb_plus_13_ans').value,
+      enfant: this.reactiveFormBuffet.get('enfant').value,
+      ado_adulte: this.reactiveFormBuffet.get('ado_adulte').value,
       plats:this.buffet.plats
     };
     this.buffetService.edit(this.buffet).subscribe(
@@ -157,8 +157,8 @@ export class GestionFormulaireComponent implements OnInit {
     this.buffetService.getBuffet().subscribe((buffet: BuffetInterface) => {
       this.buffet = buffet;
       this.reactiveFormBuffet.patchValue({
-        nb_moins_13_ans: this.buffet.nb_moins_13_ans,
-        nb_plus_13_ans: this.buffet.nb_plus_13_ans,
+        enfant: this.buffet.enfant,
+        ado_adulte: this.buffet.ado_adulte,
       });
     }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');

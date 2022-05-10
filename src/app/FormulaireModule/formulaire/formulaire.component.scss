@@ -31,7 +31,7 @@ i {
 }
 
 .form_inputs_player {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .btn_action {
@@ -52,10 +52,6 @@ p.alerte {
 }
 
 @media screen and (max-width: 960px) {
-  .form_inputs_player {
-    margin-top: 35px;
-  }
-
   .btn_action {
     margin-top: 0;
   }
