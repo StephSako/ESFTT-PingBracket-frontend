@@ -8,9 +8,9 @@ export class NotifyService {
 
   constructor() { }
 
-  public notifyUser(message: string, snackBar: MatSnackBar, style: string, duration: number, action?: string): void {
+  public notifyUser(message: string, snackBar: MatSnackBar, style: string, action?: string): void {
     snackBar.open(message, action, {
-      duration,
+      duration: 2000,
       panelClass: ['style-' + style],
     });
   }

@@ -48,7 +48,7 @@ export class TableauComponent implements OnInit {
 
   getTableau(idTableau: string): void {
     this.tableauService.getTableau(idTableau).subscribe(tableau => this.tableau = tableau, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       this.router.navigate(['/error-page']);
     });
   }
@@ -71,7 +71,7 @@ export class TableauComponent implements OnInit {
         this.tableauService.changeLaunchState(this.tableau).subscribe(() => {
           if (this.tableau.poules && this.tableau.is_launched === 2) this.pouleService.validateAllPoules(this.tableau._id).subscribe();
         }, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
         });
       }
     });
@@ -80,25 +80,25 @@ export class TableauComponent implements OnInit {
   // Output functions
   getAllPoules(): void {
     this.pouleService.getAll(this.tableau._id, this.tableau.format).subscribe(poules => this.poules = poules, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   generatePoules(): void {
     this.pouleService.generatePoules(this.tableau).subscribe(() => this.getAllPoules(), err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   getAllBinomes(): void {
     this.binomeService.getAll(this.tableau._id).subscribe(binomes => this.binomes = binomes, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   getSubscribedUnassignedPlayers(): void {
     this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
-      err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+      err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   delete(): void {
@@ -115,12 +115,12 @@ export class TableauComponent implements OnInit {
     }).afterClosed().subscribe(id_tableau => {
       if (id_tableau){ this.tableauService.delete(this.tableau).subscribe(() => {
         this.router.navigateByUrl('/gestion');
-        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
+        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success','OK');
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 }

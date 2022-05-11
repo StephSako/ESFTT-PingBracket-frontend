@@ -51,8 +51,8 @@ export class GestionAccountComponent implements OnInit {
 
   editUsername(): void {
     this.accountService.editUsername(this.username).subscribe(() => {
-      this.notifyService.notifyUser('Identifiant modifié', this.snackBar, 'success', 2000, 'OK');
-    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+      this.notifyService.notifyUser('Identifiant modifié', this.snackBar, 'success','OK');
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   editPassword(): void {
@@ -60,15 +60,15 @@ export class GestionAccountComponent implements OnInit {
       this.newPassword = '';
       this.newPasswordCheck = '';
       this.notifyService.notifyUser('Les mots de passe ne correspondent pas',
-        this.snackBar, 'error', 2000, 'OK');
+        this.snackBar, 'error','OK');
     } else {
       this.accountService.editPassword(this.actualPassword, this.newPassword).subscribe(() => {
-        this.notifyService.notifyUser('Mot de passe modifié', this.snackBar, 'success', 2000, 'OK');
+        this.notifyService.notifyUser('Mot de passe modifié', this.snackBar, 'success','OK');
         this.newPasswordControl.reset();
         this.newPasswordCheckControl.reset();
         this.actualPasswordControl.reset();
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
         this.actualPassword = '';
       });
     }

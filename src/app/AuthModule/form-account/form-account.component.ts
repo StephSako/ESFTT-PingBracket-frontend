@@ -34,7 +34,7 @@ export class FormAccountComponent implements OnInit {
   }
 
   login(): void {
-    if (this.invalidForm()) this.notifyService.notifyUser('Renseignez le pseudo et le mot de passe', this.snackBar, 'error', 2000, 'OK');
+    if (this.invalidForm()) this.notifyService.notifyUser('Renseignez le pseudo et le mot de passe', this.snackBar, 'error','OK');
     else {
       this.spinnerShown = true;
       this.credentials = {
@@ -47,7 +47,7 @@ export class FormAccountComponent implements OnInit {
         },
         err => {
           this.spinnerShown = false;
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
         }
       );
     }

@@ -158,6 +158,6 @@ export class EditTableauComponent implements OnInit {
   }
 
   emitErrorSnackbar(err: string): void {
-    this.notifyService.notifyUser(err, this.snackBar, 'error', 2000, 'OK');
+    this.notifyService.notifyUser(err, this.snackBar, 'error','OK');
   }
 }

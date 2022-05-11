@@ -40,7 +40,7 @@ export class GestionComponent implements OnInit {
           .subscribe(message => {
             this.reloadComponent(message.message);
           }, err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
           });
       }
     });
@@ -50,13 +50,13 @@ export class GestionComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['/']).then(() => {
-      this.notifyService.notifyUser(message, this.snackBar, 'success', 2000, 'OK');
+      this.notifyService.notifyUser(message, this.snackBar, 'success','OK');
     });
   }
 
   getAllJoueurs(): void {
     this.joueurService.getAllPlayers().subscribe(joueurs => this.allJoueurs = joueurs, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 

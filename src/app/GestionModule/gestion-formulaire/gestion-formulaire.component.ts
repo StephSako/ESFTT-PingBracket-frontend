@@ -115,7 +115,7 @@ export class GestionFormulaireComponent implements OnInit {
         date: this.parametres.date
       });
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -132,9 +132,9 @@ export class GestionFormulaireComponent implements OnInit {
     };
     this.parametreService.edit(this.parametres).subscribe(
       message => {
-        this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
+        this.notifyService.notifyUser(message.message, this.snackBar, 'success','OK');
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       });
   }
 
@@ -147,9 +147,9 @@ export class GestionFormulaireComponent implements OnInit {
     };
     this.buffetService.edit(this.buffet).subscribe(
       message => {
-        this.notifyService.notifyUser(message.message, this.snackBar, 'success', 2000, 'OK');
+        this.notifyService.notifyUser(message.message, this.snackBar, 'success','OK');
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       });
   }
 
@@ -161,15 +161,15 @@ export class GestionFormulaireComponent implements OnInit {
         ado_adulte: this.buffet.ado_adulte,
       });
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   openCloseFormulaire(): void {
     this.parametreService.openCloseFormulaire(!this.parametres.open).subscribe(result => {
-      this.notifyService.notifyUser(result.message, this.snackBar, 'success', 2000, 'OK');
+      this.notifyService.notifyUser(result.message, this.snackBar, 'success','OK');
       this.parametres.open = !this.parametres.open;
-    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   add(event: MatChipInputEvent): void {

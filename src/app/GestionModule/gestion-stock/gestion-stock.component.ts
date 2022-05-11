@@ -33,7 +33,7 @@ export class GestionStockComponent implements OnInit {
 
   getAllStock(): void {
     this.stockService.getAllStock().subscribe(stocks => this.allStocks = stocks, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -41,12 +41,12 @@ export class GestionStockComponent implements OnInit {
     if (this.stock.stock === null) this.stock.stock = 0;
     this.stockService.create(this.stock).subscribe(result => {
       this.getAllStock();
-      this.notifyService.notifyUser(result.message, this.snackBar, 'success', 1000, 'OK');
+      this.notifyService.notifyUser(result.message, this.snackBar, 'success','OK');
       this.stock = {
         stock: null,
         label: null,
         _id: null
-      }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+      }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   openEditDialog(stock: StockInterface): void {
@@ -73,9 +73,9 @@ export class GestionStockComponent implements OnInit {
     }).afterClosed().subscribe(stock_id => {
       if (stock_id){ this.stockService.delete(stock_id).subscribe(result => {
         this.getAllStock();
-        this.notifyService.notifyUser(result.message, this.snackBar, 'error', 1000, 'OK');
-      }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 1500, 'OK') ); }
-    }, err =>  this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+        this.notifyService.notifyUser(result.message, this.snackBar, 'error','OK');
+      }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK') ); }
+    }, err =>  this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   isInvalidStock(): boolean {

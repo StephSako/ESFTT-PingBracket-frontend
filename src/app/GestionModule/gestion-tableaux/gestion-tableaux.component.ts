@@ -53,14 +53,14 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       this.tableauService.tableauxSource.next(allTableaux);
       this.getPlayerCountPerTableau();
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   getPlayerCountPerTableau(): void {
     this.tableauService.getPlayerCountPerTableau().subscribe(
       playerCountPerTableau => this.playerCountPerTableau = playerCountPerTableau, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       });
   }
 
@@ -83,9 +83,9 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
             nbPoules: 2
           };
           this.getAllTableaux();
-          this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 1500, 'OK');
+          this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 'OK');
         }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       });
   }
 
@@ -129,12 +129,12 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       if (id_tableau){ this.tableauService.delete(tableau).subscribe(() => {
         this.getAllTableaux();
         this.getAllJoueurs.emit();
-        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success', 2000, 'OK');
+        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success','OK');
       }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -144,15 +144,15 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       this.getAllJoueurs.emit();
       if (tableau.format === 'double') this.removeAllBinomes(tableau);
       else if (tableau.poules) this.generatePoules(tableau);
-      this.notifyService.notifyUser('Tous les joueurs ont été désinscris', this.snackBar, 'success', 2000, 'OK');
+      this.notifyService.notifyUser('Tous les joueurs ont été désinscris', this.snackBar, 'success','OK');
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   generatePoules(tableau: TableauInterface): void {
     this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -160,7 +160,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     this.binomeService.removeAll(tableau._id).subscribe(() => {
       if (tableau.poules) this.generatePoules(tableau);
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 

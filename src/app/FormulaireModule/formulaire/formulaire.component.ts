@@ -77,7 +77,7 @@ export class FormulaireComponent implements OnInit {
 
   getTableaux(): void{
     this.tableauService.getAllTableaux().subscribe(tableaux => this.tableaux = tableaux.filter(t => t.is_launched === 0), err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -89,13 +89,13 @@ export class FormulaireComponent implements OnInit {
         this.getPlatsAlreadyCooked();
       }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
   getPlatsAlreadyCooked(): void{
     this.buffetService.platsAlreadyCooked().subscribe(plats => this.platsAlreadyCooked = plats, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -159,7 +159,7 @@ export class FormulaireComponent implements OnInit {
     };
 
     this.spinnerShown = false;
-    if (errOf.length > 0) this.notifyService.notifyUser(errOf.join(' - '), this.snackBar, 'error', 20000, 'OK');
+    if (errOf.length > 0) this.notifyService.notifyUser(errOf.join(' - '), this.snackBar, 'error', 'OK');
     else this.router.navigateByUrl('/submitted');
   }
 

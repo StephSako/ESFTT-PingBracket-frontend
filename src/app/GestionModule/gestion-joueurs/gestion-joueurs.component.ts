@@ -43,7 +43,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   generatePoules(tableau: TableauInterface): void {
     this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
@@ -56,7 +56,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
           if (tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
         });
 
-        this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success', 1500, 'OK');
+        this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success','OK');
         this.joueur = {
           classement : null,
           nom : null,
@@ -64,7 +64,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
           _id : null,
           buffet: null,
           tableaux: []
-        }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK'));
+        }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   openEditDialog(joueur: JoueurInterface): void {
@@ -98,10 +98,10 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
 
           this.tableauService.nbInscritsChange.emit();
         }, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
       }); }
     }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error', 2000, 'OK');
+      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
 
