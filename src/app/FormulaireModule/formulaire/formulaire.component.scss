@@ -39,12 +39,28 @@ i {
   margin-top: 10px
 }
 
-p.alerte {
-  color: red
+p.alerte_info {
+  color: #3f51b5;
+
+  & i {
+    vertical-align: middle;
+  }
+
+  & mat-icon {
+    vertical-align: middle;
+  }
+}
+
+p.alerte_pill {
+  border-radius: 8px;
+  background-color: #ff6565;
+  color: white;
+  width: fit-content;
+  padding: 5px;
 }
 
 .shorten {
-  width: 20%;
+  width: 57px;
 }
 
 :host ::ng-deep img {

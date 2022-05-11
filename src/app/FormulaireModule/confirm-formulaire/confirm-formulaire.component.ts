@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-formulaire',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./confirm-formulaire.component.scss']
 })
 export class ConfirmFormulaireComponent implements OnInit {
+  public summary: string = '';
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private readonly router: Router) {
+    if ((this.router.getCurrentNavigation().extras).hasOwnProperty('state') && (this.router.getCurrentNavigation().extras.state).hasOwnProperty('summary')) {
+      this.summary = this.router.getCurrentNavigation().extras.state.summary;
+    }
+    else this.router.navigateByUrl('/formulaire');
   }
+
+  ngOnInit(): void { }
 
 }

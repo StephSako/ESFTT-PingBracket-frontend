@@ -51,7 +51,7 @@
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
-            <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Enlever</button>
+            <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Supprimer</button>
           </div>
         </div>
       </form>
@@ -147,7 +147,10 @@
     <br>
     <h3 class="lobster">Plat(s) confectionné(s)</h3>
 
-    <p class="alerte"><i>Appuyez sur la touche <strong>'Entrée'</strong> de votre clavier pour ajouter un plat à votre liste</i></p>
+    <p class="alerte_info">
+      <mat-icon aria-hidden="false">info</mat-icon>
+      <i> Appuyez sur la touche <strong>'Entrée'</strong> de votre clavier pour ajouter un plat à votre liste</i>
+    </p>
 
     <mat-form-field class="chip-list" appearance="outline">
       <mat-chip-list #chipList aria-label="Fruit selection">
@@ -173,6 +176,8 @@
 
     <br>
     <h2 class="lobster">3. Validez le formulaire !</h2>
+
+    <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">Un joueur est en cours d'inscription et n'a pas été validé</p>
     <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">
       <mat-icon *ngIf="spinnerShown">
         <mat-spinner color="accent" [diameter]="20"></mat-spinner>

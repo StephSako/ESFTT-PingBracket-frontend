@@ -134,8 +134,8 @@ export class FormulaireComponent implements OnInit {
     let tabOf: any = [];
 
     // On construit le log
-    let logMessage: string = this.datepipe.transform(new Date(), 'dd/MM/yyyy HH:mm') + ' :\n';
-    logMessage += 'Buffet :\n  - enfants : ' + this.buffet.enfant + '\n  - ados/adultes : ' + this.buffet.ado_adulte + '\n  - plats préparés : ' + (this.buffet.plats.length > 0 ? this.buffet.plats.join(', ') : '/') + '\n\n';
+    let logMessage: string = 'Le ' + this.datepipe.transform(new Date(), 'dd/MM/yyyy à HH:mm') + ' :\n';
+    logMessage += 'Buffet :\n  - Nombre d\'enfants : ' + this.buffet.enfant + '\n  - Nombre d\'ados/adultes : ' + this.buffet.ado_adulte + '\n  - Plats préparés : ' + (this.buffet.plats.length > 0 ? this.buffet.plats.join(', ') : '(aucun)') + '\n\n';
 
     // Enregistrement des données du buffet
     tabOf.push(this.buffetService.register(this.buffet));
@@ -143,7 +143,7 @@ export class FormulaireComponent implements OnInit {
     if (this.listeJoueurs.length > 0) {
       // Inscription des joueurs
       this.listeJoueurs.forEach(joueur => {
-        logMessage += joueur.nom.toUpperCase() + ' - ' + ((joueur.classement || joueur.classement > 0) ? joueur.classement + ' pts' : '/' ) + ' - ' + (joueur.age ? + joueur.age + ' ans' : '/' ) + ' - [' + joueur.tableaux.map(t => t.nom.toUpperCase()).join(' , ') + '] - buffet : ' + (joueur.buffet ? 'oui' : 'non') + '\n';
+        logMessage += 'Nom : ' + joueur.nom.toUpperCase() + ' - Classement : ' + ((joueur.classement || joueur.classement > 0) ? joueur.classement + ' pts' : '/' ) + ' - Age : ' + (joueur.age ? + joueur.age + ' ans' : '/' ) + ' - Tableaux : [' + joueur.tableaux.map(t => t.nom.toUpperCase()).join(' , ') + '] - Buffet : ' + (joueur.buffet ? 'oui' : 'non') + '\n';
         tabOf.push(this.joueurService.create(joueur.tableaux, joueur));
       });
 
@@ -160,7 +160,7 @@ export class FormulaireComponent implements OnInit {
 
     this.spinnerShown = false;
     if (errOf.length > 0) this.notifyService.notifyUser(errOf.join(' - '), this.snackBar, 'error', 'OK');
-    else this.router.navigateByUrl('/submitted');
+    else this.router.navigate(['submitted'], { state: { summary: logMessage } });
   }
 
   disabledAddPlayer(joueurData: JoueurInterface): boolean {
@@ -168,7 +168,7 @@ export class FormulaireComponent implements OnInit {
   }
 
   disabledSubmit(): boolean {
-    return (this.listeJoueurs.length === 0 && this.buffet.enfant === 0 && this.buffet.ado_adulte === 0 && this.buffet.plats.length === 0) || this.spinnerShown;
+    return (this.listeJoueurs.length === 0 && this.buffet.enfant === 0 && this.buffet.ado_adulte === 0 && this.buffet.plats.length === 0) || this.spinnerShown || this.isPlayerSubscribing();
   }
 
   platsAlreadyCookedEmpty(): boolean {
@@ -181,5 +181,9 @@ export class FormulaireComponent implements OnInit {
 
   typing(joueur: JoueurInterface): void {
     joueur.tableaux = joueur.tableaux.filter(tableau => !(joueur.age <= tableau.age_minimum && tableau.age_minimum !== null));
+  }
+
+  isPlayerSubscribing(): boolean {
+    return !(this.joueurData.age === null && (this.joueurData.nom === null || this.joueurData.nom === '') && this.joueurData.tableaux.length === 0 && this.joueurData.classement === null);
   }
 }
