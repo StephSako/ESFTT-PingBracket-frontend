@@ -177,7 +177,7 @@
     <br>
     <h2 class="lobster">3. Validez le formulaire !</h2>
 
-    <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">Un joueur est en cours d'inscription et n'a pas été validé</p>
+    <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">Un joueur est en cours d'inscription et n'a pas été validé.<br><i>(Rappel : cliquez sur le bouton bleu <b>Valider le joueur</b> pour inscrire chaque participant.)</i></p>
     <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">
       <mat-icon *ngIf="spinnerShown">
         <mat-spinner color="accent" [diameter]="20"></mat-spinner>
