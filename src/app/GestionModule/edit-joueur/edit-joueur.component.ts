@@ -133,10 +133,11 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
           this.joueur.buffet = this.reactiveForm.get('buffet').value;
-          this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
+          this.joueurService.edit(this.joueur).subscribe(() => {
+            this.joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0).forEach(tableau => this.generatePoules(tableau));
+          }, err => {
             this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
           });
-          this.joueur.tableaux.filter(tableau => tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0).forEach(tableau => this.generatePoules(tableau));
         }
       });
     }
@@ -158,21 +159,22 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           this.joueur.classement = this.reactiveForm.get('classement').value;
           this.joueur.age = this.reactiveForm.get('age').value;
           this.joueur.buffet = this.reactiveForm.get('buffet').value;
-          this.joueurService.edit(this.joueur).subscribe(() => {}, err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-          });
-          this.joueur.tableaux.filter(tableau => (tableau.age_minimum !== null
-            && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
-            .forEach(tableau => {
-              this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
-                this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableauFiltered => (
-                  tableauFiltered.age_minimum !== null &&
-                  (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableauFiltered.age_minimum))).includes(value));
+          this.joueurService.edit(this.joueur).subscribe(() => {
+            this.joueur.tableaux.filter(tableau => (tableau.age_minimum !== null
+              && (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableau.age_minimum)))
+              .forEach(tableau => {
+                this.joueurService.unsubscribe(tableau, this.joueur._id).subscribe(() => {
+                  this.joueur.tableaux = this.joueur.tableaux.filter(value => !this.joueur.tableaux.filter(tableauFiltered => (
+                    tableauFiltered.age_minimum !== null &&
+                    (this.reactiveForm.get('age').value === null || this.reactiveForm.get('age').value >= tableauFiltered.age_minimum))).includes(value));
 
-                  if (tableau.format === 'simple' && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
-              }, err => {
-                this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-              });
+                    if (tableau.format === 'simple' && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
+                }, err => {
+                  this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
+                });
+            });
+          }, err => {
+            this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
           });
         }
       });
