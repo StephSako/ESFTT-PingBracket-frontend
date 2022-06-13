@@ -21,6 +21,7 @@ export class MatchComponent implements OnInit {
     nom: null,
     poules: null,
     consolante: null,
+    maxNumberPlayers: null,
     age_minimum: null,
     nbPoules: null
   };

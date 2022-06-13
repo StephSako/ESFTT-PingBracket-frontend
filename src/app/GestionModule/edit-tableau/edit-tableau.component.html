@@ -2,41 +2,20 @@
 
 <form [formGroup]="reactiveForm" (ngSubmit)="editTableau()">
   <div fxLayout="row">
-    <div fxFlex="27%">
+    <div fxFlex="19%">
       <mat-form-field appearance="outline" class="center">
-        <mat-icon matSuffix>title</mat-icon>
         <mat-label>Nom du tableau</mat-label>
         <input formControlName="nom" matInput required>
       </mat-form-field>
     </div>
 
-    <div fxFlex="13%">
-      <mat-form-field appearance="outline" class="center">
-        <mat-label>Format</mat-label>
-        <mat-select formControlName="format" required>
-          <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div fxFlex="13%">
-      <mat-form-field appearance="outline">
-        <mat-label>Statut</mat-label>
-        <mat-select formControlName="is_launched" required>
-          <mat-option *ngFor="let statut of statuts" [value]="statut.value">
-            {{ statut.libelle }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div fxFlex="14%">
+    <div fxFlex="19%">
       <mat-slide-toggle color="primary" class="center" formControlName="consolante">Consolante</mat-slide-toggle>
     </div>
 
-    <div fxFlex="19%">
+    <div fxFlex="23%">
       <mat-form-field appearance="outline">
-        <mat-label>Catégorie</mat-label>
+        <mat-label>Catégorie d'âge</mat-label>
         <mat-select formControlName="age_minimum">
           <mat-option *ngFor="let category of categoriesAge" [value]="category.age">
           <span [class]="!category.age ? 'fontItalic' : ''">
@@ -46,12 +25,30 @@
         </mat-select>
       </mat-form-field>
     </div>
+  </div>
 
-    <div fxFlex="12%">
-      <mat-slide-toggle color="primary" class="center" formControlName="poules">Poules</mat-slide-toggle>
+  <div fxLayout="row">
+    <div fxFlex="17%">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Format</mat-label>
+        <mat-select formControlName="format" required (selectionChange)="simpleFormatPouleOnChange()">
+          <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
-    <div fxFlex="10%" *ngIf="reactiveForm.get('poules').value">
+    <div fxFlex="25%" *ngIf="fieldValue('format') === 'double'">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Nombre maximal joueurs/binôme</mat-label>
+        <input type="number" formControlName="maxNumberPlayers" min="2" max="4" matInput>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="13%">
+      <mat-slide-toggle color="primary" class="center" formControlName="poules" [disabled]="fieldValue('format') === 'simple'">Poules</mat-slide-toggle>
+    </div>
+
+    <div fxFlex="15%" *ngIf="fieldValue('poules')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nombre de poules</mat-label>
         <input formControlName="nbPoules" type="number" min="2" max="20" matInput>
@@ -60,3 +57,15 @@
   </div>
   <button type="submit" mat-raised-button [disabled]="!isValid()" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
 </form>
+
+
+<!-- <div fxFlex="13%">
+  <mat-form-field appearance="outline">
+    <mat-label>Statut</mat-label>
+    <mat-select formControlName="is_launched" required>
+      <mat-option *ngFor="let statut of statuts" [value]="statut.value">
+        {{ statut.libelle }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div> -->

@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'poules', 'nbPoules', 'consolante', 'inscrits', 'statut', 'edit', 'unsubscribe_all', 'delete'];
+  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'maxNumberPlayers', 'poules', 'nbPoules', 'consolante', 'inscrits', 'statut', 'edit', 'unsubscribe_all', 'delete'];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
   nbInscritsEventEmitter: Subscription;
@@ -31,6 +31,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     is_launched: null,
     _id: null,
     consolante: null,
+    maxNumberPlayers: 2,
     age_minimum: null,
     nbPoules: 2
   };
@@ -79,6 +80,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
             is_launched: null,
             _id : null,
             consolante: null,
+            maxNumberPlayers: 2,
             age_minimum: null,
             nbPoules: 2
           };
@@ -165,8 +167,9 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   isInvalidTableau(): boolean {
-    return (this.tableau.nom !== null && this.tableau.format !== null && this.tableau.nom.trim() !== ''
-      && ((this.tableau.poules && this.tableau.nbPoules !== null) || !this.tableau.poules));
+    return (this.tableau.nom !== null && this.tableau.nom.trim() !== ''
+      && ((this.tableau.poules && this.tableau.nbPoules !== null) || !this.tableau.poules)
+      && ((this.tableau.format === 'double' && this.tableau.maxNumberPlayers !== null) || this.tableau.format === 'simple'));
   }
 
   showAgeMinimum(age_minimum: number): string {

@@ -25,6 +25,7 @@ export class PouleComponent implements OnInit {
     nom: null,
     is_launched: null,
     consolante: null,
+    maxNumberPlayers: null,
     age_minimum: null,
     nbPoules: null
   };
@@ -81,7 +82,7 @@ export class PouleComponent implements OnInit {
       return participant_s.nom + ' - ' + participant_s.classement + ' points';
     } else if (objectRef === 'Binomes') {
       return (participant_s.joueurs[0] !== undefined ? participant_s.joueurs[0].nom : '') +
-        (participant_s.joueurs[1] !== undefined ? ' - ' + participant_s.joueurs[1].nom : '');
+        (participant_s.joueurs[1] !== undefined ? '<br>' + participant_s.joueurs[1].nom : '');
     }
   }
 }

@@ -29,6 +29,17 @@
         <td mat-cell *matCellDef="let tableau"><span class="center">{{tableau.format | titlecase}}</span></td>
       </ng-container>
 
+      <ng-container matColumnDef="maxNumberPlayers">
+        <th mat-header-cell *matHeaderCellDef><span class="center">Nb maximal joueurs/binômes</span></th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center">
+            <span *ngIf="tableau.maxNumberPlayers">
+              {{ tableau.maxNumberPlayers }}
+            </span>
+          </span>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="poules">
         <th mat-header-cell *matHeaderCellDef><span class="center">Poules</span></th>
         <td mat-cell *matCellDef="let tableau"><span class="center"><mat-icon *ngIf="tableau.poules">check_circle_outline</mat-icon></span></td>

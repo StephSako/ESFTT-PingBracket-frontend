@@ -23,6 +23,7 @@ export class BracketComponent implements OnInit {
     poules: null,
     format: null,
     consolante: null,
+    maxNumberPlayers: null,
     age_minimum: null,
     is_launched: null,
     nbPoules: null

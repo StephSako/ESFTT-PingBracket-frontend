@@ -3,7 +3,6 @@
 <div id="actionButtons">
   <button mat-raised-button id="launchTableau" *ngIf="tableau.is_launched === 0" (click)="changeStateTableau()">Lancer les {{ tableau.poules ? 'poules' : 'phases finales' }}</button>
   <button mat-raised-button id="finishTableau" *ngIf="tableau.is_launched === 1" (click)="changeStateTableau()">Terminer le tableau</button>
-  <button mat-raised-button color="warn" (click)="delete()">Supprimer le tableau</button>
 </div>
 
 <mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight="200%" selectedIndex="0" *ngIf="tableau._id">

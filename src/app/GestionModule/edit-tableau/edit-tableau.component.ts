@@ -39,6 +39,7 @@ export class EditTableauComponent implements OnInit {
       consolante: new FormControl(this.tableau.consolante),
       nbPoules: new FormControl(this.tableau.poules ? this.tableau.nbPoules : 2),
       age_minimum: new FormControl(this.tableau.age_minimum),
+      maxNumberPlayers: new FormControl(this.tableau.maxNumberPlayers),
       poules: new FormControl(this.tableau.poules)
     });
   }
@@ -91,6 +92,7 @@ export class EditTableauComponent implements OnInit {
           this.tableau.poules = this.reactiveForm.get('poules').value;
           this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
           this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
+          this.tableau.maxNumberPlayers = this.tableau.poules ? this.reactiveForm.get('maxNumberPlayers').value : null;
           this.tableau.consolante = this.reactiveForm.get('consolante').value;
           this.tableau.format = this.reactiveForm.get('format').value;
 
@@ -136,6 +138,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
       this.tableau.poules = this.reactiveForm.get('poules').value;
       this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
+      this.tableau.maxNumberPlayers = this.tableau.poules ? this.reactiveForm.get('maxNumberPlayers').value : null;
       this.tableau.consolante = this.reactiveForm.get('consolante').value;
       this.tableau.format = this.reactiveForm.get('format').value;
 
@@ -150,14 +153,33 @@ export class EditTableauComponent implements OnInit {
     this.poulesService.generatePoules(tableau).subscribe(() => {}, err => this.emitErrorSnackbar(err));
   }
 
+  //TODO: Vérifier si un nombre max de joueurs est renseigné si format 'Double' et activer/forcer les poules sur edit.tableau
   isValid(): boolean {
-    return (this.reactiveForm.get('nom').value !== null && this.reactiveForm.get('format').value !== null &&
+    return (this.reactiveForm.get('nom').value !== null &&
       this.reactiveForm.get('nom').value.trim() !== ''
-      && ((this.reactiveForm.get('poules').value && this.reactiveForm.get('nbPoules').value !== null)
-        || !this.reactiveForm.get('poules').value));
+      && (
+        (this.reactiveForm.get('poules').value && this.reactiveForm.get('nbPoules').value !== null)
+        || !this.reactiveForm.get('poules').value
+        )
+      && (
+        (this.reactiveForm.get('format').value === 'double' && this.reactiveForm.get('maxNumberPlayers').value !== null)
+        || this.reactiveForm.get('format').value === 'simple'
+      ));
   }
 
   emitErrorSnackbar(err: string): void {
     this.notifyService.notifyUser(err, this.snackBar, 'error','OK');
+  }
+
+  fieldValue(field: string): any {
+    return this.reactiveForm.get(field).value;
+  }
+
+  simpleFormatPouleOnChange(): void {
+    if (this.fieldValue('format') === 'simple') this.reactiveForm.patchValue(
+      {
+        poules: true
+      }
+    );
   }
 }

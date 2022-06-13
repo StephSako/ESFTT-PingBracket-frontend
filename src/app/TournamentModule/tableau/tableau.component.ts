@@ -28,6 +28,7 @@ export class TableauComponent implements OnInit {
     poules: null,
     is_launched: null,
     consolante: null,
+    maxNumberPlayers: null,
     age_minimum: null,
     nbPoules: null
   };
@@ -99,28 +100,5 @@ export class TableauComponent implements OnInit {
   getSubscribedUnassignedPlayers(): void {
     this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
       err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
-  }
-
-  delete(): void {
-    const tableauToDelete: Dialog = {
-      id: this.tableau._id,
-      action: 'Supprimer le tableau ?',
-      option: 'Les poules, binômes et brackets seront supprimés, et les joueurs désinscris.',
-      action_button_text: 'Supprimer'
-    };
-
-    this.dialog.open(DialogComponent, {
-      width: '55%',
-      data: tableauToDelete
-    }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){ this.tableauService.delete(this.tableau).subscribe(() => {
-        this.router.navigateByUrl('/gestion');
-        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success','OK');
-      }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-      }); }
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
   }
 }

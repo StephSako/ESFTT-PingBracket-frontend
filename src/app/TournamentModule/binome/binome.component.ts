@@ -26,6 +26,7 @@ export class BinomeComponent implements OnInit {
     nom: null,
     is_launched: null,
     consolante: null,
+    maxNumberPlayers: null,
     age_minimum: null,
     nbPoules: null
   };
@@ -74,10 +75,12 @@ export class BinomeComponent implements OnInit {
   }
 
   editBinome(event: CdkDragDrop<[id: JoueurInterface], any>, id_binome: string): void {
-    if (event.previousContainer === event.container) {
+    if (event.previousContainer === event.container) { // Le joueur n'a pas changé de binôme
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      if (event.container.data.length < 2 || id_binome === null) {
+      console.log(id_binome);
+
+      if (event.container.data.length < this.tableau.maxNumberPlayers || id_binome === null /* Si un joueur est sorti d'un binôme */) {
         transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
