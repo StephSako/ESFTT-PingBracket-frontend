@@ -21,8 +21,8 @@ export class BracketService {
     return this.http.put(`${this.baseURL}edit/${tableau}/${phase}/${actualRound}/${actualIdMatch}`, {winnerId, looserId});
   }
 
-  public generateBracket(bracket: string, format: string, phase: string, poules: boolean): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, { format, poules });
+  public generateBracket(bracket: string, format: string, phase: string, poules: boolean, maxNumberPlayers: number): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, { format, poules, maxNumberPlayers });
   }
 
   public deleteBracket(idTableau: string): Observable<any> {

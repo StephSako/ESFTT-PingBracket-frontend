@@ -153,7 +153,6 @@ export class EditTableauComponent implements OnInit {
     this.poulesService.generatePoules(tableau).subscribe(() => {}, err => this.emitErrorSnackbar(err));
   }
 
-  //TODO: Vérifier si un nombre max de joueurs est renseigné si format 'Double' et activer/forcer les poules sur edit.tableau
   isValid(): boolean {
     return (this.reactiveForm.get('nom').value !== null &&
       this.reactiveForm.get('nom').value.trim() !== ''

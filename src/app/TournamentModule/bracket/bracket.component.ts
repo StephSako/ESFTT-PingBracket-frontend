@@ -57,7 +57,7 @@ export class BracketComponent implements OnInit {
     }).afterClosed().subscribe(value => {
       if (value){
         this.spinnerShown = true;
-        this.tournoiService.generateBracket(this.tableau._id, this.tableau.format, this.phase, this.tableau.poules)
+        this.tournoiService.generateBracket(this.tableau._id, this.tableau.format, this.phase, this.tableau.poules, this.tableau.maxNumberPlayers)
           .subscribe(() => this.getBracket(), (err) => {
             this.spinnerShown = false;
             this.bracket = null;

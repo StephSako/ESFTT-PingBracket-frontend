@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { TableauInterface } from '../../Interface/Tableau';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './binome.component.html',
   styleUrls: ['./binome.component.scss']
 })
-export class BinomeComponent implements OnInit {
+export class BinomeComponent implements OnInit, OnDestroy {
 
   @Input() binomes: BinomeInterface[] = [];
   @Input() subscribedUnassignedPlayers: JoueurInterface[] = [];
@@ -78,8 +78,6 @@ export class BinomeComponent implements OnInit {
     if (event.previousContainer === event.container) { // Le joueur n'a pas changé de binôme
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      console.log(id_binome);
-
       if (event.container.data.length < this.tableau.maxNumberPlayers || id_binome === null /* Si un joueur est sorti d'un binôme */) {
         transferArrayItem(event.previousContainer.data,
           event.container.data,

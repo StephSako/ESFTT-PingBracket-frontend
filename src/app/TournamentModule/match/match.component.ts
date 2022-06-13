@@ -53,7 +53,16 @@ export class MatchComponent implements OnInit {
   }
 
   getName(entity: any): string {
-    if (this.tableau.format === 'simple') { return entity.nom + ' - ' + entity.classement + ' points'; }
-    else if (this.tableau.format === 'double') { return (entity.joueurs ? entity.joueurs.map(joueur => joueur.nom).join(' - ') : ''); }
+    if (this.tableau.format === 'simple') {
+      return this.formatGetName(entity.nom + ' - ' + entity.classement + ' points');
+    }
+    else if (this.tableau.format === 'double') {
+      return this.formatGetName(entity.joueurs ? entity.joueurs.map(joueur => joueur.nom).join(' - ') : '');
+    }
+  }
+
+  formatGetName(name_s: string): string {
+    if (name_s.length > 38) name_s = name_s.substring(0, 35) + '...';
+    return name_s;
   }
 }
