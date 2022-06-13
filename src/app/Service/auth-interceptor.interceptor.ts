@@ -23,8 +23,10 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     });
     return next.handle(request).pipe(
       catchError((err) => {
-        if (err.status && err.status === 401) this.authService.logout();
-        err.error = "Votre session est terminée";
+        if (err.status && err.status === 401) {
+          err.error = "Votre session est terminée";
+          this.authService.logout();
+        }
         throw err;
       }),
       map((res: any) => res));

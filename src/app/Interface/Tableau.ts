@@ -5,7 +5,7 @@ export interface TableauInterface {
   poules: boolean;
   consolante: boolean;
   is_launched: number;
-  maxNumberPlayers: number; //TODO: Supprimer les joueurs en trop si la valeur diminue
+  maxNumberPlayers: number;
   age_minimum: number;
   nbPoules: number;
 }

@@ -62,7 +62,6 @@ export class MatchComponent implements OnInit {
   }
 
   formatGetName(name_s: string): string {
-    if (name_s.length > 38) name_s = name_s.substring(0, 35) + '...';
-    return name_s;
+    return (name_s.length > 30) ? name_s.substring(0, 27) + '...' : name_s;
   }
 }
