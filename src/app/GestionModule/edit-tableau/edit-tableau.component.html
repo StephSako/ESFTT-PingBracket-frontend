@@ -54,18 +54,17 @@
         <input formControlName="nbPoules" type="number" min="2" max="20" matInput>
       </mat-form-field>
     </div>
+
+    <div fxFlex="13%">
+      <mat-form-field appearance="outline">
+        <mat-label>Etat</mat-label>
+        <mat-select formControlName="is_launched" required>
+          <mat-option *ngFor="let statut of statuts" [value]="statut.value">
+            {{ statut.libelle }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
   <button type="submit" mat-raised-button [disabled]="!isValid()" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
 </form>
-
-
-<!-- <div fxFlex="13%">
-  <mat-form-field appearance="outline">
-    <mat-label>Statut</mat-label>
-    <mat-select formControlName="is_launched" required>
-      <mat-option *ngFor="let statut of statuts" [value]="statut.value">
-        {{ statut.libelle }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div> -->

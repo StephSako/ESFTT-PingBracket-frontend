@@ -92,7 +92,7 @@ export class EditTableauComponent implements OnInit {
           this.tableau.poules = this.reactiveForm.get('poules').value;
           this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
           this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
-          this.tableau.maxNumberPlayers = this.tableau.poules ? this.reactiveForm.get('maxNumberPlayers').value : null;
+          this.tableau.maxNumberPlayers = this.reactiveForm.get('maxNumberPlayers').value ? this.reactiveForm.get('maxNumberPlayers').value : null;
           this.tableau.consolante = this.reactiveForm.get('consolante').value;
           this.tableau.format = this.reactiveForm.get('format').value;
 
@@ -138,7 +138,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
       this.tableau.poules = this.reactiveForm.get('poules').value;
       this.tableau.nbPoules = this.tableau.poules ? this.reactiveForm.get('nbPoules').value : null;
-      this.tableau.maxNumberPlayers = this.tableau.poules ? this.reactiveForm.get('maxNumberPlayers').value : null;
+      this.tableau.maxNumberPlayers = this.reactiveForm.get('maxNumberPlayers').value ? this.reactiveForm.get('maxNumberPlayers').value : null;
       this.tableau.consolante = this.reactiveForm.get('consolante').value;
       this.tableau.format = this.reactiveForm.get('format').value;
 

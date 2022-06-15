@@ -1,9 +1,9 @@
 export const formats: string[] = ['simple', 'double'];
 
 export const statuts: any[] = [
-  { libelle: 'En attente', value: 0 },
-  { libelle: 'Démarré', value: 1 },
-  { libelle: 'Terminé', value: 2 }
+  { libelle: 'Pointage', value: 0 },
+  { libelle: 'Tableau démarré', value: 1 },
+  { libelle: 'Tableau terminé', value: 2 }
 ];
 
 export const categoriesAge: any[] = [
