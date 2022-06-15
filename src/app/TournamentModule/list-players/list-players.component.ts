@@ -224,7 +224,7 @@ export class ListPlayersComponent implements OnInit {
   moveAllPlayers(): void {
     const playersToDelete: Dialog = {
       id: this.hostableTableau._id,
-      action: 'Basculer tous les joueurs dans ce tableau et réinitialiser les poules ?',
+      action: 'Basculer tous les joueurs dans ce tableau et régénérer les poules ?',
       option: null,
       action_button_text: 'Basculer'
     };

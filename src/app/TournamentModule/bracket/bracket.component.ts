@@ -46,7 +46,7 @@ export class BracketComponent implements OnInit {
   generateBracket(): void {
     const accountToDelete: Dialog = {
       id: 'true',
-      action: 'Regénérer le tableau ?',
+      action: 'Régénérer le tableau ?',
       option: null,
       action_button_text: 'Régénérer'
     };
