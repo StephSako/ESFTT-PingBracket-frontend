@@ -1,0 +1,9 @@
+<h2 class="lobster center">Handicap</h2>
+
+<div class="center" *ngIf="listeJoueurs">
+  <p *ngFor="let match of showHandicap()" [outerHTML]="match"></p>
+</div>
+
+<div mat-dialog-actions class="center">
+  <button mat-button (click)="close()" color="primary">OK</button>
+</div>

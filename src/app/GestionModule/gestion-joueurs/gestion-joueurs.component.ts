@@ -49,22 +49,23 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   create(): void {
     this.joueurService.create(this.joueur.tableaux, this.joueur).subscribe(() => {
-        this.getAllJoueurs.emit();
-        this.tableauService.nbInscritsChange.emit();
+      this.getAllJoueurs.emit();
+      this.tableauService.nbInscritsChange.emit();
 
-        this.joueur.tableaux.forEach(tableau => {
-          if (tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
-        });
+      this.joueur.tableaux.forEach(tableau => {
+        if (tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
+      });
 
-        this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success','OK');
-        this.joueur = {
-          classement : null,
-          nom : null,
-          age: null,
-          _id : null,
-          buffet: null,
-          tableaux: []
-        }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
+      this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success','OK');
+      this.joueur = {
+        classement : null,
+        nom : null,
+        age: null,
+        _id : null,
+        buffet: null,
+        tableaux: []
+      };
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
 
   openEditDialog(joueur: JoueurInterface): void {

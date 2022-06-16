@@ -24,6 +24,7 @@ import { TournamentRoutingModule } from './tournament-routing.module';
 import { SharedModules } from '../SharedModule/shared.modules';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { HandicapComponent } from './poule/handicap/handicap.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ListPlayersComponent,
     PouleComponent,
     BracketComponent,
-    BinomeComponent
+    BinomeComponent,
+    HandicapComponent
   ],
   imports: [
     RouterModule,

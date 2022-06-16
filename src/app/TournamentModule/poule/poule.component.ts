@@ -9,6 +9,8 @@ import { TableauService } from '../../Service/tableau.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { HandicapComponent } from './handicap/handicap.component';
 
 @Component({
   selector: 'app-poule',
@@ -33,7 +35,7 @@ export class PouleComponent implements OnInit {
   private tableauxEditionSubscription: Subscription;
 
   constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
-    private gestionService: TableauService, private notifyService: NotifyService,) { }
+    private gestionService: TableauService, private notifyService: NotifyService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -85,5 +87,14 @@ export class PouleComponent implements OnInit {
         return (index > 0 ? '<br>' : '') + participant.nom;
       }).join('');
     }
+  }
+
+  openMatchesHandicap(listeJoueurs: JoueurInterface[]): void {
+    this.dialog.open(HandicapComponent, {
+      width: '50%',
+      data: {
+        listeJoueurs
+      }
+    });
   }
 }

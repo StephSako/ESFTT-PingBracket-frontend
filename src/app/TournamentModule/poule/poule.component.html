@@ -7,10 +7,18 @@
   <div fxLayout="row wrap">
     <div [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'" *ngFor="let poule of poules; let indexList = index">
       <mat-card class="mat-elevation-z8">
-        <h2 class="lobster center">
-          <mat-icon *ngIf="poule.locked" class="locked">check_circle</mat-icon>
-          Poule n°{{indexList+1}}
-        </h2>
+
+        <div style="display: flex; justify-content: space-between;">
+          <p></p>
+          <h2 class="lobster">
+            <mat-icon *ngIf="poule.locked" class="locked">check_circle</mat-icon>
+            Poule n°{{indexList+1}}
+          </h2>
+          <button color="primary" (click)="openMatchesHandicap(poules[indexList].participants)" mat-icon-button>
+            <mat-icon>format_list_numbered</mat-icon>
+          </button>
+        </div>
+
 
         <div
           cdkDropList
