@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { NgttTournament } from 'ng-tournament-tree';
 import { TableauInterface } from '../../Interface/Tableau';
@@ -26,13 +26,14 @@ export class BracketComponent implements OnInit {
     maxNumberPlayers: null,
     age_minimum: null,
     is_launched: null,
-    nbPoules: null
+    nbPoules: null,
+    handicap: null
   };
   spinnerShown: boolean;
   idTableau: string;
   public bracket: NgttTournament;
 
-  constructor(private tournoiService: BracketService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog,
+  constructor(private tournoiService: BracketService, private route: ActivatedRoute, private dialog: MatDialog,
               private snackBar: MatSnackBar, private notifyService: NotifyService) { }
 
   ngOnInit(): void {

@@ -30,8 +30,10 @@ export class TableauComponent implements OnInit {
     consolante: null,
     maxNumberPlayers: null,
     age_minimum: null,
-    nbPoules: null
+    nbPoules: null,
+    handicap: null
   };
+
   // Input variables
   poules: PouleInterface[] = [];
   binomes: BinomeInterface[] = [];

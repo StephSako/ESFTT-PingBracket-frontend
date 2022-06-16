@@ -29,7 +29,8 @@ export class PouleComponent implements OnInit {
     consolante: null,
     maxNumberPlayers: null,
     age_minimum: null,
-    nbPoules: null
+    nbPoules: null,
+    handicap: null
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
   private tableauxEditionSubscription: Subscription;

@@ -1,5 +1,5 @@
 <div class="ngtt__match-wrapper">
-  <ng-container *ngFor="let joueur of match.joueurs">
+  <ng-container *ngFor="let joueur of match.joueurs; let index = index;">
     <div fxLayout="row">
       <div id="finale" *ngIf="match.joueurs.length === 2 && !(!match.joueurs[0].winner && !match.joueurs[1].winner) && match.round === 1">
         <mat-icon id="yellow" *ngIf="match.id === 1 && joueur.winner" matSuffix>emoji_events</mat-icon>
@@ -10,7 +10,16 @@
 
       <div class="ngtt__team-wrapper">
         <mat-chip-list *ngIf="joueur._id">
-          <mat-chip [disabled]="match.joueurs.length === 1 || tableau.is_launched === 2" (click)="setWinner(match, joueur._id._id)" [color]="getColor(match, joueur)" [class]="'ngtt__team-title ' + isClickable(match)">{{getName(joueur._id)}}</mat-chip>
+          <mat-chip
+            [disabled]="match.joueurs.length === 1 || tableau.is_launched === 2"
+            (click)="setWinner(match, joueur._id._id)"
+            [color]="getColor(match, joueur)"
+            [class]="'ngtt__team-title ' + isClickable(match)">
+              {{getName(joueur._id)}}
+            </mat-chip>
+            <span class="handicap" *ngIf="tableau.handicap && matchHasTwoPlayers(match.joueurs)">
+              <b>{{ getHandicap(match.joueurs[0]._id.classement, match.joueurs[1]._id.classement)[index] }}</b>
+            </span>
         </mat-chip-list>
       </div>
     </div>

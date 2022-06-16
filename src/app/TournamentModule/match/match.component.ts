@@ -3,6 +3,7 @@ import { BracketService } from '../../Service/bracket.service';
 import { TableauInterface } from '../../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
+import { HandicapService } from 'src/app/Service/handicap.service';
 
 @Component({
   selector: 'app-match',
@@ -23,10 +24,11 @@ export class MatchComponent implements OnInit {
     consolante: null,
     maxNumberPlayers: null,
     age_minimum: null,
-    nbPoules: null
+    nbPoules: null,
+    handicap: null
   };
 
-  constructor(private tournoiService: BracketService, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
+  constructor(private tournoiService: BracketService, private snackBar: MatSnackBar, private notifyService: NotifyService, private readonly handicapService: HandicapService) {}
 
   ngOnInit(): void {}
 
@@ -62,6 +64,14 @@ export class MatchComponent implements OnInit {
   }
 
   formatGetName(name_s: string): string {
-    return (name_s.length > 30) ? name_s.substring(0, 27) + '...' : name_s;
+    return (name_s.length > 30 && this.tableau.format === 'double') ? name_s.substring(0, 27) + '...' : name_s;
+  }
+
+  getHandicap(joueur1: number, joueur2: number) {
+    return this.handicapService.calculHandicap(joueur1, joueur2);
+  }
+
+  matchHasTwoPlayers(joueurs): boolean {
+    return joueurs.length === 2 && joueurs.every((j: any) => j.hasOwnProperty('_id'));
   }
 }

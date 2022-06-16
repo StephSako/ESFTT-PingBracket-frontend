@@ -37,6 +37,7 @@ export class EditTableauComponent implements OnInit {
       format: new FormControl(this.tableau.format),
       is_launched: new FormControl(this.tableau.is_launched),
       consolante: new FormControl(this.tableau.consolante),
+      handicap: new FormControl(this.tableau.handicap),
       nbPoules: new FormControl(this.tableau.poules ? this.tableau.nbPoules : 2),
       age_minimum: new FormControl(this.tableau.age_minimum),
       maxNumberPlayers: new FormControl(this.tableau.maxNumberPlayers),
@@ -95,6 +96,7 @@ export class EditTableauComponent implements OnInit {
           this.tableau.maxNumberPlayers = this.reactiveForm.get('maxNumberPlayers').value ? this.reactiveForm.get('maxNumberPlayers').value : null;
           this.tableau.consolante = this.reactiveForm.get('consolante').value;
           this.tableau.format = this.reactiveForm.get('format').value;
+          this.tableau.handicap = this.reactiveForm.get('handicap').value;
 
           this.tableauService.edit(this.tableau).subscribe(() => {
             if (consolanteEdited) {
@@ -141,6 +143,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.maxNumberPlayers = this.reactiveForm.get('maxNumberPlayers').value ? this.reactiveForm.get('maxNumberPlayers').value : null;
       this.tableau.consolante = this.reactiveForm.get('consolante').value;
       this.tableau.format = this.reactiveForm.get('format').value;
+      this.tableau.handicap = this.reactiveForm.get('handicap').value;
 
       this.tableauService.edit(this.tableau).subscribe(() => {
         if (poulesEdited && this.tableau.poules) this.generatePoules(this.tableau);

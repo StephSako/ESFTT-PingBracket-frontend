@@ -33,7 +33,8 @@ export class ListPlayersComponent implements OnInit {
     consolante: null,
     maxNumberPlayers: null,
     age_minimum: null,
-    nbPoules: null
+    nbPoules: null,
+    handicap: null
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];

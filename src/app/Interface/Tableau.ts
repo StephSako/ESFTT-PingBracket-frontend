@@ -4,6 +4,7 @@ export interface TableauInterface {
   format: string;
   poules: boolean;
   consolante: boolean;
+  handicap: boolean;
   is_launched: number;
   maxNumberPlayers: number;
   age_minimum: number;

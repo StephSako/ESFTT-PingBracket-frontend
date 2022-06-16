@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'maxNumberPlayers', 'poules', 'nbPoules', 'consolante', 'inscrits', 'statut', 'edit', 'unsubscribe_all', 'delete'];
+  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'maxNumberPlayers', 'handicap', 'poules', 'nbPoules', 'consolante', 'inscrits', 'statut', 'edit', 'unsubscribe_all', 'delete'];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
   nbInscritsEventEmitter: Subscription;
@@ -33,7 +33,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     consolante: null,
     maxNumberPlayers: 2,
     age_minimum: null,
-    nbPoules: 2
+    nbPoules: 2,
+    handicap: null
   };
 
   constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
@@ -82,7 +83,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
             consolante: null,
             maxNumberPlayers: 2,
             age_minimum: null,
-            nbPoules: 2
+            nbPoules: 2,
+            handicap: null
           };
           this.getAllTableaux();
           this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 'OK');
