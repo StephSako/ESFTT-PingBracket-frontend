@@ -39,10 +39,10 @@ export class EditStockComponent implements OnInit {
   editStock(): void {
     this.stock.label = this.reactiveForm.get('label').value;
     this.stock.stock = this.reactiveForm.get('stock').value;
-    this.stockService.edit(this.stock).subscribe(result =>
-      this.notifyService.notifyUser(result.message, this.snackBar, 'success','OK'), err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.stockService.edit(this.stock).subscribe(
+      result => this.notifyService.notifyUser(result.message, this.snackBar, 'success','OK'),
+      err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK')
+    );
   }
 
   isModified(): boolean {

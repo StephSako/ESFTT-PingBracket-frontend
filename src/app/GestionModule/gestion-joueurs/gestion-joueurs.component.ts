@@ -20,7 +20,7 @@ import { TableauService } from '../../Service/tableau.service';
 export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['nom', 'classement', 'age', 'tableaux', 'buffet', 'edit', 'delete'];
+  displayedColumns: string[] = ['pointage', 'nom', 'classement', 'age', 'tableaux', 'buffet', 'edit', 'delete'];
   @Input() allJoueurs: JoueurInterface[] = [];
   private tableauxEventEmitter: Subscription;
 
@@ -29,6 +29,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     age: null,
     classement: null,
     buffet: null,
+    pointage: false,
     _id: null,
     tableaux: []
   };
@@ -63,7 +64,8 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
         age: null,
         _id : null,
         buffet: null,
-        tableaux: []
+        tableaux: [],
+        pointage: false
       };
     }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
@@ -116,5 +118,12 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tableauxEventEmitter.unsubscribe();
+  }
+
+  pointerPlayer(joueur: JoueurInterface): void {
+    this.joueurService.pointerPlayer(joueur).subscribe(res => {
+      joueur.pointage = !joueur.pointage;
+      this.notifyService.notifyUser(res, this.snackBar, 'success','OK');
+    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error','OK'));
   }
 }

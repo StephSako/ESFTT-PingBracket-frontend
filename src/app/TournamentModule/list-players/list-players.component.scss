@@ -2,6 +2,16 @@ h2.second_h2 {
   margin-bottom: 8px;
 }
 
+td {
+  &.pointage_KO {
+    color: grey
+  }
+
+  &.pointage_OK {
+    color: green
+  }
+}
+
 button.unsubscribeAll {
   margin-bottom: 18px;
 }

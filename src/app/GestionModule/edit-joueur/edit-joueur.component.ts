@@ -28,7 +28,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
     classement: null,
     buffet: null,
     _id: null,
-    tableaux: null
+    tableaux: null,
+    pointage: null
   };
   createModeInput = false;
   private tableauxSubscription: Subscription;

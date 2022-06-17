@@ -14,6 +14,15 @@
 
     <table mat-table *ngIf="allJoueurs" [dataSource]="allJoueurs">
 
+      <ng-container matColumnDef="pointage">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let joueur">
+          <mat-icon class="timer" (click)="pointerPlayer(joueur)" [ngClass]="{'pointage_KO': !joueur.pointage, 'pointage_OK': joueur.pointage}">
+            {{ joueur.pointage ? 'watch_later' : 'schedule' }}
+          </mat-icon>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>
         <td mat-cell *matCellDef="let joueur">{{joueur.nom}}</td>

@@ -60,7 +60,8 @@ export class FormulaireComponent implements OnInit {
     nom: null,
     buffet: true,
     age: null,
-    _id: null
+    _id: null,
+    pointage: false
   };
   public listeJoueurs: JoueurInterface[] = [];
   public dataSource = new MatTableDataSource<JoueurInterface>([]);
@@ -118,7 +119,8 @@ export class FormulaireComponent implements OnInit {
       nom: null,
       buffet: true,
       age: null,
-      _id: null
+      _id: null,
+      pointage: false
     };
     this.listeJoueurs.push($item);
     this.dataSource.data = this.listeJoueurs;

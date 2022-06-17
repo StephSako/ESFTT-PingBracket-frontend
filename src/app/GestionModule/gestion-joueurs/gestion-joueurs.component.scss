@@ -1,0 +1,12 @@
+mat-icon.timer {
+  vertical-align: middle;
+  cursor: pointer;
+
+  &.pointage_KO {
+    color: grey
+  }
+
+  &.pointage_OK {
+    color: green
+  }
+}

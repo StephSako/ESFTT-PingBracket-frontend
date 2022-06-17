@@ -60,7 +60,8 @@ export class ListPlayersComponent implements OnInit {
         buffet: null,
         classement: null,
         _id: null,
-        tableaux: null
+        tableaux: null,
+        pointage: null
       };
 
       this.getTableau(this.router.url.split('/').pop());
@@ -135,6 +136,7 @@ export class ListPlayersComponent implements OnInit {
         nom : null,
         _id : null,
         buffet: null,
+        pointage: false,
         tableaux: null
       };
       if (this.tableau.poules && this.tableau.format === 'simple') this.generatePoules.emit();

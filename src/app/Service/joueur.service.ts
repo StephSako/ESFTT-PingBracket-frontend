@@ -53,4 +53,8 @@ export class JoueurService {
   public moveAllPlayers(previousTableauId: string, newTableauId: string): Observable<any> {
     return this.http.put(this.baseURL + 'move', {previousTableauId, newTableauId});
   }
+
+  public pointerPlayer(joueur: JoueurInterface): Observable<any> {
+    return this.http.put(this.baseURL + `pointer/${joueur._id}`, { pointage: !joueur.pointage });
+  }
 }

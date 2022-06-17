@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { TableauInterface } from '../../Interface/Tableau';
 import { TableauService } from '../../Service/tableau.service';
-import { JoueurService } from '../../Service/joueur.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
@@ -22,14 +21,15 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     buffet: null,
     age: null,
     _id: null,
-    tableaux: null
+    tableaux: null,
+    pointage: null
   };
   tableaux: TableauInterface[];
   private tableauxSubscription: Subscription;
   private tableauxEventEmitter: Subscription;
 
-  constructor(private route: ActivatedRoute, private tableauService: TableauService, private joueurService: JoueurService,
-              public dialog: MatDialog, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
+  constructor(private route: ActivatedRoute, private tableauService: TableauService, private notifyService: NotifyService,
+              public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
