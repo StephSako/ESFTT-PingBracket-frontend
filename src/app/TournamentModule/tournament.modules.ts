@@ -25,6 +25,7 @@ import { SharedModules } from '../SharedModule/shared.modules';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HandicapComponent } from './poule/handicap/handicap.component';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { HandicapComponent } from './poule/handicap/handicap.component';
     MatTabsModule,
     FormsModule,
     TournamentRoutingModule,
-    SharedModules
+    SharedModules,
+    MatSortModule
   ]
 })
 export class TournamentModules {}

@@ -44,27 +44,29 @@
       </div>
     </div>
 
-    <table mat-table [dataSource]="listJoueurs" *ngIf="listJoueurs.length">
+    <table mat-table [dataSource]="dataSource" [hidden]="!listJoueurs.length" matSort (matSortChange)="showChapeau($event)">
 
       <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef>Nom</th>
-        <td mat-cell *matCellDef="let joueur" [ngClass]="{'pointage_KO': !joueur.pointage, 'pointage_OK': joueur.pointage}">{{joueur.nom}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
+        <td [class]="isChapeauHaut(i)" mat-cell *matCellDef="let joueur; let i = index;" [ngClass]="{'pointage_KO': !joueur.pointage, 'pointage_OK': joueur.pointage}">{{joueur.nom}}</td>
       </ng-container>
 
       <ng-container matColumnDef="classement">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Classement</span></th>
-        <td mat-cell *matCellDef="let joueur"><span class="center">{{joueur.classement}}</span></td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Classement
+        </th>
+        <td [class]="isChapeauHaut(i)" mat-cell *matCellDef="let joueur; let i = index;">{{joueur.classement}}</td>
       </ng-container>
 
       <ng-container *ngIf="tableau.age_minimum !== null" matColumnDef="age">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Âge</span></th>
-        <td mat-cell *matCellDef="let joueur"><span class="center">{{joueur.age}}</span></td>
+        <th mat-header-cell *matHeaderCellDef>Âge</th>
+        <td mat-cell *matCellDef="let joueur">{{joueur.age}}</td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">
-          <button [disabled]="tableau.is_launched !== 0"  (click)="unsubscribe(joueur)" class="center" mat-raised-button color="warn">Désinscrire</button>
+          <button [disabled]="tableau.is_launched !== 0"  (click)="unsubscribe(joueur)" mat-raised-button color="warn">Désinscrire</button>
         </td>
       </ng-container>
 

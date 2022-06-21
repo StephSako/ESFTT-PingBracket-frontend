@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { JoueurService } from '../../Service/joueur.service';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,8 @@ import { BinomeService } from '../../Service/binome.service';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-players',
@@ -44,9 +46,12 @@ export class ListPlayersComponent implements OnInit {
   optionsListJoueurs: Observable<JoueurInterface[]>;
   showAutocomplete = false;
   private tableauxEditionSubscription: Subscription;
+  dataSource = new MatTableDataSource(this.listJoueurs);
+  showChapeauColors: boolean = false;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
   @Output() getSubscribedUnassignedPlayers: EventEmitter<any> = new EventEmitter();
+  @ViewChild(MatSort) sort = new MatSort();
 
   constructor(private joueurService: JoueurService, public dialog: MatDialog, private poulesService: PoulesService, private router: Router,
               private route: ActivatedRoute, private snackBar: MatSnackBar, private notifyService: NotifyService,
@@ -97,7 +102,11 @@ export class ListPlayersComponent implements OnInit {
   }
 
   getAllPlayers(): void {
-    this.joueurService.getTableauPlayers(this.tableau._id).subscribe(joueurs => this.listJoueurs = joueurs, err => {
+    this.joueurService.getTableauPlayers(this.tableau._id).subscribe(joueurs => {
+      this.listJoueurs = joueurs;
+      this.dataSource = new MatTableDataSource(joueurs);
+      this.dataSource.sort = this.sort;
+    }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
   }
@@ -272,5 +281,17 @@ export class ListPlayersComponent implements OnInit {
     }, err => {
       this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
     });
+  }
+
+  showChapeau(sortState: Sort) {
+    this.showChapeauColors = sortState.active === 'classement' && sortState.direction == 'desc';
+  }
+
+  isChapeauHaut(i: number): string {
+    if (this.showChapeauColors) {
+      let listJoueursLength = (this.listJoueurs.length % 2 ? this.listJoueurs.length/2 : (this.listJoueurs.length/2) + 0.5);
+      return i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut';
+    }
+    return '';
   }
 }
