@@ -72,9 +72,6 @@ export class BracketComponent implements OnInit {
     this.tournoiService.getBracket(this.idTableau, this.phase).subscribe(matches => {
       this.bracket = matches;
       this.spinnerShown = false;
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
   }
-
 }

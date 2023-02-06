@@ -18,7 +18,6 @@
         <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
           <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-icon matSuffix>title</mat-icon>
               <mat-label>NOM Prénom *</mat-label>
               <input name="nom" [(ngModel)]="joueurItem.nom" matInput>
             </mat-form-field>
@@ -26,7 +25,6 @@
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-icon matSuffix>bar_chart</mat-icon>
               <mat-label>Classement mensuel</mat-label>
               <input name="classement" [(ngModel)]="joueurItem.classement" type="number" min="0" max="2000" matInput>
             </mat-form-field>
@@ -34,7 +32,6 @@
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-icon matSuffix>today</mat-icon>
               <mat-label>Âge</mat-label>
               <input (input)="typing(joueurItem)" name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="99" matInput>
             </mat-form-field>
@@ -42,7 +39,6 @@
 
           <div fxFlex="30%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-icon matSuffix>dns</mat-icon>
               <mat-label>Tableaux *</mat-label>
               <mat-select name="tableaux" [(ngModel)]="joueurItem.tableaux" multiple>
                 <mat-option [disabled]="clickable(tableau, joueurItem.age)" *ngFor="let tableau of tableaux" [value]="tableau"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></mat-option>
@@ -51,7 +47,7 @@
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
-            <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action" color="warn">Supprimer</button>
+            <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action delete" color="warn">Effacer ce joueur</button>
           </div>
         </div>
       </form>
@@ -61,7 +57,6 @@
       <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
         <div fxFlex="25%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-icon matSuffix>title</mat-icon>
             <mat-label>NOM Prénom *</mat-label>
             <input name="nom" [(ngModel)]="joueurData.nom" matInput>
           </mat-form-field>
@@ -69,7 +64,6 @@
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-icon matSuffix>bar_chart</mat-icon>
             <mat-label>Classement</mat-label>
             <input name="classement" [(ngModel)]="joueurData.classement" type="number" min="0" max="2000" matInput>
           </mat-form-field>
@@ -77,7 +71,6 @@
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge</mat-label>
             <input (input)="typing(joueurData)" name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="99" matInput>
           </mat-form-field>
@@ -85,7 +78,6 @@
 
         <div fxFlex="30%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-icon matSuffix>dns</mat-icon>
             <mat-label>Tableaux *</mat-label>
             <mat-select name="tableaux" [(ngModel)]="joueurData.tableaux" multiple>
               <mat-option [disabled]="clickable(tableau, joueurData.age)" *ngFor="let tableau of tableaux" [value]="tableau"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></mat-option>

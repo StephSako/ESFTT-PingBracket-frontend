@@ -11,11 +11,11 @@
       <div class="ngtt__team-wrapper">
         <mat-chip-list *ngIf="joueur._id">
           <mat-chip
-            [disabled]="match.joueurs.length === 1 || tableau.is_launched === 2"
+            [disabled]="match.joueurs.length === 1 || tableau.is_launched === 2 || disabledMatChip"
             (click)="setWinner(match, joueur._id._id)"
             [color]="getColor(match, joueur)"
             [class]="'ngtt__team-title ' + isClickable(match)">
-              {{getName(joueur._id)}}
+              {{ getName(joueur._id) }}
             </mat-chip>
             <span class="handicap" *ngIf="tableau.handicap && matchHasTwoPlayers(match.joueurs)">
               <b>{{ getHandicap(match.joueurs[0]._id.classement, match.joueurs[1]._id.classement)[index] }}</b>

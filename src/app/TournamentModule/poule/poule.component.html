@@ -14,7 +14,7 @@
             <mat-icon *ngIf="poule.locked" class="locked">check_circle</mat-icon>
             Poule n°{{indexList+1}}
           </h2>
-          <button class="btn-handicap" color="primary" *ngIf="tableau.handicap" (click)="openMatchesHandicap(poules[indexList].participants)" mat-icon-button>
+          <button title="Fiche des handicaps" class="btn-handicap" color="primary" *ngIf="tableau.handicap" (click)="openMatchesHandicap(poules[indexList].participants)" mat-icon-button>
             <mat-icon>format_list_numbered</mat-icon>
           </button>
         </div>

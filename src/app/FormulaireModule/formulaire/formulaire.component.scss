@@ -40,7 +40,7 @@ i {
 }
 
 p.alerte_info {
-  color: #3f51b5;
+  color: #2f386b;
 
   & i {
     vertical-align: middle;
@@ -56,7 +56,7 @@ p.alerte_pill {
   background-color: #ff6565;
   color: white;
   width: fit-content;
-  padding: 5px;
+  padding: 7px;
 }
 
 .shorten {
@@ -67,9 +67,13 @@ p.alerte_pill {
   width: 100%;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 959px) {
   .btn_action {
     margin-top: 0;
+
+    &.delete {
+      margin-bottom: 20px;
+    }
   }
 
   table {

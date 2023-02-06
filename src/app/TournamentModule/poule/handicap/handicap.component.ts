@@ -29,7 +29,7 @@ export class HandicapComponent implements OnInit {
           return match.match(regex);
         }).length === 0) {
           matchesPoules.push(joueur1.nom + ' ' + joueur1.classement + ' pts <b>' + this.handicapService.calculHandicap(JSON.parse(JSON.stringify(joueur1.classement)), JSON.parse(JSON.stringify(joueur2.classement)))[0] +
-          '</b> VS <b>' + this.handicapService.calculHandicap(JSON.parse(JSON.stringify(joueur1.classement)), JSON.parse(JSON.stringify(joueur2.classement)))[1] + '</b> ' + ' ' + joueur2.classement + ' pts ' + joueur2.nom + '<br>');
+          '</b> vs <b>' + this.handicapService.calculHandicap(JSON.parse(JSON.stringify(joueur1.classement)), JSON.parse(JSON.stringify(joueur2.classement)))[1] + '</b> ' + ' ' + joueur2.classement + ' pts ' + joueur2.nom + '<br>');
         }
 
       });

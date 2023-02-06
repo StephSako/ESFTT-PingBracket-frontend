@@ -27,26 +27,30 @@ export class MatchComponent implements OnInit {
     nbPoules: null,
     handicap: null
   };
+  public disabledMatChip: boolean = false;
 
   constructor(private tournoiService: BracketService, private snackBar: MatSnackBar, private notifyService: NotifyService, private readonly handicapService: HandicapService) {}
 
   ngOnInit(): void {}
 
-  setWinner(match: any, winnerId: string): void{
-    if (match.joueurs.length !== 1 && this.tableau.is_launched !== 2) {
-      if (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])){
-        const looserId = (match.joueurs.length === 2 && (match.joueurs[0]._id && match.joueurs[1]._id) ?
-          match.joueurs.filter(joueur => joueur._id._id !== winnerId)[0]._id._id : null);
+  setWinner(match: any, winnerId: string): void {
+    if (match.joueurs.length > 1 && this.tableau.is_launched !== 2 && !match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])) {
+      this.disabledMatChip = true;
+      const looserId = (match.joueurs.length === 2 && (match.joueurs[0]._id && match.joueurs[1]._id) ?
+        match.joueurs.filter(joueur => joueur._id._id !== winnerId)[0]._id._id : null);
         this.tournoiService.edit(this.tableau._id, match.round, match.id, winnerId, looserId, this.phase)
-          .subscribe(() => this.updateBracket.emit(), err => {
-            this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-          });
-      }
+        .subscribe(() => {
+          this.updateBracket.emit();
+          this.disabledMatChip = false;
+        }, err => {
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
+          this.disabledMatChip = false;
+        });
     }
   }
 
   isClickable(match: any): string {
-    return (!match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1]) ? 'clickable' : '');
+    return (match.joueurs.length > 1 && !match.joueurs[0].winner && ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1]) ? 'clickable' : '');
   }
 
   getColor(match: any, joueur: any): string {
