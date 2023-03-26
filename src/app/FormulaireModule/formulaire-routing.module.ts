@@ -6,13 +6,11 @@ import { ConfirmFormulaireComponent } from './confirm-formulaire/confirm-formula
 
 const routes: Routes = [
   { path: '', component: FormulaireComponent, pathMatch: 'full' },
-  { path: 'submitted', component: ConfirmFormulaireComponent }
+  { path: 'submitted', component: ConfirmFormulaireComponent },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class FormulaireRoutingModule { }
+export class FormulaireRoutingModule {}

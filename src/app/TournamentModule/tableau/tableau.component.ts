@@ -17,10 +17,9 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-tableau',
   templateUrl: './tableau.component.html',
-  styleUrls: ['./tableau.component.scss']
+  styleUrls: ['./tableau.component.scss'],
 })
 export class TableauComponent implements OnInit {
-
   tableau: TableauInterface = {
     _id: null,
     format: null,
@@ -31,7 +30,7 @@ export class TableauComponent implements OnInit {
     maxNumberPlayers: null,
     age_minimum: null,
     nbPoules: null,
-    handicap: null
+    handicap: null,
   };
 
   // Input variables
@@ -39,9 +38,17 @@ export class TableauComponent implements OnInit {
   binomes: BinomeInterface[] = [];
   subscribedUnassignedPlayers: JoueurInterface[] = [];
 
-  constructor(private tableauService: TableauService, private route: ActivatedRoute, private router: Router, private snackBar: MatSnackBar,
-              private notifyService: NotifyService, private pouleService: PoulesService, private binomeService: BinomeService,
-              private joueurService: JoueurService, public dialog: MatDialog) {}
+  constructor(
+    private tableauService: TableauService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private notifyService: NotifyService,
+    private pouleService: PoulesService,
+    private binomeService: BinomeService,
+    private joueurService: JoueurService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -50,57 +57,106 @@ export class TableauComponent implements OnInit {
   }
 
   getTableau(idTableau: string): void {
-    this.tableauService.getTableau(idTableau).subscribe(tableau => this.tableau = tableau, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-      this.router.navigate(['/error-page']);
-    });
+    this.tableauService.getTableau(idTableau).subscribe(
+      (tableau) => (this.tableau = tableau),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+        this.router.navigate(['/error-page']);
+      }
+    );
   }
 
   changeStateTableau(): void {
     const stateToChange: Dialog = {
       id: 'true',
-      action: this.tableau.is_launched === 1 ? 'Terminer le tableau ?' : 'Lancer les ' + (this.tableau.poules ? 'poules' : 'phases finales') + ' ?',
-      option: this.tableau.is_launched === 0 ? 'Aucun joueur ne pourra plus s\'inscrire ni se désinscrire au tableau' + (this.tableau.format === 'double' ? ' et les binômes seront bloqués' : '') : 'Les ' + (this.tableau.poules ? 'poules' : 'binômes') + ' et phases finales seront validé' + (this.tableau.poules ? 'e' : '') +'s et bloqué' + (this.tableau.poules ? 'e' : '') +'s',
-      action_button_text: this.tableau.is_launched === 1 ? 'Terminer' : 'Lancer'
+      action:
+        this.tableau.is_launched === 1
+          ? 'Terminer le tableau ?'
+          : 'Lancer les ' +
+            (this.tableau.poules ? 'poules' : 'phases finales') +
+            ' ?',
+      option:
+        this.tableau.is_launched === 0
+          ? "Aucun joueur ne pourra plus s'inscrire ni se désinscrire au tableau" +
+            (this.tableau.format === 'double'
+              ? ' et les binômes seront bloqués'
+              : '')
+          : 'Les ' +
+            (this.tableau.poules ? 'poules' : 'binômes') +
+            ' et phases finales seront validé' +
+            (this.tableau.poules ? 'e' : '') +
+            's et bloqué' +
+            (this.tableau.poules ? 'e' : '') +
+            's',
+      action_button_text:
+        this.tableau.is_launched === 1 ? 'Terminer' : 'Lancer',
     };
 
-    this.dialog.open(DialogComponent, {
-      width: '55%',
-      data: stateToChange
-    }).afterClosed().subscribe(response => {
-      if (response){
-        this.tableau.is_launched++;
-        this.tableauService.tableauxEditSource.next(this.tableau);
-        this.tableauService.changeLaunchState(this.tableau).subscribe(() => {
-          if (this.tableau.poules && this.tableau.is_launched === 2) this.pouleService.validateAllPoules(this.tableau._id).subscribe();
-        }, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-        });
-      }
-    });
+    this.dialog
+      .open(DialogComponent, {
+        width: '55%',
+        data: stateToChange,
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response) {
+          this.tableau.is_launched++;
+          this.tableauService.tableauxEditSource.next(this.tableau);
+          this.tableauService.changeLaunchState(this.tableau).subscribe(
+            () => {
+              if (this.tableau.poules && this.tableau.is_launched === 2)
+                this.pouleService
+                  .validateAllPoules(this.tableau._id)
+                  .subscribe();
+            },
+            (err) => {
+              this.notifyService.notifyUser(
+                err.error,
+                this.snackBar,
+                'error',
+                'OK'
+              );
+            }
+          );
+        }
+      });
   }
 
   // Output functions
   getAllPoules(): void {
-    this.pouleService.getAll(this.tableau._id, this.tableau.format).subscribe(poules => this.poules = poules, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.pouleService.getAll(this.tableau._id, this.tableau.format).subscribe(
+      (poules) => (this.poules = poules),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   generatePoules(): void {
-    this.pouleService.generatePoules(this.tableau).subscribe(() => this.getAllPoules(), err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.pouleService.generatePoules(this.tableau).subscribe(
+      () => this.getAllPoules(),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   getAllBinomes(): void {
-    this.binomeService.getAll(this.tableau._id).subscribe(binomes => this.binomes = binomes, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.binomeService.getAll(this.tableau._id).subscribe(
+      (binomes) => (this.binomes = binomes),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   getSubscribedUnassignedPlayers(): void {
-    this.joueurService.getSubscribedUnassignedDouble(this.tableau._id).subscribe(joueurs => this.subscribedUnassignedPlayers = joueurs,
-      err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
+    this.joueurService
+      .getSubscribedUnassignedDouble(this.tableau._id)
+      .subscribe(
+        (joueurs) => (this.subscribedUnassignedPlayers = joueurs),
+        (err) =>
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+      );
   }
 }

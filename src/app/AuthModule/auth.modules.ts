@@ -13,10 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
-  declarations: [
-    FormAccountComponent,
-    LoginComponent
-  ],
+  declarations: [FormAccountComponent, LoginComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -28,7 +25,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     MatButtonModule,
     FlexLayoutModule,
     AuthRoutingModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
 export class AuthModules {}

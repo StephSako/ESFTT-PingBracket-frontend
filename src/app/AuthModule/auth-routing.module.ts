@@ -4,13 +4,11 @@ import { UnauthGuardService } from '../unauth-guard.service';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent, canActivate: [UnauthGuardService] }
+  { path: '', component: LoginComponent, canActivate: [UnauthGuardService] },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

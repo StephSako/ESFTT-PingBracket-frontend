@@ -1,5 +1,14 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import { PlayerCountPerTableau, TableauInterface } from '../../Interface/Tableau';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  PlayerCountPerTableau,
+  TableauInterface,
+} from '../../Interface/Tableau';
 import { TableauService } from '../../Service/tableau.service';
 import { NotifyService } from '../../Service/notify.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,12 +23,25 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-gestion-tableaux',
   templateUrl: './gestion-tableaux.component.html',
-  styleUrls: ['./gestion-tableaux.component.scss']
+  styleUrls: ['./gestion-tableaux.component.scss'],
 })
 export class GestionTableauxComponent implements OnInit, OnDestroy {
-
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['nom', 'age_minimum', 'format', 'maxNumberPlayers', 'handicap', 'poules', 'nbPoules', 'consolante', 'inscrits', 'statut', 'edit', 'unsubscribe_all', 'delete'];
+  displayedColumns: string[] = [
+    'nom',
+    'age_minimum',
+    'format',
+    'maxNumberPlayers',
+    'handicap',
+    'poules',
+    'nbPoules',
+    'consolante',
+    'inscrits',
+    'statut',
+    'edit',
+    'unsubscribe_all',
+    'delete',
+  ];
   allTableaux: TableauInterface[] = [];
   playerCountPerTableau: PlayerCountPerTableau[] = null;
   nbInscritsEventEmitter: Subscription;
@@ -34,15 +56,24 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     maxNumberPlayers: 2,
     age_minimum: null,
     nbPoules: 2,
-    handicap: null
+    handicap: null,
   };
 
-  constructor(private tableauService: TableauService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog, private poulesService: PoulesService, private binomeService: BinomeService) {}
+  constructor(
+    private tableauService: TableauService,
+    private notifyService: NotifyService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private poulesService: PoulesService,
+    private binomeService: BinomeService
+  ) {}
 
   ngOnInit(): void {
     this.getAllTableaux();
-    this.nbInscritsEventEmitter = this.tableauService.nbInscritsChange.subscribe(() => this.getPlayerCountPerTableau());
+    this.nbInscritsEventEmitter =
+      this.tableauService.nbInscritsChange.subscribe(() =>
+        this.getPlayerCountPerTableau()
+      );
   }
 
   ngOnDestroy(): void {
@@ -50,55 +81,72 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   getAllTableaux(): void {
-    this.tableauService.getAllTableaux().subscribe(allTableaux => {
-      this.allTableaux = allTableaux;
-      this.tableauService.tableauxSource.next(allTableaux);
-      this.getPlayerCountPerTableau();
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.tableauService.getAllTableaux().subscribe(
+      (allTableaux) => {
+        this.allTableaux = allTableaux;
+        this.tableauService.tableauxSource.next(allTableaux);
+        this.getPlayerCountPerTableau();
+      },
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   getPlayerCountPerTableau(): void {
     this.tableauService.getPlayerCountPerTableau().subscribe(
-      playerCountPerTableau => this.playerCountPerTableau = playerCountPerTableau, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-      });
+      (playerCountPerTableau) =>
+        (this.playerCountPerTableau = playerCountPerTableau),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   showPlayerCountPerTableau(tableau_id: string): number {
-    return (tableau_id && this.playerCountPerTableau && this.playerCountPerTableau[tableau_id] ?
-      this.playerCountPerTableau[tableau_id] : 0);
+    return tableau_id &&
+      this.playerCountPerTableau &&
+      this.playerCountPerTableau[tableau_id]
+      ? this.playerCountPerTableau[tableau_id]
+      : 0;
   }
 
   create(): void {
     if (!this.tableau.poules) this.tableau.nbPoules = null;
-    this.tableauService.create(this.tableau).subscribe(() => {
-          this.tableau = {
-            format : null,
-            nom : null,
-            poules: null,
-            is_launched: null,
-            _id : null,
-            consolante: null,
-            maxNumberPlayers: 2,
-            age_minimum: null,
-            nbPoules: 2,
-            handicap: null
-          };
-          this.getAllTableaux();
-          this.notifyService.notifyUser('Tableau créé', this.snackBar, 'success', 'OK');
-        }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-      });
+    this.tableauService.create(this.tableau).subscribe(
+      () => {
+        this.tableau = {
+          format: null,
+          nom: null,
+          poules: null,
+          is_launched: null,
+          _id: null,
+          consolante: null,
+          maxNumberPlayers: 2,
+          age_minimum: null,
+          nbPoules: 2,
+          handicap: null,
+        };
+        this.getAllTableaux();
+        this.notifyService.notifyUser(
+          'Tableau créé',
+          this.snackBar,
+          'success',
+          'OK'
+        );
+      },
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   openEditDialog(tableau: TableauInterface): void {
     this.dialog.open(EditTableauComponent, {
       width: '80%',
       data: {
-        tableau
-      }
+        tableau,
+      },
     });
   }
 
@@ -107,74 +155,124 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       id: tableau._id,
       action: 'Désinscrire tous les joueurs du tableau ?',
       option: null,
-      action_button_text: 'Désinscrire'
+      action_button_text: 'Désinscrire',
     };
 
-    this.dialog.open(DialogComponent, {
-      width: '45%',
-      data: playersToDelete
-    }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau) this.unsubscribeAllPlayers(tableau);
-    });
+    this.dialog
+      .open(DialogComponent, {
+        width: '45%',
+        data: playersToDelete,
+      })
+      .afterClosed()
+      .subscribe((id_tableau) => {
+        if (id_tableau) this.unsubscribeAllPlayers(tableau);
+      });
   }
 
   delete(tableau: TableauInterface): void {
     const tableauToDelete: Dialog = {
       id: tableau._id,
       action: 'Supprimer le tableau ?',
-      option: 'Les poules, binômes et brackets seront supprimés, et les joueurs désinscris.',
-      action_button_text: 'Supprimer'
+      option:
+        'Les poules, binômes et brackets seront supprimés, et les joueurs désinscris.',
+      action_button_text: 'Supprimer',
     };
 
-    this.dialog.open(DialogComponent, {
-      width: '55%',
-      data: tableauToDelete
-    }).afterClosed().subscribe(id_tableau => {
-      if (id_tableau){ this.tableauService.delete(tableau).subscribe(() => {
-        this.getAllTableaux();
-        this.getAllJoueurs.emit();
-        this.notifyService.notifyUser('Tableau supprimé', this.snackBar, 'success','OK');
-      }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-      }); }
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.dialog
+      .open(DialogComponent, {
+        width: '55%',
+        data: tableauToDelete,
+      })
+      .afterClosed()
+      .subscribe(
+        (id_tableau) => {
+          if (id_tableau) {
+            this.tableauService.delete(tableau).subscribe(
+              () => {
+                this.getAllTableaux();
+                this.getAllJoueurs.emit();
+                this.notifyService.notifyUser(
+                  'Tableau supprimé',
+                  this.snackBar,
+                  'success',
+                  'OK'
+                );
+              },
+              (err) => {
+                this.notifyService.notifyUser(
+                  err.error,
+                  this.snackBar,
+                  'error',
+                  'OK'
+                );
+              }
+            );
+          }
+        },
+        (err) => {
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+        }
+      );
   }
 
   unsubscribeAllPlayers(tableau: TableauInterface): void {
-    this.tableauService.unsubscribeAllPlayers(tableau._id).subscribe(() => {
-      this.getAllTableaux();
-      this.getAllJoueurs.emit();
-      if (tableau.format === 'double') this.removeAllBinomes(tableau);
-      else if (tableau.poules) this.generatePoules(tableau);
-      this.notifyService.notifyUser('Tous les joueurs ont été désinscris', this.snackBar, 'success','OK');
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.tableauService.unsubscribeAllPlayers(tableau._id).subscribe(
+      () => {
+        this.getAllTableaux();
+        this.getAllJoueurs.emit();
+        if (tableau.format === 'double') this.removeAllBinomes(tableau);
+        else if (tableau.poules) this.generatePoules(tableau);
+        this.notifyService.notifyUser(
+          'Tous les joueurs ont été désinscris',
+          this.snackBar,
+          'success',
+          'OK'
+        );
+      },
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   generatePoules(tableau: TableauInterface): void {
-    this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.poulesService.generatePoules(tableau).subscribe(
+      () => {},
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   removeAllBinomes(tableau: TableauInterface): void {
-    this.binomeService.removeAll(tableau._id).subscribe(() => {
-      if (tableau.poules) this.generatePoules(tableau);
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.binomeService.removeAll(tableau._id).subscribe(
+      () => {
+        if (tableau.poules) this.generatePoules(tableau);
+      },
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   isInvalidTableau(): boolean {
-    return (this.tableau.nom !== null && this.tableau.nom.trim() !== ''
-      && ((this.tableau.poules && this.tableau.nbPoules !== null) || !this.tableau.poules)
-      && ((this.tableau.format === 'double' && this.tableau.maxNumberPlayers !== null) || this.tableau.format === 'simple'));
+    return (
+      this.tableau.nom !== null &&
+      this.tableau.nom.trim() !== '' &&
+      ((this.tableau.poules && this.tableau.nbPoules !== null) ||
+        !this.tableau.poules) &&
+      ((this.tableau.format === 'double' &&
+        this.tableau.maxNumberPlayers !== null) ||
+        this.tableau.format === 'simple')
+    );
   }
 
   showAgeMinimum(age_minimum: number): string {
-    return (age_minimum ? age_minimum + ' ans' : '');
+    return age_minimum ? age_minimum + ' ans' : '';
   }
 }

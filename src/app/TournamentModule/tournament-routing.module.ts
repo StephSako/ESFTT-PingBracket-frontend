@@ -5,13 +5,15 @@ import { TableauComponent } from './tableau/tableau.component';
 import { AuthGuardService } from '../auth-guard.service';
 
 const routes: Routes = [
-  { path: 'tableau/:tableau', component: TableauComponent, canActivate: [AuthGuardService] }
+  {
+    path: 'tableau/:tableau',
+    component: TableauComponent,
+    canActivate: [AuthGuardService],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class TournamentRoutingModule { }
+export class TournamentRoutingModule {}

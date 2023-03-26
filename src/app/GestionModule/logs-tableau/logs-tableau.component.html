@@ -12,7 +12,7 @@
 
       <ng-container matColumnDef="logMessage">
         <th mat-header-cell *matHeaderCellDef>Logs d'inscriptions</th>
-        <td mat-cell *matCellDef="let logMessage"><span style="white-space: pre-line;" [innerHTML]="logMessage.logMessage"></span></td>
+        <td mat-cell *matCellDef="let logMessage"><span class="summary" [innerHTML]="logMessage.logMessage"></span></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="['position', 'logMessage']"></tr>

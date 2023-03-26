@@ -141,7 +141,7 @@
 
     <p class="alerte_info">
       <mat-icon aria-hidden="false">info</mat-icon>
-      <i> Appuyez sur la touche <strong>'Entrée'</strong> de votre clavier pour ajouter un plat à votre liste</i>
+      <i> Écriver un plat, puis appuyez sur la touche <strong>Entrée</strong> de votre clavier pour l'ajouter à la liste, et ainsi de suite pour chaque plat.</i>
     </p>
 
     <mat-form-field class="chip-list" appearance="outline">
@@ -170,7 +170,7 @@
     <h2 class="lobster">3. Validez le formulaire !</h2>
 
     <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">Un joueur est en cours d'inscription et n'a pas été validé.<br><i>(Rappel : cliquez sur le bouton bleu <b>Valider le joueur</b> pour inscrire chaque participant.)</i></p>
-    <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="submit()">
+    <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="openConfirmModale()">
       <mat-icon *ngIf="spinnerShown">
         <mat-spinner color="accent" [diameter]="20"></mat-spinner>
       </mat-icon>

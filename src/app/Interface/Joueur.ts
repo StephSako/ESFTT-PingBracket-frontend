@@ -1,4 +1,4 @@
-import {TableauInterface} from './Tableau';
+import { TableauInterface } from './Tableau';
 
 export interface JoueurInterface {
   _id: string;

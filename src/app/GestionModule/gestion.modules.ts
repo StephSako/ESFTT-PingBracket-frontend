@@ -44,7 +44,7 @@ import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
     FormTableauComponent,
     EditTableauComponent,
     GestionFormulaireComponent,
-    LogsTableauComponent
+    LogsTableauComponent,
   ],
   imports: [
     RouterModule,
@@ -66,7 +66,7 @@ import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
     MatAutocompleteModule,
     GestionRoutingModule,
     SharedModules,
-    AngularEditorModule
-  ]
+    AngularEditorModule,
+  ],
 })
 export class GestionModules {}

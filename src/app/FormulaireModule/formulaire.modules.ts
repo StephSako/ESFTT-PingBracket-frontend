@@ -12,17 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { NoSanitizePipe } from './no-sanitize.pipe';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModules } from '../SharedModule/shared.modules';
 
 @NgModule({
-  declarations: [
-    FormulaireComponent,
-    ConfirmFormulaireComponent,
-    NoSanitizePipe
-  ],
+  declarations: [FormulaireComponent, ConfirmFormulaireComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -38,8 +34,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSelectModule,
     MatButtonModule,
     MatTableModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SharedModules,
   ],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class FormulaireModules {}

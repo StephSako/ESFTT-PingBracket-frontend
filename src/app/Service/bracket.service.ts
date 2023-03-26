@@ -4,25 +4,43 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BracketService {
-
   private baseURL = environment.endpointNodeApi + 'bracket/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getBracket(tableau: string, phase: string): Observable<any> {
     return this.http.get(`${this.baseURL}${tableau}/${phase}`);
   }
 
-  public edit(tableau: string, actualRound: number, actualIdMatch: number, winnerId: string, looserId: string, phase: string):
-    Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${tableau}/${phase}/${actualRound}/${actualIdMatch}`, {winnerId, looserId});
+  public edit(
+    tableau: string,
+    actualRound: number,
+    actualIdMatch: number,
+    winnerId: string,
+    looserId: string,
+    phase: string
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseURL}edit/${tableau}/${phase}/${actualRound}/${actualIdMatch}`,
+      { winnerId, looserId }
+    );
   }
 
-  public generateBracket(bracket: string, format: string, phase: string, poules: boolean, maxNumberPlayers: number): Observable<any> {
-    return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, { format, poules, maxNumberPlayers });
+  public generateBracket(
+    bracket: string,
+    format: string,
+    phase: string,
+    poules: boolean,
+    maxNumberPlayers: number
+  ): Observable<any> {
+    return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, {
+      format,
+      poules,
+      maxNumberPlayers,
+    });
   }
 
   public deleteBracket(idTableau: string): Observable<any> {

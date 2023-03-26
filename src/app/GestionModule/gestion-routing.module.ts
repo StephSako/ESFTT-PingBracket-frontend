@@ -5,13 +5,11 @@ import { GestionComponent } from './gestion/gestion.component';
 import { AuthGuardService } from '../auth-guard.service';
 
 const routes: Routes = [
-  { path: '', component: GestionComponent, canActivate: [AuthGuardService] }
+  { path: '', component: GestionComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class GestionRoutingModule { }
+export class GestionRoutingModule {}

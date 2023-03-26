@@ -11,8 +11,8 @@ import { UnauthGuardService } from './unauth-guard.service';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorInterceptor,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CoreModules {}

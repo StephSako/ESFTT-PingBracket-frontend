@@ -5,13 +5,12 @@ import { BuffetInterface } from '../Interface/Buffet';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BuffetService {
-
   private baseURL = environment.endpointNodeApi + 'buffet/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getBuffet(): Observable<any> {
     return this.http.get(this.baseURL);

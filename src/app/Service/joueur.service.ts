@@ -2,17 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JoueurInterface } from '../Interface/Joueur';
-import {TableauInterface} from '../Interface/Tableau';
+import { TableauInterface } from '../Interface/Tableau';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JoueurService {
-
   private baseURL = environment.endpointNodeApi + 'joueur/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getPlayer(id_joueur: string): Observable<any> {
     return this.http.get(`${this.baseURL}${id_joueur}`);
@@ -30,7 +29,10 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}unsubscribed/${tableau}`);
   }
 
-  public create(tableaux: TableauInterface[], joueur: JoueurInterface): Observable<any> {
+  public create(
+    tableaux: TableauInterface[],
+    joueur: JoueurInterface
+  ): Observable<any> {
     return this.http.post(`${this.baseURL}create`, { joueur, tableaux });
   }
 
@@ -38,8 +40,14 @@ export class JoueurService {
     return this.http.put(`${this.baseURL}edit/${joueur._id}`, joueur);
   }
 
-  public unsubscribe(tableau: TableauInterface, id_joueur: string): Observable<any> {
-    return this.http.put(`${this.baseURL}unsubscribe/${id_joueur}/${tableau._id}`, { format: tableau.format });
+  public unsubscribe(
+    tableau: TableauInterface,
+    id_joueur: string
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseURL}unsubscribe/${id_joueur}/${tableau._id}`,
+      { format: tableau.format }
+    );
   }
 
   public delete(id_joueur: string): Observable<any> {
@@ -50,11 +58,19 @@ export class JoueurService {
     return this.http.get(`${this.baseURL}unassigned/${tableau}`);
   }
 
-  public moveAllPlayers(previousTableauId: string, newTableauId: string): Observable<any> {
-    return this.http.put(this.baseURL + 'move', {previousTableauId, newTableauId});
+  public moveAllPlayers(
+    previousTableauId: string,
+    newTableauId: string
+  ): Observable<any> {
+    return this.http.put(this.baseURL + 'move', {
+      previousTableauId,
+      newTableauId,
+    });
   }
 
   public pointerPlayer(joueur: JoueurInterface): Observable<any> {
-    return this.http.put(this.baseURL + `pointer/${joueur._id}`, { pointage: !joueur.pointage });
+    return this.http.put(this.baseURL + `pointer/${joueur._id}`, {
+      pointage: !joueur.pointage,
+    });
   }
 }

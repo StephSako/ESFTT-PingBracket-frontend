@@ -5,19 +5,17 @@ import { StockInterface } from '../../Interface/Stock';
 @Component({
   selector: 'app-form-stock',
   templateUrl: './form-stock.component.html',
-  styleUrls: ['./form-stock.component.scss']
+  styleUrls: ['./form-stock.component.scss'],
 })
 export class FormStockComponent implements OnInit {
-
   @Input() stock: StockInterface = {
     label: null,
     _id: null,
-    stock: null
+    stock: null,
   };
   stockControl = new FormControl('');
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
-
+  ngOnInit(): void {}
 }

@@ -7,10 +7,9 @@ import { NotifyService } from '../../Service/notify.service';
 @Component({
   selector: 'app-gestion-account',
   templateUrl: './gestion-account.component.html',
-  styleUrls: ['./gestion-account.component.scss']
+  styleUrls: ['./gestion-account.component.scss'],
 })
 export class GestionAccountComponent implements OnInit {
-
   username: string = null;
   actualPasswordHidden: string = null;
   actualPassword: string = null;
@@ -22,7 +21,11 @@ export class GestionAccountComponent implements OnInit {
   newPasswordControl = new FormControl('', [Validators.required]);
   newPasswordCheckControl = new FormControl('', [Validators.required]);
 
-  constructor(private accountService: AccountService, private snackBar: MatSnackBar, private notifyService: NotifyService) { }
+  constructor(
+    private accountService: AccountService,
+    private snackBar: MatSnackBar,
+    private notifyService: NotifyService
+  ) {}
 
   ngOnInit(): void {
     this.getCredentials();
@@ -34,43 +37,79 @@ export class GestionAccountComponent implements OnInit {
   }
 
   getErrorMessageLogin(): string {
-    if (this.loginControl.hasError('required')) { return 'Identifiant obligatoire'; }
+    if (this.loginControl.hasError('required')) {
+      return 'Identifiant obligatoire';
+    }
   }
 
   getErrorMessageActualPassword(): string {
-    if (this.actualPasswordControl.hasError('required')) { return 'Ancien mot de passe obligatoire'; }
+    if (this.actualPasswordControl.hasError('required')) {
+      return 'Ancien mot de passe obligatoire';
+    }
   }
 
   getErrorMessageNewPassword(): string {
-    if (this.newPasswordControl.hasError('required')) { return 'Nouveau mot de passe obligatoire'; }
+    if (this.newPasswordControl.hasError('required')) {
+      return 'Nouveau mot de passe obligatoire';
+    }
   }
 
   getErrorMessageNewPasswordCheck(): string {
-    if (this.newPasswordCheckControl.hasError('required')) { return 'Retapez le nouveau mot de passe'; }
+    if (this.newPasswordCheckControl.hasError('required')) {
+      return 'Retapez le nouveau mot de passe';
+    }
   }
 
   editUsername(): void {
-    this.accountService.editUsername(this.username).subscribe(() => {
-      this.notifyService.notifyUser('Identifiant modifié', this.snackBar, 'success','OK');
-    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
+    this.accountService.editUsername(this.username).subscribe(
+      () => {
+        this.notifyService.notifyUser(
+          'Identifiant modifié',
+          this.snackBar,
+          'success',
+          'OK'
+        );
+      },
+      (err) =>
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+    );
   }
 
   editPassword(): void {
     if (this.newPassword !== this.newPasswordCheck) {
       this.newPassword = '';
       this.newPasswordCheck = '';
-      this.notifyService.notifyUser('Les mots de passe ne correspondent pas',
-        this.snackBar, 'error','OK');
+      this.notifyService.notifyUser(
+        'Les mots de passe ne correspondent pas',
+        this.snackBar,
+        'error',
+        'OK'
+      );
     } else {
-      this.accountService.editPassword(this.actualPassword, this.newPassword).subscribe(() => {
-        this.notifyService.notifyUser('Mot de passe modifié', this.snackBar, 'success','OK');
-        this.newPasswordControl.reset();
-        this.newPasswordCheckControl.reset();
-        this.actualPasswordControl.reset();
-      }, err => {
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-        this.actualPassword = '';
-      });
+      this.accountService
+        .editPassword(this.actualPassword, this.newPassword)
+        .subscribe(
+          () => {
+            this.notifyService.notifyUser(
+              'Mot de passe modifié',
+              this.snackBar,
+              'success',
+              'OK'
+            );
+            this.newPasswordControl.reset();
+            this.newPasswordCheckControl.reset();
+            this.actualPasswordControl.reset();
+          },
+          (err) => {
+            this.notifyService.notifyUser(
+              err.error,
+              this.snackBar,
+              'error',
+              'OK'
+            );
+            this.actualPassword = '';
+          }
+        );
     }
   }
 
@@ -79,7 +118,13 @@ export class GestionAccountComponent implements OnInit {
   }
 
   isFilled(): boolean {
-    return (this.newPassword != null && this.newPasswordCheck != null && this.actualPassword != null &&
-      this.newPassword.trim() !== '' && this.newPasswordCheck.trim() !== '' && this.actualPassword.trim() !== '');
+    return (
+      this.newPassword != null &&
+      this.newPasswordCheck != null &&
+      this.actualPassword != null &&
+      this.newPassword.trim() !== '' &&
+      this.newPasswordCheck.trim() !== '' &&
+      this.actualPassword.trim() !== ''
+    );
   }
 }

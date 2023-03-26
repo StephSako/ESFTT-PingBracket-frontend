@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AccountService } from './account.service';
@@ -12,23 +12,28 @@ import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptorInterceptor implements HttpInterceptor {
-
   constructor(private authService: AccountService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     request = request.clone({
       setHeaders: {
-        Authorization: (this.authService.getToken() ? this.authService.getToken() : environment.anonymousHeader)
-      }
+        Authorization: this.authService.getToken()
+          ? this.authService.getToken()
+          : environment.anonymousHeader,
+      },
     });
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status && err.status === 401) {
-          err.error = "Votre session est terminée";
+          err.error = 'Votre session est terminée';
           this.authService.logout();
         }
         throw err;
       }),
-      map((res: any) => res));
+      map((res: any) => res)
+    );
   }
 }

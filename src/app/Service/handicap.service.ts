@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HandicapService {
-
-  constructor() { }
+  constructor() {}
 
   /**
    * Calculer les points d'handicap entre deux classements
@@ -13,8 +12,8 @@ export class HandicapService {
    * @param joueur2
    */
   calculHandicap(joueur1: number, joueur2: number): any[] {
-    let isLoisir1 = (joueur1 === 0 && joueur2 !== 0);
-    let isLoisir2 = (joueur2 === 0 && joueur1 !== 0);
+    let isLoisir1 = joueur1 === 0 && joueur2 !== 0;
+    let isLoisir2 = joueur2 === 0 && joueur1 !== 0;
 
     if (isLoisir1) joueur1 = 500;
     else if (isLoisir2) joueur2 = 500;
@@ -38,11 +37,12 @@ export class HandicapService {
     }
 
     if ((isLoisir1 && !inverser) || (isLoisir2 && inverser)) handicap[0]++;
-    else if ((isLoisir2 && !inverser) || (isLoisir1 && inverser))  handicap[1]++;
+    else if ((isLoisir2 && !inverser) || (isLoisir1 && inverser)) handicap[1]++;
 
     if (inverser) handicap.reverse();
-    return handicap.map(handicapItem => {
-      handicapItem = (handicapItem > 0) ? '+' + handicapItem : String(handicapItem)
+    return handicap.map((handicapItem) => {
+      handicapItem =
+        handicapItem > 0 ? '+' + handicapItem : String(handicapItem);
       return handicapItem;
     });
   }

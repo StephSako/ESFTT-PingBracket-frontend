@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   anonymousHeader: 'ANONYMOUSLY_LOGGED',
-  endpointNodeApi: 'http://localhost:3000/api/'
+  endpointNodeApi: 'http://localhost:3000/api/',
 };
 
 /*

@@ -3,19 +3,21 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { TokenPayloadLogin, TokenResponse, UserInterface } from '../Interface/Account';
+import {
+  TokenPayloadLogin,
+  TokenResponse,
+  UserInterface,
+} from '../Interface/Account';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AccountService {
-
   private baseURL = environment.endpointNodeApi + 'account/';
   private token: string;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   private saveToken(token: string): void {
     this.token = token;
@@ -26,36 +28,46 @@ export class AccountService {
   public login(user: TokenPayloadLogin): Observable<any> {
     return this.http.post(this.baseURL + 'login', user).pipe(
       map((data: TokenResponse) => {
-        if (data.token) this.saveToken(data.token)
+        if (data.token) this.saveToken(data.token);
         return data;
       }),
-      catchError(err => throwError(err))
+      catchError((err) => throwError(err))
     );
   }
 
   public editUsername(username: string): Observable<any> {
     const _id = this.getUserDetails()._id;
-    const URL = this.http.put(`${this.baseURL}edit/username`, {username, _id});
+    const URL = this.http.put(`${this.baseURL}edit/username`, {
+      username,
+      _id,
+    });
 
     return URL.pipe(
       map((data: TokenResponse) => {
         if (data.token) this.saveToken(data.token);
         return data;
       }),
-      catchError(err => throwError(err))
+      catchError((err) => throwError(err))
     );
   }
 
-  public editPassword(actualPassword: string, newPassword: string): Observable<any> {
+  public editPassword(
+    actualPassword: string,
+    newPassword: string
+  ): Observable<any> {
     const _id = this.getUserDetails()._id;
-    const URL = this.http.put(`${this.baseURL}edit/password`, {actualPassword, newPassword, _id});
+    const URL = this.http.put(`${this.baseURL}edit/password`, {
+      actualPassword,
+      newPassword,
+      _id,
+    });
 
     return URL.pipe(
       map((data: TokenResponse) => {
         if (data.token) this.saveToken(data.token);
         return data;
       }),
-      catchError(err => throwError(err))
+      catchError((err) => throwError(err))
     );
   }
 
@@ -88,6 +100,6 @@ export class AccountService {
   public launchAutoLogout(): void {
     setTimeout(() => {
       this.logout();
-    }, ((this.getUserDetails().exp * 1000) - Date.now()))
+    }, this.getUserDetails().exp * 1000 - Date.now());
   }
 }

@@ -1,6 +1,14 @@
 h1 {
   padding-top: 20px;
   padding-bottom: 20px;
+
+  &.form_modale {
+    padding-bottom: 5px;
+  }
+}
+
+h1, p {
+  margin: 0;
 }
 
 h2 {

@@ -5,13 +5,12 @@ import { environment } from '../../environments/environment';
 import { LogsInterface } from '../Interface/LogsInterface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LogsService {
-
   private baseURL = environment.endpointNodeApi + 'logs/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getAll(): Observable<any> {
     return this.http.get(this.baseURL);

@@ -15,10 +15,9 @@ import { HandicapComponent } from './handicap/handicap.component';
 @Component({
   selector: 'app-poule',
   templateUrl: './poule.component.html',
-  styleUrls: ['./poule.component.scss']
+  styleUrls: ['./poule.component.scss'],
 })
 export class PouleComponent implements OnInit {
-
   @Input() poules: PouleInterface[] = [];
   tableau: TableauInterface = {
     format: null,
@@ -30,29 +29,39 @@ export class PouleComponent implements OnInit {
     maxNumberPlayers: null,
     age_minimum: null,
     nbPoules: null,
-    handicap: null
+    handicap: null,
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
   private tableauxEditionSubscription: Subscription;
 
-  constructor(private pouleService: PoulesService, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar,
-    private gestionService: TableauService, private notifyService: NotifyService, public dialog: MatDialog) { }
+  constructor(
+    private pouleService: PoulesService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private gestionService: TableauService,
+    private notifyService: NotifyService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.getTableau();
 
-      this.tableauxEditionSubscription = this.gestionService.tableauxEditSource.subscribe((tableau: TableauInterface) => {
-        this.tableau = tableau;
+      this.tableauxEditionSubscription =
+        this.gestionService.tableauxEditSource.subscribe(
+          (tableau: TableauInterface) => {
+            this.tableau = tableau;
 
-        // On change le visuel des toutes les poules si le tableau est terminé
-        if (this.tableau.is_launched === 2) {
-          this.poules = this.poules.map(poule => {
-            poule.locked = true;
-            return poule;
-          })
-        }
-      });
+            // On change le visuel des toutes les poules si le tableau est terminé
+            if (this.tableau.is_launched === 2) {
+              this.poules = this.poules.map((poule) => {
+                poule.locked = true;
+                return poule;
+              });
+            }
+          }
+        );
     });
   }
 
@@ -61,32 +70,49 @@ export class PouleComponent implements OnInit {
   }
 
   getTableau(): void {
-    this.gestionService.getTableau(this.router.url.split('/').pop()).subscribe(tableau => {
-      this.tableau = tableau;
-      this.getAllPoules.emit();
-    });
+    this.gestionService
+      .getTableau(this.router.url.split('/').pop())
+      .subscribe((tableau) => {
+        this.tableau = tableau;
+        this.getAllPoules.emit();
+      });
   }
 
-  editPoule(event: CdkDragDrop<[id: JoueurInterface], any>, id_poule: string): void {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.pouleService.editPoule(id_poule, event.container.data).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+  editPoule(
+    event: CdkDragDrop<[id: JoueurInterface], any>,
+    id_poule: string
+  ): void {
+    moveItemInArray(
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+    this.pouleService.editPoule(id_poule, event.container.data).subscribe(
+      () => {},
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   setStatus(poule: PouleInterface): void {
-    this.pouleService.setStatus(poule).subscribe(() => this.getAllPoules.emit(), err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.pouleService.setStatus(poule).subscribe(
+      () => this.getAllPoules.emit(),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   showParticipant(objectRef: string, participant_s): string {
-    if (objectRef === 'Joueurs'){
+    if (objectRef === 'Joueurs') {
       return participant_s.nom + ' - ' + participant_s.classement + ' points';
     } else if (objectRef === 'Binomes') {
-      return participant_s.joueurs.map((participant, index) => {
-        return (index > 0 ? '<br>' : '') + participant.nom;
-      }).join('');
+      return participant_s.joueurs
+        .map((participant, index) => {
+          return (index > 0 ? '<br>' : '') + participant.nom;
+        })
+        .join('');
     }
   }
 
@@ -94,8 +120,8 @@ export class PouleComponent implements OnInit {
     this.dialog.open(HandicapComponent, {
       width: '50%',
       data: {
-        listeJoueurs
-      }
+        listeJoueurs,
+      },
     });
   }
 }

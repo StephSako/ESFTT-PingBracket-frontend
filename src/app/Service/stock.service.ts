@@ -5,13 +5,12 @@ import { StockInterface } from '../Interface/Stock';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StockService {
-
   private baseURL = environment.endpointNodeApi + 'stock/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getAllStock(): Observable<any> {
     return this.http.get(this.baseURL);
@@ -26,6 +25,6 @@ export class StockService {
   }
 
   public edit(stock: StockInterface): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${stock._id}`, {stock});
+    return this.http.put(`${this.baseURL}edit/${stock._id}`, { stock });
   }
 }

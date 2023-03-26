@@ -5,15 +5,14 @@ import { categoriesAge, formats } from '../../options-tableaux';
 @Component({
   selector: 'app-form-tableau',
   templateUrl: './form-tableau.component.html',
-  styleUrls: ['./form-tableau.component.scss']
+  styleUrls: ['./form-tableau.component.scss'],
 })
 export class FormTableauComponent implements OnInit {
-
   @Input() tableau: TableauInterface;
   formats: string[] = [];
   categoriesAge: any[] = [];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.formats = formats;

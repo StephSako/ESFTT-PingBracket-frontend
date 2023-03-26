@@ -27,7 +27,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HandicapComponent } from './poule/handicap/handicap.component';
 import { MatSortModule } from '@angular/material/sort';
 
-
 @NgModule({
   declarations: [
     MatchComponent,
@@ -36,7 +35,7 @@ import { MatSortModule } from '@angular/material/sort';
     PouleComponent,
     BracketComponent,
     BinomeComponent,
-    HandicapComponent
+    HandicapComponent,
   ],
   imports: [
     RouterModule,
@@ -60,7 +59,7 @@ import { MatSortModule } from '@angular/material/sort';
     FormsModule,
     TournamentRoutingModule,
     SharedModules,
-    MatSortModule
-  ]
+    MatSortModule,
+  ],
 })
 export class TournamentModules {}

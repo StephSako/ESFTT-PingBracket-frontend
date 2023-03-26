@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { JoueurService } from '../../Service/joueur.service';
 import { NotifyService } from '../../Service/notify.service';
@@ -15,12 +22,20 @@ import { TableauService } from '../../Service/tableau.service';
 @Component({
   selector: 'app-gestion-joueurs',
   templateUrl: './gestion-joueurs.component.html',
-  styleUrls: ['./gestion-joueurs.component.scss']
+  styleUrls: ['./gestion-joueurs.component.scss'],
 })
 export class GestionJoueursComponent implements OnInit, OnDestroy {
-
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['pointage', 'nom', 'classement', 'age', 'tableaux', 'buffet', 'edit', 'delete'];
+  displayedColumns: string[] = [
+    'pointage',
+    'nom',
+    'classement',
+    'age',
+    'tableaux',
+    'buffet',
+    'edit',
+    'delete',
+  ];
   @Input() allJoueurs: JoueurInterface[] = [];
   private tableauxEventEmitter: Subscription;
 
@@ -31,43 +46,68 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     buffet: null,
     pointage: false,
     _id: null,
-    tableaux: []
+    tableaux: [],
   };
 
-  constructor(private joueurService: JoueurService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog, private poulesService: PoulesService, private tableauService: TableauService) { }
+  constructor(
+    private joueurService: JoueurService,
+    private notifyService: NotifyService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private poulesService: PoulesService,
+    private tableauService: TableauService
+  ) {}
 
   ngOnInit(): void {
     this.getAllJoueurs.emit();
-    this.tableauxEventEmitter = this.tableauService.tableauxChange.subscribe(() => this.getAllJoueurs.emit());
+    this.tableauxEventEmitter = this.tableauService.tableauxChange.subscribe(
+      () => this.getAllJoueurs.emit()
+    );
   }
 
   generatePoules(tableau: TableauInterface): void {
-    this.poulesService.generatePoules(tableau).subscribe(() => {}, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.poulesService.generatePoules(tableau).subscribe(
+      () => {},
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   create(): void {
-    this.joueurService.create(this.joueur.tableaux, this.joueur).subscribe(() => {
-      this.getAllJoueurs.emit();
-      this.tableauService.nbInscritsChange.emit();
+    this.joueurService.create(this.joueur.tableaux, this.joueur).subscribe(
+      () => {
+        this.getAllJoueurs.emit();
+        this.tableauService.nbInscritsChange.emit();
 
-      this.joueur.tableaux.forEach(tableau => {
-        if (tableau.poules && tableau.format === 'simple' && tableau.is_launched === 0) this.generatePoules(tableau);
-      });
+        this.joueur.tableaux.forEach((tableau) => {
+          if (
+            tableau.poules &&
+            tableau.format === 'simple' &&
+            tableau.is_launched === 0
+          )
+            this.generatePoules(tableau);
+        });
 
-      this.notifyService.notifyUser('Joueur créé', this.snackBar, 'success','OK');
-      this.joueur = {
-        classement : null,
-        nom : null,
-        age: null,
-        _id : null,
-        buffet: null,
-        tableaux: [],
-        pointage: false
-      };
-    }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
+        this.notifyService.notifyUser(
+          'Joueur créé',
+          this.snackBar,
+          'success',
+          'OK'
+        );
+        this.joueur = {
+          classement: null,
+          nom: null,
+          age: null,
+          _id: null,
+          buffet: null,
+          tableaux: [],
+          pointage: false,
+        };
+      },
+      (err) =>
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+    );
   }
 
   openEditDialog(joueur: JoueurInterface): void {
@@ -75,8 +115,8 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
       width: '90%',
       data: {
         joueur,
-        createMode: false
-      }
+        createMode: false,
+      },
     });
   }
 
@@ -84,36 +124,64 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     const playerToDelete: Dialog = {
       id: joueur._id,
       action: 'Supprimer le joueur ?',
-      option: 'Les poules seront régénérées dans les tableaux auxquels il est inscrit. Régénérez manuellement les tableaux finaux.',
-      action_button_text: 'Supprimer'
+      option:
+        'Les poules seront régénérées dans les tableaux auxquels il est inscrit. Régénérez manuellement les tableaux finaux.',
+      action_button_text: 'Supprimer',
     };
 
-    this.dialog.open(DialogComponent, {
-      width: '55%',
-      data: playerToDelete
-    }).afterClosed().subscribe(id_joueur => {
-      if (id_joueur){
-        this.joueurService.delete(id_joueur).subscribe(() => {
-          this.getAllJoueurs.emit();
-          joueur.tableaux.forEach(tableau => {
-            if (tableau.poules && tableau.is_launched === 0) this.generatePoules(tableau);
-          });
+    this.dialog
+      .open(DialogComponent, {
+        width: '55%',
+        data: playerToDelete,
+      })
+      .afterClosed()
+      .subscribe(
+        (id_joueur) => {
+          if (id_joueur) {
+            this.joueurService.delete(id_joueur).subscribe(
+              () => {
+                this.getAllJoueurs.emit();
+                joueur.tableaux.forEach((tableau) => {
+                  if (tableau.poules && tableau.is_launched === 0)
+                    this.generatePoules(tableau);
+                });
 
-          this.tableauService.nbInscritsChange.emit();
-        }, err => {
-          this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-      }); }
-    }, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+                this.tableauService.nbInscritsChange.emit();
+              },
+              (err) => {
+                this.notifyService.notifyUser(
+                  err.error,
+                  this.snackBar,
+                  'error',
+                  'OK'
+                );
+              }
+            );
+          }
+        },
+        (err) => {
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+        }
+      );
   }
 
   isInvalidPlayer(): boolean {
-    return (this.joueur.nom !== null && this.joueur.nom.trim() !== '');
+    return this.joueur.nom !== null && this.joueur.nom.trim() !== '';
   }
 
   showTableauxPlayer(tableaux: TableauInterface[]): string {
-    return tableaux.map(tableau => tableau.nom + (tableau.age_minimum ? ' -' + tableau.age_minimum + ' ans' : '')).join(', ');
+    return tableaux
+      .map(
+        (tableau) =>
+          tableau.nom +
+          (tableau.age_minimum ? ' -' + tableau.age_minimum + ' ans' : '')
+      )
+      .join(', ');
   }
 
   ngOnDestroy(): void {
@@ -121,9 +189,12 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
   }
 
   pointerPlayer(joueur: JoueurInterface): void {
-    this.joueurService.pointerPlayer(joueur).subscribe(res => {
-      joueur.pointage = !joueur.pointage;
-      this.notifyService.notifyUser(res, this.snackBar, 'success','OK');
-    }, err => this.notifyService.notifyUser(err, this.snackBar, 'error','OK'));
+    this.joueurService.pointerPlayer(joueur).subscribe(
+      (res) => {
+        joueur.pointage = !joueur.pointage;
+        this.notifyService.notifyUser(res, this.snackBar, 'success', 'OK');
+      },
+      (err) => this.notifyService.notifyUser(err, this.snackBar, 'error', 'OK')
+    );
   }
 }

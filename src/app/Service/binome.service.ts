@@ -5,24 +5,35 @@ import { JoueurInterface } from '../Interface/Joueur';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BinomeService {
-
   private baseURL = environment.endpointNodeApi + 'binome/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getAll(tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}${tableau}`);
   }
 
-  public editBinome(oldIdBinome: string, newIdBinome: string, newPlayersList: [id: JoueurInterface], idJoueur: string): Observable<any> {
-    return this.http.put(`${this.baseURL}edit/${idJoueur}`, { oldIdBinome, newIdBinome, newPlayersList, idJoueur });
+  public editBinome(
+    oldIdBinome: string,
+    newIdBinome: string,
+    newPlayersList: [id: JoueurInterface],
+    idJoueur: string
+  ): Observable<any> {
+    return this.http.put(`${this.baseURL}edit/${idJoueur}`, {
+      oldIdBinome,
+      newIdBinome,
+      newPlayersList,
+      idJoueur,
+    });
   }
 
   public removePlayer(idBinome: string, idPlayer: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}remove_player/${idBinome}/${idPlayer}`);
+    return this.http.delete(
+      `${this.baseURL}remove_player/${idBinome}/${idPlayer}`
+    );
   }
 
   public removeAll(tableau: string): Observable<any> {

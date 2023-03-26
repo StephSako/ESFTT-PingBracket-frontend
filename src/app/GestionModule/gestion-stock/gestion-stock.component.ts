@@ -11,42 +11,58 @@ import { EditStockComponent } from '../edit-stock/edit-stock.component';
 @Component({
   selector: 'app-gestion-stock',
   templateUrl: './gestion-stock.component.html',
-  styleUrls: ['./gestion-stock.component.scss']
+  styleUrls: ['./gestion-stock.component.scss'],
 })
 export class GestionStockComponent implements OnInit {
-
   displayedColumns: string[] = ['label', 'stock', 'edit', 'delete'];
   allStocks: StockInterface[] = [];
 
   public stock: StockInterface = {
     _id: null,
     label: null,
-    stock: null
+    stock: null,
   };
 
-  constructor(private stockService: StockService, private notifyService: NotifyService, private snackBar: MatSnackBar,
-              public dialog: MatDialog) { }
+  constructor(
+    private stockService: StockService,
+    private notifyService: NotifyService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getAllStock();
   }
 
   getAllStock(): void {
-    this.stockService.getAllStock().subscribe(stocks => this.allStocks = stocks, err => {
-      this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK');
-    });
+    this.stockService.getAllStock().subscribe(
+      (stocks) => (this.allStocks = stocks),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   create(): void {
     if (this.stock.stock === null) this.stock.stock = 0;
-    this.stockService.create(this.stock).subscribe(result => {
-      this.getAllStock();
-      this.notifyService.notifyUser(result.message, this.snackBar, 'success','OK');
-      this.stock = {
-        stock: null,
-        label: null,
-        _id: null
-      }; }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
+    this.stockService.create(this.stock).subscribe(
+      (result) => {
+        this.getAllStock();
+        this.notifyService.notifyUser(
+          result.message,
+          this.snackBar,
+          'success',
+          'OK'
+        );
+        this.stock = {
+          stock: null,
+          label: null,
+          _id: null,
+        };
+      },
+      (err) =>
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+    );
   }
 
   openEditDialog(stock: StockInterface): void {
@@ -54,8 +70,8 @@ export class GestionStockComponent implements OnInit {
       width: '60%',
       data: {
         stock,
-        createMode: false
-      }
+        createMode: false,
+      },
     });
   }
 
@@ -64,22 +80,44 @@ export class GestionStockComponent implements OnInit {
       id: stock._id,
       action: 'Supprimer le stock ?',
       option: null,
-      action_button_text: 'Supprimer'
+      action_button_text: 'Supprimer',
     };
 
-    this.dialog.open(DialogComponent, {
-      width: '55%',
-      data: stockToDelete
-    }).afterClosed().subscribe(stock_id => {
-      if (stock_id){ this.stockService.delete(stock_id).subscribe(result => {
-        this.getAllStock();
-        this.notifyService.notifyUser(result.message, this.snackBar, 'error','OK');
-      }, err => this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK') ); }
-    }, err =>  this.notifyService.notifyUser(err.error, this.snackBar, 'error','OK'));
+    this.dialog
+      .open(DialogComponent, {
+        width: '55%',
+        data: stockToDelete,
+      })
+      .afterClosed()
+      .subscribe(
+        (stock_id) => {
+          if (stock_id) {
+            this.stockService.delete(stock_id).subscribe(
+              (result) => {
+                this.getAllStock();
+                this.notifyService.notifyUser(
+                  result.message,
+                  this.snackBar,
+                  'error',
+                  'OK'
+                );
+              },
+              (err) =>
+                this.notifyService.notifyUser(
+                  err.error,
+                  this.snackBar,
+                  'error',
+                  'OK'
+                )
+            );
+          }
+        },
+        (err) =>
+          this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+      );
   }
 
   isInvalidStock(): boolean {
-    return (this.stock.label !== null && this.stock.label.trim() !== '');
+    return this.stock.label !== null && this.stock.label.trim() !== '';
   }
-
 }

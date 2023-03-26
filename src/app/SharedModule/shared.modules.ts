@@ -10,13 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogComponent } from './dialog/dialog.component';
+import { NoSanitizePipe } from './no-sanitize.pipe';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  declarations: [
-    FormJoueurComponent,
-    DialogComponent
-  ],
+  declarations: [FormJoueurComponent, DialogComponent, NoSanitizePipe],
   imports: [
     CommonModule,
     MatIconModule,
@@ -28,10 +26,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
-  exports: [
-    FormJoueurComponent
-  ]
+  exports: [FormJoueurComponent, NoSanitizePipe],
 })
 export class SharedModules {}

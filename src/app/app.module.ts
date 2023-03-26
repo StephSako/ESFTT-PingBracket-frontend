@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TournamentModules } from './TournamentModule/tournament.modules';
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { WildcardModules } from './wildcard.modules';
 import { CoreModules } from './core.modules';
@@ -15,9 +15,7 @@ import { FormulaireModules } from './FormulaireModule/formulaire.modules';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -32,8 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
     TournamentModules,
     FormulaireModules,
     WildcardModules,
-    CoreModules
+    CoreModules,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
