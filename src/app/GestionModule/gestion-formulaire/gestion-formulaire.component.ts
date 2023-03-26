@@ -227,7 +227,9 @@ export class GestionFormulaireComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    if ((value || '').trim()) this.buffet.plats.push(value.trim());
+    if ((value || '').trim()) {
+      this.buffet.plats.push(value.trim());
+    }
     if (input) {
       input.value = '';
     }
@@ -235,6 +237,8 @@ export class GestionFormulaireComponent implements OnInit {
 
   remove(plat: string): void {
     const index = this.buffet.plats.indexOf(plat);
-    if (index >= 0) this.buffet.plats.splice(index, 1);
+    if (index >= 0) {
+      this.buffet.plats.splice(index, 1);
+    }
   }
 }

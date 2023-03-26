@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -28,7 +29,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './list-players.component.html',
   styleUrls: ['./list-players.component.scss'],
 })
-export class ListPlayersComponent implements OnInit {
+export class ListPlayersComponent implements OnInit, OnDestroy {
   displayedColumns: string[];
   hostableTableau: TableauInterface;
   tableau: TableauInterface = {
@@ -52,7 +53,7 @@ export class ListPlayersComponent implements OnInit {
   showAutocomplete = false;
   private tableauxEditionSubscription: Subscription;
   dataSource = new MatTableDataSource(this.listJoueurs);
-  showChapeauColors: boolean = false;
+  showChapeauColors = false;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
   @Output() getSubscribedUnassignedPlayers: EventEmitter<any> =
@@ -148,7 +149,9 @@ export class ListPlayersComponent implements OnInit {
           this.tableau.age_minimum !== null
             ? ['nom', 'classement', 'age', 'delete']
             : ['nom', 'classement', 'delete'];
-        if (this.tableau.age_minimum) this.getTableauxHostable();
+        if (this.tableau.age_minimum) {
+          this.getTableauxHostable();
+        }
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
@@ -186,8 +189,9 @@ export class ListPlayersComponent implements OnInit {
           pointage: false,
           tableaux: null,
         };
-        if (this.tableau.poules && this.tableau.format === 'simple')
+        if (this.tableau.poules && this.tableau.format === 'simple') {
           this.generatePoules.emit();
+        }
         if (this.tableau.format === 'double') {
           this.getAllBinomes.emit();
           this.getSubscribedUnassignedPlayers.emit();
@@ -204,7 +208,9 @@ export class ListPlayersComponent implements OnInit {
   unsubscribePlayer(joueur_id: string): void {
     this.joueurService.unsubscribe(this.tableau, joueur_id).subscribe(
       () => {
-        if (this.tableau.poules) this.generatePoules.emit();
+        if (this.tableau.poules) {
+          this.generatePoules.emit();
+        }
         if (this.tableau.format === 'double') {
           this.getAllBinomes.emit();
           this.getSubscribedUnassignedPlayers.emit();
@@ -223,7 +229,9 @@ export class ListPlayersComponent implements OnInit {
       () => {
         if (this.tableau.format === 'double') {
           this.removeAllBinomes();
-        } else if (this.tableau.poules) this.generatePoules.emit();
+        } else if (this.tableau.poules) {
+          this.generatePoules.emit();
+        }
         this.getAllPlayers();
         this.getUnsubscribedPlayers();
       },
@@ -313,7 +321,9 @@ export class ListPlayersComponent implements OnInit {
               () => {
                 this.getAllPlayers();
                 this.generateHostablePoules();
-                if (this.tableau.poules) this.generatePoules.emit();
+                if (this.tableau.poules) {
+                  this.generatePoules.emit();
+                }
                 if (this.tableau.format === 'double') {
                   this.getAllBinomes.emit();
                   this.getSubscribedUnassignedPlayers.emit();
@@ -357,7 +367,9 @@ export class ListPlayersComponent implements OnInit {
   removeAllBinomes(): void {
     this.binomeService.removeAll(this.tableau._id).subscribe(
       () => {
-        if (this.tableau.poules) this.generatePoules.emit();
+        if (this.tableau.poules) {
+          this.generatePoules.emit();
+        }
         if (this.tableau.format === 'double') {
           this.getAllBinomes.emit();
           this.getSubscribedUnassignedPlayers.emit();
@@ -369,14 +381,14 @@ export class ListPlayersComponent implements OnInit {
     );
   }
 
-  showChapeau(sortState: Sort) {
+  showChapeau(sortState: Sort): void {
     this.showChapeauColors =
-      sortState.active === 'classement' && sortState.direction == 'desc';
+      sortState.active === 'classement' && sortState.direction === 'desc';
   }
 
   isChapeauHaut(i: number): string {
     if (this.showChapeauColors) {
-      let listJoueursLength =
+      const listJoueursLength =
         this.listJoueurs.length % 2
           ? this.listJoueurs.length / 2
           : this.listJoueurs.length / 2 + 0.5;

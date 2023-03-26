@@ -98,8 +98,9 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
           tableau.poules &&
           tableau.format === 'simple' &&
           tableau.is_launched === 0
-        )
+        ) {
           this.generatePoules(tableau);
+        }
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
@@ -269,8 +270,9 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
                             tableau.format === 'simple' &&
                             tableau.format === 'simple' &&
                             tableau.is_launched === 0
-                          )
+                          ) {
                             this.generatePoules(tableau);
+                          }
                         },
                         (err) => {
                           this.notifyService.notifyUser(

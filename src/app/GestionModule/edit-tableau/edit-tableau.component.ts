@@ -231,8 +231,9 @@ export class EditTableauComponent implements OnInit {
 
       this.tableauService.edit(this.tableau).subscribe(
         () => {
-          if (poulesEdited && this.tableau.poules)
+          if (poulesEdited && this.tableau.poules) {
             this.generatePoules(this.tableau);
+          }
           this.tableauService.tableauxChange.emit();
         },
         (err) => this.emitErrorSnackbar(err)
@@ -269,9 +270,10 @@ export class EditTableauComponent implements OnInit {
   }
 
   simpleFormatPouleOnChange(): void {
-    if (this.fieldValue('format') === 'simple')
+    if (this.fieldValue('format') === 'simple') {
       this.reactiveForm.patchValue({
         poules: true,
       });
+    }
   }
 }

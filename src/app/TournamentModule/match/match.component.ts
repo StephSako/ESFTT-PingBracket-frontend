@@ -26,7 +26,7 @@ export class MatchComponent implements OnInit {
     nbPoules: null,
     handicap: null,
   };
-  public disabledMatChip: boolean = false;
+  public disabledMatChip = false;
 
   constructor(
     private tournoiService: BracketService,
@@ -118,7 +118,7 @@ export class MatchComponent implements OnInit {
       : name_s;
   }
 
-  getHandicap(joueur1: number, joueur2: number) {
+  getHandicap(joueur1: number, joueur2: number): any[] {
     return this.handicapService.calculHandicap(joueur1, joueur2);
   }
 

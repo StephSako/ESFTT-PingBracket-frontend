@@ -44,7 +44,9 @@ export class GestionStockComponent implements OnInit {
   }
 
   create(): void {
-    if (this.stock.stock === null) this.stock.stock = 0;
+    if (this.stock.stock === null) {
+      this.stock.stock = 0;
+    }
     this.stockService.create(this.stock).subscribe(
       (result) => {
         this.getAllStock();

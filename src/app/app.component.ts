@@ -34,7 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.tableauService.tableauxEditSource.subscribe(
         (tableau: TableauInterface) => {
           this.tableaux.map((tab) => {
-            if (tab._id === tableau._id) tab.is_launched = tableau.is_launched;
+            if (tab._id === tableau._id) {
+              tab.is_launched = tableau.is_launched;
+            }
             return tableau;
           });
         }

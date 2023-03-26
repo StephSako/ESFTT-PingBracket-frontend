@@ -41,14 +41,14 @@ export class FormAccountComponent implements OnInit {
   }
 
   login(): void {
-    if (this.invalidForm())
+    if (this.invalidForm()) {
       this.notifyService.notifyUser(
         'Renseignez le pseudo et le mot de passe',
         this.snackBar,
         'error',
         'OK'
       );
-    else {
+    } else {
       this.spinnerShown = true;
       this.credentials = {
         username: this.reactiveForm.get('username').value,

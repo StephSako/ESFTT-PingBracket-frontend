@@ -29,7 +29,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class FormulaireComponent implements OnInit {
   /* Champs du formulaire pour les joueurs */
   public tableaux: TableauInterface[];
-  public spinnerShown: boolean = false;
+  public spinnerShown = false;
 
   public parametres: ParametreInterface = {
     texte_debut: null,
@@ -126,7 +126,9 @@ export class FormulaireComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    if ((value || '').trim()) this.buffet.plats.push(value.trim());
+    if ((value || '').trim()) {
+      this.buffet.plats.push(value.trim());
+    }
     if (input) {
       input.value = '';
     }
@@ -134,7 +136,9 @@ export class FormulaireComponent implements OnInit {
 
   remove(plat: string): void {
     const index = this.buffet.plats.indexOf(plat);
-    if (index >= 0) this.buffet.plats.splice(index, 1);
+    if (index >= 0) {
+      this.buffet.plats.splice(index, 1);
+    }
   }
 
   addJoueur($item): void {
@@ -155,10 +159,10 @@ export class FormulaireComponent implements OnInit {
     this.listeJoueurs.splice(this.listeJoueurs.indexOf($item), 1);
   }
 
-  async submit() {
+  async submit(): Promise<void> {
     this.spinnerShown = true;
-    let errOf: string[] = [];
-    let tabOf: any = [];
+    const errOf: string[] = [];
+    const tabOf: any = [];
 
     // Enregistrement des données du buffet
     tabOf.push(this.buffetService.register(this.buffet));
@@ -170,7 +174,7 @@ export class FormulaireComponent implements OnInit {
       });
 
       // Tableaux des joueurs souscris
-      const tableauxSubscribed: TableauInterface[] = <TableauInterface[]>[
+      const tableauxSubscribed = <TableauInterface[]>[
         ...new Set(
           this.listeJoueurs
             .map((joueur) =>
@@ -184,16 +188,17 @@ export class FormulaireComponent implements OnInit {
             .reduce((acc, val) => acc.concat(val), [])
         ),
       ];
-      if (tableauxSubscribed.length > 0)
+      if (tableauxSubscribed.length > 0) {
         tableauxSubscribed.forEach((tabSub) =>
           tabOf.push(this.pouleService.generatePoules(tabSub))
         );
+      }
     }
 
-    let summary: string = this.getSubmitSummary();
+    const summary: string = this.getSubmitSummary();
     tabOf.push(this.logsService.addLogs(summary));
 
-    for (let obs of tabOf) {
+    for (const obs of tabOf) {
       await obs
         .toPromise()
         .then()
@@ -201,17 +206,18 @@ export class FormulaireComponent implements OnInit {
     }
 
     this.spinnerShown = false;
-    if (errOf.length > 0)
+    if (errOf.length > 0) {
       this.notifyService.notifyUser(
         errOf.join(' - '),
         this.snackBar,
         'error',
         'OK'
       );
-    else
+    } else {
       this.router.navigate(['submitted'], {
         state: { summary: this.getSubmitSummary() },
       });
+    }
   }
 
   getSubmitSummary(): string {
@@ -220,7 +226,7 @@ export class FormulaireComponent implements OnInit {
       this.datepipe.transform(new Date(), 'dd/MM/yyyy à HH:mm') +
       '</i><br>';
     summary +=
-      "<h3 style='margin-bottom: 2px;'><b><u>Buffet :</u></b></h3><b>Nombre d'enfants :</b> " +
+      '<h3 style="margin-bottom: 2px;"><b><u>Buffet :</u></b></h3><b>Nombre d\'enfants :</b> ' +
       this.buffet.enfant +
       "<br><b>Nombre d'ados/adultes :</b> " +
       this.buffet.ado_adulte +
@@ -228,12 +234,12 @@ export class FormulaireComponent implements OnInit {
       (this.buffet.plats.length > 0
         ? this.buffet.plats.join(', ')
         : '<i>Aucun</i>') +
-      "<br><br><h3 style='margin-bottom: 2px;'><b><u>Inscription des joueurs :</u></b></h3>";
+      '<br><br><h3 style="margin-bottom: 2px;"><b><u>Inscription des joueurs :</u></b></h3>';
 
     if (this.listeJoueurs.length > 0) {
       this.listeJoueurs.forEach((joueur) => {
         summary +=
-          "<b style='color: #3f51b5'>" +
+          '<b style="color: #3f51b5">' +
           joueur.nom.toUpperCase() +
           '</b><br><b>Classement :</b> ' +
           (joueur.classement || joueur.classement > 0
@@ -245,14 +251,16 @@ export class FormulaireComponent implements OnInit {
           joueur.tableaux
             .map(
               (t) =>
-                "<span style='text-transform: capitalize'>" + t.nom + '</span>'
+                '<span style="text-transform: capitalize">' + t.nom + '</span>'
             )
             .join(', ') +
           '<br><b>Buffet :</b> ' +
           (joueur.buffet ? 'Oui' : 'Non') +
           '<br><br>';
       });
-    } else summary += '<i>Aucun joueur inscrit</i>';
+    } else {
+      summary += '<i>Aucun joueur inscrit</i>';
+    }
 
     return summary + '</p>';
   }
@@ -325,7 +333,7 @@ export class FormulaireComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res) {
-            this.submit();
+            this.submit().then();
           }
         },
         (err) => {

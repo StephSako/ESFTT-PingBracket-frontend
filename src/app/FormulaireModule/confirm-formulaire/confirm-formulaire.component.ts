@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./confirm-formulaire.component.scss'],
 })
 export class ConfirmFormulaireComponent implements OnInit {
-  public summary: string = '';
+  public summary = '';
 
   constructor(private readonly router: Router) {
     if (
@@ -15,7 +15,9 @@ export class ConfirmFormulaireComponent implements OnInit {
       this.router.getCurrentNavigation().extras.state.hasOwnProperty('summary')
     ) {
       this.summary = this.router.getCurrentNavigation().extras.state.summary;
-    } else this.router.navigateByUrl('/formulaire');
+    } else {
+      this.router.navigateByUrl('/formulaire');
+    }
   }
 
   ngOnInit(): void {}

@@ -22,13 +22,13 @@ export class HandicapComponent implements OnInit {
   ngOnInit(): void {}
 
   showHandicap(): string[] {
-    let matchesPoules = [];
+    const matchesPoules = [];
     this.listeJoueurs.forEach((joueur1) => {
       this.listeJoueurs.forEach((joueur2) => {
         if (
           joueur1._id !== joueur2._id &&
           matchesPoules.filter((match) => {
-            let regex = new RegExp(
+            const regex = new RegExp(
               '.*' + joueur2.nom + '.*' + joueur1.nom + '.*'
             );
             return match.match(regex);

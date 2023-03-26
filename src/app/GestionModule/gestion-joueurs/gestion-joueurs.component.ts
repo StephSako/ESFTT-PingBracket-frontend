@@ -85,8 +85,9 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
             tableau.poules &&
             tableau.format === 'simple' &&
             tableau.is_launched === 0
-          )
+          ) {
             this.generatePoules(tableau);
+          }
         });
 
         this.notifyService.notifyUser(
@@ -142,8 +143,9 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
               () => {
                 this.getAllJoueurs.emit();
                 joueur.tableaux.forEach((tableau) => {
-                  if (tableau.poules && tableau.is_launched === 0)
+                  if (tableau.poules && tableau.is_launched === 0) {
                     this.generatePoules(tableau);
+                  }
                 });
 
                 this.tableauService.nbInscritsChange.emit();

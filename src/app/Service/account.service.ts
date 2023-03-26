@@ -28,7 +28,9 @@ export class AccountService {
   public login(user: TokenPayloadLogin): Observable<any> {
     return this.http.post(this.baseURL + 'login', user).pipe(
       map((data: TokenResponse) => {
-        if (data.token) this.saveToken(data.token);
+        if (data.token) {
+          this.saveToken(data.token);
+        }
         return data;
       }),
       catchError((err) => throwError(err))
@@ -44,7 +46,9 @@ export class AccountService {
 
     return URL.pipe(
       map((data: TokenResponse) => {
-        if (data.token) this.saveToken(data.token);
+        if (data.token) {
+          this.saveToken(data.token);
+        }
         return data;
       }),
       catchError((err) => throwError(err))
@@ -64,7 +68,9 @@ export class AccountService {
 
     return URL.pipe(
       map((data: TokenResponse) => {
-        if (data.token) this.saveToken(data.token);
+        if (data.token) {
+          this.saveToken(data.token);
+        }
         return data;
       }),
       catchError((err) => throwError(err))
@@ -72,7 +78,9 @@ export class AccountService {
   }
 
   public getToken(): string {
-    if (!this.token) this.token = localStorage.getItem('userToken');
+    if (!this.token) {
+      this.token = localStorage.getItem('userToken');
+    }
     return this.token;
   }
 
@@ -83,7 +91,9 @@ export class AccountService {
       payload = token.split('.')[1];
       payload = atob(payload);
       return JSON.parse(payload);
-    } else return null;
+    } else {
+      return null;
+    }
   }
 
   public isLoggedIn(): boolean {

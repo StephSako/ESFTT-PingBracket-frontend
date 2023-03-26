@@ -92,8 +92,9 @@ export class BinomeComponent implements OnInit, OnDestroy {
       .subscribe((tableau) => {
         this.tableau = tableau;
         this.getAllBinomes.emit();
-        if (this.tableau.format === 'double')
+        if (this.tableau.format === 'double') {
           this.getSubscribedUnassignedPlayers.emit();
+        }
       });
   }
 
@@ -128,8 +129,9 @@ export class BinomeComponent implements OnInit, OnDestroy {
           )
           .subscribe(
             () => {
-              if (this.tableau.poules && this.tableau.is_launched === 0)
+              if (this.tableau.poules && this.tableau.is_launched === 0) {
                 this.generatePoules.emit();
+              }
             },
             (err) => {
               this.notifyService.notifyUser(
@@ -155,8 +157,9 @@ export class BinomeComponent implements OnInit, OnDestroy {
     this.binomeService.removePlayer(idBinome, idPlayer).subscribe(
       () => {
         this.getAllBinomes.emit();
-        if (this.tableau.poules && this.tableau.is_launched === 0)
+        if (this.tableau.poules && this.tableau.is_launched === 0) {
           this.generatePoules.emit();
+        }
         this.getSubscribedUnassignedPlayers.emit();
       },
       (err) => {

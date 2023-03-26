@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
 import { PoulesService } from '../../Service/poules.service';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { PouleInterface } from '../../Interface/Poule';
@@ -17,7 +24,7 @@ import { HandicapComponent } from './handicap/handicap.component';
   templateUrl: './poule.component.html',
   styleUrls: ['./poule.component.scss'],
 })
-export class PouleComponent implements OnInit {
+export class PouleComponent implements OnInit, OnDestroy {
   @Input() poules: PouleInterface[] = [];
   tableau: TableauInterface = {
     format: null,

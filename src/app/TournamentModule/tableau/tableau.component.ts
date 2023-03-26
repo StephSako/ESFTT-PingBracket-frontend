@@ -104,10 +104,11 @@ export class TableauComponent implements OnInit {
           this.tableauService.tableauxEditSource.next(this.tableau);
           this.tableauService.changeLaunchState(this.tableau).subscribe(
             () => {
-              if (this.tableau.poules && this.tableau.is_launched === 2)
+              if (this.tableau.poules && this.tableau.is_launched === 2) {
                 this.pouleService
                   .validateAllPoules(this.tableau._id)
                   .subscribe();
+              }
             },
             (err) => {
               this.notifyService.notifyUser(

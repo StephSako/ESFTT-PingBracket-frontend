@@ -20,6 +20,8 @@ export class FormTableauComponent implements OnInit {
   }
 
   simpleFormatPouleOnChange(): void {
-    if (this.tableau.format === 'simple') this.tableau.poules = true;
+    if (this.tableau.format === 'simple') {
+      this.tableau.poules = true;
+    }
   }
 }

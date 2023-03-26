@@ -112,7 +112,9 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   create(): void {
-    if (!this.tableau.poules) this.tableau.nbPoules = null;
+    if (!this.tableau.poules) {
+      this.tableau.nbPoules = null;
+    }
     this.tableauService.create(this.tableau).subscribe(
       () => {
         this.tableau = {
@@ -165,7 +167,9 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe((id_tableau) => {
-        if (id_tableau) this.unsubscribeAllPlayers(tableau);
+        if (id_tableau) {
+          this.unsubscribeAllPlayers(tableau);
+        }
       });
   }
 
@@ -225,8 +229,11 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       () => {
         this.getAllTableaux();
         this.getAllJoueurs.emit();
-        if (tableau.format === 'double') this.removeAllBinomes(tableau);
-        else if (tableau.poules) this.generatePoules(tableau);
+        if (tableau.format === 'double') {
+          this.removeAllBinomes(tableau);
+        } else if (tableau.poules) {
+          this.generatePoules(tableau);
+        }
         this.notifyService.notifyUser(
           'Tous les joueurs ont été désinscris',
           this.snackBar,
@@ -252,7 +259,9 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   removeAllBinomes(tableau: TableauInterface): void {
     this.binomeService.removeAll(tableau._id).subscribe(
       () => {
-        if (tableau.poules) this.generatePoules(tableau);
+        if (tableau.poules) {
+          this.generatePoules(tableau);
+        }
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
