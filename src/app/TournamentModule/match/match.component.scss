@@ -1,7 +1,8 @@
-@import '../../../../node_modules/ng-tournament-tree/styles/ngtt-styles';
+@import "../../../../node_modules/ng-tournament-tree/styles/ngtt-styles";
 
 .ngtt__match-wrapper {
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 310px;
   height: $ngtt-match-wrapper-height;
@@ -63,7 +64,7 @@
 }
 
 #bronze {
-  color: #ff7918
+  color: #ff7918;
 }
 
 #white {
@@ -73,5 +74,12 @@
 span.handicap {
   color: white;
   position: absolute;
-  right: 7px;
+  right: -19px;
+}
+
+.cancel-btn {
+  position: absolute;
+  right: -18px;
+  top: -21px;
+  z-index: 1;
 }

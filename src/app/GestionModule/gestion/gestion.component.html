@@ -1,17 +1,28 @@
 <h1 class="lobster center">Gestion générale</h1>
 
-<button mat-raised-button class="center" color="warn" (click)="remiseAZero()">Remettre à zéro</button>
+<button mat-raised-button class="center" color="warn" (click)="remiseAZero()">
+  Remettre à zéro
+</button>
 
-<mat-tab-group mat-align-tabs="center" color="accent" [dynamicHeight]="true" selectedIndex="0">
-
+<mat-tab-group
+  mat-align-tabs="center"
+  color="accent"
+  [dynamicHeight]="true"
+  selectedIndex="0"
+>
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Participants</ng-template>
-    <app-gestion-joueurs [allJoueurs]="allJoueurs" (getAllJoueurs)="getAllJoueurs()"></app-gestion-joueurs>
+    <app-gestion-joueurs
+      [allJoueurs]="allJoueurs"
+      (getAllJoueurs)="getAllJoueurs()"
+    ></app-gestion-joueurs>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Tableaux</ng-template>
-    <app-gestion-tableaux (getAllJoueurs)="getAllJoueurs()"></app-gestion-tableaux>
+    <app-gestion-tableaux
+      (getAllJoueurs)="getAllJoueurs()"
+    ></app-gestion-tableaux>
   </mat-tab>
 
   <mat-tab>
@@ -30,7 +41,9 @@
   </mat-tab>
 
   <mat-tab>
-    <ng-template mat-tab-label class="mat-tab-label">Logs inscriptions</ng-template>
+    <ng-template mat-tab-label class="mat-tab-label"
+      >Logs inscriptions</ng-template
+    >
     <app-logs-tableau></app-logs-tableau>
   </mat-tab>
 </mat-tab-group>

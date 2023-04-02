@@ -5,26 +5,40 @@
     <div fxFlex="19%">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nom du tableau</mat-label>
-        <input formControlName="nom" matInput required>
+        <input formControlName="nom" matInput required />
       </mat-form-field>
     </div>
 
     <div fxFlex="19%">
-      <mat-slide-toggle color="primary" class="center" formControlName="consolante">Consolante</mat-slide-toggle>
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="consolante"
+        >Consolante</mat-slide-toggle
+      >
     </div>
 
     <div fxFlex="19%">
-      <mat-slide-toggle color="primary" class="center" formControlName="handicap">Handicap</mat-slide-toggle>
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="handicap"
+        >Handicap</mat-slide-toggle
+      >
     </div>
 
     <div fxFlex="23%">
       <mat-form-field appearance="outline">
         <mat-label>Catégorie d'âge</mat-label>
         <mat-select formControlName="age_minimum">
-          <mat-option *ngFor="let category of categoriesAge" [value]="category.age">
-          <span [class]="!category.age ? 'fontItalic' : ''">
-            {{ category.category | titlecase }}<span *ngIf="category.age"> (- de {{category.age}} ans)</span>
-          </span>
+          <mat-option
+            *ngFor="let category of categoriesAge"
+            [value]="category.age"
+          >
+            <span [class]="!category.age ? 'fontItalic' : ''">
+              {{ category.category | titlecase
+              }}<span *ngIf="category.age"> (- de {{ category.age }} ans)</span>
+            </span>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -35,8 +49,14 @@
     <div fxFlex="17%">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Format</mat-label>
-        <mat-select formControlName="format" required (selectionChange)="simpleFormatPouleOnChange()">
-          <mat-option *ngFor="let format of formats" [value]="format">{{ format | titlecase }}</mat-option>
+        <mat-select
+          formControlName="format"
+          required
+          (selectionChange)="simpleFormatPouleOnChange()"
+        >
+          <mat-option *ngFor="let format of formats" [value]="format">{{
+            format | titlecase
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -44,18 +64,36 @@
     <div fxFlex="25%" *ngIf="fieldValue('format') === 'double'">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nombre maximal joueurs/binôme</mat-label>
-        <input type="number" formControlName="maxNumberPlayers" min="2" max="4" matInput>
+        <input
+          type="number"
+          formControlName="maxNumberPlayers"
+          min="2"
+          max="4"
+          matInput
+        />
       </mat-form-field>
     </div>
 
     <div fxFlex="13%">
-      <mat-slide-toggle color="primary" class="center" formControlName="poules" [disabled]="fieldValue('format') === 'simple'">Poules</mat-slide-toggle>
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="poules"
+        [disabled]="fieldValue('format') === 'simple'"
+        >Poules</mat-slide-toggle
+      >
     </div>
 
     <div fxFlex="15%" *ngIf="fieldValue('poules')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nombre de poules</mat-label>
-        <input formControlName="nbPoules" type="number" min="2" max="20" matInput>
+        <input
+          formControlName="nbPoules"
+          type="number"
+          min="2"
+          max="20"
+          matInput
+        />
       </mat-form-field>
     </div>
 
@@ -70,5 +108,14 @@
       </mat-form-field>
     </div>
   </div>
-  <button type="submit" mat-raised-button [disabled]="!isValid()" [mat-dialog-close]="tableau._id" class="center" color="primary">Modifier</button>
+  <button
+    type="submit"
+    mat-raised-button
+    [disabled]="!isValid()"
+    [mat-dialog-close]="tableau._id"
+    class="center"
+    color="primary"
+  >
+    Modifier
+  </button>
 </form>

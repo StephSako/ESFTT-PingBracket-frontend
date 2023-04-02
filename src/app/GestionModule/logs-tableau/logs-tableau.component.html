@@ -1,22 +1,36 @@
-
 <div class="container">
-  <button type="submit" mat-raised-button class="center saveBtn" color="warn" (click)="emptyLogs()">Vider les logs</button>
+  <button
+    type="submit"
+    mat-raised-button
+    class="center saveBtn"
+    color="warn"
+    (click)="emptyLogs()"
+  >
+    Vider les logs
+  </button>
 
   <mat-card>
     <p *ngIf="logs.length == 0"><i>Pas de logs enregistrés ...</i></p>
     <table mat-table [dataSource]="logs" *ngIf="logs.length > 0">
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>N°</th>
-        <td class="position" mat-cell *matCellDef="let logMessage">{{ logMessage.position + 1 }}</td>
+        <td class="position" mat-cell *matCellDef="let logMessage">
+          {{ logMessage.position + 1 }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="logMessage">
         <th mat-header-cell *matHeaderCellDef>Logs d'inscriptions</th>
-        <td mat-cell *matCellDef="let logMessage"><span class="summary" [innerHTML]="logMessage.logMessage"></span></td>
+        <td mat-cell *matCellDef="let logMessage">
+          <span class="summary" [innerHTML]="logMessage.logMessage"></span>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="['position', 'logMessage']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['position', 'logMessage'];"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['position', 'logMessage']"
+      ></tr>
     </table>
   </mat-card>
 </div>

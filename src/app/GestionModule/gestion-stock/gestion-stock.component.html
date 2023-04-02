@@ -1,11 +1,17 @@
 <div class="container">
-
   <mat-card>
     <h2 class="lobster center">Ajouter du stock</h2>
 
     <form (submit)="create()">
       <app-form-stock [stock]="stock"></app-form-stock>
-      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidStock()">Créer</button>
+      <button
+        mat-raised-button
+        class="center"
+        color="primary"
+        [disabled]="!isInvalidStock()"
+      >
+        Créer
+      </button>
     </form>
   </mat-card>
 
@@ -13,34 +19,50 @@
     <h2 class="lobster center">Stock</h2>
 
     <table mat-table *ngIf="allStocks.length > 0" [dataSource]="allStocks">
-
       <ng-container matColumnDef="label">
         <th mat-header-cell *matHeaderCellDef>Label</th>
-        <td mat-cell *matCellDef="let stock">{{stock.label}}</td>
+        <td mat-cell *matCellDef="let stock">{{ stock.label }}</td>
       </ng-container>
 
       <ng-container matColumnDef="stock">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Stock</span></th>
-        <td mat-cell *matCellDef="let stock"><span class="center">{{stock.stock}}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Stock</span>
+        </th>
+        <td mat-cell *matCellDef="let stock">
+          <span class="center">{{ stock.stock }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let stock">
-          <button (click)="openEditDialog(stock)" class="center" mat-raised-button color="primary">Editer</button>
+          <button
+            (click)="openEditDialog(stock)"
+            class="center"
+            mat-raised-button
+            color="primary"
+          >
+            Editer
+          </button>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let stock">
-          <button (click)="delete(stock)" class="center" mat-raised-button color="warn">Supprimer</button>
+          <button
+            (click)="delete(stock)"
+            class="center"
+            mat-raised-button
+            color="warn"
+          >
+            Supprimer
+          </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card>
 </div>

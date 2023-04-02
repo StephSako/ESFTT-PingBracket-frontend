@@ -1,5 +1,11 @@
 <div class="container" *ngIf="tableau">
-  <button [disabled]="tableau.is_launched === 2" (click)="generateBracket()" mat-raised-button class="center btnGenerateBracket" color="primary">
+  <button
+    [disabled]="tableau.is_launched === 2"
+    (click)="generateBracket()"
+    mat-raised-button
+    class="center btnGenerateBracket"
+    color="primary"
+  >
     <mat-icon *ngIf="spinnerShown">
       <mat-spinner color="warn" [diameter]="20"></mat-spinner>
     </mat-icon>
@@ -10,16 +16,34 @@
     <mat-icon class="center">info</mat-icon>
     <p><b>Pour les consolantes :</b></p>
     <ul>
-      <li>- si vous souhaitez un repêchage des perdants du premier tour des phases finales en consolantes, renseignez <b>tous les résultats du premier tour de la phase finale</b>, puis générez le tableau de la consolante;</li>
-      <li>- si vous ne souhaitez pas de repêchage, générez le tableau de la consolante <b>AVANT</b> le tableau des phases finales.</li>
+      <li>
+        - si vous souhaitez un repêchage des perdants du premier tour des phases
+        finales en consolantes, renseignez
+        <b>tous les résultats du premier tour de la phase finale</b>, puis
+        générez le tableau de la consolante;
+      </li>
+      <li>
+        - si vous ne souhaitez pas de repêchage, générez le tableau de la
+        consolante <b>AVANT</b> le tableau des phases finales.
+      </li>
     </ul>
   </mat-card>
 </div>
 
 <ng-container *ngIf="bracket">
-  <ngtt-single-elimination-tree *ngIf="bracket.rounds.length" [tournament]="bracket" [matchTemplate]="matchTemplate"></ngtt-single-elimination-tree>
+  <ngtt-single-elimination-tree
+    *ngIf="bracket.rounds.length"
+    [tournament]="bracket"
+    [matchTemplate]="matchTemplate"
+  ></ngtt-single-elimination-tree>
 </ng-container>
 
 <ng-template #matchTemplate let-match>
-  <app-match (updateBracket)="getBracket()" [tableau]="tableau" [phase]="phase" [match]="match"></app-match>
+  <!-- {{ match | json }} -->
+  <app-match
+    (updateBracket)="getBracket()"
+    [tableau]="tableau"
+    [phase]="phase"
+    [match]="match"
+  ></app-match>
 </ng-template>

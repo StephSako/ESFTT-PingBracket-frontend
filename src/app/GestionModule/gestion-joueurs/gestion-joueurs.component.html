@@ -1,73 +1,118 @@
 <div class="container">
-
   <mat-card>
     <h2 class="lobster center">Créer un joueur</h2>
 
     <form (submit)="create()">
       <app-form-joueur [joueur]="joueur"></app-form-joueur>
-      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidPlayer()">Créer</button>
+      <button
+        mat-raised-button
+        class="center"
+        color="primary"
+        [disabled]="!isInvalidPlayer()"
+      >
+        Créer
+      </button>
     </form>
   </mat-card>
 
   <mat-card>
-    <h2 class="lobster center">Liste des participants ({{allJoueurs.length}})</h2>
+    <h2 class="lobster center">
+      Liste des participants ({{ allJoueurs.length }})
+    </h2>
 
     <table mat-table *ngIf="allJoueurs" [dataSource]="allJoueurs">
-
       <ng-container matColumnDef="pointage">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">
-          <mat-icon class="timer" (click)="pointerPlayer(joueur)" [ngClass]="{'pointage_KO': !joueur.pointage, 'pointage_OK': joueur.pointage}">
-            {{ joueur.pointage ? 'watch_later' : 'schedule' }}
+          <mat-icon
+            class="timer"
+            (click)="pointerPlayer(joueur)"
+            [ngClass]="{
+              pointage_KO: !joueur.pointage,
+              pointage_OK: joueur.pointage
+            }"
+          >
+            {{ joueur.pointage ? "watch_later" : "schedule" }}
           </mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>
-        <td mat-cell *matCellDef="let joueur">{{joueur.nom}}</td>
+        <td mat-cell *matCellDef="let joueur">{{ joueur.nom }}</td>
       </ng-container>
 
       <ng-container matColumnDef="classement">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Classement</span></th>
-        <td mat-cell *matCellDef="let joueur"><span class="center">{{joueur.classement}}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Classement</span>
+        </th>
+        <td mat-cell *matCellDef="let joueur">
+          <span class="center">{{ joueur.classement }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="age">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Âge</span></th>
-        <td mat-cell *matCellDef="let joueur"><span class="center">{{joueur.age}}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Âge</span>
+        </th>
+        <td mat-cell *matCellDef="let joueur">
+          <span class="center">{{ joueur.age }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="tableaux">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Tableaux</span></th>
-        <td mat-cell *matCellDef="let joueur"><span class="center">{{ showTableauxPlayer(joueur.tableaux) | titlecase }}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Tableaux</span>
+        </th>
+        <td mat-cell *matCellDef="let joueur">
+          <span class="center">{{
+            showTableauxPlayer(joueur.tableaux) | titlecase
+          }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="buffet">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Buffet</span></th>
-        <td mat-cell *matCellDef="let joueur"><span class="center">
-          <mat-icon *ngIf="joueur.buffet">done</mat-icon>
-          <mat-icon *ngIf="!joueur.buffet">clear</mat-icon>
-        </span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Buffet</span>
+        </th>
+        <td mat-cell *matCellDef="let joueur">
+          <span class="center">
+            <mat-icon *ngIf="joueur.buffet">done</mat-icon>
+            <mat-icon *ngIf="!joueur.buffet">clear</mat-icon>
+          </span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">
-          <button (click)="openEditDialog(joueur)" class="center" mat-raised-button color="primary">Modifier</button>
+          <button
+            (click)="openEditDialog(joueur)"
+            class="center"
+            mat-raised-button
+            color="primary"
+          >
+            Modifier
+          </button>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let joueur">
-          <button (click)="delete(joueur)" class="center" mat-raised-button color="warn">Supprimer</button>
+          <button
+            (click)="delete(joueur)"
+            class="center"
+            mat-raised-button
+            color="warn"
+          >
+            Supprimer
+          </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card>
 </div>

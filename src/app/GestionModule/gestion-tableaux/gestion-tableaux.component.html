@@ -1,36 +1,55 @@
 <div class="container">
-
   <mat-card>
     <h2 class="lobster center">Créer un tableau</h2>
 
     <form (submit)="create()">
       <app-form-tableau [tableau]="tableau"></app-form-tableau>
-      <button mat-raised-button class="center" color="primary" [disabled]="!isInvalidTableau()">Créer</button>
+      <button
+        mat-raised-button
+        class="center"
+        color="primary"
+        [disabled]="!isInvalidTableau()"
+      >
+        Créer
+      </button>
     </form>
   </mat-card>
 
   <mat-card>
-    <h2 class="lobster center">Liste des tableaux ({{allTableaux.length}})</h2>
+    <h2 class="lobster center">
+      Liste des tableaux ({{ allTableaux.length }})
+    </h2>
 
     <table mat-table *ngIf="allTableaux" [dataSource]="allTableaux">
-
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef>Nom</th>
-        <td mat-cell *matCellDef="let tableau">{{tableau.nom | titlecase}}</td>
+        <td mat-cell *matCellDef="let tableau">
+          {{ tableau.nom | titlecase }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="age_minimum">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Âge requis</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center">{{ showAgeMinimum(tableau.age_minimum) }}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Âge requis</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center">{{ showAgeMinimum(tableau.age_minimum) }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="format">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Format</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center">{{tableau.format | titlecase}}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Format</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center">{{ tableau.format | titlecase }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="maxNumberPlayers">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Nb maximal joueurs/binômes</span></th>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Nb maximal joueurs/binômes</span>
+        </th>
         <td mat-cell *matCellDef="let tableau">
           <span class="center">
             <span *ngIf="tableau.maxNumberPlayers !== 0">
@@ -41,65 +60,127 @@
       </ng-container>
 
       <ng-container matColumnDef="handicap">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Handicap</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center"><mat-icon *ngIf="tableau.handicap">check_circle_outline</mat-icon></span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Handicap</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center"
+            ><mat-icon *ngIf="tableau.handicap"
+              >check_circle_outline</mat-icon
+            ></span
+          >
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="poules">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Poules</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center"><mat-icon *ngIf="tableau.poules">check_circle_outline</mat-icon></span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Poules</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center"
+            ><mat-icon *ngIf="tableau.poules"
+              >check_circle_outline</mat-icon
+            ></span
+          >
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="nbPoules">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Nb de poules</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center">{{ tableau.nbPoules }}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Nb de poules</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center">{{ tableau.nbPoules }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="consolante">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Consolante</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center"><mat-icon *ngIf="tableau.consolante">check_circle_outline</mat-icon></span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Consolante</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center"
+            ><mat-icon *ngIf="tableau.consolante"
+              >check_circle_outline</mat-icon
+            ></span
+          >
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="inscrits">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Nombre d'inscrits</span></th>
-        <td mat-cell *matCellDef="let tableau"><span class="center">{{ showPlayerCountPerTableau(tableau._id) }}</span></td>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Nombre d'inscrits</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center">{{
+            showPlayerCountPerTableau(tableau._id)
+          }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="statut">
-        <th mat-header-cell *matHeaderCellDef><span class="center">Statut</span></th>
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Statut</span>
+        </th>
         <td mat-cell *matCellDef="let tableau">
           <span class="center">
-            <mat-icon class="pause" *ngIf="tableau.is_launched === 0">pause</mat-icon>
-            <mat-icon class="play" *ngIf="tableau.is_launched === 1">play_arrow</mat-icon>
-            <mat-icon class="finish" *ngIf="tableau.is_launched === 2">check_circle</mat-icon>
+            <mat-icon class="pause" *ngIf="tableau.is_launched === 0"
+              >pause</mat-icon
+            >
+            <mat-icon class="play" *ngIf="tableau.is_launched === 1"
+              >play_arrow</mat-icon
+            >
+            <mat-icon class="finish" *ngIf="tableau.is_launched === 2"
+              >check_circle</mat-icon
+            >
           </span>
-      </td>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let tableau">
-          <button (click)="openEditDialog(tableau)" class="center" mat-raised-button color="primary">Modifier</button>
+          <button
+            (click)="openEditDialog(tableau)"
+            class="center"
+            mat-raised-button
+            color="primary"
+          >
+            Modifier
+          </button>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="unsubscribe_all">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let tableau">
-          <button *ngIf="showPlayerCountPerTableau(tableau._id)" (click)="unsubscribeAll(tableau)" class="center unsubscribeBtn" mat-raised-button>Désinscrire les joueurs</button>
+          <button
+            *ngIf="showPlayerCountPerTableau(tableau._id)"
+            (click)="unsubscribeAll(tableau)"
+            class="center unsubscribeBtn"
+            mat-raised-button
+          >
+            Désinscrire les joueurs
+          </button>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let tableau">
-          <button (click)="delete(tableau)" class="center" mat-raised-button color="warn">Supprimer</button>
+          <button
+            (click)="delete(tableau)"
+            class="center"
+            mat-raised-button
+            color="warn"
+          >
+            Supprimer
+          </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card>
 </div>

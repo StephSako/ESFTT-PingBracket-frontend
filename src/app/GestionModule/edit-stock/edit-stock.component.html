@@ -6,7 +6,7 @@
       <mat-form-field appearance="outline" class="center">
         <mat-icon matSuffix>inventory_2</mat-icon>
         <mat-label>Nom du stock</mat-label>
-        <input formControlName="label" name="label" matInput required>
+        <input formControlName="label" name="label" matInput required />
       </mat-form-field>
     </div>
 
@@ -14,11 +14,27 @@
       <mat-form-field appearance="outline" class="center">
         <mat-icon matSuffix>bar_chart</mat-icon>
         <mat-label>Stock</mat-label>
-        <input formControlName="stock" name="stock" type="number" min="0" max="2000" matInput>
+        <input
+          formControlName="stock"
+          name="stock"
+          type="number"
+          min="0"
+          max="2000"
+          matInput
+        />
       </mat-form-field>
     </div>
   </div>
-
 </form>
 
-<button type="submit" (click)="editStock()" mat-dialog-close mat-raised-button [disabled]="!isInvalid()" class="center" color="primary">Editer</button>
+<button
+  type="submit"
+  (click)="editStock()"
+  mat-dialog-close
+  mat-raised-button
+  [disabled]="!isInvalid()"
+  class="center"
+  color="primary"
+>
+  Editer
+</button>

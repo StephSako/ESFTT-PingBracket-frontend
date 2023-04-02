@@ -1,3 +1,4 @@
+import { MatchInterface } from './../../Interface/Match';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BracketService } from '../../Service/bracket.service';
 import { TableauInterface } from '../../Interface/Tableau';
@@ -11,9 +12,8 @@ import { HandicapService } from 'src/app/Service/handicap.service';
   styleUrls: ['./match.component.scss'],
 })
 export class MatchComponent implements OnInit {
-  @Input() match: any;
+  @Input() match: MatchInterface;
   @Input() phase: string;
-  @Output() updateBracket: EventEmitter<any> = new EventEmitter();
   @Input() tableau: TableauInterface = {
     format: null,
     _id: null,
@@ -26,7 +26,9 @@ export class MatchComponent implements OnInit {
     nbPoules: null,
     handicap: null,
   };
+  @Output() updateBracket: EventEmitter<any> = new EventEmitter();
   public disabledMatChip = false;
+  public disabledCancelButton = false;
 
   constructor(
     private tournoiService: BracketService,
@@ -37,26 +39,29 @@ export class MatchComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  setWinner(match: any, winnerId: string): void {
+  setWinner(winnerId: string): void {
     if (
-      match.joueurs.length > 1 &&
+      this.match.joueurs.length > 1 &&
       this.tableau.is_launched !== 2 &&
-      !match.joueurs[0].winner &&
-      ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])
+      !this.match.joueurs[0].winner &&
+      ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
+        !this.match.joueurs[1])
     ) {
       this.disabledMatChip = true;
+      this.disabledCancelButton = true;
       const looserId =
-        match.joueurs.length === 2 &&
-        match.joueurs[0]._id &&
-        match.joueurs[1]._id
-          ? match.joueurs.filter((joueur) => joueur._id._id !== winnerId)[0]._id
-              ._id
+        this.match.joueurs.length === 2 &&
+        this.match.joueurs[0]._id &&
+        this.match.joueurs[1]._id
+          ? this.match.joueurs.filter(
+              (joueur) => joueur._id._id !== winnerId
+            )[0]._id._id
           : null;
       this.tournoiService
         .edit(
           this.tableau._id,
-          match.round,
-          match.id,
+          this.match.round,
+          this.match.id,
           winnerId,
           looserId,
           this.phase
@@ -65,6 +70,7 @@ export class MatchComponent implements OnInit {
           () => {
             this.updateBracket.emit();
             this.disabledMatChip = false;
+            this.disabledCancelButton = false;
           },
           (err) => {
             this.notifyService.notifyUser(
@@ -74,23 +80,25 @@ export class MatchComponent implements OnInit {
               'OK'
             );
             this.disabledMatChip = false;
+            this.disabledCancelButton = false;
           }
         );
     }
   }
 
-  isClickable(match: any): string {
-    return match.joueurs.length > 1 &&
-      !match.joueurs[0].winner &&
-      ((match.joueurs[1] && !match.joueurs[1].winner) || !match.joueurs[1])
+  isClickable(): string {
+    return this.match.joueurs.length > 1 &&
+      !this.match.joueurs[0].winner &&
+      ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
+        !this.match.joueurs[1])
       ? 'clickable'
       : '';
   }
 
-  getColor(match: any, joueur: any): string {
+  getColor(joueur: any): string {
     if (
-      (match.joueurs.length < 2 && !match.joueurs[0].winner) ||
-      (!match.joueurs[0].winner && !match.joueurs[1].winner)
+      (this.match.joueurs.length < 2 && !this.match.joueurs[0].winner) ||
+      (!this.match.joueurs[0].winner && !this.match.joueurs[1].winner)
     ) {
       return 'undefined';
     } else {
@@ -118,13 +126,69 @@ export class MatchComponent implements OnInit {
       : name_s;
   }
 
-  getHandicap(joueur1: number, joueur2: number): any[] {
-    return this.handicapService.calculHandicap(joueur1, joueur2);
+  getHandicap(): any[] {
+    return this.handicapService.calculHandicap(
+      this.match.joueurs[0]._id.classement,
+      this.match.joueurs[1]._id.classement
+    );
   }
 
-  matchHasTwoPlayers(joueurs): boolean {
+  matchHasTwoPlayers(): boolean {
     return (
-      joueurs.length === 2 && joueurs.every((j: any) => j.hasOwnProperty('_id'))
+      this.match.joueurs.length === 2 &&
+      this.match.joueurs.every((j: any) => j.hasOwnProperty('_id'))
     );
+  }
+
+  displayFinalIcons(): boolean {
+    return (
+      this.matchHasTwoPlayers() &&
+      !(!this.match.joueurs[0].winner && !this.match.joueurs[1].winner) &&
+      this.match.round === 1
+    );
+  }
+
+  isNextWinnerMatchSet(): boolean {
+    return false;
+  }
+
+  isCancelable(): boolean {
+    return (
+      this.matchHasTwoPlayers() &&
+      this.tableau.is_launched !== 2 &&
+      !this.disabledMatChip &&
+      !(!this.match.joueurs[0].winner && !this.match.joueurs[1].winner) &&
+      !this.isNextWinnerMatchSet()
+    );
+  }
+
+  cancelMatchResult(): void {
+    this.disabledMatChip = true;
+    this.disabledCancelButton = true;
+    this.tournoiService
+      .cancelMatchResult(
+        this.tableau._id,
+        this.phase,
+        this.match.id,
+        this.match.round,
+        this.match.joueurs.find((j) => j.winner)._id._id
+      )
+      .subscribe(
+        () => {
+          this.updateBracket.emit();
+          this.disabledMatChip = false;
+          this.disabledCancelButton = false;
+        },
+        (err) => {
+          this.disabledMatChip = false;
+          this.disabledCancelButton = false;
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+        }
+      );
   }
 }

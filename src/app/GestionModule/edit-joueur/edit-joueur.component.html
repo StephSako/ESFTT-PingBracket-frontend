@@ -8,7 +8,7 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>title</mat-icon>
             <mat-label>Nom du joueur</mat-label>
-            <input formControlName="nom" matInput required>
+            <input formControlName="nom" matInput required />
           </mat-form-field>
         </div>
 
@@ -16,7 +16,13 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>bar_chart</mat-icon>
             <mat-label>Classement</mat-label>
-            <input formControlName="classement" type="number" min="0" max="2000" matInput>
+            <input
+              formControlName="classement"
+              type="number"
+              min="0"
+              max="2000"
+              matInput
+            />
           </mat-form-field>
         </div>
 
@@ -24,27 +30,69 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge</mat-label>
-            <input formControlName="age" type="number" min="0" max="2000" matInput>
+            <input
+              formControlName="age"
+              type="number"
+              min="0"
+              max="2000"
+              matInput
+            />
           </mat-form-field>
         </div>
 
         <div fxFlex="20%">
-          <mat-slide-toggle color="primary" formControlName="buffet">Buffet</mat-slide-toggle>
+          <mat-slide-toggle color="primary" formControlName="buffet"
+            >Buffet</mat-slide-toggle
+          >
         </div>
       </div>
 
-      <button *ngIf="isModified()" type="submit" mat-raised-button [disabled]="!this.reactiveForm.valid" class="center shakeit" color="primary">Modifier</button>
+      <button
+        *ngIf="isModified()"
+        type="submit"
+        mat-raised-button
+        [disabled]="!this.reactiveForm.valid"
+        class="center shakeit"
+        color="primary"
+      >
+        Modifier
+      </button>
     </div>
 
     <div *ngIf="tableaux" fxFlex="40%">
       <div fxLayout="row" *ngFor="let tableau of tableaux" class="row">
         <div fxFlex="50%" class="center">
-          <h2 class="labelTableau lobster"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h2>
+          <h2 class="labelTableau lobster">
+            <span
+              >{{ tableau.nom | titlecase }}
+              <span *ngIf="tableau.age_minimum !== null"
+                >-{{ tableau.age_minimum }} ans</span
+              ></span
+            >
+          </h2>
         </div>
         <div fxFlex="50%" class="center">
           <div *ngIf="enabled(tableau); else ageRequis">
-            <button [class]="tableau.is_launched !== 0 ? 'enCours' : ''" class="enabledButtons" [disabled]="ageModifying() || tableau.is_launched !== 0" (click)="subscribe(tableau)" mat-raised-button *ngIf="!isInscrit(joueur.tableaux, tableau._id)">{{ tableau.is_launched === 0 ? 'Inscrire' : 'En cours ...' }}</button>
-            <button [class]="tableau.is_launched !== 0 ? 'enCours' : ''" class="disabledButtons" [disabled]="ageModifying() || tableau.is_launched !== 0" (click)="unsubscribe(tableau)" mat-raised-button *ngIf="isInscrit(joueur.tableaux, tableau._id)">{{ tableau.is_launched === 0 ? 'Désinscrire' : 'En cours ...' }}</button>
+            <button
+              [class]="tableau.is_launched !== 0 ? 'enCours' : ''"
+              class="enabledButtons"
+              [disabled]="ageModifying() || tableau.is_launched !== 0"
+              (click)="subscribe(tableau)"
+              mat-raised-button
+              *ngIf="!isInscrit(joueur.tableaux, tableau._id)"
+            >
+              {{ tableau.is_launched === 0 ? "Inscrire" : "En cours ..." }}
+            </button>
+            <button
+              [class]="tableau.is_launched !== 0 ? 'enCours' : ''"
+              class="disabledButtons"
+              [disabled]="ageModifying() || tableau.is_launched !== 0"
+              (click)="unsubscribe(tableau)"
+              mat-raised-button
+              *ngIf="isInscrit(joueur.tableaux, tableau._id)"
+            >
+              {{ tableau.is_launched === 0 ? "Désinscrire" : "En cours ..." }}
+            </button>
           </div>
           <ng-template #ageRequis>
             <p class="error_message">{{ errorAgeJoueur(tableau) }}</p>
@@ -53,7 +101,14 @@
       </div>
     </div>
   </form>
-
 </div>
 
-<button type="submit" mat-raised-button mat-dialog-close class="center" color="primary">OK</button>
+<button
+  type="submit"
+  mat-raised-button
+  mat-dialog-close
+  class="center"
+  color="primary"
+>
+  OK
+</button>

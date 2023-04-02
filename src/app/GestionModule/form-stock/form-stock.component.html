@@ -3,7 +3,13 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>inventory_2</mat-icon>
       <mat-label>Nom du stock</mat-label>
-      <input name="label" [formControl]="stockControl" [(ngModel)]="stock.label" matInput required>
+      <input
+        name="label"
+        [formControl]="stockControl"
+        [(ngModel)]="stock.label"
+        matInput
+        required
+      />
     </mat-form-field>
   </div>
 
@@ -11,7 +17,14 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Stock</mat-label>
-      <input name="stock" type="number" [(ngModel)]="stock.stock" min="0" max="2000" matInput>
+      <input
+        name="stock"
+        type="number"
+        [(ngModel)]="stock.stock"
+        min="0"
+        max="2000"
+        matInput
+      />
     </mat-form-field>
   </div>
 </div>

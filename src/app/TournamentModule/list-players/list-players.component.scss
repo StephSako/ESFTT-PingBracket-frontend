@@ -4,11 +4,12 @@ h2.second_h2 {
 
 td {
   &.pointage_KO {
-    color: grey
+    color: grey;
   }
 
   &.pointage_OK {
-    color: green
+    color: green;
+    font-weight: 700;
   }
 }
 

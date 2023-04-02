@@ -1,25 +1,56 @@
 <div class="ngtt__match-wrapper">
-  <ng-container *ngFor="let joueur of match.joueurs; let index = index;">
+  <ng-container *ngFor="let joueur of match.joueurs; let index = index">
+    <button
+      mat-icon-button
+      color="warn"
+      class="cancel-btn"
+      [disabled]="disabledCancelButton"
+      *ngIf="isCancelable()"
+      (click)="cancelMatchResult()"
+    >
+      <mat-icon>backspace</mat-icon>
+    </button>
     <div fxLayout="row">
-      <div id="finale" *ngIf="match.joueurs.length === 2 && !(!match.joueurs[0].winner && !match.joueurs[1].winner) && match.round === 1">
-        <mat-icon id="yellow" *ngIf="match.id === 1 && joueur.winner" matSuffix>emoji_events</mat-icon>
-        <mat-icon id="white" *ngIf="match.id === 1 && !joueur.winner" matSuffix>looks_two</mat-icon>
-        <mat-icon id="bronze" *ngIf="match.id === 2 && joueur.winner" matSuffix>looks_3</mat-icon>
-        <mat-icon id="silver" *ngIf="match.id === 2 && !joueur.winner" matSuffix>looks_4</mat-icon>
+      <div id="finale" *ngIf="displayFinalIcons()">
+        <mat-icon id="yellow" *ngIf="match.id === 1 && joueur.winner" matSuffix
+          >emoji_events</mat-icon
+        >
+        <mat-icon id="white" *ngIf="match.id === 1 && !joueur.winner" matSuffix
+          >looks_two</mat-icon
+        >
+        <mat-icon id="bronze" *ngIf="match.id === 2 && joueur.winner" matSuffix
+          >looks_3</mat-icon
+        >
+        <mat-icon id="silver" *ngIf="match.id === 2 && !joueur.winner" matSuffix
+          >looks_4</mat-icon
+        >
       </div>
 
       <div class="ngtt__team-wrapper">
         <mat-chip-list *ngIf="joueur._id">
           <mat-chip
-            [disabled]="match.joueurs.length === 1 || tableau.is_launched === 2 || disabledMatChip"
-            (click)="setWinner(match, joueur._id._id)"
-            [color]="getColor(match, joueur)"
-            [class]="'ngtt__team-title ' + isClickable(match)">
-              {{ getName(joueur._id) }}
-            </mat-chip>
-            <span class="handicap" *ngIf="tableau.handicap && matchHasTwoPlayers(match.joueurs)">
-              <b>{{ getHandicap(match.joueurs[0]._id.classement, match.joueurs[1]._id.classement)[index] }}</b>
-            </span>
+            [disabled]="
+              match.joueurs.length === 1 ||
+              tableau.is_launched === 2 ||
+              disabledMatChip
+            "
+            (click)="setWinner(joueur._id._id)"
+            [color]="getColor(joueur)"
+            [class]="'ngtt__team-title ' + isClickable()"
+          >
+            {{ getName(joueur._id) }}
+          </mat-chip>
+          <span
+            class="handicap"
+            *ngIf="tableau.handicap && matchHasTwoPlayers()"
+          >
+            <b>{{
+              getHandicap(
+                match.joueurs[0]._id.classement,
+                match.joueurs[1]._id.classement
+              )[index]
+            }}</b>
+          </span>
         </mat-chip-list>
       </div>
     </div>

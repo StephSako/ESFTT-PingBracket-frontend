@@ -6,6 +6,32 @@
   overflow-x: auto !important;
 }
 
+:host ::ng-deep .ngtt-se__finale-match-wrapper::before {
+  border-top: 2px solid #add4ff;
+}
+
+:host ::ng-deep .ngtt-se__match-wrapper {
+  &:nth-child(odd)::after,
+  &:nth-child(even)::after {
+    border-right: 2px solid #add4ff;
+  }
+
+  &:nth-child(odd)::after,
+  &::before {
+    border-top: 2px solid #add4ff;
+  }
+
+  &:nth-child(even)::after {
+    border-bottom: 2px solid #add4ff;
+  }
+}
+
+// :host ::ng-deep .ngtt-se__match-wrapper:nth-child(odd)::after,
+// :host ::ng-deep .ngtt-se__match-wrapper:nth-child(even)::after {
+//   border-top: 2px solid #76b8ff;
+//   border-right: 2px solid #76b8ff;
+// }
+
 mat-card {
   background-color: #dbf1ff;
 }
