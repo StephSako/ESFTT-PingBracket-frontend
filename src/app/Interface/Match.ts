@@ -7,6 +7,7 @@ interface JoueurMatchInterface {
 
 export interface MatchInterface {
   id: number;
+  isCancelable: boolean;
   round: number;
   joueurs: JoueurMatchInterface[];
 }

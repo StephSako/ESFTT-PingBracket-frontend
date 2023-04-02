@@ -108,9 +108,7 @@ export class MatchComponent implements OnInit {
 
   getName(entity: any): string {
     if (this.tableau.format === 'simple') {
-      return this.formatGetName(
-        entity.nom + ' - ' + entity.classement + ' points'
-      );
+      return this.formatGetName(entity.nom + ' - ' + entity.classement);
     } else if (this.tableau.format === 'double') {
       return this.formatGetName(
         entity.joueurs
@@ -148,18 +146,8 @@ export class MatchComponent implements OnInit {
     );
   }
 
-  isNextWinnerMatchSet(): boolean {
-    return false;
-  }
-
   isCancelable(): boolean {
-    return (
-      this.matchHasTwoPlayers() &&
-      this.tableau.is_launched !== 2 &&
-      !this.disabledMatChip &&
-      !(!this.match.joueurs[0].winner && !this.match.joueurs[1].winner) &&
-      !this.isNextWinnerMatchSet()
-    );
+    return this.matchHasTwoPlayers() && this.match.isCancelable;
   }
 
   cancelMatchResult(): void {
@@ -171,7 +159,8 @@ export class MatchComponent implements OnInit {
         this.phase,
         this.match.id,
         this.match.round,
-        this.match.joueurs.find((j) => j.winner)._id._id
+        this.match.joueurs.find((j) => j.winner)._id._id,
+        this.match.joueurs.find((j) => !j.winner)._id._id
       )
       .subscribe(
         () => {
