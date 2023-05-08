@@ -1,20 +1,40 @@
 <div class="container">
-
   <mat-card *ngIf="!poules.length">
-    <h2 class="center lobster">Il n'y a pas de joueurs inscrits pour le moment</h2>
+    <h2 class="center lobster">
+      Il n'y a pas de joueurs inscrits pour le moment
+    </h2>
   </mat-card>
 
   <div fxLayout="row wrap">
-    <div [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'" *ngFor="let poule of poules; let indexList = index">
+    <div
+      [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'"
+      *ngFor="let poule of poules; let indexList = index"
+    >
       <mat-card class="mat-elevation-z8">
-
-        <div [style]="tableau.handicap ? 'display: flex; justify-content: space-between;' : ''">
+        <div
+          [style]="
+            tableau.handicap
+              ? 'display: flex; justify-content: space-between;'
+              : ''
+          "
+        >
           <p></p>
           <h2 class="lobster center">
-            <mat-icon *ngIf="poule.locked" class="locked">check_circle</mat-icon>
-            Poule n°{{indexList+1}}
+            <mat-icon *ngIf="poule.locked" class="locked"
+              >check_circle</mat-icon
+            >
+            Poule n°{{ indexList + 1 }}
           </h2>
-          <button title="Fiche des handicaps" class="btn-handicap" color="primary" *ngIf="tableau.handicap && poules[indexList].participants.length > 1" (click)="openMatchesHandicap(poules[indexList].participants)" mat-icon-button>
+          <button
+            title="Fiche des handicaps"
+            class="btn-handicap"
+            color="primary"
+            *ngIf="
+              tableau.handicap && poules[indexList].participants.length > 1
+            "
+            (click)="openMatchesHandicap(poules[indexList].participants)"
+            mat-icon-button
+          >
             <mat-icon>format_list_numbered</mat-icon>
           </button>
         </div>
@@ -23,13 +43,32 @@
           cdkDropList
           [cdkDropListData]="poules[indexList].participants"
           class="list"
-          (cdkDropListDropped)="editPoule($event, poule._id)">
-          <div [cdkDragData]="[poule._id, participant._id]" [cdkDragDisabled]="poule.locked" class="box center" [ngClass]="{ 'tight': (poules[indexList].objectRef === 'Binomes') }" *ngFor="let participant of poules[indexList].participants" cdkDrag>
-            <span [outerHTML]="showParticipant(poules[indexList].objectRef, participant)"></span>
+          (cdkDropListDropped)="editPoule($event, poule._id)"
+        >
+          <div
+            [cdkDragData]="[poule._id, participant._id]"
+            [cdkDragDisabled]="poule.locked"
+            class="box center"
+            [ngClass]="{ tight: poules[indexList].objectRef === 'Binomes' }"
+            *ngFor="let participant of poules[indexList].participants"
+            cdkDrag
+          >
+            <span
+              [outerHTML]="
+                showParticipant(poules[indexList].objectRef, participant)
+              "
+            ></span>
           </div>
         </div>
-        <button [disabled]="tableau.is_launched === 2" (click)="setStatus(poule)" mat-raised-button class="center btnSetLockedPoule" color="primary">{{(poule.locked ? 'Modifier' : 'Valider')}}</button>
-
+        <button
+          [disabled]="tableau.is_launched === 2"
+          (click)="setStatus(poule)"
+          mat-raised-button
+          class="center btnSetLockedPoule"
+          color="primary"
+        >
+          {{ poule.locked ? "Modifier" : "Valider" }}
+        </button>
       </mat-card>
     </div>
   </div>

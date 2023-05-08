@@ -1,28 +1,57 @@
-<h1 class="lobster center"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></h1>
+<h1 class="lobster center">
+  <span
+    >{{ tableau.nom | titlecase }}
+    <span *ngIf="tableau.age_minimum !== null"
+      >-{{ tableau.age_minimum }} ans</span
+    ></span
+  >
+</h1>
 
 <div id="actionButtons">
-  <button mat-raised-button id="launchTableau" *ngIf="tableau.is_launched === 0" (click)="changeStateTableau()">Lancer les {{ tableau.poules ? 'poules' : 'phases finales' }}</button>
-  <button mat-raised-button id="finishTableau" *ngIf="tableau.is_launched === 1" (click)="changeStateTableau()">Terminer le tableau</button>
+  <button
+    mat-raised-button
+    id="launchTableau"
+    *ngIf="tableau.is_launched === 0"
+    (click)="changeStateTableau()"
+  >
+    Lancer les {{ tableau.poules ? "poules" : "phases finales" }}
+  </button>
+  <button
+    mat-raised-button
+    id="finishTableau"
+    *ngIf="tableau.is_launched === 1"
+    (click)="changeStateTableau()"
+  >
+    Terminer le tableau
+  </button>
 </div>
 
-<mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight="200%" selectedIndex="0" *ngIf="tableau._id">
-
+<mat-tab-group
+  mat-align-tabs="center"
+  color="accent"
+  dynamicHeight="200%"
+  selectedIndex="0"
+  *ngIf="tableau._id"
+>
   <mat-tab>
     <ng-template mat-tab-label class="mat-tab-label">Participants</ng-template>
     <app-list-players
       (generatePoules)="generatePoules()"
       (getAllBinomes)="getAllBinomes()"
-      (getSubscribedUnassignedPlayers)="getSubscribedUnassignedPlayers()">
+      (getSubscribedUnassignedPlayers)="getSubscribedUnassignedPlayers()"
+    >
     </app-list-players>
   </mat-tab>
 
   <mat-tab *ngIf="tableau.format === 'double'">
     <ng-template mat-tab-label class="mat-tab-label">Binômes</ng-template>
-    <app-binome (getSubscribedUnassignedPlayers)="getSubscribedUnassignedPlayers()"
-                (getAllBinomes)="getAllBinomes()"
-                (generatePoules)="generatePoules()"
-                [binomes]="binomes"
-                [subscribedUnassignedPlayers]="subscribedUnassignedPlayers">
+    <app-binome
+      (getSubscribedUnassignedPlayers)="getSubscribedUnassignedPlayers()"
+      (getAllBinomes)="getAllBinomes()"
+      (generatePoules)="generatePoules()"
+      [binomes]="binomes"
+      [subscribedUnassignedPlayers]="subscribedUnassignedPlayers"
+    >
     </app-binome>
   </mat-tab>
 
@@ -40,9 +69,7 @@
   </mat-tab>
 
   <mat-tab *ngIf="tableau.consolante">
-    <ng-template mat-tab-label class="mat-tab-label">
-      Consolante
-    </ng-template>
+    <ng-template mat-tab-label class="mat-tab-label"> Consolante </ng-template>
 
     <app-bracket [phase]="'consolante'" [tableau]="tableau"></app-bracket>
   </mat-tab>

@@ -4,10 +4,10 @@ import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { NgttTournament } from 'ng-tournament-tree';
 import { TableauInterface } from '../../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
+import { BracketInterface } from 'src/app/Interface/Bracket';
 
 @Component({
   selector: 'app-bracket',
@@ -30,7 +30,7 @@ export class BracketComponent implements OnInit {
   };
   spinnerShown: boolean;
   idTableau: string;
-  public bracket: NgttTournament;
+  public bracket: BracketInterface;
 
   constructor(
     private tournoiService: BracketService,

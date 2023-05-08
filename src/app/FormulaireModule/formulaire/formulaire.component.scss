@@ -17,7 +17,8 @@ i {
 }
 
 .nbParticipants {
-  h3, mat-form-field {
+  h3,
+  mat-form-field {
     display: inline-block;
   }
 
@@ -36,7 +37,7 @@ i {
 
 .btn_action {
   width: 100%;
-  margin-top: 10px
+  margin-top: 10px;
 }
 
 p.alerte_info {

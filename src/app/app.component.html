@@ -1,17 +1,53 @@
 <mat-toolbar>
   <div *ngIf="accountService.isLoggedIn()">
-    <button *ngFor="let tableau of tableaux" mat-raised-button routerLinkActive="active" [routerLink]="'/tableau/' + tableau._id">
-      <span>{{tableau.nom | titlecase}}
-        <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span>
-        <mat-icon class="play" *ngIf="tableau.is_launched === 1">play_arrow</mat-icon>
-        <mat-icon class="finished" *ngIf="tableau.is_launched === 2">check_circle</mat-icon>
+    <button
+      *ngFor="let tableau of tableaux"
+      mat-raised-button
+      routerLinkActive="active"
+      [routerLink]="'/tableau/' + tableau._id"
+    >
+      <span
+        >{{ tableau.nom | titlecase }}
+        <span *ngIf="tableau.age_minimum !== null"
+          >-{{ tableau.age_minimum }} ans</span
+        ></span
+      >
+      <mat-icon class="play" *ngIf="tableau.is_launched === 1"
+        >play_arrow</mat-icon
+      >
+      <mat-icon class="finished" *ngIf="tableau.is_launched === 2"
+        >check_circle</mat-icon
+      >
     </button>
   </div>
 
   <span class="spacer"></span>
-  <button mat-raised-button *ngIf="accountService.isLoggedIn()" routerLinkActive="active" routerLink="/gestion">Gestion</button>
-  <button mat-raised-button routerLink="/formulaire" routerLinkActive="active">Formulaire</button>
-  <button mat-raised-button *ngIf="!accountService.isLoggedIn()" routerLinkActive="active" routerLink="/login">Espace privé</button>
-  <button mat-raised-button *ngIf="accountService.isLoggedIn()" (click)="accountService.logout()" color="warn">Se déconnecter</button>
+  <button
+    mat-raised-button
+    *ngIf="accountService.isLoggedIn()"
+    routerLinkActive="active"
+    routerLink="/gestion"
+  >
+    Gestion
+  </button>
+  <button mat-raised-button routerLink="/formulaire" routerLinkActive="active">
+    Formulaire
+  </button>
+  <button
+    mat-raised-button
+    *ngIf="!accountService.isLoggedIn()"
+    routerLinkActive="active"
+    routerLink="/login"
+  >
+    Espace privé
+  </button>
+  <button
+    mat-raised-button
+    *ngIf="accountService.isLoggedIn()"
+    (click)="accountService.logout()"
+    color="warn"
+  >
+    Se déconnecter
+  </button>
 </mat-toolbar>
 <router-outlet></router-outlet>

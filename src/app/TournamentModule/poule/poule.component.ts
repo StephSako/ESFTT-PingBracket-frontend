@@ -113,7 +113,7 @@ export class PouleComponent implements OnInit, OnDestroy {
 
   showParticipant(objectRef: string, participant_s): string {
     if (objectRef === 'Joueurs') {
-      return participant_s.nom + ' - ' + participant_s.classement + ' points';
+      return participant_s.nom + ' - ' + participant_s.classement;
     } else if (objectRef === 'Binomes') {
       return participant_s.joueurs
         .map((participant, index) => {

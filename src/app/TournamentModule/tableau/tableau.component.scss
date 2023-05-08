@@ -5,7 +5,8 @@ h1 {
   margin-bottom: 8px;
 }
 
-::ng-deep .mat-tab-label, .mat-tab-link {
+::ng-deep .mat-tab-label,
+.mat-tab-link {
   color: white !important;
 }
 

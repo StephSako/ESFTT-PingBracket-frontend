@@ -1,5 +1,5 @@
-@import 'app/my-tree-configuration';
-@import '~ng-tournament-tree/styles/ngtt-styles';
+@import "app/my-tree-configuration";
+@import "~ng-tournament-tree/styles/ngtt-styles";
 
 html {
   background: linear-gradient(135deg, #1174b8 1%, #001317 100%) fixed;
@@ -37,7 +37,8 @@ body {
   color: green;
 }
 
-.style-success, .style-error  {
+.style-success,
+.style-error {
   color: white;
 }
 
@@ -45,11 +46,13 @@ body {
   color: red;
 }
 
-i, .fontItalic {
+i,
+.fontItalic {
   font-style: italic;
 }
 
-b, strong {
+b,
+strong {
   font-weight: bold;
 }
 

@@ -46,4 +46,18 @@ export class BracketService {
   public deleteBracket(idTableau: string): Observable<any> {
     return this.http.delete(`${this.baseURL}delete/${idTableau}`);
   }
+
+  public cancelMatchResult(
+    tableau_id: string,
+    phase: string,
+    match_id: number,
+    match_round: number,
+    winner_id: string,
+    looser_id: string
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseURL}cancel/match/result/${tableau_id}/${phase}/${match_id}/${match_round}/${winner_id}/${looser_id}`,
+      {}
+    );
+  }
 }

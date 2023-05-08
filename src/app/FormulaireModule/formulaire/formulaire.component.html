@@ -1,15 +1,15 @@
 <div class="container">
   <mat-card *ngIf="parametres.open !== null && !parametres.open">
     <h1 class="lobster center">Les inscriptions au tournoi sont fermées ...</h1>
-  </mat-card >
+  </mat-card>
 
   <mat-card *ngIf="parametres.open !== null && parametres.open">
     <p [innerHTML]="parametres.titre" class="center"></p>
-    <h2 class="center lobster">{{parametres.date | date:"dd/MM/yyyy"}}</h2>
+    <h2 class="center lobster">{{ parametres.date | date : "dd/MM/yyyy" }}</h2>
 
     <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
 
-    <br>
+    <br />
     <h2 class="lobster">1. Inscription aux tableaux</h2>
     <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div>
 
@@ -19,35 +19,71 @@
           <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
               <mat-label>NOM Prénom *</mat-label>
-              <input name="nom" [(ngModel)]="joueurItem.nom" matInput>
+              <input name="nom" [(ngModel)]="joueurItem.nom" matInput />
             </mat-form-field>
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
               <mat-label>Classement mensuel</mat-label>
-              <input name="classement" [(ngModel)]="joueurItem.classement" type="number" min="0" max="2000" matInput>
+              <input
+                name="classement"
+                [(ngModel)]="joueurItem.classement"
+                type="number"
+                min="0"
+                max="2000"
+                matInput
+              />
             </mat-form-field>
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
               <mat-label>Âge</mat-label>
-              <input (input)="typing(joueurItem)" name="age" [(ngModel)]="joueurItem.age" type="number" min="5" max="99" matInput>
+              <input
+                (input)="typing(joueurItem)"
+                name="age"
+                [(ngModel)]="joueurItem.age"
+                type="number"
+                min="5"
+                max="99"
+                matInput
+              />
             </mat-form-field>
           </div>
 
           <div fxFlex="30%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
               <mat-label>Tableaux *</mat-label>
-              <mat-select name="tableaux" [(ngModel)]="joueurItem.tableaux" multiple>
-                <mat-option [disabled]="clickable(tableau, joueurItem.age)" *ngFor="let tableau of tableaux" [value]="tableau"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></mat-option>
+              <mat-select
+                name="tableaux"
+                [(ngModel)]="joueurItem.tableaux"
+                multiple
+              >
+                <mat-option
+                  [disabled]="clickable(tableau, joueurItem.age)"
+                  *ngFor="let tableau of tableaux"
+                  [value]="tableau"
+                  ><span
+                    >{{ tableau.nom | titlecase }}
+                    <span *ngIf="tableau.age_minimum !== null"
+                      >-{{ tableau.age_minimum }} ans</span
+                    ></span
+                  ></mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
-            <button mat-raised-button (click)="removeItem(joueurItem)" class="center btn_action delete" color="warn">Effacer ce joueur</button>
+            <button
+              mat-raised-button
+              (click)="removeItem(joueurItem)"
+              class="center btn_action delete"
+              color="warn"
+            >
+              Effacer ce joueur
+            </button>
           </div>
         </div>
       </form>
@@ -58,66 +94,117 @@
         <div fxFlex="25%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-label>NOM Prénom *</mat-label>
-            <input name="nom" [(ngModel)]="joueurData.nom" matInput>
+            <input name="nom" [(ngModel)]="joueurData.nom" matInput />
           </mat-form-field>
         </div>
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-label>Classement</mat-label>
-            <input name="classement" [(ngModel)]="joueurData.classement" type="number" min="0" max="2000" matInput>
+            <input
+              name="classement"
+              [(ngModel)]="joueurData.classement"
+              type="number"
+              min="0"
+              max="2000"
+              matInput
+            />
           </mat-form-field>
         </div>
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-label>Âge</mat-label>
-            <input (input)="typing(joueurData)" name="age" [(ngModel)]="joueurData.age" type="number" min="0" max="99" matInput>
+            <input
+              (input)="typing(joueurData)"
+              name="age"
+              [(ngModel)]="joueurData.age"
+              type="number"
+              min="0"
+              max="99"
+              matInput
+            />
           </mat-form-field>
         </div>
 
         <div fxFlex="30%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-label>Tableaux *</mat-label>
-            <mat-select name="tableaux" [(ngModel)]="joueurData.tableaux" multiple>
-              <mat-option [disabled]="clickable(tableau, joueurData.age)" *ngFor="let tableau of tableaux" [value]="tableau"><span>{{tableau.nom | titlecase}} <span *ngIf="tableau.age_minimum !== null">-{{ tableau.age_minimum}} ans</span></span></mat-option>
+            <mat-select
+              name="tableaux"
+              [(ngModel)]="joueurData.tableaux"
+              multiple
+            >
+              <mat-option
+                [disabled]="clickable(tableau, joueurData.age)"
+                *ngFor="let tableau of tableaux"
+                [value]="tableau"
+                ><span
+                  >{{ tableau.nom | titlecase }}
+                  <span *ngIf="tableau.age_minimum !== null"
+                    >-{{ tableau.age_minimum }} ans</span
+                  ></span
+                ></mat-option
+              >
             </mat-select>
           </mat-form-field>
         </div>
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
-          <button class="center btn_action" [disabled]="disabledAddPlayer(joueurData)" (click)="addJoueur(joueurData)" mat-raised-button color="primary">Valider ce joueur</button>
+          <button
+            class="center btn_action"
+            [disabled]="disabledAddPlayer(joueurData)"
+            (click)="addJoueur(joueurData)"
+            mat-raised-button
+            color="primary"
+          >
+            Valider ce joueur
+          </button>
         </div>
       </div>
+    </form>
+    <br />
 
-    </form><br>
-
-    <br>
+    <br />
     <h2 class="lobster">2. Participation au buffet du soir</h2>
     <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
     <div class="nbParticipants">
       <h3 class="lobster">Nombre d'enfants au total</h3>
       <mat-form-field class="shorten" appearance="outline">
-        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.enfant" name="enfant">
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="20"
+          [(ngModel)]="buffet.enfant"
+          name="enfant"
+        />
       </mat-form-field>
     </div>
 
     <div class="nbParticipants">
       <h3 class="lobster">Nombre d'ados/adultes au total</h3>
       <mat-form-field class="shorten" appearance="outline">
-        <input matInput type="number" min="0" max="20" [(ngModel)]="buffet.ado_adulte" name="ado_adulte">
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="20"
+          [(ngModel)]="buffet.ado_adulte"
+          name="ado_adulte"
+        />
       </mat-form-field>
     </div>
 
     <div *ngIf="listeJoueurs.length">
-      <br>
+      <br />
       <h3 class="lobster">Participation des joueurs au buffet</h3>
 
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="nom">
           <th mat-header-cell *matHeaderCellDef>Nom</th>
-          <td mat-cell *matCellDef="let joueur"> {{joueur.nom}} </td>
+          <td mat-cell *matCellDef="let joueur">{{ joueur.nom }}</td>
         </ng-container>
 
         <ng-container matColumnDef="buffet">
@@ -126,60 +213,92 @@
             <mat-slide-toggle
               color="primary"
               (change)="joueur.buffet = !joueur.buffet"
-              [checked]="joueur.buffet">
+              [checked]="joueur.buffet"
+            >
             </mat-slide-toggle>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="['nom', 'buffet']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['nom', 'buffet'];"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['nom', 'buffet']"></tr>
       </table>
     </div>
 
-    <br>
+    <br />
     <h3 class="lobster">Plat(s) confectionné(s)</h3>
 
     <p class="alerte_info">
       <mat-icon aria-hidden="false">info</mat-icon>
-      <i> Écriver un plat, puis appuyez sur la touche <strong>Entrée</strong> de votre clavier pour l'ajouter à la liste, et ainsi de suite pour chaque plat.</i>
+      <i>
+        Écrivez un plat, puis appuyez sur la touche <strong>Entrée</strong> de
+        votre clavier pour l'ajouter à la liste, et ainsi de suite pour chaque
+        plat.</i
+      >
     </p>
 
     <mat-form-field class="chip-list" appearance="outline">
       <mat-chip-list #chipList aria-label="Fruit selection">
-        <mat-chip *ngFor="let plat of buffet.plats" [selectable]="selectable" [removable]="removable" (removed)="remove(plat)" color="primary" selected>
-          {{plat}}
+        <mat-chip
+          *ngFor="let plat of buffet.plats"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(plat)"
+          color="primary"
+          selected
+        >
+          {{ plat }}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-        <input [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              [matChipInputAddOnBlur]="addOnBlur"
-              type="text"
-              placeholder="Plats préparés"
-              (matChipInputTokenEnd)="add($event)">
+        <input
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          type="text"
+          placeholder="Plats préparés"
+          (matChipInputTokenEnd)="add($event)"
+        />
       </mat-chip-list>
     </mat-form-field>
 
-    <br>
+    <br />
     <p><i>Plats déjà préparés :</i></p>
-    <mat-chip-list *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked">
-      <mat-chip *ngFor="let plat of platsAlreadyCooked" color="primary" selected>{{ plat }}</mat-chip>
+    <mat-chip-list
+      *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked"
+    >
+      <mat-chip
+        *ngFor="let plat of platsAlreadyCooked"
+        color="primary"
+        selected
+        >{{ plat }}</mat-chip
+      >
     </mat-chip-list>
-    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br>
+    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br />
 
-    <br>
+    <br />
     <h2 class="lobster">3. Validez le formulaire !</h2>
 
-    <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">Un joueur est en cours d'inscription et n'a pas été validé.<br><i>(Rappel : cliquez sur le bouton bleu <b>Valider le joueur</b> pour inscrire chaque participant.)</i></p>
-    <button [disabled]="disabledSubmit()" class="center" mat-raised-button color="primary" (click)="openConfirmModale()">
+    <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">
+      Un joueur est en cours d'inscription et n'a pas été validé.<br /><i
+        >(Rappel : cliquez sur le bouton bleu <b>Valider le joueur</b> pour
+        inscrire chaque participant.)</i
+      >
+    </p>
+    <button
+      [disabled]="disabledSubmit()"
+      class="center"
+      mat-raised-button
+      color="primary"
+      (click)="openConfirmModale()"
+    >
       <mat-icon *ngIf="spinnerShown">
         <mat-spinner color="accent" [diameter]="20"></mat-spinner>
       </mat-icon>
       Envoyer !
     </button>
-    <br>
-    <br>
+    <br />
+    <br />
 
-    <div [innerHTML]="parametres.texte_fin | noSanitize"></div><br>
-
+    <div [innerHTML]="parametres.texte_fin | noSanitize"></div>
+    <br />
   </mat-card>
 </div>

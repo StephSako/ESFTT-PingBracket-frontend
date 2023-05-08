@@ -314,7 +314,6 @@ export class FormulaireComponent implements OnInit {
   }
 
   openConfirmModale(): void {
-    console.log(this.getSubmitSummary());
     const playerToDelete: Dialog = {
       id: 'confirm',
       action: 'Vérifiez les informations',
