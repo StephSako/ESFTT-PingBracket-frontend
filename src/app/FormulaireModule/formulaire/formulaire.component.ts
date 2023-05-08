@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import { Dialog } from 'src/app/Interface/Dialog';
 import { DialogComponent } from 'src/app/SharedModule/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-formulaire',
@@ -74,6 +75,7 @@ export class FormulaireComponent implements OnInit {
     private parametreService: ParametresService,
     private joueurService: JoueurService,
     private buffetService: BuffetService,
+    public appService: AppService,
     private router: Router,
     private snackBar: MatSnackBar,
     private logsService: LogsService,
@@ -92,7 +94,10 @@ export class FormulaireComponent implements OnInit {
   getTableaux(): void {
     this.tableauService.getAllTableaux().subscribe(
       (tableaux) =>
-        (this.tableaux = tableaux.filter((t) => t.is_launched === 0)),
+        (this.tableaux = tableaux.filter(
+          (t) =>
+            t.is_launched === this.appService.getTableauState().PointageState
+        )),
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
       }
@@ -182,7 +187,8 @@ export class FormulaireComponent implements OnInit {
                 (tableau) =>
                   tableau.poules &&
                   tableau.format === 'simple' &&
-                  tableau.is_launched === 0
+                  tableau.is_launched ===
+                    this.appService.getTableauState().PointageState
               )
             )
             .reduce((acc, val) => acc.concat(val), [])

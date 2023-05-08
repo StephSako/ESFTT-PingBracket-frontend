@@ -6,13 +6,3 @@ mat-icon {
   color: white;
   background-color: #f57646;
 }
-
-mat-icon {
-  &.play {
-    color: orange;
-  }
-
-  &.finish {
-    color: green;
-  }
-}

@@ -11,6 +11,7 @@ import { PoulesService } from '../../Service/poules.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { Subscription } from 'rxjs';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-edit-joueur',
@@ -35,6 +36,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private tableauService: TableauService,
+    private appService: AppService,
     private snackBar: MatSnackBar,
     private joueurService: JoueurService,
     public dialog: MatDialog,
@@ -97,7 +99,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         if (
           tableau.poules &&
           tableau.format === 'simple' &&
-          tableau.is_launched === 0
+          tableau.is_launched ===
+            this.appService.getTableauState().PointageState
         ) {
           this.generatePoules(tableau);
         }
@@ -193,7 +196,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
                     (tableau) =>
                       tableau.poules &&
                       tableau.format === 'simple' &&
-                      tableau.is_launched === 0
+                      tableau.is_launched ===
+                        this.appService.getTableauState().PointageState
                   )
                   .forEach((tableau) => this.generatePoules(tableau));
               },
@@ -269,7 +273,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
                           if (
                             tableau.format === 'simple' &&
                             tableau.format === 'simple' &&
-                            tableau.is_launched === 0
+                            tableau.is_launched ===
+                              this.appService.getTableauState().PointageState
                           ) {
                             this.generatePoules(tableau);
                           }

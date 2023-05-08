@@ -19,6 +19,7 @@ import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { PoulesService } from '../../Service/poules.service';
 import { BinomeService } from '../../Service/binome.service';
 import { Subscription } from 'rxjs';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-gestion-tableaux',
@@ -60,6 +61,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   };
 
   constructor(
+    public appService: AppService,
     private tableauService: TableauService,
     private notifyService: NotifyService,
     private snackBar: MatSnackBar,

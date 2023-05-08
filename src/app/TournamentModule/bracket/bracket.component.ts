@@ -1,3 +1,4 @@
+import { AppService } from './../../app.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
@@ -35,6 +36,7 @@ export class BracketComponent implements OnInit {
   constructor(
     private tournoiService: BracketService,
     private route: ActivatedRoute,
+    private appService: AppService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private notifyService: NotifyService

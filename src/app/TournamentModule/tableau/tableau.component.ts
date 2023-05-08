@@ -1,3 +1,4 @@
+import { AppService } from './../../app.service';
 import { Component, OnInit } from '@angular/core';
 import { TableauService } from '../../Service/tableau.service';
 import { TableauInterface } from '../../Interface/Tableau';
@@ -39,6 +40,7 @@ export class TableauComponent implements OnInit {
   subscribedUnassignedPlayers: JoueurInterface[] = [];
 
   constructor(
+    public appService: AppService,
     private tableauService: TableauService,
     private route: ActivatedRoute,
     private router: Router,
@@ -66,30 +68,34 @@ export class TableauComponent implements OnInit {
     );
   }
 
-  changeStateTableau(): void {
+  changeStateTableau(nextState: number): void {
     const stateToChange: Dialog = {
       id: 'true',
       action:
-        this.tableau.is_launched === 1
-          ? 'Terminer le tableau ?'
+        this.tableau.is_launched ===
+        this.appService.getTableauState().BracketState
+          ? 'Clôturer le tableau ?'
           : 'Lancer les ' +
             (this.tableau.poules ? 'poules' : 'phases finales') +
             ' ?',
       option:
-        this.tableau.is_launched === 0
-          ? "Aucun joueur ne pourra plus s'inscrire ni se désinscrire au tableau" +
-            (this.tableau.format === 'double'
-              ? ' et les binômes seront bloqués'
-              : '')
-          : 'Les ' +
+        this.tableau.is_launched ===
+        this.appService.getTableauState().PointageState
+          ? (this.tableau.format !== 'double'
+              ? 'Les inscriptions seront fermées'
+              : 'Les inscriptions et les binômes seront fermés,') +
+            ' et les absents seront éliminés'
+          : this.tableau.is_launched ===
+            this.appService.getTableauState().PouleState
+          ? 'Les ' +
             (this.tableau.poules ? 'poules' : 'binômes') +
-            ' et phases finales seront validé' +
+            ' seront validé' +
             (this.tableau.poules ? 'e' : '') +
             's et bloqué' +
             (this.tableau.poules ? 'e' : '') +
-            's',
-      action_button_text:
-        this.tableau.is_launched === 1 ? 'Terminer' : 'Lancer',
+            's'
+          : 'Les phases finales seront fermées',
+      action_button_text: 'Valider',
     };
 
     this.dialog
@@ -100,11 +106,15 @@ export class TableauComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response) {
-          this.tableau.is_launched++;
+          this.tableau.is_launched = nextState;
           this.tableauService.tableauxEditSource.next(this.tableau);
           this.tableauService.changeLaunchState(this.tableau).subscribe(
             () => {
-              if (this.tableau.poules && this.tableau.is_launched === 2) {
+              if (
+                this.tableau.poules &&
+                this.tableau.is_launched ===
+                  this.appService.getTableauState().TermineState
+              ) {
                 this.pouleService
                   .validateAllPoules(this.tableau._id)
                   .subscribe();

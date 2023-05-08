@@ -5,6 +5,7 @@ import { AccountService } from './Service/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from './Service/notify.service';
 import { Subscription } from 'rxjs';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private tableauxEditionSubscription: Subscription;
 
   constructor(
+    public appService: AppService,
     public accountService: AccountService,
     private tableauService: TableauService,
     private snackBar: MatSnackBar,

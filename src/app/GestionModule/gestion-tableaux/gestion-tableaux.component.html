@@ -65,9 +65,7 @@
         </th>
         <td mat-cell *matCellDef="let tableau">
           <span class="center"
-            ><mat-icon *ngIf="tableau.handicap"
-              >check_circle_outline</mat-icon
-            ></span
+            ><mat-icon *ngIf="tableau.handicap">done</mat-icon></span
           >
         </td>
       </ng-container>
@@ -78,9 +76,7 @@
         </th>
         <td mat-cell *matCellDef="let tableau">
           <span class="center"
-            ><mat-icon *ngIf="tableau.poules"
-              >check_circle_outline</mat-icon
-            ></span
+            ><mat-icon *ngIf="tableau.poules">done</mat-icon></span
           >
         </td>
       </ng-container>
@@ -100,9 +96,7 @@
         </th>
         <td mat-cell *matCellDef="let tableau">
           <span class="center"
-            ><mat-icon *ngIf="tableau.consolante"
-              >check_circle_outline</mat-icon
-            ></span
+            ><mat-icon *ngIf="tableau.consolante">done</mat-icon></span
           >
         </td>
       </ng-container>
@@ -120,18 +114,14 @@
 
       <ng-container matColumnDef="statut">
         <th mat-header-cell *matHeaderCellDef>
-          <span class="center">Statut</span>
+          <span class="center">Etat</span>
         </th>
         <td mat-cell *matCellDef="let tableau">
           <span class="center">
-            <mat-icon class="pause" *ngIf="tableau.is_launched === 0"
-              >pause</mat-icon
-            >
-            <mat-icon class="play" *ngIf="tableau.is_launched === 1"
-              >play_arrow</mat-icon
-            >
-            <mat-icon class="finish" *ngIf="tableau.is_launched === 2"
-              >check_circle</mat-icon
+            <mat-icon
+              class="state"
+              [class]="appService.getTableauStateColor(tableau.is_launched)"
+              >circle</mat-icon
             >
           </span>
         </td>

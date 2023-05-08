@@ -18,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HandicapComponent } from './handicap/handicap.component';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-poule',
@@ -44,6 +45,7 @@ export class PouleComponent implements OnInit, OnDestroy {
   constructor(
     private pouleService: PoulesService,
     private router: Router,
+    private appService: AppService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private gestionService: TableauService,
@@ -60,8 +62,11 @@ export class PouleComponent implements OnInit, OnDestroy {
           (tableau: TableauInterface) => {
             this.tableau = tableau;
 
-            // On change le visuel des toutes les poules si le tableau est terminé
-            if (this.tableau.is_launched === 2) {
+            // On change le visuel des toutes les poules si elles sont fermées
+            if (
+              this.tableau.is_launched >=
+              this.appService.getTableauState().PouleState
+            ) {
               this.poules = this.poules.map((poule) => {
                 poule.locked = true;
                 return poule;

@@ -18,6 +18,7 @@ import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { PoulesService } from '../../Service/poules.service';
 import { Subscription } from 'rxjs';
 import { TableauService } from '../../Service/tableau.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -53,6 +54,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     private joueurService: JoueurService,
     private notifyService: NotifyService,
     private snackBar: MatSnackBar,
+    private appService: AppService,
     public dialog: MatDialog,
     private poulesService: PoulesService,
     private tableauService: TableauService
@@ -84,7 +86,8 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
           if (
             tableau.poules &&
             tableau.format === 'simple' &&
-            tableau.is_launched === 0
+            tableau.is_launched ===
+              this.appService.getTableauState().PointageState
           ) {
             this.generatePoules(tableau);
           }
@@ -143,7 +146,11 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
               () => {
                 this.getAllJoueurs.emit();
                 joueur.tableaux.forEach((tableau) => {
-                  if (tableau.poules && tableau.is_launched === 0) {
+                  if (
+                    tableau.poules &&
+                    tableau.is_launched ===
+                      this.appService.getTableauState().PointageState
+                  ) {
                     this.generatePoules(tableau);
                   }
                 });

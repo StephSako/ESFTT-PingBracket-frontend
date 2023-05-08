@@ -23,6 +23,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-list-players',
@@ -62,6 +63,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   constructor(
     private joueurService: JoueurService,
+    public appService: AppService,
     public dialog: MatDialog,
     private poulesService: PoulesService,
     private router: Router,
@@ -302,7 +304,11 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     const playersToDelete: Dialog = {
       id: this.hostableTableau._id,
       action:
-        'Basculer tous les joueurs dans ce tableau et régénérer les poules ?',
+        'Basculer tous les joueurs dans "' +
+        this.hostableTableau.nom.toUpperCase() +
+        ' - ' +
+        this.hostableTableau.age_minimum +
+        ' ans" et régénérer les poules ?',
       option: null,
       action_button_text: 'Basculer',
     };

@@ -74,24 +74,52 @@
         <div fxFlex="50%" class="center">
           <div *ngIf="enabled(tableau); else ageRequis">
             <button
-              [class]="tableau.is_launched !== 0 ? 'enCours' : ''"
+              [class]="
+                tableau.is_launched !==
+                appService.getTableauState().PointageState
+                  ? 'enCours'
+                  : ''
+              "
               class="enabledButtons"
-              [disabled]="ageModifying() || tableau.is_launched !== 0"
+              [disabled]="
+                ageModifying() ||
+                tableau.is_launched !==
+                  appService.getTableauState().PointageState
+              "
               (click)="subscribe(tableau)"
               mat-raised-button
               *ngIf="!isInscrit(joueur.tableaux, tableau._id)"
             >
-              {{ tableau.is_launched === 0 ? "Inscrire" : "En cours ..." }}
+              {{
+                tableau.is_launched ===
+                appService.getTableauState().PointageState
+                  ? "Inscrire"
+                  : "En cours ..."
+              }}
             </button>
             <button
-              [class]="tableau.is_launched !== 0 ? 'enCours' : ''"
+              [class]="
+                tableau.is_launched !==
+                appService.getTableauState().PointageState
+                  ? 'enCours'
+                  : ''
+              "
               class="disabledButtons"
-              [disabled]="ageModifying() || tableau.is_launched !== 0"
+              [disabled]="
+                ageModifying() ||
+                tableau.is_launched !==
+                  appService.getTableauState().PointageState
+              "
               (click)="unsubscribe(tableau)"
               mat-raised-button
               *ngIf="isInscrit(joueur.tableaux, tableau._id)"
             >
-              {{ tableau.is_launched === 0 ? "Désinscrire" : "En cours ..." }}
+              {{
+                tableau.is_launched ===
+                appService.getTableauState().PointageState
+                  ? "Désinscrire"
+                  : "En cours ..."
+              }}
             </button>
           </div>
           <ng-template #ageRequis>

@@ -7,6 +7,7 @@ import { TableauService } from '../../Service/tableau.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-form-joueur',
@@ -32,6 +33,7 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     private tableauService: TableauService,
     private notifyService: NotifyService,
     public dialog: MatDialog,
+    private appService: AppService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -55,7 +57,10 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
   getAllTableaux(): void {
     this.tableauService.getAllTableaux().subscribe(
       (tableaux) =>
-        (this.tableaux = tableaux.filter((t) => t.is_launched === 0)),
+        (this.tableaux = tableaux.filter(
+          (t) =>
+            t.is_launched === this.appService.getTableauState().PointageState
+        )),
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
       }

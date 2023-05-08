@@ -22,16 +22,6 @@ mat-toolbar {
   color: white;
 }
 
-mat-icon {
-  &.play {
-    color: orange;
-  }
-
-  &.finished {
-    color: green;
-  }
-}
-
 .summary {
   white-space: pre-line;
 }

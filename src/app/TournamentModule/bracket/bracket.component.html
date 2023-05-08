@@ -1,6 +1,6 @@
 <div class="container" *ngIf="tableau">
   <button
-    [disabled]="tableau.is_launched === 2"
+    *ngIf="tableau.is_launched !== appService.getTableauState().TermineState"
     (click)="generateBracket()"
     mat-raised-button
     class="center btnGenerateBracket"
@@ -12,7 +12,12 @@
     Générer le tableau
   </button>
 
-  <mat-card *ngIf="tableau.consolante">
+  <mat-card
+    *ngIf="
+      tableau.consolante &&
+      tableau.is_launched === appService.getTableauState().BracketState
+    "
+  >
     <mat-icon class="center">info</mat-icon>
     <p><b>Pour les consolantes :</b></p>
     <ul>
@@ -39,7 +44,6 @@
 </ng-container>
 
 <ng-template #matchTemplate let-match>
-  <!-- {{ match | json }} -->
   <app-match
     (updateBracket)="getBracket()"
     [tableau]="tableau"

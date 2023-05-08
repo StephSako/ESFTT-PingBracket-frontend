@@ -21,13 +21,6 @@ h1 {
   & button {
     color: white;
     margin: 0 5px;
-
-    &#launchTableau {
-      background-color: rgb(0, 157, 0);
-    }
-
-    &#finishTableau {
-      background-color: #495dce;
-    }
+    background-color: rgb(0, 157, 0);
   }
 }

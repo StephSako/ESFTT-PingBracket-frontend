@@ -61,7 +61,9 @@
           </div>
         </div>
         <button
-          [disabled]="tableau.is_launched === 2"
+          *ngIf="
+            tableau.is_launched === appService.getTableauState().PouleState
+          "
           (click)="setStatus(poule)"
           mat-raised-button
           class="center btnSetLockedPoule"

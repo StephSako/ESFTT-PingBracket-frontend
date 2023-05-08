@@ -5,7 +5,10 @@
       color="warn"
       class="cancel-btn"
       [disabled]="disabledCancelButton"
-      *ngIf="isCancelable()"
+      *ngIf="
+        isCancelable() &&
+        tableau.is_launched === appService.getTableauState().BracketState
+      "
       (click)="cancelMatchResult()"
     >
       <mat-icon>backspace</mat-icon>
@@ -30,8 +33,8 @@
         <mat-chip-list *ngIf="joueur._id">
           <mat-chip
             [disabled]="
-              match.joueurs.length === 1 ||
-              tableau.is_launched === 2 ||
+              match.joueurs.length <= 1 ||
+              tableau.is_launched > appService.getTableauState().TermineState ||
               disabledMatChip
             "
             (click)="setWinner(joueur._id._id)"

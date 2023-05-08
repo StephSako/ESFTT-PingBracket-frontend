@@ -20,6 +20,7 @@ import {
 import { BinomeInterface } from '../../Interface/Binome';
 import { BinomeService } from '../../Service/binome.service';
 import { Subscription } from 'rxjs';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-binome',
@@ -66,6 +67,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private notifyService: NotifyService,
+    private appService: AppService,
     private gestionService: TableauService
   ) {}
 
@@ -129,7 +131,11 @@ export class BinomeComponent implements OnInit, OnDestroy {
           )
           .subscribe(
             () => {
-              if (this.tableau.poules && this.tableau.is_launched === 0) {
+              if (
+                this.tableau.poules &&
+                this.tableau.is_launched ===
+                  this.appService.getTableauState().PointageState
+              ) {
                 this.generatePoules.emit();
               }
             },
@@ -157,7 +163,11 @@ export class BinomeComponent implements OnInit, OnDestroy {
     this.binomeService.removePlayer(idBinome, idPlayer).subscribe(
       () => {
         this.getAllBinomes.emit();
-        if (this.tableau.poules && this.tableau.is_launched === 0) {
+        if (
+          this.tableau.poules &&
+          this.tableau.is_launched ===
+            this.appService.getTableauState().PointageState
+        ) {
           this.generatePoules.emit();
         }
         this.getSubscribedUnassignedPlayers.emit();

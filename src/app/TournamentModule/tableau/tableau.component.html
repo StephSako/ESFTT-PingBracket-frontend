@@ -10,19 +10,31 @@
 <div id="actionButtons">
   <button
     mat-raised-button
-    id="launchTableau"
-    *ngIf="tableau.is_launched === 0"
-    (click)="changeStateTableau()"
+    *ngIf="
+      tableau.poules &&
+      tableau.is_launched === appService.getTableauState().PointageState
+    "
+    (click)="changeStateTableau(appService.getTableauState().PouleState)"
   >
-    Lancer les {{ tableau.poules ? "poules" : "phases finales" }}
+    Lancer les poules
   </button>
   <button
     mat-raised-button
-    id="finishTableau"
-    *ngIf="tableau.is_launched === 1"
-    (click)="changeStateTableau()"
+    *ngIf="
+      tableau.is_launched === appService.getTableauState().PouleState ||
+      (!tableau.poules &&
+        tableau.is_launched === appService.getTableauState().PointageState)
+    "
+    (click)="changeStateTableau(appService.getTableauState().BracketState)"
   >
-    Terminer le tableau
+    Lancer les phases finales
+  </button>
+  <button
+    mat-raised-button
+    *ngIf="tableau.is_launched === appService.getTableauState().BracketState"
+    (click)="changeStateTableau(appService.getTableauState().TermineState)"
+  >
+    Clôturer le tableau
   </button>
 </div>
 
@@ -55,12 +67,19 @@
     </app-binome>
   </mat-tab>
 
-  <mat-tab *ngIf="tableau.poules">
+  <mat-tab
+    *ngIf="
+      tableau.poules &&
+      tableau.is_launched >= appService.getTableauState().PouleState
+    "
+  >
     <ng-template mat-tab-label class="mat-tab-label">Poules</ng-template>
     <app-poule (getAllPoules)="getAllPoules()" [poules]="poules"></app-poule>
   </mat-tab>
 
-  <mat-tab>
+  <mat-tab
+    *ngIf="tableau.is_launched >= appService.getTableauState().BracketState"
+  >
     <ng-template mat-tab-label class="mat-tab-label">
       Phases finales
     </ng-template>
@@ -68,7 +87,12 @@
     <app-bracket [phase]="'finale'" [tableau]="tableau"></app-bracket>
   </mat-tab>
 
-  <mat-tab *ngIf="tableau.consolante">
+  <mat-tab
+    *ngIf="
+      tableau.consolante &&
+      tableau.is_launched >= appService.getTableauState().BracketState
+    "
+  >
     <ng-template mat-tab-label class="mat-tab-label"> Consolante </ng-template>
 
     <app-bracket [phase]="'consolante'" [tableau]="tableau"></app-bracket>

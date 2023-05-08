@@ -5,6 +5,7 @@ import { TableauInterface } from '../../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { HandicapService } from 'src/app/Service/handicap.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-match',
@@ -33,6 +34,7 @@ export class MatchComponent implements OnInit {
   constructor(
     private tournoiService: BracketService,
     private snackBar: MatSnackBar,
+    private appService: AppService,
     private notifyService: NotifyService,
     private readonly handicapService: HandicapService
   ) {}
@@ -42,7 +44,8 @@ export class MatchComponent implements OnInit {
   setWinner(winnerId: string): void {
     if (
       this.match.joueurs.length > 1 &&
-      this.tableau.is_launched !== 2 &&
+      this.tableau.is_launched ===
+        this.appService.getTableauState().BracketState &&
       !this.match.joueurs[0].winner &&
       ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
         !this.match.joueurs[1])

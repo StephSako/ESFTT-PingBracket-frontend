@@ -12,11 +12,10 @@
           >-{{ tableau.age_minimum }} ans</span
         ></span
       >
-      <mat-icon class="play" *ngIf="tableau.is_launched === 1"
-        >play_arrow</mat-icon
-      >
-      <mat-icon class="finished" *ngIf="tableau.is_launched === 2"
-        >check_circle</mat-icon
+      <mat-icon
+        class="state"
+        [class]="appService.getTableauStateColor(tableau.is_launched)"
+        >circle</mat-icon
       >
     </button>
   </div>

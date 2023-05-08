@@ -76,3 +76,21 @@ mat-card {
 mat-ink-bar {
   background-color: #d6d5ff !important;
 }
+
+mat-icon {
+  &.state {
+    transform: scale(0.6);
+
+    &.pointage {
+      color: white;
+    }
+
+    &.playing {
+      color: orange;
+    }
+
+    &.termine {
+      color: green;
+    }
+  }
+}
