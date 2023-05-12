@@ -23,9 +23,9 @@
             </mat-form-field>
           </div>
 
-          <div fxFlex="15%" fxFlex.lt-md="100%">
+          <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label>Classement mensuel</mat-label>
+              <mat-label>Classement (si compétiteur)</mat-label>
               <input
                 name="classement"
                 [(ngModel)]="joueurItem.classement"
@@ -39,7 +39,7 @@
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label>Âge</mat-label>
+              <mat-label>Âge (si mineur)</mat-label>
               <input
                 (input)="typing(joueurItem)"
                 name="age"
@@ -52,7 +52,7 @@
             </mat-form-field>
           </div>
 
-          <div fxFlex="30%" fxFlex.lt-md="100%">
+          <div fxFlex="20%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
               <mat-label>Tableaux *</mat-label>
               <mat-select
@@ -98,9 +98,9 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="15%" fxFlex.lt-md="100%">
+        <div fxFlex="25%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-label>Classement</mat-label>
+            <mat-label>Classement (si compétiteur)</mat-label>
             <input
               name="classement"
               [(ngModel)]="joueurData.classement"
@@ -114,7 +114,7 @@
 
         <div fxFlex="15%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-label>Âge</mat-label>
+            <mat-label>Âge (si mineur)</mat-label>
             <input
               (input)="typing(joueurData)"
               name="age"
@@ -127,7 +127,7 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="30%" fxFlex.lt-md="100%">
+        <div fxFlex="20%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
             <mat-label>Tableaux *</mat-label>
             <mat-select
@@ -230,9 +230,9 @@
     <p class="alerte_info">
       <mat-icon aria-hidden="false">info</mat-icon>
       <i>
-        Écrivez un plat, puis appuyez sur la touche <strong>Entrée</strong> de
-        votre clavier pour l'ajouter à la liste, et ainsi de suite pour chaque
-        plat.</i
+        Écrivez <b>un</b> plat, puis appuyez sur la touche
+        <strong>Entrée</strong> de votre clavier pour l'ajouter à la liste, et
+        ainsi de suite <b>pour chaque plat</b>.</i
       >
     </p>
 
