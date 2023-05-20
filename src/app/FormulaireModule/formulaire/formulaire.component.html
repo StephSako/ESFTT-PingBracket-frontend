@@ -25,7 +25,7 @@
 
           <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label>Classement (si compétiteur)</mat-label>
+              <mat-label>Points mensuels (si compétiteur)</mat-label>
               <input
                 name="classement"
                 [(ngModel)]="joueurItem.classement"
@@ -100,7 +100,7 @@
 
         <div fxFlex="25%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-label>Classement (si compétiteur)</mat-label>
+            <mat-label>Points mensuels (si compétiteur)</mat-label>
             <input
               name="classement"
               [(ngModel)]="joueurData.classement"
@@ -225,7 +225,9 @@
     </div>
 
     <br />
-    <h3 class="lobster">Plat(s) confectionné(s)</h3>
+    <h3 class="lobster">
+      Plat(s) <b><u>que vous aurez confectionné(s)</u></b>
+    </h3>
 
     <p class="alerte_info">
       <mat-icon aria-hidden="false">info</mat-icon>

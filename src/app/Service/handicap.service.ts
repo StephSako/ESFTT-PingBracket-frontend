@@ -28,27 +28,26 @@ export class HandicapService {
       }
 
       const ecart = Math.abs(joueur1 - joueur2);
-      if (ecart >= 50 && ecart <= 99) {
+      if (ecart >= 101 && ecart <= 200) {
         handicap = [-1, 0];
-      } else if (ecart >= 100 && ecart <= 199) {
+      } else if (ecart >= 201 && ecart <= 300) {
         handicap = [-1, 1];
-      } else if (ecart >= 200 && ecart <= 299) {
+      } else if (ecart >= 301 && ecart <= 400) {
         handicap = [-2, 1];
-      } else if (ecart >= 300 && ecart <= 399) {
+      } else if (ecart >= 401 && ecart <= 500) {
         handicap = [-2, 2];
-      } else if (ecart >= 400 && ecart <= 499) {
+      } else if (ecart >= 501 && ecart <= 600) {
         handicap = [-3, 2];
-      } else if (ecart >= 500 && ecart <= 599) {
+      } else if (ecart >= 601 && ecart <= 700) {
         handicap = [-3, 3];
-      } else if (ecart >= 600 && ecart <= 699) {
+      } else if (ecart >= 701 && ecart <= 800) {
         handicap = [-4, 3];
-      } else if (ecart >= 700 && ecart <= 799) {
+      } else if (ecart >= 801) {
         handicap = [-4, 4];
-      } else if (ecart >= 800) {
-        handicap = [-5, 4];
       }
     }
 
+    /** Les loisirs ont un point bonus */
     if ((isLoisir1 && !inverser) || (isLoisir2 && inverser)) {
       handicap[0]++;
     } else if ((isLoisir2 && !inverser) || (isLoisir1 && inverser)) {

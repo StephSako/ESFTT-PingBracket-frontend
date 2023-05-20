@@ -247,7 +247,7 @@ export class FormulaireComponent implements OnInit {
         summary +=
           '<b style="color: #3f51b5">' +
           joueur.nom.toUpperCase() +
-          '</b><br><b>Classement :</b> ' +
+          '</b><br><b>Points mensuels :</b> ' +
           (joueur.classement || joueur.classement > 0
             ? joueur.classement
             : '/') +
