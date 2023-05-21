@@ -16,6 +16,13 @@ i {
   margin-bottom: 10px;
 }
 
+p.error {
+  color: red;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 0 0 10px 8px;
+}
+
 .nbParticipants {
   h3,
   mat-form-field {
@@ -25,6 +32,10 @@ i {
   mat-form-field {
     margin-left: 10px;
   }
+}
+
+h3.title_plat {
+  font-size: 17px;
 }
 
 .mat-form-field {

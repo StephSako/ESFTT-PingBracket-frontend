@@ -5,7 +5,7 @@
 
   <mat-card *ngIf="parametres.open !== null && parametres.open">
     <p [innerHTML]="parametres.titre" class="center"></p>
-    <h2 class="center lobster">{{ parametres.date | date : "dd/MM/yyyy" }}</h2>
+    <h1 class="center lobster">{{ parametres.date | date : "dd/MM/yyyy" }}</h1>
 
     <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
 
@@ -18,9 +18,27 @@
         <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
           <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label>NOM Prénom *</mat-label>
+              <mat-label
+                [ngStyle]="{
+                  color:
+                    isInSameNamePlayers(joueurItem.nom) ||
+                    isInAlreadySubscribedPlayers(joueurItem.nom)
+                      ? 'red'
+                      : 'black'
+                }"
+                >NOM Prénom *</mat-label
+              >
               <input name="nom" [(ngModel)]="joueurItem.nom" matInput />
             </mat-form-field>
+            <p class="error" *ngIf="isInSameNamePlayers(joueurItem.nom)">
+              Nom en doublon
+            </p>
+            <p
+              class="error"
+              *ngIf="isInAlreadySubscribedPlayers(joueurItem.nom)"
+            >
+              '{{ joueurItem.nom | uppercase }}' est déjà inscrit
+            </p>
           </div>
 
           <div fxFlex="25%" fxFlex.lt-md="100%">
@@ -54,7 +72,7 @@
 
           <div fxFlex="20%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label>Tableaux *</mat-label>
+              <mat-label>Tableau(x) *</mat-label>
               <mat-select
                 name="tableaux"
                 [(ngModel)]="joueurItem.tableaux"
@@ -129,7 +147,7 @@
 
         <div fxFlex="20%" fxFlex.lt-md="100%">
           <mat-form-field appearance="outline" class="center">
-            <mat-label>Tableaux *</mat-label>
+            <mat-label>Tableau(x) *</mat-label>
             <mat-select
               name="tableaux"
               [(ngModel)]="joueurData.tableaux"
@@ -225,8 +243,8 @@
     </div>
 
     <br />
-    <h3 class="lobster">
-      Plat(s) <b><u>que vous aurez confectionné(s)</u></b>
+    <h3 class="lobster title_plat">
+      <b>Plat(s) <u>que vous aurez confectionné(s)</u></b>
     </h3>
 
     <p class="alerte_info">
@@ -281,9 +299,23 @@
 
     <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">
       Un joueur est en cours d'inscription et n'a pas été validé.<br /><i
-        >(Rappel : cliquez sur le bouton bleu <b>Valider le joueur</b> pour
+        >(Rappel : cliquez sur le bouton bleu <b>Valider ce joueur</b> pour
         inscrire chaque participant.)</i
       >
+    </p>
+    <p class="alerte_pill center" *ngIf="hasSameNamePlayers().length > 0">
+      {{ hasSameNamePlayers().length * 2 }} joueurs possèdent le même nom :
+      différenciez-les par l'ajout d'un chiffre ou d'un surnom. <br />Pour
+      rappel, si un joueur participe à plusieurs tableaux, cochez-les tous dans
+      la liste des tableaux pour ce joueur.
+    </p>
+    <p class="alerte_pill center" *ngIf="isAlreadySubscribed().length > 0">
+      {{
+        isAlreadySubscribed().length +
+          (isAlreadySubscribed().length > 1
+            ? " joueurs renseignés sont déjà inscrits"
+            : " joueur renseigné est déjà inscrit")
+      }}
     </p>
     <button
       [disabled]="disabledSubmit()"

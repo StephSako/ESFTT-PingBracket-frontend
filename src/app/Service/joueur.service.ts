@@ -21,6 +21,10 @@ export class JoueurService {
     return this.http.get(this.baseURL);
   }
 
+  public getTableauPlayersNames(): Observable<any> {
+    return this.http.get(`${this.baseURL}subscribed/names`);
+  }
+
   public getTableauPlayers(tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}subscribed/${tableau}`);
   }

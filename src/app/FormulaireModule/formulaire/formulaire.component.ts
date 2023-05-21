@@ -29,8 +29,10 @@ import { AppService } from 'src/app/app.service';
 })
 export class FormulaireComponent implements OnInit {
   /* Champs du formulaire pour les joueurs */
-  public tableaux: TableauInterface[];
+  public tableaux: TableauInterface[] = [];
   public spinnerShown = false;
+
+  public listeJoueursSubscribed: string[] = [];
 
   public parametres: ParametreInterface = {
     texte_debut: null,
@@ -104,12 +106,22 @@ export class FormulaireComponent implements OnInit {
     );
   }
 
+  getPlayersAlreadySubscribed(): void {
+    this.joueurService.getTableauPlayersNames().subscribe(
+      (joueurs) => (this.listeJoueursSubscribed = joueurs),
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
+  }
+
   getParametres(): void {
     this.parametreService.getParametres().subscribe(
       (parametres) => {
         this.parametres = parametres;
         if (this.parametres.open) {
           this.getTableaux();
+          this.getPlayersAlreadySubscribed();
           this.getPlatsAlreadyCooked();
         }
       },
@@ -286,7 +298,9 @@ export class FormulaireComponent implements OnInit {
         this.buffet.ado_adulte === 0 &&
         this.buffet.plats.length === 0) ||
       this.spinnerShown ||
-      this.isPlayerSubscribing()
+      this.isPlayerSubscribing() ||
+      this.hasSameNamePlayers().length > 0 ||
+      this.isAlreadySubscribed().length > 0
     );
   }
 
@@ -317,6 +331,48 @@ export class FormulaireComponent implements OnInit {
       this.joueurData.tableaux.length === 0 &&
       this.joueurData.classement === null
     );
+  }
+
+  hasSameNamePlayers(): string[] {
+    let sameNames: string[] = [];
+    this.listeJoueurs.filter((j_f) => {
+      if (
+        !sameNames.includes(j_f.nom.toUpperCase()) &&
+        this.listeJoueurs.filter(
+          (j) => j.nom.toUpperCase() === j_f.nom.toUpperCase()
+        ).length > 1
+      ) {
+        sameNames.push(j_f.nom.toUpperCase());
+        return true;
+      }
+      return false;
+    }).length > 1;
+    return sameNames;
+  }
+
+  isAlreadySubscribed(): string[] {
+    let errorAlreadySubscribed: string[] = [];
+    this.listeJoueurs.filter((j_f) => {
+      if (
+        !errorAlreadySubscribed.includes(j_f.nom.toUpperCase()) &&
+        this.listeJoueursSubscribed.filter(
+          (j_nom) => j_nom === j_f.nom.toUpperCase()
+        ).length > 0
+      ) {
+        errorAlreadySubscribed.push(j_f.nom.toUpperCase());
+        return true;
+      }
+      return false;
+    }).length > 0;
+    return errorAlreadySubscribed;
+  }
+
+  isInSameNamePlayers(nom: string): boolean {
+    return this.hasSameNamePlayers().includes(nom.toUpperCase());
+  }
+
+  isInAlreadySubscribedPlayers(nom: string): boolean {
+    return this.isAlreadySubscribed().includes(nom.toUpperCase());
   }
 
   openConfirmModale(): void {

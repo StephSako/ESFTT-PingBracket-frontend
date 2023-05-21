@@ -20,6 +20,8 @@
     {{ data.close_button ? data.close_button : "Annuler" }}
   </button>
   <button
+    [disabled]="submitBtnDisabled"
+    (click)="submitBtnDisable()"
     mat-button
     color="primary"
     [mat-dialog-close]="data.id"

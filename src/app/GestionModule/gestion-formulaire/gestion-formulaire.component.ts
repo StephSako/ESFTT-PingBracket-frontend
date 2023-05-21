@@ -80,6 +80,7 @@ export class GestionFormulaireComponent implements OnInit {
       { class: 'arial', name: 'Arial' },
       { class: 'times-new-roman', name: 'Times New Roman' },
       { class: 'calibri', name: 'Calibri' },
+      { class: 'lobster', name: 'Lobster' },
     ],
     customClasses: [],
     uploadWithCredentials: false,

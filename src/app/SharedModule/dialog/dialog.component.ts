@@ -8,5 +8,11 @@ import { Dialog } from '../../Interface/Dialog';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
+  public submitBtnDisabled = false;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: Dialog) {}
+
+  submitBtnDisable(): void {
+    this.submitBtnDisabled = true;
+  }
 }
