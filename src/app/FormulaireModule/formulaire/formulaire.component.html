@@ -22,7 +22,9 @@
                 [ngStyle]="{
                   color:
                     isInSameNamePlayers(joueurItem.nom) ||
-                    isInAlreadySubscribedPlayers(joueurItem.nom)
+                    isInAlreadySubscribedPlayers(joueurItem.nom) ||
+                    hasNoName(joueurItem.nom) ||
+                    hasNoTableau(joueurItem.tableaux)
                       ? 'red'
                       : 'black'
                 }"
@@ -30,14 +32,30 @@
               >
               <input name="nom" [(ngModel)]="joueurItem.nom" matInput />
             </mat-form-field>
-            <p class="error" *ngIf="isInSameNamePlayers(joueurItem.nom)">
+            <p
+              class="error"
+              *ngIf="
+                isInSameNamePlayers(joueurItem.nom) &&
+                !hasNoName(joueurItem.nom) &&
+                !isInAlreadySubscribedPlayers(joueurItem.nom)
+              "
+            >
               Nom en doublon
             </p>
             <p
               class="error"
-              *ngIf="isInAlreadySubscribedPlayers(joueurItem.nom)"
+              *ngIf="
+                isInAlreadySubscribedPlayers(joueurItem.nom) &&
+                !hasNoName(joueurItem.nom)
+              "
             >
               '{{ joueurItem.nom | uppercase }}' est déjà inscrit
+            </p>
+            <p class="error" *ngIf="hasNoName(joueurItem.nom)">
+              Pas de nom renseigné
+            </p>
+            <p class="error" *ngIf="hasNoTableau(joueurItem.tableaux)">
+              Aucun tableau(x) coché(s)
             </p>
           </div>
 
@@ -308,6 +326,18 @@
       différenciez-les par l'ajout d'un chiffre ou d'un surnom. <br />Pour
       rappel, si un joueur participe à plusieurs tableaux, cochez-les tous dans
       la liste des tableaux pour ce joueur.
+    </p>
+    <p
+      class="alerte_pill center"
+      *ngIf="listeJoueursHasInvalidPlayer().length > 0"
+    >
+      {{
+        listeJoueursHasInvalidPlayer().length +
+          (listeJoueursHasInvalidPlayer().length > 1
+            ? " joueurs n'ont pas de noms renseignés"
+            : " joueur n'a pas de nom renseigné")
+      }}
+      ou de tableau(x) coché(s)
     </p>
     <p class="alerte_pill center" *ngIf="isAlreadySubscribed().length > 0">
       {{

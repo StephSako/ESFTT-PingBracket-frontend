@@ -291,6 +291,10 @@ export class FormulaireComponent implements OnInit {
     );
   }
 
+  listeJoueursHasInvalidPlayer(): JoueurInterface[] {
+    return this.listeJoueurs.filter((j) => this.disabledAddPlayer(j));
+  }
+
   disabledSubmit(): boolean {
     return (
       (this.listeJoueurs.length === 0 &&
@@ -300,7 +304,8 @@ export class FormulaireComponent implements OnInit {
       this.spinnerShown ||
       this.isPlayerSubscribing() ||
       this.hasSameNamePlayers().length > 0 ||
-      this.isAlreadySubscribed().length > 0
+      this.isAlreadySubscribed().length > 0 ||
+      this.listeJoueursHasInvalidPlayer().length > 0
     );
   }
 
@@ -337,6 +342,7 @@ export class FormulaireComponent implements OnInit {
     let sameNames: string[] = [];
     this.listeJoueurs.filter((j_f) => {
       if (
+        !this.hasNoName(j_f.nom) &&
         !sameNames.includes(j_f.nom.toUpperCase()) &&
         this.listeJoueurs.filter(
           (j) => j.nom.toUpperCase() === j_f.nom.toUpperCase()
@@ -354,6 +360,7 @@ export class FormulaireComponent implements OnInit {
     let errorAlreadySubscribed: string[] = [];
     this.listeJoueurs.filter((j_f) => {
       if (
+        !this.hasNoName(j_f.nom) &&
         !errorAlreadySubscribed.includes(j_f.nom.toUpperCase()) &&
         this.listeJoueursSubscribed.filter(
           (j_nom) => j_nom === j_f.nom.toUpperCase()
@@ -373,6 +380,14 @@ export class FormulaireComponent implements OnInit {
 
   isInAlreadySubscribedPlayers(nom: string): boolean {
     return this.isAlreadySubscribed().includes(nom.toUpperCase());
+  }
+
+  hasNoName(nom: string): boolean {
+    return nom.trim() === '';
+  }
+
+  hasNoTableau(tableaux: TableauInterface[]): boolean {
+    return tableaux.length === 0;
   }
 
   openConfirmModale(): void {
