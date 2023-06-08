@@ -113,7 +113,7 @@ export class TableauComponent implements OnInit {
               if (
                 this.tableau.poules &&
                 this.tableau.is_launched ===
-                  this.appService.getTableauState().TermineState
+                  this.appService.getTableauState().BracketState
               ) {
                 this.pouleService
                   .validateAllPoules(this.tableau._id)
