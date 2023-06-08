@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +31,8 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     tableaux: null,
     pointage: null,
   };
+  @Input() joueursInscrits: JoueurInterface[];
+  @Output() alreadySubscribedOutput = new EventEmitter<boolean>();
   tableaux: TableauInterface[];
   private tableauxSubscription: Subscription;
   private tableauxEventEmitter: Subscription;
@@ -47,6 +56,10 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
         () => this.getAllTableaux()
       );
     });
+  }
+
+  alertAlreadySubscribed() {
+    this.alreadySubscribedOutput.emit(this.isAlreadySubscribed());
   }
 
   ngOnDestroy(): void {
@@ -89,6 +102,16 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     return (
       tableau.age_minimum !== null &&
       (this.joueur.age === null || this.joueur.age >= tableau.age_minimum)
+    );
+  }
+
+  isAlreadySubscribed(): boolean {
+    return (
+      this.joueur.nom &&
+      this.joueursInscrits.length > 0 &&
+      this.joueursInscrits.filter(
+        (j_nom) => j_nom.nom.toUpperCase() === this.joueur.nom.toUpperCase()
+      ).length > 0
     );
   }
 }

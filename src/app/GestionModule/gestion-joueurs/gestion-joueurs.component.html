@@ -3,12 +3,16 @@
     <h2 class="lobster center">Créer un joueur</h2>
 
     <form (submit)="create()">
-      <app-form-joueur [joueur]="joueur"></app-form-joueur>
+      <app-form-joueur
+        (alreadySubscribedOutput)="setAlreadySubscribed($event)"
+        [joueursInscrits]="allJoueurs"
+        [joueur]="joueur"
+      ></app-form-joueur>
       <button
         mat-raised-button
         class="center"
         color="primary"
-        [disabled]="!isInvalidPlayer()"
+        [disabled]="!isInvalidPlayer() || alreadySubscribed"
       >
         Créer
       </button>
@@ -77,8 +81,8 @@
         </th>
         <td mat-cell *matCellDef="let joueur">
           <span class="center">
-            <mat-icon *ngIf="joueur.buffet">done</mat-icon>
-            <mat-icon *ngIf="!joueur.buffet">clear</mat-icon>
+            <mat-icon class="done" *ngIf="joueur.buffet">done</mat-icon>
+            <mat-icon class="clear" *ngIf="!joueur.buffet">clear</mat-icon>
           </span>
         </td>
       </ng-container>

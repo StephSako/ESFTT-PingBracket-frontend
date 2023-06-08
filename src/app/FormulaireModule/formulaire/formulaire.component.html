@@ -49,7 +49,7 @@
                 !hasNoName(joueurItem.nom)
               "
             >
-              '{{ joueurItem.nom | uppercase }}' est déjà inscrit
+              <b>{{ joueurItem.nom | uppercase }}</b> est déjà inscrit
             </p>
             <p class="error" *ngIf="hasNoName(joueurItem.nom)">
               Pas de nom renseigné

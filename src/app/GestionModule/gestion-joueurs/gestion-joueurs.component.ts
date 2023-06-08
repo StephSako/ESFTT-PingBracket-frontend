@@ -39,6 +39,11 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
   ];
   @Input() allJoueurs: JoueurInterface[] = [];
   private tableauxEventEmitter: Subscription;
+  public alreadySubscribed = false;
+
+  setAlreadySubscribed(isAlreadySubscribed: boolean): void {
+    this.alreadySubscribed = isAlreadySubscribed;
+  }
 
   public joueur: JoueurInterface = {
     nom: null,
