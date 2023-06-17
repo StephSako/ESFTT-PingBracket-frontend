@@ -110,8 +110,15 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
       this.joueur.nom &&
       this.joueursInscrits.length > 0 &&
       this.joueursInscrits.filter(
-        (j_nom) => j_nom.nom.toUpperCase() === this.joueur.nom.toUpperCase()
+        (j_nom) => this.formatNom(j_nom.nom) === this.formatNom(this.joueur.nom)
       ).length > 0
     );
+  }
+
+  formatNom(nom: string): string {
+    return nom
+      .toUpperCase()
+      .trim()
+      .replace(/\s{2,}/g, ' ');
   }
 }
