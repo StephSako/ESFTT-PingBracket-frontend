@@ -21,7 +21,6 @@ import { Dialog } from 'src/app/Interface/Dialog';
 import { DialogComponent } from 'src/app/SharedModule/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AppService } from 'src/app/app.service';
-import { error } from 'console';
 
 @Component({
   selector: 'app-formulaire',
