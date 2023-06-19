@@ -26,6 +26,8 @@ export class MatchComponent implements OnInit {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
   };
   @Output() updateBracket: EventEmitter<any> = new EventEmitter();
   public disabledMatChip = false;
@@ -128,6 +130,9 @@ export class MatchComponent implements OnInit {
   }
 
   getHandicap(): any[] {
+    if (!this.match.joueurs[0]._id || !this.match.joueurs[1]._id) {
+      return [''];
+    }
     return this.handicapService.calculHandicap(
       this.match.joueurs[0]._id.classement,
       this.match.joueurs[1]._id.classement

@@ -41,6 +41,8 @@ export class BinomeComponent implements OnInit, OnDestroy {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
   };
   private tableauxEditionSubscription: Subscription;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();

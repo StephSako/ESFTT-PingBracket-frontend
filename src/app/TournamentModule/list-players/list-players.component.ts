@@ -44,6 +44,8 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
@@ -392,14 +394,28 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       sortState.active === 'classement' && sortState.direction === 'desc';
   }
 
-  isChapeauHaut(i: number): string {
+  getChapeau(i: number, _id: string): any[] {
     if (this.showChapeauColors) {
       const listJoueursLength =
-        this.listJoueurs.length % 2
+        this.listJoueurs.length % 2 === 0
           ? this.listJoueurs.length / 2
           : this.listJoueurs.length / 2 + 0.5;
-      return i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut';
+
+      let chapeauHaut = this.dataSource
+        .sortData(this.dataSource.filteredData, this.dataSource.sort)
+        .slice(0, listJoueursLength)
+        .map((j) => j._id);
+      let chapeauBas = this.dataSource
+        .sortData(this.dataSource.filteredData, this.dataSource.sort)
+        .slice(listJoueursLength, this.dataSource.data.length)
+        .map((j) => j._id);
+      return [
+        i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut',
+        i >= listJoueursLength
+          ? chapeauBas.indexOf(_id)
+          : chapeauHaut.indexOf(_id),
+      ];
     }
-    return '';
+    return ['', ''];
   }
 }

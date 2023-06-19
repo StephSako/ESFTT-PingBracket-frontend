@@ -36,6 +36,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     'handicap',
     'poules',
     'nbPoules',
+    'paliersWB_LB',
     'consolante',
     'inscrits',
     'statut',
@@ -58,6 +59,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     age_minimum: null,
     nbPoules: 2,
     handicap: null,
+    palierQualifies: 2,
+    palierConsolantes: 4,
   };
 
   constructor(
@@ -130,6 +133,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           age_minimum: null,
           nbPoules: 2,
           handicap: null,
+          palierQualifies: 2,
+          palierConsolantes: 4,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(
@@ -284,6 +289,6 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   showAgeMinimum(age_minimum: number): string {
-    return age_minimum ? age_minimum + ' ans' : '';
+    return age_minimum ? '-' + age_minimum + ' ans' : '';
   }
 }

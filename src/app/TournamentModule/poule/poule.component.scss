@@ -30,14 +30,18 @@ button {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
   background: white;
   font-size: 14px;
+
+  &.qualifies {
+    background-color: #dbfcdb;
+  }
+
+  &.consolantes {
+    background-color: #e2f7ff;
+  }
 }
 
 .cdk-drag-preview {
@@ -60,7 +64,6 @@ button {
 }
 
 .box.cdk-drag-disabled {
-  background: white;
   border-color: white;
   cursor: default;
 }

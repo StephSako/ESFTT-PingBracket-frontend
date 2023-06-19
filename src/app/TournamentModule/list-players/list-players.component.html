@@ -105,14 +105,18 @@
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
         <td
-          [class]="isChapeauHaut(i)"
           mat-cell
           *matCellDef="let joueur; let i = index"
           [ngClass]="{
             pointage_KO: !joueur.pointage,
-            pointage_OK: joueur.pointage
+            pointage_OK: joueur.pointage,
+            chapeauHaut: getChapeau(i, joueur._id)[0] === 'chapeauHaut',
+            chapeauBas: getChapeau(i, joueur._id)[0] === 'chapeauBas'
           }"
         >
+          <b style="color: black">{{
+            showChapeauColors ? getChapeau(i, joueur._id)[1] + 1 + " " : " "
+          }}</b>
           {{ joueur.nom }}
         </td>
       </ng-container>
@@ -122,7 +126,7 @@
           Points mensuels
         </th>
         <td
-          [class]="isChapeauHaut(i)"
+          [class]="getChapeau(i, joueur._id)[0]"
           mat-cell
           *matCellDef="let joueur; let i = index"
         >

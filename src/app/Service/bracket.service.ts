@@ -34,12 +34,16 @@ export class BracketService {
     format: string,
     phase: string,
     poules: boolean,
-    maxNumberPlayers: number
+    maxNumberPlayers: number,
+    palierQualifies: number,
+    palierConsolantes: number
   ): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, {
       format,
       poules,
       maxNumberPlayers,
+      palierQualifies,
+      palierConsolantes,
     });
   }
 

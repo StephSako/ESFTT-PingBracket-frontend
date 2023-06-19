@@ -32,6 +32,8 @@ export class TableauComponent implements OnInit {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
   };
 
   // Input variables

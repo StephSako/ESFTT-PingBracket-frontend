@@ -47,12 +47,7 @@
             class="handicap"
             *ngIf="tableau.handicap && matchHasTwoPlayers()"
           >
-            <b>{{
-              getHandicap(
-                match.joueurs[0]._id.classement,
-                match.joueurs[1]._id.classement
-              )[index]
-            }}</b>
+            <b>{{ getHandicap()[index] }}</b>
           </span>
         </mat-chip-list>
       </div>
