@@ -41,7 +41,7 @@
       <mat-icon matSuffix>today</mat-icon>
       <mat-label>Âge (si mineur)</mat-label>
       <input
-        (input)="typingAge()"
+        (blur)="checkAge(); setAuthorizedTableaux()"
         name="age"
         [(ngModel)]="joueur.age"
         type="number"

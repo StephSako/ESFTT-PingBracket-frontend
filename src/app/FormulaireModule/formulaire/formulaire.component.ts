@@ -483,10 +483,12 @@ export class FormulaireComponent implements OnInit {
   }
 
   checkAge(joueur: JoueurInterface): void {
-    if (joueur.age < 5) {
-      joueur.age = 5;
-    } else if (joueur.age > 17) {
-      joueur.age = 17;
+    if (joueur.age) {
+      if (joueur.age < 5) {
+        joueur.age = 5;
+      } else if (joueur.age > 17) {
+        joueur.age = 17;
+      }
     }
   }
 

@@ -80,13 +80,23 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     );
   }
 
-  typingAge(): void {
+  setAuthorizedTableaux(): void {
     this.joueur.tableaux = this.joueur.tableaux.filter(
       (tableau) =>
         !(
-          this.joueur.age <= tableau.age_minimum && tableau.age_minimum !== null
+          tableau.age_minimum !== null && this.joueur.age >= tableau.age_minimum
         )
     );
+  }
+
+  checkAge(): void {
+    if (this.joueur.age) {
+      if (this.joueur.age < 5) {
+        this.joueur.age = 5;
+      } else if (this.joueur.age > 17) {
+        this.joueur.age = 17;
+      }
+    }
   }
 
   compareTableauWithOther(
