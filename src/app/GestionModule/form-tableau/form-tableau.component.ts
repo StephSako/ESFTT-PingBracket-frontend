@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TableauInterface } from '../../Interface/Tableau';
-import { categoriesAge, formats } from '../../options-tableaux';
+import { categoriesAge, formats } from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-form-tableau',

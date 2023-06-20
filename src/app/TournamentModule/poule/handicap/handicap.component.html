@@ -1,6 +1,6 @@
 <h2 class="lobster center">Handicap</h2>
 
-<div class="center" *ngIf="listeJoueurs">
+<div *ngIf="listeJoueurs">
   <p *ngFor="let match of showHandicap()" [outerHTML]="match"></p>
 </div>
 

@@ -7,10 +7,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauService } from '../../Service/tableau.service';
 import { BracketService } from '../../Service/bracket.service';
 import { PoulesService } from '../../Service/poules.service';
-import { categoriesAge, formats, statuts } from '../../options-tableaux';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BinomeService } from '../../Service/binome.service';
+import {
+  categoriesAge,
+  formats,
+  statuts,
+} from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-edit-tableau',

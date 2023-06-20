@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { JoueurInterface } from 'src/app/Interface/Joueur';
 import { HandicapService } from 'src/app/Service/handicap.service';
+import { ordresRencontres } from 'src/app/const/options-poules';
 
 @Component({
   selector: 'app-handicap',
@@ -23,40 +24,45 @@ export class HandicapComponent implements OnInit {
 
   showHandicap(): string[] {
     const matchesPoules = [];
-    this.listeJoueurs.forEach((joueur1) => {
-      this.listeJoueurs.forEach((joueur2) => {
-        if (
-          joueur1._id !== joueur2._id &&
-          matchesPoules.filter((match) => {
-            const regex = new RegExp(
-              '.*' + joueur2.nom + '.*' + joueur1.nom + '.*'
-            );
-            return match.match(regex);
-          }).length === 0
-        ) {
-          matchesPoules.push(
-            joueur1.nom +
-              ' ' +
-              joueur1.classement +
-              ' pts <b>' +
-              this.handicapService.calculHandicap(
-                JSON.parse(JSON.stringify(joueur1.classement)),
-                JSON.parse(JSON.stringify(joueur2.classement))
-              )[0] +
-              '</b> vs <b>' +
-              this.handicapService.calculHandicap(
-                JSON.parse(JSON.stringify(joueur1.classement)),
-                JSON.parse(JSON.stringify(joueur2.classement))
-              )[1] +
-              '</b> ' +
-              ' ' +
-              joueur2.classement +
-              ' pts ' +
-              joueur2.nom +
-              '<br>'
-          );
-        }
-      });
+    const sortedJoueursList = [...this.listeJoueurs].sort((j1, j2) =>
+      j1.classement < j2.classement
+        ? 1
+        : j1.classement > j2.classement
+        ? -1
+        : j1.nom.localeCompare(j2.nom)
+    );
+    const ordre = ordresRencontres.find(
+      (o) => o.nbJoueurs === sortedJoueursList.length
+    )?.ordre;
+    if (!ordre) {
+      return [
+        `<b>Les poules de ${sortedJoueursList.length} joueurs ne sont pas encore prises en compte</b>`,
+      ];
+    }
+    ordre.forEach((o) => {
+      let j1 = sortedJoueursList[o[0] - 1];
+      let j2 = sortedJoueursList[o[1] - 1];
+      matchesPoules.push(
+        '<b>[' +
+          o[0] +
+          '-' +
+          o[1] +
+          ']</b>   ' +
+          j1.nom +
+          ' ' +
+          j1.classement +
+          ' pts <b>' +
+          this.handicapService.calculHandicap(j1.classement, j2.classement)[0] +
+          ' | ' +
+          this.handicapService.calculHandicap(j1.classement, j2.classement)[1] +
+          '</b> ' +
+          ' ' +
+          j2.nom +
+          ' ' +
+          j2.classement +
+          ' pts' +
+          '<br>'
+      );
     });
     return matchesPoules;
   }
