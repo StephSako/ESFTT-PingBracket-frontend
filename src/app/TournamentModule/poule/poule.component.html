@@ -49,7 +49,7 @@
             [cdkDragData]="[poule._id, participant._id]"
             [cdkDragDisabled]="poule.locked"
             class="box center"
-            [class]="getQualifies(i)"
+            [class]="getQualifies(i, poule.locked)"
             [ngClass]="{ tight: poules[indexList].objectRef === 'Binomes' }"
             *ngFor="
               let participant of poules[indexList].participants;

@@ -139,11 +139,13 @@ export class PouleComponent implements OnInit, OnDestroy {
     });
   }
 
-  getQualifies(i: number): string {
-    if (i < this.tableau.palierQualifies) {
-      return 'qualifies';
-    } else if (i < this.tableau.palierConsolantes) {
-      return 'consolantes';
+  getQualifies(i: number, locked: boolean): string {
+    if (locked) {
+      if (i < this.tableau.palierQualifies) {
+        return 'qualifies';
+      } else if (i < this.tableau.palierConsolantes) {
+        return 'consolantes';
+      }
     }
     return '';
   }
