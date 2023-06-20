@@ -44,6 +44,7 @@ export class MatchComponent implements OnInit {
   ngOnInit(): void {}
 
   setWinner(winnerId: string): void {
+    this.disabledMatChip = true;
     if (
       this.match.joueurs.length > 1 &&
       this.tableau.is_launched ===
@@ -52,7 +53,6 @@ export class MatchComponent implements OnInit {
       ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
         !this.match.joueurs[1])
     ) {
-      this.disabledMatChip = true;
       this.disabledCancelButton = true;
       const looserId =
         this.match.joueurs.length === 2 &&
@@ -88,6 +88,8 @@ export class MatchComponent implements OnInit {
             this.disabledCancelButton = false;
           }
         );
+    } else {
+      this.disabledMatChip = false;
     }
   }
 
