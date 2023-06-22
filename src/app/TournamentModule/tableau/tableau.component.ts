@@ -34,6 +34,7 @@ export class TableauComponent implements OnInit {
     handicap: null,
     palierQualifies: null,
     palierConsolantes: null,
+    hasChapeau: null,
   };
 
   // Input variables

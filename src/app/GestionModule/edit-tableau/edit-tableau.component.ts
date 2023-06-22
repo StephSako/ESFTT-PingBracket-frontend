@@ -66,6 +66,7 @@ export class EditTableauComponent implements OnInit {
       poules: new FormControl(this.tableau.poules),
       palierQualifies: new FormControl(this.tableau.palierQualifies),
       palierConsolantes: new FormControl(this.tableau.palierConsolantes),
+      hasChapeau: new FormControl(this.tableau.hasChapeau),
     });
     this.filterStatus();
   }
@@ -168,6 +169,11 @@ export class EditTableauComponent implements OnInit {
             this.tableau.consolante = this.reactiveForm.get('consolante').value;
             this.tableau.format = this.reactiveForm.get('format').value;
             this.tableau.handicap = this.reactiveForm.get('handicap').value;
+            this.tableau.hasChapeau = this.reactiveForm.get('hasChapeau').value;
+            this.tableau.palierConsolantes =
+              this.reactiveForm.get('palierConsolantes').value;
+            this.tableau.palierQualifies =
+              this.reactiveForm.get('palierQualifies').value;
 
             this.tableauService.edit(this.tableau).subscribe(
               () => {
@@ -245,6 +251,7 @@ export class EditTableauComponent implements OnInit {
       this.tableau.consolante = this.reactiveForm.get('consolante').value;
       this.tableau.format = this.reactiveForm.get('format').value;
       this.tableau.handicap = this.reactiveForm.get('handicap').value;
+      this.tableau.hasChapeau = this.reactiveForm.get('hasChapeau').value;
       this.tableau.palierConsolantes =
         this.reactiveForm.get('palierConsolantes').value;
       this.tableau.palierQualifies =
@@ -296,5 +303,6 @@ export class EditTableauComponent implements OnInit {
         poules: true,
       });
     }
+    this.reactiveForm.get('hasChapeau').setValue(false);
   }
 }

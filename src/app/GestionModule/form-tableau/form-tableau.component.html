@@ -47,7 +47,7 @@
 </div>
 
 <div fxLayout="row">
-  <div fxFlex="17%">
+  <div fxFlex="16%">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Format</mat-label>
       <mat-select
@@ -62,7 +62,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="18%" *ngIf="tableau.format === 'double'">
+  <div fxFlex="14%" *ngIf="tableau.format === 'double'">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Nb max joueurs/binôme</mat-label>
       <input
@@ -75,7 +75,16 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="16%">
+  <div fxFlex="13%" *ngIf="tableau.format === 'double'">
+    <mat-slide-toggle
+      color="primary"
+      class="center"
+      formControlName="hasChapeau"
+      >Chapeau</mat-slide-toggle
+    >
+  </div>
+
+  <div fxFlex="14%">
     <mat-slide-toggle
       color="primary"
       class="center"
@@ -85,7 +94,7 @@
     >
   </div>
 
-  <div fxFlex="17%" *ngIf="tableau.poules">
+  <div fxFlex="15%" *ngIf="tableau.poules">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Nombre de poules</mat-label>
       <input
@@ -98,7 +107,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="16%" *ngIf="tableau.poules">
+  <div fxFlex="14%" *ngIf="tableau.poules">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Palier qualifiés</mat-label>
       <input
@@ -110,7 +119,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="16%" *ngIf="tableau.poules && tableau.consolante">
+  <div fxFlex="14%" *ngIf="tableau.poules && tableau.consolante">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Palier consolantes</mat-label>
       <input

@@ -40,6 +40,7 @@ export class PouleComponent implements OnInit, OnDestroy {
     handicap: null,
     palierQualifies: null,
     palierConsolantes: null,
+    hasChapeau: null,
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
   private tableauxEditionSubscription: Subscription;
@@ -143,7 +144,10 @@ export class PouleComponent implements OnInit, OnDestroy {
     if (locked) {
       if (i < this.tableau.palierQualifies) {
         return 'qualifies';
-      } else if (i < this.tableau.palierConsolantes) {
+      } else if (
+        i < this.tableau.palierConsolantes &&
+        this.tableau.consolante
+      ) {
         return 'consolantes';
       }
     }

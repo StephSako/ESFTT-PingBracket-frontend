@@ -44,6 +44,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
     handicap: null,
     palierQualifies: null,
     palierConsolantes: null,
+    hasChapeau: null,
   };
   private tableauxEditionSubscription: Subscription;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
@@ -83,6 +84,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
         this.tableauService.tableauxEditSource.subscribe(
           (tableau: TableauInterface) => {
             this.tableau = tableau;
+            this.showChapeauColors = tableau.hasChapeau;
           }
         );
 
@@ -103,7 +105,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
       .getTableau(this.router.url.split('/').pop())
       .subscribe((tableau) => {
         this.tableau = tableau;
-        this.showChapeauColors = tableau.nom === 'double';
+        this.showChapeauColors = tableau.hasChapeau;
         this.getAllBinomes.emit();
         if (this.tableau.format === 'double') {
           this.getSubscribedUnassignedPlayers.emit();
@@ -198,7 +200,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
   }
 
   getChapeau(_id: string): any[] {
-    if (this.tableau.nom === 'double' && this.listJoueursTotal.length > 0) {
+    if (this.showChapeauColors && this.listJoueursTotal.length > 0) {
       const listJoueursLength =
         this.listJoueursTotal.length % 2 === 0
           ? this.listJoueursTotal.length / 2

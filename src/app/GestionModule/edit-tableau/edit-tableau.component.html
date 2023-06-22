@@ -46,7 +46,7 @@
   </div>
 
   <div fxLayout="row">
-    <div fxFlex="14%">
+    <div fxFlex="13%">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Format</mat-label>
         <mat-select
@@ -61,7 +61,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="15%" *ngIf="fieldValue('format') === 'double'">
+    <div fxFlex="13%" *ngIf="fieldValue('format') === 'double'">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nb max joueurs/binôme</mat-label>
         <input
@@ -74,7 +74,16 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="13%">
+    <div fxFlex="13%" *ngIf="fieldValue('format') === 'double'">
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="hasChapeau"
+        >Chapeau</mat-slide-toggle
+      >
+    </div>
+
+    <div fxFlex="11%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -85,7 +94,7 @@
       >
     </div>
 
-    <div fxFlex="14%" *ngIf="fieldValue('poules')">
+    <div fxFlex="12%" *ngIf="fieldValue('poules')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nombre de poules</mat-label>
         <input
@@ -98,7 +107,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="14%" *ngIf="fieldValue('poules')">
+    <div fxFlex="12%" *ngIf="fieldValue('poules')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Palier qualifiés</mat-label>
         <input
@@ -110,7 +119,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="14%" *ngIf="fieldValue('poules') && fieldValue('consolante')">
+    <div fxFlex="12%" *ngIf="fieldValue('poules') && fieldValue('consolante')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Palier consolantes</mat-label>
         <input
@@ -122,7 +131,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="16%">
+    <div fxFlex="14%">
       <mat-form-field appearance="outline">
         <mat-label>Etat</mat-label>
         <mat-select formControlName="is_launched" required>

@@ -81,6 +81,17 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="hasChapeau">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="center">Chapeau</span>
+        </th>
+        <td mat-cell *matCellDef="let tableau">
+          <span class="center"
+            ><mat-icon *ngIf="tableau.hasChapeau">done</mat-icon></span
+          >
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="nbPoules">
         <th mat-header-cell *matHeaderCellDef>
           <span class="center">Nb de poules</span>

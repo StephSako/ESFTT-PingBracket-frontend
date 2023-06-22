@@ -35,6 +35,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     'maxNumberPlayers',
     'handicap',
     'poules',
+    'hasChapeau',
     'nbPoules',
     'paliersWB_LB',
     'consolante',
@@ -61,6 +62,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     handicap: null,
     palierQualifies: 2,
     palierConsolantes: 4,
+    hasChapeau: false,
   };
 
   constructor(
@@ -125,7 +127,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
         this.tableau = {
           format: null,
           nom: null,
-          poules: null,
+          poules: false,
           is_launched: null,
           _id: null,
           consolante: null,
@@ -135,6 +137,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           handicap: null,
           palierQualifies: 2,
           palierConsolantes: 4,
+          hasChapeau: false,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(

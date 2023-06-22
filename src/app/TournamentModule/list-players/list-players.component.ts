@@ -46,6 +46,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     handicap: null,
     palierQualifies: null,
     palierConsolantes: null,
+    hasChapeau: null,
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
@@ -146,8 +147,9 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   getTableau(tableau_id: string): void {
     this.tableauService.getTableau(tableau_id).subscribe(
-      (tableau) => {
+      (tableau: TableauInterface) => {
         this.tableau = tableau;
+        this.showChapeauColors = false;
         this.getAllPlayers();
         this.getUnsubscribedPlayers();
         this.displayedColumns =
@@ -392,7 +394,9 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   showChapeau(sortState: Sort): void {
     this.showChapeauColors =
-      sortState.active === 'classement' && sortState.direction === 'desc';
+      this.tableau.hasChapeau &&
+      sortState.active === 'classement' &&
+      sortState.direction === 'desc';
   }
 
   getChapeau(i: number, _id: string): any[] {
