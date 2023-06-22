@@ -132,8 +132,9 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   getAllPlayers(): void {
     this.joueurService.getTableauPlayers(this.tableau._id).subscribe(
-      (joueurs) => {
+      (joueurs: JoueurInterface[]) => {
         this.listJoueurs = joueurs;
+        this.tableauService.listeJoueurs.next(this.listJoueurs);
         this.dataSource = new MatTableDataSource(joueurs);
         this.dataSource.sort = this.sort;
       },
@@ -395,7 +396,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
   }
 
   getChapeau(i: number, _id: string): any[] {
-    if (this.showChapeauColors) {
+    if (this.showChapeauColors && this.listJoueurs.length > 0) {
       const listJoueursLength =
         this.listJoueurs.length % 2 === 0
           ? this.listJoueurs.length / 2

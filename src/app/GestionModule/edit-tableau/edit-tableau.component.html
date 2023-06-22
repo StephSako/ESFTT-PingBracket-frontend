@@ -79,6 +79,7 @@
         color="primary"
         class="center"
         formControlName="poules"
+        (change)="filterStatus()"
         [disabled]="fieldValue('format') === 'simple'"
         >Poules</mat-slide-toggle
       >

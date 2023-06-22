@@ -2,7 +2,7 @@ export const formats: string[] = ['simple', 'double'];
 
 export const statuts: any[] = [
   { libelle: 'Pointage', value: 0 },
-  { libelle: 'Poules démarrées', value: 1 },
+  { libelle: 'Poules démarrées', value: 1, forNoPoule: true },
   { libelle: 'Bracket démarré', value: 2 },
   { libelle: 'Tableau terminé', value: 3 },
 ];

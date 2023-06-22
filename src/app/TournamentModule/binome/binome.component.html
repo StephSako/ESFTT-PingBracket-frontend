@@ -89,7 +89,12 @@
               (cdkDropListDropped)="editBinome($event, null)"
             >
               <div
-                class="box center"
+                [ngClass]="{
+                  box: true,
+                  center: true,
+                  chapeauHaut: getChapeau(joueur._id)[0] === 'chapeauHaut',
+                  chapeauBas: getChapeau(joueur._id)[0] === 'chapeauBas'
+                }"
                 [cdkDragDisabled]="
                   tableau.is_launched !==
                   appService.getTableauState().PointageState
@@ -99,7 +104,10 @@
                 cdkDrag
               >
                 <div class="custom-placeholder" *cdkDragPlaceholder></div>
-                {{ joueur.nom }} - {{ joueur.classement }}
+                <b style="color: black">{{
+                  showChapeauColors ? getChapeau(joueur._id)[1] + 1 + " " : " "
+                }}</b
+                >{{ joueur.nom }} - {{ joueur.classement }}
               </div>
             </div>
           </mat-card>

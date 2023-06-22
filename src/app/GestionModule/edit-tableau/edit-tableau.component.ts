@@ -25,7 +25,7 @@ export class EditTableauComponent implements OnInit {
   tableau: TableauInterface;
   reactiveForm: FormGroup;
   formats: string[] = formats;
-  statuts: any[] = statuts;
+  statuts: any[] = [];
   categoriesAge: any[] = categoriesAge;
 
   constructor(
@@ -39,6 +39,16 @@ export class EditTableauComponent implements OnInit {
     private binomeService: BinomeService
   ) {
     this.tableau = data.tableau;
+  }
+
+  filterStatus(): void {
+    this.statuts = statuts.filter(
+      (statut) =>
+        (this.reactiveForm.get('poules').value &&
+          statut.forNoPoule !== false) ||
+        (!this.reactiveForm.get('poules').value &&
+          statut.forNoPoule === undefined)
+    );
   }
 
   ngOnInit(): void {
@@ -57,6 +67,7 @@ export class EditTableauComponent implements OnInit {
       palierQualifies: new FormControl(this.tableau.palierQualifies),
       palierConsolantes: new FormControl(this.tableau.palierConsolantes),
     });
+    this.filterStatus();
   }
 
   editTableau(): void {
