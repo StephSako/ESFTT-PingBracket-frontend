@@ -7,7 +7,9 @@
 
   <div fxLayout="row wrap">
     <div
-      [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'"
+      [fxFlex]="
+        tableau.nbPoules > 2 ? '33%' : tableau.nbPoules === 2 ? '50%' : '100%'
+      "
       *ngFor="let poule of poules; let indexList = index"
     >
       <mat-card class="mat-elevation-z8">
