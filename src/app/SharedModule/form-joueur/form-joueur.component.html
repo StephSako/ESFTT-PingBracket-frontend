@@ -1,16 +1,30 @@
 <div fxLayout="row">
-  <div fxFlex="25%" class="center">
+  <div fxFlex="25%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
-      <mat-label>Nom du joueur</mat-label>
-      <input name="nom" type="text" [(ngModel)]="joueur.nom" matInput />
+      <mat-label
+        [ngStyle]="{
+          color: isAlreadySubscribed() ? 'red' : 'black'
+        }"
+        >Nom du joueur</mat-label
+      >
+      <input
+        (input)="alertAlreadySubscribed()"
+        name="nom"
+        type="text"
+        [(ngModel)]="joueur.nom"
+        matInput
+      />
     </mat-form-field>
+    <p class="clear" *ngIf="isAlreadySubscribed()">
+      <b>{{ joueur.nom | uppercase }}</b> est déjà inscrit
+    </p>
   </div>
 
-  <div fxFlex="20%">
+  <div fxFlex="25%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>bar_chart</mat-icon>
-      <mat-label>Points mensuels</mat-label>
+      <mat-label>Points mensuels (si compétiteur)</mat-label>
       <input
         name="classement"
         type="number"
@@ -25,14 +39,14 @@
   <div fxFlex="20%">
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>today</mat-icon>
-      <mat-label>Âge</mat-label>
+      <mat-label>Âge (si mineur)</mat-label>
       <input
-        (input)="typingAge()"
+        (blur)="checkAge(); setAuthorizedTableaux()"
         name="age"
         [(ngModel)]="joueur.age"
         type="number"
-        min="0"
-        max="99"
+        min="5"
+        max="17"
         matInput
       />
     </mat-form-field>
@@ -62,7 +76,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="15%">
+  <div fxFlex="10%">
     <mat-slide-toggle color="primary" [(ngModel)]="joueur.buffet"
       >Buffet</mat-slide-toggle
     >

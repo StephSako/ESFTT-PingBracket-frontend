@@ -9,34 +9,34 @@ td {
 
   &.pointage_OK {
     color: green;
-    font-weight: 700;
+    font-weight: 500;
+  }
+
+  &.chapeauHaut {
+    &:nth-child(1) {
+      border-radius: 5px 0px 0px 5px;
+      background-color: #ffc1c1;
+    }
+    &:nth-child(2) {
+      border-radius: 0px 5px 5px 0px;
+      background-color: #ffc1c1;
+    }
+  }
+
+  &.chapeauBas {
+    &:nth-child(1) {
+      border-radius: 5px 0px 0px 5px;
+      background-color: #c1daff;
+    }
+    &:nth-child(2) {
+      border-radius: 0px 5px 5px 0px;
+      background-color: #c1daff;
+    }
   }
 }
 
 button.unsubscribeAll {
   margin-bottom: 18px;
-}
-
-td.chapeauHaut {
-  &:nth-child(1) {
-    border-radius: 5px 0px 0px 5px;
-    background-color: #ffc1c1;
-  }
-  &:nth-child(2) {
-    border-radius: 0px 5px 5px 0px;
-    background-color: #ffc1c1;
-  }
-}
-
-td.chapeauBas {
-  &:nth-child(1) {
-    border-radius: 5px 0px 0px 5px;
-    background-color: #c1daff;
-  }
-  &:nth-child(2) {
-    border-radius: 0px 5px 5px 0px;
-    background-color: #c1daff;
-  }
 }
 
 button.movePlayers {

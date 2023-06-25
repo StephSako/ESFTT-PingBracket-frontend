@@ -38,6 +38,9 @@ export class PouleComponent implements OnInit, OnDestroy {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
+    hasChapeau: null,
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
   private tableauxEditionSubscription: Subscription;
@@ -135,5 +138,19 @@ export class PouleComponent implements OnInit, OnDestroy {
         listeJoueurs,
       },
     });
+  }
+
+  getQualifies(i: number, locked: boolean): string {
+    if (locked) {
+      if (i < this.tableau.palierQualifies) {
+        return 'qualifies';
+      } else if (
+        i < this.tableau.palierConsolantes &&
+        this.tableau.consolante
+      ) {
+        return 'consolantes';
+      }
+    }
+    return '';
   }
 }

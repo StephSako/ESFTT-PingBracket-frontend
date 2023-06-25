@@ -1,58 +1,101 @@
 <div class="container">
-
   <mat-card>
-
-    <form (ngSubmit)="editBuffet()" [formGroup]="reactiveFormBuffet" id="formBuffet">
+    <form
+      (ngSubmit)="editBuffet()"
+      [formGroup]="reactiveFormBuffet"
+      id="formBuffet"
+    >
       <h1 class="lobster center special_margin">Le buffet</h1>
 
       <div class="nbParticipants">
-        <h3 class="lobster">Nombre d'enfants</h3>
+        <h3 class="lobster">Nombre d'enfants (-14 ans)</h3>
         <mat-form-field class="shorten" appearance="outline">
-          <input matInput type="number" min="0" max="200" id="enfant" formControlName="enfant">
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="200"
+            id="enfant"
+            formControlName="enfant"
+          />
         </mat-form-field>
       </div>
 
       <div class="nbParticipants">
-        <h3 class="lobster">Nombre d'ados/adultes</h3>
+        <h3 class="lobster">Nombre d'ados (14 ans et +)/adultes</h3>
         <mat-form-field class="shorten" appearance="outline">
-          <input matInput type="number" min="0" max="200" id="ado_adulte" formControlName="ado_adulte">
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="200"
+            id="ado_adulte"
+            formControlName="ado_adulte"
+          />
         </mat-form-field>
       </div>
 
       <h3 class="lobster">Liste des plats cuisinés :</h3>
       <mat-form-field class="chip-list" appearance="outline">
         <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip *ngFor="let plat of buffet.plats" [selectable]="selectable" [removable]="removable" (removed)="remove(plat)" color="primary" selected>
-            {{plat}}
+          <mat-chip
+            *ngFor="let plat of buffet.plats"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(plat)"
+            color="primary"
+            selected
+          >
+            {{ plat }}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
-          <input [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="addOnBlur"
-                type="text"
-                (matChipInputTokenEnd)="add($event)">
+          <input
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            type="text"
+            (matChipInputTokenEnd)="add($event)"
+          />
         </mat-chip-list>
       </mat-form-field>
 
-      <button type="submit" mat-raised-button class="center saveBtn" color="primary">Sauvegarder le buffet</button>
+      <button
+        type="submit"
+        mat-raised-button
+        class="center saveBtn"
+        color="primary"
+      >
+        Sauvegarder le buffet
+      </button>
     </form>
   </mat-card>
 
   <mat-card>
     <h1 class="lobster center special_margin">Le formulaire</h1>
 
-    <button [class]="(parametres.open ? 'disabledButtons': 'enabledButtons')" class="center" mat-raised-button color="primary" (click)="openCloseFormulaire()">{{ (this.parametres.open ? 'Fermer' : 'Ouvrir') }} les inscriptions</button><br>
+    <button
+      [class]="parametres.open ? 'disabledButtons' : 'enabledButtons'"
+      class="center"
+      mat-raised-button
+      color="primary"
+      (click)="openCloseFormulaire()"
+    >
+      {{ this.parametres.open ? "Fermer" : "Ouvrir" }} les inscriptions</button
+    ><br />
 
     <form (ngSubmit)="editFormulaire()" [formGroup]="reactiveFormFormulaire">
-
       <h2 class="lobster special_margin">Titre</h2>
-      <angular-editor id="editor1" formControlName="titre" [config]="editorConfig"></angular-editor>
+      <angular-editor
+        id="editor1"
+        formControlName="titre"
+        [config]="editorConfig"
+      ></angular-editor>
 
       <h2 class="lobster special_margin">Date du tournoi</h2>
       <div fxLayout="row">
         <div fxFlex="15%">
           <mat-form-field appearance="outline">
-            <input matInput [matDatepicker]="dp" formControlName="date">
+            <input matInput [matDatepicker]="dp" formControlName="date" />
             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
             <mat-datepicker #dp></mat-datepicker>
           </mat-form-field>
@@ -60,18 +103,43 @@
       </div>
 
       <h2 class="lobster special_margin">Texte de présentation</h2>
-      <angular-editor id="editor2" formControlName="texte_debut" [config]="editorConfig"></angular-editor>
+      <angular-editor
+        id="editor2"
+        formControlName="texte_debut"
+        [config]="editorConfig"
+      ></angular-editor>
 
-      <h2 class="lobster special_margin">Consignes pour les inscriptions aux tableaux</h2>
-      <angular-editor id="editor4" formControlName="consignes_tableaux" [config]="editorConfig"></angular-editor>
+      <h2 class="lobster special_margin">
+        Consignes pour les inscriptions aux tableaux
+      </h2>
+      <angular-editor
+        id="editor4"
+        formControlName="consignes_tableaux"
+        [config]="editorConfig"
+      ></angular-editor>
 
       <h2 class="lobster special_margin">Texte du buffet</h2>
-      <angular-editor id="editor3" formControlName="texte_buffet" [config]="editorConfig"></angular-editor>
+      <angular-editor
+        id="editor3"
+        formControlName="texte_buffet"
+        [config]="editorConfig"
+      ></angular-editor>
 
       <h2 class="lobster special_margin">Texte de fin</h2>
-      <angular-editor id="editor4" formControlName="texte_fin" [config]="editorConfig"></angular-editor>
+      <angular-editor
+        id="editor4"
+        formControlName="texte_fin"
+        [config]="editorConfig"
+      ></angular-editor>
 
-      <button type="submit" mat-raised-button class="center saveBtn" color="primary">Sauvegarder le formulaire</button>
+      <button
+        type="submit"
+        mat-raised-button
+        class="center saveBtn"
+        color="primary"
+      >
+        Sauvegarder le formulaire
+      </button>
     </form>
   </mat-card>
 </div>

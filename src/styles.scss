@@ -33,7 +33,8 @@ body {
   margin-top: 20px !important;
 }
 
-.style-success .mat-simple-snackbar-action {
+.style-success .mat-simple-snackbar-action,
+.done {
   color: green;
 }
 
@@ -42,7 +43,8 @@ body {
   color: white;
 }
 
-.style-error .mat-simple-snackbar-action {
+.style-error .mat-simple-snackbar-action,
+.clear {
   color: red;
 }
 

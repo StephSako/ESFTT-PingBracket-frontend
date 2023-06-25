@@ -7,7 +7,9 @@
 
   <div fxLayout="row wrap">
     <div
-      [fxFlex]="tableau.nbPoules > 2 ? '33%' : '50%'"
+      [fxFlex]="
+        tableau.nbPoules > 2 ? '33%' : tableau.nbPoules === 2 ? '50%' : '100%'
+      "
       *ngFor="let poule of poules; let indexList = index"
     >
       <mat-card class="mat-elevation-z8">
@@ -49,8 +51,12 @@
             [cdkDragData]="[poule._id, participant._id]"
             [cdkDragDisabled]="poule.locked"
             class="box center"
+            [class]="getQualifies(i, poule.locked)"
             [ngClass]="{ tight: poules[indexList].objectRef === 'Binomes' }"
-            *ngFor="let participant of poules[indexList].participants"
+            *ngFor="
+              let participant of poules[indexList].participants;
+              let i = index
+            "
             cdkDrag
           >
             <span
@@ -61,9 +67,6 @@
           </div>
         </div>
         <button
-          *ngIf="
-            tableau.is_launched === appService.getTableauState().PouleState
-          "
           (click)="setStatus(poule)"
           mat-raised-button
           class="center btnSetLockedPoule"

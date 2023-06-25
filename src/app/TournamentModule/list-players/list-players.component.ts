@@ -44,6 +44,9 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
+    hasChapeau: null,
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
@@ -130,8 +133,9 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   getAllPlayers(): void {
     this.joueurService.getTableauPlayers(this.tableau._id).subscribe(
-      (joueurs) => {
+      (joueurs: JoueurInterface[]) => {
         this.listJoueurs = joueurs;
+        this.tableauService.listeJoueurs.next(this.listJoueurs);
         this.dataSource = new MatTableDataSource(joueurs);
         this.dataSource.sort = this.sort;
       },
@@ -143,8 +147,9 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   getTableau(tableau_id: string): void {
     this.tableauService.getTableau(tableau_id).subscribe(
-      (tableau) => {
+      (tableau: TableauInterface) => {
         this.tableau = tableau;
+        this.showChapeauColors = false;
         this.getAllPlayers();
         this.getUnsubscribedPlayers();
         this.displayedColumns =
@@ -389,17 +394,33 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
 
   showChapeau(sortState: Sort): void {
     this.showChapeauColors =
-      sortState.active === 'classement' && sortState.direction === 'desc';
+      this.tableau.hasChapeau &&
+      sortState.active === 'classement' &&
+      sortState.direction === 'desc';
   }
 
-  isChapeauHaut(i: number): string {
-    if (this.showChapeauColors) {
+  getChapeau(i: number, _id: string): any[] {
+    if (this.showChapeauColors && this.listJoueurs.length > 0) {
       const listJoueursLength =
-        this.listJoueurs.length % 2
+        this.listJoueurs.length % 2 === 0
           ? this.listJoueurs.length / 2
           : this.listJoueurs.length / 2 + 0.5;
-      return i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut';
+
+      let chapeauHaut = this.dataSource
+        .sortData(this.dataSource.filteredData, this.dataSource.sort)
+        .slice(0, listJoueursLength)
+        .map((j) => j._id);
+      let chapeauBas = this.dataSource
+        .sortData(this.dataSource.filteredData, this.dataSource.sort)
+        .slice(listJoueursLength, this.dataSource.data.length)
+        .map((j) => j._id);
+      return [
+        i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut',
+        i >= listJoueursLength
+          ? chapeauBas.indexOf(_id)
+          : chapeauHaut.indexOf(_id),
+      ];
     }
-    return '';
+    return ['', ''];
   }
 }

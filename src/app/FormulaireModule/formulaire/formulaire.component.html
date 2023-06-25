@@ -49,7 +49,7 @@
                 !hasNoName(joueurItem.nom)
               "
             >
-              '{{ joueurItem.nom | uppercase }}' est déjà inscrit
+              <b>{{ joueurItem.nom | uppercase }}</b> est déjà inscrit
             </p>
             <p class="error" *ngIf="hasNoName(joueurItem.nom)">
               Pas de nom renseigné
@@ -67,7 +67,7 @@
                 [(ngModel)]="joueurItem.classement"
                 type="number"
                 min="0"
-                max="2000"
+                max="3000"
                 matInput
               />
             </mat-form-field>
@@ -77,12 +77,16 @@
             <mat-form-field appearance="outline" class="center">
               <mat-label>Âge (si mineur)</mat-label>
               <input
-                (input)="typing(joueurItem)"
                 name="age"
                 [(ngModel)]="joueurItem.age"
+                (blur)="
+                  checkAge(joueurItem);
+                  setAuthorizedTableaux(joueurItem);
+                  updateMinAllParticipantsBuffet()
+                "
                 type="number"
                 min="5"
-                max="99"
+                max="17"
                 matInput
               />
             </mat-form-field>
@@ -142,7 +146,7 @@
               [(ngModel)]="joueurData.classement"
               type="number"
               min="0"
-              max="2000"
+              max="3000"
               matInput
             />
           </mat-form-field>
@@ -152,12 +156,12 @@
           <mat-form-field appearance="outline" class="center">
             <mat-label>Âge (si mineur)</mat-label>
             <input
-              (input)="typing(joueurData)"
+              (blur)="checkAge(joueurData); setAuthorizedTableaux(joueurData)"
               name="age"
               [(ngModel)]="joueurData.age"
               type="number"
-              min="0"
-              max="99"
+              min="5"
+              max="17"
               matInput
             />
           </mat-form-field>
@@ -205,36 +209,7 @@
     <h2 class="lobster">2. Participation au buffet du soir</h2>
     <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
 
-    <div class="nbParticipants">
-      <h3 class="lobster">Nombre d'enfants au total</h3>
-      <mat-form-field class="shorten" appearance="outline">
-        <input
-          matInput
-          type="number"
-          min="0"
-          max="20"
-          [(ngModel)]="buffet.enfant"
-          name="enfant"
-        />
-      </mat-form-field>
-    </div>
-
-    <div class="nbParticipants">
-      <h3 class="lobster">Nombre d'ados/adultes au total</h3>
-      <mat-form-field class="shorten" appearance="outline">
-        <input
-          matInput
-          type="number"
-          min="0"
-          max="20"
-          [(ngModel)]="buffet.ado_adulte"
-          name="ado_adulte"
-        />
-      </mat-form-field>
-    </div>
-
     <div *ngIf="listeJoueurs.length">
-      <br />
       <h3 class="lobster">Participation des joueurs au buffet</h3>
 
       <table mat-table [dataSource]="dataSource">
@@ -248,7 +223,7 @@
           <td mat-cell *matCellDef="let joueur">
             <mat-slide-toggle
               color="primary"
-              (change)="joueur.buffet = !joueur.buffet"
+              (change)="changeSwitchBuffet(joueur)"
               [checked]="joueur.buffet"
             >
             </mat-slide-toggle>
@@ -258,6 +233,44 @@
         <tr mat-header-row *matHeaderRowDef="['nom', 'buffet']"></tr>
         <tr mat-row *matRowDef="let row; columns: ['nom', 'buffet']"></tr>
       </table>
+      <br />
+      <br />
+    </div>
+
+    <br />
+    <p>
+      <b
+        >Indiquez ci-dessous le nombre total de participants au buffet du soir
+        :</b
+      >
+    </p>
+
+    <div class="nbParticipants">
+      <p>Nombre d'enfants (-14 ans) au total</p>
+      <mat-form-field class="shorten" appearance="outline">
+        <input
+          matInput
+          type="number"
+          [min]="minParticipantsEnfantsBuffet"
+          [(ngModel)]="buffet.enfant"
+          (blur)="updateMinAllParticipantsBuffet()"
+          name="enfant"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="nbParticipants">
+      <p>Nombre d'ados (14 ans et +)/adultes au total</p>
+      <mat-form-field class="shorten" appearance="outline">
+        <input
+          matInput
+          type="number"
+          [min]="minParticipantsAdosAdultesBuffet"
+          [(ngModel)]="buffet.ado_adulte"
+          (blur)="updateMinAllParticipantsBuffet()"
+          name="ado_adulte"
+        />
+      </mat-form-field>
     </div>
 
     <br />

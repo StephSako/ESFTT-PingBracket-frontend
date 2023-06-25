@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TableauInterface } from '../../Interface/Tableau';
-import { categoriesAge, formats } from '../../options-tableaux';
+import { categoriesAge, formats } from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-form-tableau',
@@ -23,5 +23,6 @@ export class FormTableauComponent implements OnInit {
     if (this.tableau.format === 'simple') {
       this.tableau.poules = true;
     }
+    this.tableau.hasChapeau = false;
   }
 }

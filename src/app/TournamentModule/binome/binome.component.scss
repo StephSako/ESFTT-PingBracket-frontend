@@ -38,6 +38,13 @@
   cursor: move;
   background: white;
   font-size: 14px;
+  &.chapeauHaut {
+    background-color: #ffc1c1 !important;
+  }
+
+  &.chapeauBas {
+    background-color: #c1daff !important;
+  }
 }
 
 .cdk-drag-preview {
@@ -99,13 +106,13 @@ p.error_message {
 .absolutePos {
   position: absolute;
   top: 19px;
-  height: 470px;
+  height: 630px;
 }
 
 .stickyPos {
   position: fixed;
   top: 9%;
-  height: 90%;
+  height: 88%;
 }
 
 ::-webkit-scrollbar {

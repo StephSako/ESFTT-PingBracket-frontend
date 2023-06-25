@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +31,8 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     tableaux: null,
     pointage: null,
   };
+  @Input() joueursInscrits: JoueurInterface[];
+  @Output() alreadySubscribedOutput = new EventEmitter<boolean>();
   tableaux: TableauInterface[];
   private tableauxSubscription: Subscription;
   private tableauxEventEmitter: Subscription;
@@ -49,6 +58,10 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     });
   }
 
+  alertAlreadySubscribed() {
+    this.alreadySubscribedOutput.emit(this.isAlreadySubscribed());
+  }
+
   ngOnDestroy(): void {
     this.tableauxSubscription.unsubscribe();
     this.tableauxEventEmitter.unsubscribe();
@@ -67,13 +80,23 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     );
   }
 
-  typingAge(): void {
+  setAuthorizedTableaux(): void {
     this.joueur.tableaux = this.joueur.tableaux.filter(
       (tableau) =>
         !(
-          this.joueur.age <= tableau.age_minimum && tableau.age_minimum !== null
+          tableau.age_minimum !== null && this.joueur.age >= tableau.age_minimum
         )
     );
+  }
+
+  checkAge(): void {
+    if (this.joueur.age) {
+      if (this.joueur.age < 5) {
+        this.joueur.age = 5;
+      } else if (this.joueur.age > 17) {
+        this.joueur.age = 17;
+      }
+    }
   }
 
   compareTableauWithOther(
@@ -90,5 +113,22 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
       tableau.age_minimum !== null &&
       (this.joueur.age === null || this.joueur.age >= tableau.age_minimum)
     );
+  }
+
+  isAlreadySubscribed(): boolean {
+    return (
+      this.joueur.nom &&
+      this.joueursInscrits.length > 0 &&
+      this.joueursInscrits.filter(
+        (j_nom) => this.formatNom(j_nom.nom) === this.formatNom(this.joueur.nom)
+      ).length > 0
+    );
+  }
+
+  formatNom(nom: string): string {
+    return nom
+      .toUpperCase()
+      .trim()
+      .replace(/\s{2,}/g, ' ');
   }
 }

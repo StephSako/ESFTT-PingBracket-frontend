@@ -31,10 +31,11 @@
             <mat-icon matSuffix>today</mat-icon>
             <mat-label>Âge</mat-label>
             <input
+              (blur)="checkAge()"
               formControlName="age"
               type="number"
-              min="0"
-              max="2000"
+              min="5"
+              max="17"
               matInput
             />
           </mat-form-field>

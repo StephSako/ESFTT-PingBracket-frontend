@@ -32,6 +32,9 @@ export class FormulaireComponent implements OnInit {
   public tableaux: TableauInterface[] = [];
   public spinnerShown = false;
 
+  public minParticipantsEnfantsBuffet = 0;
+  public minParticipantsAdosAdultesBuffet = 0;
+
   public listeJoueursSubscribed: string[] = [];
 
   public parametres: ParametreInterface = {
@@ -158,7 +161,7 @@ export class FormulaireComponent implements OnInit {
     }
   }
 
-  addJoueur($item): void {
+  addJoueur(joueur: JoueurInterface): void {
     this.joueurData = {
       tableaux: [],
       classement: null,
@@ -168,12 +171,16 @@ export class FormulaireComponent implements OnInit {
       _id: null,
       pointage: false,
     };
-    this.listeJoueurs.push($item);
+    this.listeJoueurs.push(joueur);
     this.dataSource.data = this.listeJoueurs;
+    this.addParticipantBuffet(joueur);
+    this.updateMinAllParticipantsBuffet();
   }
 
-  removeItem($item): void {
-    this.listeJoueurs.splice(this.listeJoueurs.indexOf($item), 1);
+  removeItem(joueur: JoueurInterface): void {
+    this.listeJoueurs.splice(this.listeJoueurs.indexOf(joueur), 1);
+    this.removeParticipantBuffet(joueur);
+    this.updateMinAllParticipantsBuffet();
   }
 
   async submit(): Promise<void> {
@@ -258,7 +265,7 @@ export class FormulaireComponent implements OnInit {
       this.listeJoueurs.forEach((joueur) => {
         summary +=
           '<b style="color: #3f51b5">' +
-          joueur.nom.toUpperCase() +
+          this.formatNom(joueur.nom) +
           '</b><br><b>Points mensuels :</b> ' +
           (joueur.classement || joueur.classement > 0
             ? joueur.classement
@@ -322,11 +329,12 @@ export class FormulaireComponent implements OnInit {
     );
   }
 
-  typing(joueur: JoueurInterface): void {
+  setAuthorizedTableaux(joueur: JoueurInterface): void {
     joueur.tableaux = joueur.tableaux.filter(
       (tableau) =>
-        !(joueur.age <= tableau.age_minimum && tableau.age_minimum !== null)
+        !(tableau.age_minimum !== null && joueur.age >= tableau.age_minimum)
     );
+    this.updateMinAllParticipantsBuffet();
   }
 
   isPlayerSubscribing(): boolean {
@@ -343,12 +351,12 @@ export class FormulaireComponent implements OnInit {
     this.listeJoueurs.filter((j_f) => {
       if (
         !this.hasNoName(j_f.nom) &&
-        !sameNames.includes(j_f.nom.toUpperCase()) &&
+        !sameNames.includes(this.formatNom(j_f.nom)) &&
         this.listeJoueurs.filter(
-          (j) => j.nom.toUpperCase() === j_f.nom.toUpperCase()
+          (j) => this.formatNom(j.nom) === this.formatNom(j_f.nom)
         ).length > 1
       ) {
-        sameNames.push(j_f.nom.toUpperCase());
+        sameNames.push(this.formatNom(j_f.nom));
         return true;
       }
       return false;
@@ -361,12 +369,12 @@ export class FormulaireComponent implements OnInit {
     this.listeJoueurs.filter((j_f) => {
       if (
         !this.hasNoName(j_f.nom) &&
-        !errorAlreadySubscribed.includes(j_f.nom.toUpperCase()) &&
+        !errorAlreadySubscribed.includes(this.formatNom(j_f.nom)) &&
         this.listeJoueursSubscribed.filter(
-          (j_nom) => j_nom === j_f.nom.toUpperCase()
+          (j_nom) => this.formatNom(j_nom) === this.formatNom(j_f.nom)
         ).length > 0
       ) {
-        errorAlreadySubscribed.push(j_f.nom.toUpperCase());
+        errorAlreadySubscribed.push(this.formatNom(j_f.nom));
         return true;
       }
       return false;
@@ -375,11 +383,11 @@ export class FormulaireComponent implements OnInit {
   }
 
   isInSameNamePlayers(nom: string): boolean {
-    return this.hasSameNamePlayers().includes(nom.toUpperCase());
+    return this.hasSameNamePlayers().includes(this.formatNom(nom));
   }
 
   isInAlreadySubscribedPlayers(nom: string): boolean {
-    return this.isAlreadySubscribed().includes(nom.toUpperCase());
+    return this.isAlreadySubscribed().includes(this.formatNom(nom));
   }
 
   hasNoName(nom: string): boolean {
@@ -421,5 +429,73 @@ export class FormulaireComponent implements OnInit {
           );
         }
       );
+  }
+
+  updateMinJoueursEnfantsBuffet(): void {
+    this.minParticipantsEnfantsBuffet = this.listeJoueurs.filter(
+      (j) => j.age && j.age < 14 && j.buffet
+    ).length;
+
+    if (this.buffet.enfant < this.minParticipantsEnfantsBuffet) {
+      this.buffet.enfant = this.minParticipantsEnfantsBuffet;
+    }
+  }
+
+  updateMinJoueursAdosAdultesBuffet(): void {
+    this.minParticipantsAdosAdultesBuffet = this.listeJoueurs.filter(
+      (j) => (j.age === null || j.age >= 14) && j.buffet
+    ).length;
+
+    if (this.buffet.ado_adulte < this.minParticipantsAdosAdultesBuffet) {
+      this.buffet.ado_adulte = this.minParticipantsAdosAdultesBuffet;
+    }
+  }
+
+  removeParticipantBuffet(joueur: JoueurInterface): void {
+    if (joueur.age !== null && joueur.age < 14) {
+      this.buffet.enfant--;
+    } else if (joueur.age === null || joueur.age >= 14) {
+      this.buffet.ado_adulte--;
+    }
+  }
+
+  addParticipantBuffet(joueur: JoueurInterface): void {
+    if (joueur.age !== null && joueur.age < 14) {
+      this.buffet.enfant++;
+    } else if (joueur.age === null || joueur.age >= 14) {
+      this.buffet.ado_adulte++;
+    }
+  }
+
+  updateMinAllParticipantsBuffet(): void {
+    this.updateMinJoueursAdosAdultesBuffet();
+    this.updateMinJoueursEnfantsBuffet();
+  }
+
+  changeSwitchBuffet(joueur: JoueurInterface): void {
+    joueur.buffet = !joueur.buffet;
+    if (!joueur.buffet) {
+      this.removeParticipantBuffet(joueur);
+    } else {
+      this.addParticipantBuffet(joueur);
+    }
+    this.updateMinAllParticipantsBuffet();
+  }
+
+  checkAge(joueur: JoueurInterface): void {
+    if (joueur.age) {
+      if (joueur.age < 5) {
+        joueur.age = 5;
+      } else if (joueur.age > 17) {
+        joueur.age = 17;
+      }
+    }
+  }
+
+  formatNom(nom: string): string {
+    return nom
+      .toUpperCase()
+      .trim()
+      .replace(/\s{2,}/g, ' ');
   }
 }

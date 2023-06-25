@@ -20,7 +20,7 @@ export class HandicapService {
     }
 
     let inverser = false;
-    let handicap: any[] = [0, 0];
+    let handicap: any[number] = [0, 0];
 
     if (joueur1 !== joueur2 || Math.abs(joueur1 - joueur2) < 50) {
       if (joueur1 < joueur2) {

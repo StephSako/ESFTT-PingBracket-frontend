@@ -28,6 +28,7 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./binome.component.scss'],
 })
 export class BinomeComponent implements OnInit, OnDestroy {
+  listJoueursTotal: JoueurInterface[] = [];
   @Input() binomes: BinomeInterface[] = [];
   @Input() subscribedUnassignedPlayers: JoueurInterface[] = [];
   tableau: TableauInterface = {
@@ -41,12 +42,16 @@ export class BinomeComponent implements OnInit, OnDestroy {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
+    hasChapeau: null,
   };
   private tableauxEditionSubscription: Subscription;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
   @Output() getAllBinomes: EventEmitter<any> = new EventEmitter();
   @Output() getSubscribedUnassignedPlayers: EventEmitter<any> =
     new EventEmitter();
+  showChapeauColors = false;
 
   onScrollEvent(): void {
     const element = document.getElementById('listPlayers');
@@ -68,7 +73,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private notifyService: NotifyService,
     private appService: AppService,
-    private gestionService: TableauService
+    private tableauService: TableauService
   ) {}
 
   ngOnInit(): void {
@@ -76,11 +81,18 @@ export class BinomeComponent implements OnInit, OnDestroy {
       this.getTableau();
 
       this.tableauxEditionSubscription =
-        this.gestionService.tableauxEditSource.subscribe(
+        this.tableauService.tableauxEditSource.subscribe(
           (tableau: TableauInterface) => {
             this.tableau = tableau;
+            this.showChapeauColors = tableau.hasChapeau;
           }
         );
+
+      this.tableauService.listeJoueurs.subscribe(
+        (listJoueursTotal: JoueurInterface[]) => {
+          this.listJoueursTotal = listJoueursTotal;
+        }
+      );
     });
   }
 
@@ -89,10 +101,11 @@ export class BinomeComponent implements OnInit, OnDestroy {
   }
 
   getTableau(): void {
-    this.gestionService
+    this.tableauService
       .getTableau(this.router.url.split('/').pop())
       .subscribe((tableau) => {
         this.tableau = tableau;
+        this.showChapeauColors = tableau.hasChapeau;
         this.getAllBinomes.emit();
         if (this.tableau.format === 'double') {
           this.getSubscribedUnassignedPlayers.emit();
@@ -184,5 +197,43 @@ export class BinomeComponent implements OnInit, OnDestroy {
           .map((binome) => binome.joueurs.length)
           .reduce((a, b) => a + b)
       : 0;
+  }
+
+  getChapeau(_id: string): any[] {
+    if (this.showChapeauColors && this.listJoueursTotal.length > 0) {
+      const listJoueursLength =
+        this.listJoueursTotal.length % 2 === 0
+          ? this.listJoueursTotal.length / 2
+          : this.listJoueursTotal.length / 2 + 0.5;
+
+      let chapeauHaut = this.listJoueursTotal
+        .sort((j1, j2) =>
+          j1.classement < j2.classement
+            ? 1
+            : j1.classement > j2.classement
+            ? -1
+            : j1.nom.localeCompare(j2.nom)
+        )
+        .slice(0, listJoueursLength)
+        .map((j) => j._id);
+
+      let chapeauBas = this.listJoueursTotal
+        .sort((j1, j2) =>
+          j1.classement < j2.classement
+            ? 1
+            : j1.classement > j2.classement
+            ? -1
+            : j1.nom.localeCompare(j2.nom)
+        )
+        .slice(listJoueursLength, this.listJoueursTotal.length)
+        .map((j) => j._id);
+
+      let isChapeauHaut = chapeauHaut.indexOf(_id);
+      return [
+        isChapeauHaut < 0 ? 'chapeauBas' : 'chapeauHaut',
+        isChapeauHaut < 0 ? chapeauBas.indexOf(_id) : chapeauHaut.indexOf(_id),
+      ];
+    }
+    return ['', ''];
   }
 }

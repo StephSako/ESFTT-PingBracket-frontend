@@ -9,6 +9,9 @@ export interface TableauInterface {
   maxNumberPlayers: number;
   age_minimum: number;
   nbPoules: number;
+  palierQualifies: number;
+  palierConsolantes: number;
+  hasChapeau: boolean;
 }
 
 export interface PlayerCountPerTableau {

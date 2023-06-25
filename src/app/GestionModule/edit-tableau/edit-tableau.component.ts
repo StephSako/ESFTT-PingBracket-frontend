@@ -7,10 +7,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableauService } from '../../Service/tableau.service';
 import { BracketService } from '../../Service/bracket.service';
 import { PoulesService } from '../../Service/poules.service';
-import { categoriesAge, formats, statuts } from '../../options-tableaux';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BinomeService } from '../../Service/binome.service';
+import {
+  categoriesAge,
+  formats,
+  statuts,
+} from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-edit-tableau',
@@ -21,7 +25,7 @@ export class EditTableauComponent implements OnInit {
   tableau: TableauInterface;
   reactiveForm: FormGroup;
   formats: string[] = formats;
-  statuts: any[] = statuts;
+  statuts: any[] = [];
   categoriesAge: any[] = categoriesAge;
 
   constructor(
@@ -37,6 +41,16 @@ export class EditTableauComponent implements OnInit {
     this.tableau = data.tableau;
   }
 
+  filterStatus(): void {
+    this.statuts = statuts.filter(
+      (statut) =>
+        (this.reactiveForm.get('poules').value &&
+          statut.forNoPoule !== false) ||
+        (!this.reactiveForm.get('poules').value &&
+          statut.forNoPoule === undefined)
+    );
+  }
+
   ngOnInit(): void {
     this.reactiveForm = new FormGroup({
       nom: new FormControl(this.tableau.nom),
@@ -50,7 +64,11 @@ export class EditTableauComponent implements OnInit {
       age_minimum: new FormControl(this.tableau.age_minimum),
       maxNumberPlayers: new FormControl(this.tableau.maxNumberPlayers),
       poules: new FormControl(this.tableau.poules),
+      palierQualifies: new FormControl(this.tableau.palierQualifies),
+      palierConsolantes: new FormControl(this.tableau.palierConsolantes),
+      hasChapeau: new FormControl(this.tableau.hasChapeau),
     });
+    this.filterStatus();
   }
 
   editTableau(): void {
@@ -151,6 +169,11 @@ export class EditTableauComponent implements OnInit {
             this.tableau.consolante = this.reactiveForm.get('consolante').value;
             this.tableau.format = this.reactiveForm.get('format').value;
             this.tableau.handicap = this.reactiveForm.get('handicap').value;
+            this.tableau.hasChapeau = this.reactiveForm.get('hasChapeau').value;
+            this.tableau.palierConsolantes =
+              this.reactiveForm.get('palierConsolantes').value;
+            this.tableau.palierQualifies =
+              this.reactiveForm.get('palierQualifies').value;
 
             this.tableauService.edit(this.tableau).subscribe(
               () => {
@@ -228,6 +251,11 @@ export class EditTableauComponent implements OnInit {
       this.tableau.consolante = this.reactiveForm.get('consolante').value;
       this.tableau.format = this.reactiveForm.get('format').value;
       this.tableau.handicap = this.reactiveForm.get('handicap').value;
+      this.tableau.hasChapeau = this.reactiveForm.get('hasChapeau').value;
+      this.tableau.palierConsolantes =
+        this.reactiveForm.get('palierConsolantes').value;
+      this.tableau.palierQualifies =
+        this.reactiveForm.get('palierQualifies').value;
 
       this.tableauService.edit(this.tableau).subscribe(
         () => {
@@ -275,5 +303,6 @@ export class EditTableauComponent implements OnInit {
         poules: true,
       });
     }
+    this.reactiveForm.get('hasChapeau').setValue(false);
   }
 }

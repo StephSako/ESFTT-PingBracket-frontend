@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class TableauService {
   private baseURL = environment.endpointNodeApi + 'tableau/';
+  listeJoueurs = new Subject();
   tableauxSource = new Subject();
   tableauxEditSource = new Subject();
   tableauxChange: EventEmitter<void> = new EventEmitter();

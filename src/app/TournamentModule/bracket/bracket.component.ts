@@ -28,6 +28,9 @@ export class BracketComponent implements OnInit {
     is_launched: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
+    hasChapeau: null,
   };
   spinnerShown: boolean;
   idTableau: string;
@@ -73,7 +76,9 @@ export class BracketComponent implements OnInit {
               this.tableau.format,
               this.phase,
               this.tableau.poules,
-              this.tableau.maxNumberPlayers
+              this.tableau.maxNumberPlayers,
+              this.tableau.palierQualifies,
+              this.tableau.palierConsolantes
             )
             .subscribe(
               () => this.getBracket(),

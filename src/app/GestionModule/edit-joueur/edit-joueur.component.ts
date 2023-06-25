@@ -359,4 +359,14 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       ? 'Âge requis'
       : 'Âge supérieur à ' + tableau.age_minimum + ' ans';
   }
+
+  checkAge(): void {
+    if (this.reactiveForm.get('age').value) {
+      if (this.reactiveForm.get('age').value < 5) {
+        this.reactiveForm.get('age').setValue(5);
+      } else if (this.reactiveForm.get('age').value > 17) {
+        this.reactiveForm.get('age').setValue(17);
+      }
+    }
+  }
 }

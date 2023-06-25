@@ -26,6 +26,9 @@ export class MatchComponent implements OnInit {
     age_minimum: null,
     nbPoules: null,
     handicap: null,
+    palierQualifies: null,
+    palierConsolantes: null,
+    hasChapeau: null,
   };
   @Output() updateBracket: EventEmitter<any> = new EventEmitter();
   public disabledMatChip = false;
@@ -42,6 +45,7 @@ export class MatchComponent implements OnInit {
   ngOnInit(): void {}
 
   setWinner(winnerId: string): void {
+    this.disabledMatChip = true;
     if (
       this.match.joueurs.length > 1 &&
       this.tableau.is_launched ===
@@ -50,7 +54,6 @@ export class MatchComponent implements OnInit {
       ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
         !this.match.joueurs[1])
     ) {
-      this.disabledMatChip = true;
       this.disabledCancelButton = true;
       const looserId =
         this.match.joueurs.length === 2 &&
@@ -86,6 +89,8 @@ export class MatchComponent implements OnInit {
             this.disabledCancelButton = false;
           }
         );
+    } else {
+      this.disabledMatChip = false;
     }
   }
 
@@ -128,6 +133,9 @@ export class MatchComponent implements OnInit {
   }
 
   getHandicap(): any[] {
+    if (!this.match.joueurs[0]._id || !this.match.joueurs[1]._id) {
+      return [''];
+    }
     return this.handicapService.calculHandicap(
       this.match.joueurs[0]._id.classement,
       this.match.joueurs[1]._id.classement
