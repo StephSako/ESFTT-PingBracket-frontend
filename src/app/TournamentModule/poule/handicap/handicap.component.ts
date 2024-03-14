@@ -40,8 +40,8 @@ export class HandicapComponent implements OnInit {
       ];
     }
     ordre.forEach((o) => {
-      let j1 = sortedJoueursList[o[0] - 1];
-      let j2 = sortedJoueursList[o[1] - 1];
+      const j1 = sortedJoueursList[o[0] - 1];
+      const j2 = sortedJoueursList[o[1] - 1];
       matchesPoules.push(
         '<b>[' +
           o[0] +

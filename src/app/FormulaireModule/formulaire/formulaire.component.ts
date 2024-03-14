@@ -198,7 +198,7 @@ export class FormulaireComponent implements OnInit {
       });
 
       // Tableaux des joueurs souscris
-      const tableauxSubscribed = <TableauInterface[]>[
+      const tableauxSubscribed = [
         ...new Set(
           this.listeJoueurs
             .map((joueur) =>
@@ -212,7 +212,7 @@ export class FormulaireComponent implements OnInit {
             )
             .reduce((acc, val) => acc.concat(val), [])
         ),
-      ];
+      ] as TableauInterface[];
       if (tableauxSubscribed.length > 0) {
         tableauxSubscribed.forEach((tabSub) =>
           tabOf.push(this.pouleService.generatePoules(tabSub))
@@ -347,8 +347,8 @@ export class FormulaireComponent implements OnInit {
   }
 
   hasSameNamePlayers(): string[] {
-    let sameNames: string[] = [];
-    this.listeJoueurs.filter((j_f) => {
+    const sameNames: string[] = [];
+    this.listeJoueurs.forEach((j_f: JoueurInterface) => {
       if (
         !this.hasNoName(j_f.nom) &&
         !sameNames.includes(this.formatNom(j_f.nom)) &&
@@ -357,16 +357,14 @@ export class FormulaireComponent implements OnInit {
         ).length > 1
       ) {
         sameNames.push(this.formatNom(j_f.nom));
-        return true;
       }
-      return false;
-    }).length > 1;
+    });
     return sameNames;
   }
 
   isAlreadySubscribed(): string[] {
-    let errorAlreadySubscribed: string[] = [];
-    this.listeJoueurs.filter((j_f) => {
+    const errorAlreadySubscribed: string[] = [];
+    this.listeJoueurs.forEach((j_f: JoueurInterface) => {
       if (
         !this.hasNoName(j_f.nom) &&
         !errorAlreadySubscribed.includes(this.formatNom(j_f.nom)) &&
@@ -375,10 +373,8 @@ export class FormulaireComponent implements OnInit {
         ).length > 0
       ) {
         errorAlreadySubscribed.push(this.formatNom(j_f.nom));
-        return true;
       }
-      return false;
-    }).length > 0;
+    });
     return errorAlreadySubscribed;
   }
 

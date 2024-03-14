@@ -7,11 +7,11 @@ import { TableauState } from './SharedModule/TableauState.enum';
 export class AppService {
   constructor() {}
 
-  getTableauState() {
+  getTableauState(): typeof TableauState {
     return TableauState;
   }
 
-  getTableauStateColor(state: number) {
+  getTableauStateColor(state: number): string {
     return state === TableauState.PointageState
       ? 'pointage'
       : state === TableauState.PouleState || state === TableauState.BracketState

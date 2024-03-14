@@ -58,7 +58,7 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     });
   }
 
-  alertAlreadySubscribed() {
+  alertAlreadySubscribed(): void {
     this.alreadySubscribedOutput.emit(this.isAlreadySubscribed());
   }
 

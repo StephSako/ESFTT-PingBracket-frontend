@@ -399,26 +399,26 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       sortState.direction === 'desc';
   }
 
-  getChapeau(i: number, _id: string): any[] {
+  getChapeau(i: number, id: string): any[] {
     if (this.showChapeauColors && this.listJoueurs.length > 0) {
       const listJoueursLength =
         this.listJoueurs.length % 2 === 0
           ? this.listJoueurs.length / 2
           : this.listJoueurs.length / 2 + 0.5;
 
-      let chapeauHaut = this.dataSource
+      const chapeauHaut = this.dataSource
         .sortData(this.dataSource.filteredData, this.dataSource.sort)
         .slice(0, listJoueursLength)
         .map((j) => j._id);
-      let chapeauBas = this.dataSource
+      const chapeauBas = this.dataSource
         .sortData(this.dataSource.filteredData, this.dataSource.sort)
         .slice(listJoueursLength, this.dataSource.data.length)
         .map((j) => j._id);
       return [
         i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut',
         i >= listJoueursLength
-          ? chapeauBas.indexOf(_id)
-          : chapeauHaut.indexOf(_id),
+          ? chapeauBas.indexOf(id)
+          : chapeauHaut.indexOf(id),
       ];
     }
     return ['', ''];

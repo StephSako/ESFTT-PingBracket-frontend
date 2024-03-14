@@ -41,10 +41,6 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
   private tableauxEventEmitter: Subscription;
   public alreadySubscribed = false;
 
-  setAlreadySubscribed(isAlreadySubscribed: boolean): void {
-    this.alreadySubscribed = isAlreadySubscribed;
-  }
-
   public joueur: JoueurInterface = {
     nom: null,
     age: null,
@@ -54,6 +50,10 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     _id: null,
     tableaux: [],
   };
+
+  setAlreadySubscribed(isAlreadySubscribed: boolean): void {
+    this.alreadySubscribed = isAlreadySubscribed;
+  }
 
   constructor(
     private joueurService: JoueurService,

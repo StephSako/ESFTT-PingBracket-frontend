@@ -199,14 +199,14 @@ export class BinomeComponent implements OnInit, OnDestroy {
       : 0;
   }
 
-  getChapeau(_id: string): any[] {
+  getChapeau(id: string): any[] {
     if (this.showChapeauColors && this.listJoueursTotal.length > 0) {
       const listJoueursLength =
         this.listJoueursTotal.length % 2 === 0
           ? this.listJoueursTotal.length / 2
           : this.listJoueursTotal.length / 2 + 0.5;
 
-      let chapeauHaut = this.listJoueursTotal
+      const chapeauHaut = this.listJoueursTotal
         .sort((j1, j2) =>
           j1.classement < j2.classement
             ? 1
@@ -217,7 +217,7 @@ export class BinomeComponent implements OnInit, OnDestroy {
         .slice(0, listJoueursLength)
         .map((j) => j._id);
 
-      let chapeauBas = this.listJoueursTotal
+      const chapeauBas = this.listJoueursTotal
         .sort((j1, j2) =>
           j1.classement < j2.classement
             ? 1
@@ -228,10 +228,10 @@ export class BinomeComponent implements OnInit, OnDestroy {
         .slice(listJoueursLength, this.listJoueursTotal.length)
         .map((j) => j._id);
 
-      let isChapeauHaut = chapeauHaut.indexOf(_id);
+      const isChapeauHaut = chapeauHaut.indexOf(id);
       return [
         isChapeauHaut < 0 ? 'chapeauBas' : 'chapeauHaut',
-        isChapeauHaut < 0 ? chapeauBas.indexOf(_id) : chapeauHaut.indexOf(_id),
+        isChapeauHaut < 0 ? chapeauBas.indexOf(id) : chapeauHaut.indexOf(id),
       ];
     }
     return ['', ''];
