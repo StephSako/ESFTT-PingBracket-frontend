@@ -73,7 +73,9 @@ export class FormulaireComponent implements OnInit {
     pointage: false,
   };
   public listeJoueurs: JoueurInterface[] = [];
-  public dataSource = new MatTableDataSource<JoueurInterface>([]);
+  public joueursParticipantsBuffet = new MatTableDataSource<JoueurInterface>(
+    []
+  );
 
   constructor(
     private tableauService: TableauService,
@@ -172,13 +174,14 @@ export class FormulaireComponent implements OnInit {
       pointage: false,
     };
     this.listeJoueurs.push(joueur);
-    this.dataSource.data = this.listeJoueurs;
+    this.joueursParticipantsBuffet.data = this.listeJoueurs;
     this.addParticipantBuffet(joueur);
     this.updateMinAllParticipantsBuffet();
   }
 
   removeItem(joueur: JoueurInterface): void {
     this.listeJoueurs.splice(this.listeJoueurs.indexOf(joueur), 1);
+    this.joueursParticipantsBuffet.data = this.listeJoueurs;
     this.removeParticipantBuffet(joueur);
     this.updateMinAllParticipantsBuffet();
   }

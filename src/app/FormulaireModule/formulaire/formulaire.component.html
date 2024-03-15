@@ -212,7 +212,7 @@
     <div *ngIf="listeJoueurs.length">
       <h3 class="lobster">Participation des joueurs au buffet</h3>
 
-      <table mat-table [dataSource]="dataSource">
+      <table mat-table [dataSource]="joueursParticipantsBuffet">
         <ng-container matColumnDef="nom">
           <th mat-header-cell *matHeaderCellDef>Nom</th>
           <td mat-cell *matCellDef="let joueur">{{ joueur.nom }}</td>
@@ -240,7 +240,7 @@
     <br />
     <p>
       <b
-        >Indiquez ci-dessous le nombre total de participants au buffet du soir
+        >Indiquez ci-dessous le nombre TOTAL de participants au buffet du soir
         :</b
       >
     </p>
