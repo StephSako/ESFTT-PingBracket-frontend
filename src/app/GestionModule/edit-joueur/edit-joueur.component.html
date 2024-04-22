@@ -73,7 +73,7 @@
           </h2>
         </div>
         <div fxFlex="50%" class="center">
-          <div *ngIf="enabled(tableau); else ageRequis">
+          <div *ngIf="enabled(tableau)">
             <button
               [class]="
                 tableau.is_launched !==
@@ -123,9 +123,14 @@
               }}
             </button>
           </div>
-          <ng-template #ageRequis>
-            <p class="error_message">{{ errorAgeJoueur(tableau) }}</p>
-          </ng-template>
+          <div *ngIf="!enabled(tableau)">
+            <p *ngIf="errorAgeJoueur(tableau)" class="error_message">
+              {{ errorAgeJoueur(tableau) }}
+            </p>
+            <p *ngIf="errorClassementJoueur(tableau)" class="error_message">
+              {{ errorClassementJoueur(tableau) }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

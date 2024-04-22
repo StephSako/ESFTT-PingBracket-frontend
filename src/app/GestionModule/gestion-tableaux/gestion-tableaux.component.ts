@@ -20,6 +20,7 @@ import { PoulesService } from '../../Service/poules.service';
 import { BinomeService } from '../../Service/binome.service';
 import { Subscription } from 'rxjs';
 import { AppService } from 'src/app/app.service';
+import { typesLicenceTableau } from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-gestion-tableaux',
@@ -32,6 +33,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     'nom',
     'age_minimum',
     'format',
+    'type_licence',
     'maxNumberPlayers',
     'handicap',
     'poules',
@@ -63,6 +65,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     palierQualifies: 2,
     palierConsolantes: 4,
     hasChapeau: false,
+    type_licence: null,
   };
 
   constructor(
@@ -89,7 +92,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   getAllTableaux(): void {
     this.tableauService.getAllTableaux().subscribe(
-      (allTableaux) => {
+      (allTableaux: TableauInterface[]) => {
         this.allTableaux = allTableaux;
         this.tableauService.tableauxSource.next(allTableaux);
         this.getPlayerCountPerTableau();
@@ -138,6 +141,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           palierQualifies: 2,
           palierConsolantes: 4,
           hasChapeau: false,
+          type_licence: 1,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(
@@ -293,5 +297,13 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   showAgeMinimum(age_minimum: number): string {
     return age_minimum ? '-' + age_minimum + ' ans' : '';
+  }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return (
+      typesLicenceTableau.filter(
+        (typeLicence: any) => typeLicence.id === idTypeLicence
+      )[0]?.typeLicenceCourt ?? 'Indéfini'
+    );
   }
 }

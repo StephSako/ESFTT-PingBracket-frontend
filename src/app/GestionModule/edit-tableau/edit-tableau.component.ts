@@ -14,6 +14,7 @@ import {
   categoriesAge,
   formats,
   statuts,
+  typesLicenceTableau,
 } from 'src/app/const/options-tableaux';
 
 @Component({
@@ -27,6 +28,7 @@ export class EditTableauComponent implements OnInit {
   formats: string[] = formats;
   statuts: any[] = [];
   categoriesAge: any[] = categoriesAge;
+  typesLicenceTableau: any[] = typesLicenceTableau;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -62,6 +64,7 @@ export class EditTableauComponent implements OnInit {
         this.tableau.poules ? this.tableau.nbPoules : 2
       ),
       age_minimum: new FormControl(this.tableau.age_minimum),
+      type_licence: new FormControl(this.tableau.type_licence),
       maxNumberPlayers: new FormControl(this.tableau.maxNumberPlayers),
       poules: new FormControl(this.tableau.poules),
       palierQualifies: new FormControl(this.tableau.palierQualifies),
@@ -83,6 +86,9 @@ export class EditTableauComponent implements OnInit {
     const consolanteEdited =
       this.reactiveForm.get('consolante').value !== this.tableau.consolante &&
       !this.reactiveForm.get('consolante').value;
+    const typeLicenceEdited =
+      this.reactiveForm.get('type_licence').value !== this.tableau.consolante &&
+      this.reactiveForm.get('type_licence').value !== 1;
     const ageMinimumEdited =
       this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum &&
       this.reactiveForm.get('age_minimum').value !== null &&
@@ -93,7 +99,8 @@ export class EditTableauComponent implements OnInit {
       (poulesEdited && !this.reactiveForm.get('poules').value) ||
       ageMinimumEdited ||
       (formatEdited && this.reactiveForm.get('format').value === 'simple') ||
-      nbPoulesEdited
+      nbPoulesEdited ||
+      typeLicenceEdited
     ) {
       let optionMessage = '';
       if (
@@ -137,6 +144,15 @@ export class EditTableauComponent implements OnInit {
         optionMessage += 'Les poules seront regénérées. ';
       }
 
+      if (typeLicenceEdited) {
+        optionMessage +=
+          'Les joueurs ' +
+          (this.reactiveForm.get('type_licence').value === 2
+            ? 'compétiteurs'
+            : 'loisirs') +
+          ' seront désinscrits. ';
+      }
+
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'Des informations ont été modifées.',
@@ -166,6 +182,8 @@ export class EditTableauComponent implements OnInit {
             ).value
               ? this.reactiveForm.get('maxNumberPlayers').value
               : null;
+            this.tableau.type_licence =
+              this.reactiveForm.get('type_licence').value;
             this.tableau.consolante = this.reactiveForm.get('consolante').value;
             this.tableau.format = this.reactiveForm.get('format').value;
             this.tableau.handicap = this.reactiveForm.get('handicap').value;
@@ -239,6 +257,7 @@ export class EditTableauComponent implements OnInit {
     } else {
       this.tableau.nom = this.reactiveForm.get('nom').value;
       this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
+      this.tableau.type_licence = this.reactiveForm.get('type_licence').value;
       this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
       this.tableau.poules = this.reactiveForm.get('poules').value;
       this.tableau.nbPoules = this.tableau.poules

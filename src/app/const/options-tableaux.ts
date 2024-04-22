@@ -17,3 +17,13 @@ export const categoriesAge: any[] = [
   { category: 'Cadet 1', age: 15 },
   { category: 'Cadet 2', age: 17 },
 ];
+
+export const typesLicenceTableau: any[] = [
+  { typeLicenceCourt: 'Tous', typeLicence: 'Tous les joueurs', id: 1 },
+  { typeLicenceCourt: 'Loisirs', typeLicence: 'Loisirs seulement', id: 2 },
+  {
+    typeLicenceCourt: 'Compétiteurs',
+    typeLicence: 'Compétiteurs seulement',
+    id: 3,
+  },
+];

@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TableauInterface } from '../../Interface/Tableau';
-import { categoriesAge, formats } from 'src/app/const/options-tableaux';
+import {
+  categoriesAge,
+  formats,
+  typesLicenceTableau,
+} from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-form-tableau',
@@ -10,13 +14,13 @@ import { categoriesAge, formats } from 'src/app/const/options-tableaux';
 export class FormTableauComponent implements OnInit {
   @Input() tableau: TableauInterface;
   formats: string[] = [];
-  categoriesAge: any[] = [];
+  categoriesAge: any[] = categoriesAge;
+  typesLicenceTableau: any[] = typesLicenceTableau;
 
   constructor() {}
 
   ngOnInit(): void {
     this.formats = formats;
-    this.categoriesAge = categoriesAge;
   }
 
   simpleFormatPouleOnChange(): void {

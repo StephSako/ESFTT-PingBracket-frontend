@@ -65,6 +65,7 @@
               <input
                 name="classement"
                 [(ngModel)]="joueurItem.classement"
+                (blur)="setAuthorizedTableaux(joueurItem)"
                 type="number"
                 min="0"
                 max="3000"
@@ -101,7 +102,9 @@
                 multiple
               >
                 <mat-option
-                  [disabled]="clickable(tableau, joueurItem.age)"
+                  [disabled]="
+                    clickable(tableau, joueurItem.age, joueurItem.classement)
+                  "
                   *ngFor="let tableau of tableaux"
                   [value]="tableau"
                   ><span
@@ -144,6 +147,7 @@
             <input
               name="classement"
               [(ngModel)]="joueurData.classement"
+              (blur)="setAuthorizedTableaux(joueurData)"
               type="number"
               min="0"
               max="3000"
@@ -176,7 +180,9 @@
               multiple
             >
               <mat-option
-                [disabled]="clickable(tableau, joueurData.age)"
+                [disabled]="
+                  clickable(tableau, joueurData.age, joueurData.classement)
+                "
                 *ngFor="let tableau of tableaux"
                 [value]="tableau"
                 ><span

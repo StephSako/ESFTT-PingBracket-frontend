@@ -8,6 +8,7 @@ export interface TableauInterface {
   is_launched: number;
   maxNumberPlayers: number;
   age_minimum: number;
+  type_licence: number;
   nbPoules: number;
   palierQualifies: number;
   palierConsolantes: number;

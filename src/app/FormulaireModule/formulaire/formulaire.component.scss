@@ -79,6 +79,10 @@ p.alerte_pill {
   width: 100%;
 }
 
+::ng-deep .mat-select-panel {
+  max-height: 300px !important;
+}
+
 @media screen and (max-width: 959px) {
   .btn_action {
     margin-top: 0;

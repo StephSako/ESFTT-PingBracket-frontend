@@ -245,7 +245,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
               () => {
                 this.joueur.tableaux
                   .filter(
-                    (tableau) =>
+                    (tableau: TableauInterface) =>
                       tableau.age_minimum !== null &&
                       (this.reactiveForm.get('age').value === null ||
                         this.reactiveForm.get('age').value >=
@@ -257,10 +257,10 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
                       .subscribe(
                         () => {
                           this.joueur.tableaux = this.joueur.tableaux.filter(
-                            (value) =>
+                            (value: TableauInterface) =>
                               !this.joueur.tableaux
                                 .filter(
-                                  (tableauFiltered) =>
+                                  (tableauFiltered: TableauInterface) =>
                                     tableauFiltered.age_minimum !== null &&
                                     (this.reactiveForm.get('age').value ===
                                       null ||
@@ -346,18 +346,34 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
   }
 
   enabled(tableau: TableauInterface): boolean {
-    return (
+    const enabledAge: boolean =
       (tableau.age_minimum !== null &&
         this.joueur.age !== null &&
         this.joueur.age < tableau.age_minimum) ||
-      tableau.age_minimum === null
-    );
+      tableau.age_minimum === null;
+
+    const enabledClassement: boolean =
+      tableau.type_licence === 1 ||
+      (!this.joueur.classement && tableau.type_licence === 2) ||
+      (this.joueur.classement && tableau.type_licence === 3);
+
+    return enabledAge && enabledClassement;
   }
 
   errorAgeJoueur(tableau: TableauInterface): string {
-    return this.joueur.age === null
-      ? 'Âge requis'
-      : 'Âge supérieur à ' + tableau.age_minimum + ' ans';
+    return tableau.age_minimum !== null
+      ? this.joueur.age === null
+        ? 'Âge requis'
+        : 'Âge supérieur à ' + tableau.age_minimum + ' ans'
+      : null;
+  }
+
+  errorClassementJoueur(tableau: TableauInterface): string {
+    return !this.joueur.classement && tableau.type_licence === 3
+      ? "Requis d'être compétiteur"
+      : this.joueur.classement && tableau.type_licence === 2
+      ? "Requis d'être loisir"
+      : null;
   }
 
   checkAge(): void {

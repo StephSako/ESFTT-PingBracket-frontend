@@ -47,6 +47,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     palierQualifies: null,
     palierConsolantes: null,
     hasChapeau: null,
+    type_licence: null,
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
@@ -120,7 +121,11 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
           joueur.nom.toLowerCase().includes(filterValue) &&
           (this.tableau.age_minimum !== null
             ? joueur.age !== null && joueur.age < this.tableau.age_minimum
-            : true)
+            : true &&
+              ((!joueur.classement &&
+                (this.tableau.type_licence === 1 ||
+                  this.tableau.type_licence === 2)) ||
+                (joueur.classement && this.tableau.type_licence === 3)))
       );
     } else {
       return [];
