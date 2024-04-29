@@ -75,8 +75,14 @@ p.alerte_pill {
   width: 57px;
 }
 
-:host ::ng-deep img {
-  width: 100%;
+:host ::ng-deep {
+  img {
+    width: 100%;
+  }
+
+  p.Normal1 {
+    margin-bottom: 2px;
+  }
 }
 
 ::ng-deep .mat-select-panel {
