@@ -109,10 +109,18 @@
                   [value]="tableau"
                   ><span
                     >{{ tableau.nom | titlecase }}
-                    <span *ngIf="tableau.age_minimum !== null"
-                      >-{{ tableau.age_minimum }} ans</span
-                    ></span
-                  ></mat-option
+                    <span *ngIf="tableau.age_minimum !== null">
+                      - {{ tableau.age_minimum }} ans</span
+                    >
+                    <span
+                      *ngIf="
+                        tableau.type_licence !== null &&
+                        tableau.type_licence !== 1
+                      "
+                    >
+                      - {{ showTypeLicence(tableau.type_licence) }}</span
+                    >
+                  </span></mat-option
                 >
               </mat-select>
             </mat-form-field>
@@ -187,10 +195,18 @@
                 [value]="tableau"
                 ><span
                   >{{ tableau.nom | titlecase }}
-                  <span *ngIf="tableau.age_minimum !== null"
-                    >-{{ tableau.age_minimum }} ans</span
-                  ></span
-                ></mat-option
+                  <span *ngIf="tableau.age_minimum !== null">
+                    - {{ tableau.age_minimum }} ans</span
+                  >
+                  <span
+                    *ngIf="
+                      tableau.type_licence !== null &&
+                      tableau.type_licence !== 1
+                    "
+                  >
+                    - {{ showTypeLicence(tableau.type_licence) }}</span
+                  >
+                </span></mat-option
               >
             </mat-select>
           </mat-form-field>

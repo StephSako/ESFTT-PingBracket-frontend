@@ -279,7 +279,16 @@ export class FormulaireComponent implements OnInit {
           joueur.tableaux
             .map(
               (t) =>
-                '<span style="text-transform: capitalize">' + t.nom + '</span>'
+                '<span style="text-transform: capitalize">' +
+                t.nom +
+                (t.age_minimum !== null || t.type_licence !== 1 ? ' (' : '') +
+                (t.age_minimum !== null ? t.age_minimum + ' ans' : '') +
+                (t.type_licence !== 1
+                  ? (t.age_minimum !== null ? ' - ' : '') +
+                    this.showTypeLicence(t.type_licence)
+                  : '') +
+                (t.age_minimum !== null || t.type_licence !== 1 ? ')' : '') +
+                '</span>'
             )
             .join(', ') +
           '<br><b>Buffet :</b> ' +
@@ -508,5 +517,9 @@ export class FormulaireComponent implements OnInit {
       .toUpperCase()
       .trim()
       .replace(/\s{2,}/g, ' ');
+  }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
   }
 }
