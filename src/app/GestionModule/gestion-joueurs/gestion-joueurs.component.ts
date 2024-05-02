@@ -211,4 +211,16 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
       (err) => this.notifyService.notifyUser(err, this.snackBar, 'error', 'OK')
     );
   }
+
+  getNbLoisirs(): number {
+    return this.allJoueurs.filter(
+      (joueur: JoueurInterface) => !joueur.classement
+    ).length;
+  }
+
+  getNbCompetiteurs(): number {
+    return this.allJoueurs.filter(
+      (joueur: JoueurInterface) => joueur.classement
+    ).length;
+  }
 }

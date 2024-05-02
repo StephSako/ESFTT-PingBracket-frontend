@@ -9,7 +9,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="22%">
+    <div fxFlex="19%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -18,7 +18,7 @@
       >
     </div>
 
-    <div fxFlex="22%">
+    <div fxFlex="19%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -27,7 +27,21 @@
       >
     </div>
 
-    <div fxFlex="29%">
+    <div fxFlex="18%">
+      <mat-form-field appearance="outline">
+        <mat-label>Restriction licence</mat-label>
+        <mat-select formControlName="type_licence">
+          <mat-option
+            *ngFor="let typeLicence of typesLicenceTableau"
+            [value]="typeLicence.id"
+          >
+            {{ typeLicence.typeLicence }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="17%">
       <mat-form-field appearance="outline">
         <mat-label>Catégorie d'âge</mat-label>
         <mat-select formControlName="age_minimum">

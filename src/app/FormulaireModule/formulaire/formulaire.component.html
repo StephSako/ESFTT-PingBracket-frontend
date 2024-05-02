@@ -4,10 +4,10 @@
   </mat-card>
 
   <mat-card *ngIf="parametres.open !== null && parametres.open">
-    <p [innerHTML]="parametres.titre" class="center"></p>
+    <p [innerHTML]="parametres.titre" class="center fromData"></p>
     <h1 class="center lobster">{{ parametres.date | date : "dd/MM/yyyy" }}</h1>
 
-    <p [innerHTML]="parametres.texte_debut | noSanitize"></p>
+    <p [innerHTML]="parametres.texte_debut | noSanitize" class="fromData"></p>
 
     <br />
     <h2 class="lobster">1. Inscription aux tableaux</h2>
@@ -65,6 +65,7 @@
               <input
                 name="classement"
                 [(ngModel)]="joueurItem.classement"
+                (blur)="setAuthorizedTableaux(joueurItem)"
                 type="number"
                 min="0"
                 max="3000"
@@ -101,15 +102,25 @@
                 multiple
               >
                 <mat-option
-                  [disabled]="clickable(tableau, joueurItem.age)"
+                  [disabled]="
+                    clickable(tableau, joueurItem.age, joueurItem.classement)
+                  "
                   *ngFor="let tableau of tableaux"
                   [value]="tableau"
                   ><span
                     >{{ tableau.nom | titlecase }}
-                    <span *ngIf="tableau.age_minimum !== null"
-                      >-{{ tableau.age_minimum }} ans</span
-                    ></span
-                  ></mat-option
+                    <span *ngIf="tableau.age_minimum !== null">
+                      - {{ tableau.age_minimum }} ans</span
+                    >
+                    <span
+                      *ngIf="
+                        tableau.type_licence !== null &&
+                        tableau.type_licence !== 1
+                      "
+                    >
+                      - {{ showTypeLicence(tableau.type_licence) }}</span
+                    >
+                  </span></mat-option
                 >
               </mat-select>
             </mat-form-field>
@@ -144,6 +155,7 @@
             <input
               name="classement"
               [(ngModel)]="joueurData.classement"
+              (blur)="setAuthorizedTableaux(joueurData)"
               type="number"
               min="0"
               max="3000"
@@ -176,15 +188,25 @@
               multiple
             >
               <mat-option
-                [disabled]="clickable(tableau, joueurData.age)"
+                [disabled]="
+                  clickable(tableau, joueurData.age, joueurData.classement)
+                "
                 *ngFor="let tableau of tableaux"
                 [value]="tableau"
                 ><span
                   >{{ tableau.nom | titlecase }}
-                  <span *ngIf="tableau.age_minimum !== null"
-                    >-{{ tableau.age_minimum }} ans</span
-                  ></span
-                ></mat-option
+                  <span *ngIf="tableau.age_minimum !== null">
+                    - {{ tableau.age_minimum }} ans</span
+                  >
+                  <span
+                    *ngIf="
+                      tableau.type_licence !== null &&
+                      tableau.type_licence !== 1
+                    "
+                  >
+                    - {{ showTypeLicence(tableau.type_licence) }}</span
+                  >
+                </span></mat-option
               >
             </mat-select>
           </mat-form-field>
@@ -207,7 +229,7 @@
 
     <br />
     <h2 class="lobster">2. Participation au buffet du soir</h2>
-    <p [innerHTML]="parametres.texte_buffet | noSanitize"></p>
+    <p [innerHTML]="parametres.texte_buffet | noSanitize" class="fromData"></p>
 
     <div *ngIf="listeJoueurs.length">
       <h3 class="lobster">Participation des joueurs au buffet</h3>
@@ -282,8 +304,8 @@
       <mat-icon aria-hidden="false">info</mat-icon>
       <i>
         Écrivez <b>un</b> plat, puis appuyez sur la touche
-        <strong>Entrée</strong> de votre clavier pour l'ajouter à la liste, et
-        ainsi de suite <b>pour chaque plat</b>.</i
+        <strong>Entrée</strong> de votre clavier pour l'ajouter à votre liste,
+        et ainsi de suite <b>pour chaque plat</b>.</i
       >
     </p>
 

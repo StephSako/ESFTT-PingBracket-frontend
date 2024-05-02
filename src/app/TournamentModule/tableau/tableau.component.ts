@@ -35,6 +35,7 @@ export class TableauComponent implements OnInit {
     palierQualifies: null,
     palierConsolantes: null,
     hasChapeau: null,
+    type_licence: null,
   };
 
   // Input variables
@@ -172,5 +173,9 @@ export class TableauComponent implements OnInit {
         (err) =>
           this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
       );
+  }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
   }
 }

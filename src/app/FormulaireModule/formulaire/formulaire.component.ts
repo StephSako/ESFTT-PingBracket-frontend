@@ -102,7 +102,7 @@ export class FormulaireComponent implements OnInit {
     this.tableauService.getAllTableaux().subscribe(
       (tableaux) =>
         (this.tableaux = tableaux.filter(
-          (t) =>
+          (t: TableauInterface) =>
             t.is_launched === this.appService.getTableauState().PointageState
         )),
       (err) => {
@@ -113,7 +113,7 @@ export class FormulaireComponent implements OnInit {
 
   getPlayersAlreadySubscribed(): void {
     this.joueurService.getTableauPlayersNames().subscribe(
-      (joueurs) => (this.listeJoueursSubscribed = joueurs),
+      (joueurs: string[]) => (this.listeJoueursSubscribed = joueurs),
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
       }
@@ -122,7 +122,7 @@ export class FormulaireComponent implements OnInit {
 
   getParametres(): void {
     this.parametreService.getParametres().subscribe(
-      (parametres) => {
+      (parametres: ParametreInterface) => {
         this.parametres = parametres;
         if (this.parametres.open) {
           this.getTableaux();
@@ -279,7 +279,16 @@ export class FormulaireComponent implements OnInit {
           joueur.tableaux
             .map(
               (t) =>
-                '<span style="text-transform: capitalize">' + t.nom + '</span>'
+                '<span style="text-transform: capitalize">' +
+                t.nom +
+                (t.age_minimum !== null || t.type_licence !== 1 ? ' (' : '') +
+                (t.age_minimum !== null ? t.age_minimum + ' ans' : '') +
+                (t.type_licence !== 1
+                  ? (t.age_minimum !== null ? ' - ' : '') +
+                    this.showTypeLicence(t.type_licence)
+                  : '') +
+                (t.age_minimum !== null || t.type_licence !== 1 ? ')' : '') +
+                '</span>'
             )
             .join(', ') +
           '<br><b>Buffet :</b> ' +
@@ -302,7 +311,9 @@ export class FormulaireComponent implements OnInit {
   }
 
   listeJoueursHasInvalidPlayer(): JoueurInterface[] {
-    return this.listeJoueurs.filter((j) => this.disabledAddPlayer(j));
+    return this.listeJoueurs.filter((j: JoueurInterface) =>
+      this.disabledAddPlayer(j)
+    );
   }
 
   disabledSubmit(): boolean {
@@ -325,19 +336,28 @@ export class FormulaireComponent implements OnInit {
       : false;
   }
 
-  clickable(tableau: TableauInterface, joueurAge: number): boolean {
+  clickable(
+    tableau: TableauInterface,
+    joueurAge: number,
+    classement: number
+  ): boolean {
     return (
-      tableau.age_minimum !== null &&
-      (joueurAge === null || joueurAge >= tableau.age_minimum)
+      (tableau.age_minimum !== null &&
+        (joueurAge === null || joueurAge >= tableau.age_minimum)) ||
+      (classement !== null && tableau.type_licence === 2) ||
+      (!classement && tableau.type_licence === 3)
     );
   }
 
   setAuthorizedTableaux(joueur: JoueurInterface): void {
     joueur.tableaux = joueur.tableaux.filter(
       (tableau) =>
-        !(tableau.age_minimum !== null && joueur.age >= tableau.age_minimum)
+        !(tableau.age_minimum !== null && joueur.age >= tableau.age_minimum) &&
+        !(
+          (!joueur.classement && tableau.type_licence === 3) ||
+          (joueur.classement !== null && tableau.type_licence === 2)
+        )
     );
-    this.updateMinAllParticipantsBuffet();
   }
 
   isPlayerSubscribing(): boolean {
@@ -356,7 +376,8 @@ export class FormulaireComponent implements OnInit {
         !this.hasNoName(j_f.nom) &&
         !sameNames.includes(this.formatNom(j_f.nom)) &&
         this.listeJoueurs.filter(
-          (j) => this.formatNom(j.nom) === this.formatNom(j_f.nom)
+          (j: JoueurInterface) =>
+            this.formatNom(j.nom) === this.formatNom(j_f.nom)
         ).length > 1
       ) {
         sameNames.push(this.formatNom(j_f.nom));
@@ -432,7 +453,7 @@ export class FormulaireComponent implements OnInit {
 
   updateMinJoueursEnfantsBuffet(): void {
     this.minParticipantsEnfantsBuffet = this.listeJoueurs.filter(
-      (j) => j.age && j.age < 14 && j.buffet
+      (j: JoueurInterface) => j.age && j.age < 14 && j.buffet
     ).length;
 
     if (this.buffet.enfant < this.minParticipantsEnfantsBuffet) {
@@ -442,7 +463,7 @@ export class FormulaireComponent implements OnInit {
 
   updateMinJoueursAdosAdultesBuffet(): void {
     this.minParticipantsAdosAdultesBuffet = this.listeJoueurs.filter(
-      (j) => (j.age === null || j.age >= 14) && j.buffet
+      (j: JoueurInterface) => (j.age === null || j.age >= 14) && j.buffet
     ).length;
 
     if (this.buffet.ado_adulte < this.minParticipantsAdosAdultesBuffet) {
@@ -496,5 +517,9 @@ export class FormulaireComponent implements OnInit {
       .toUpperCase()
       .trim()
       .replace(/\s{2,}/g, ' ');
+  }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
   }
 }

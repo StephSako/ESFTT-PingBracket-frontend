@@ -31,6 +31,7 @@ export class BracketComponent implements OnInit {
     palierQualifies: null,
     palierConsolantes: null,
     hasChapeau: null,
+    type_licence: null,
   };
   spinnerShown: boolean;
   idTableau: string;

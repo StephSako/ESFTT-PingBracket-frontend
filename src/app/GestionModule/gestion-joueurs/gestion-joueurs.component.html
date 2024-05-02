@@ -21,8 +21,16 @@
 
   <mat-card>
     <h2 class="lobster center">
-      Liste des participants ({{ allJoueurs.length }})
+      {{ allJoueurs.length }} participant{{ allJoueurs.length > 1 ? "s" : "" }}
     </h2>
+    <h3 class="lobster center">
+      {{ getNbLoisirs() }} loisir{{ getNbLoisirs() > 1 ? "s" : "" }}
+    </h3>
+    <h3 class="lobster center">
+      {{ getNbCompetiteurs() }} compétiteur{{
+        getNbCompetiteurs() > 1 ? "s" : ""
+      }}
+    </h3>
 
     <table mat-table *ngIf="allJoueurs" [dataSource]="allJoueurs">
       <ng-container matColumnDef="pointage">

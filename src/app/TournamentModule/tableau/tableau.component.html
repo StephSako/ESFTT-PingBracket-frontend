@@ -1,10 +1,13 @@
 <h1 class="lobster center">
   <span
     >{{ tableau.nom | titlecase }}
-    <span *ngIf="tableau.age_minimum !== null"
-      >-{{ tableau.age_minimum }} ans</span
-    ></span
-  >
+    <span *ngIf="tableau.age_minimum !== null">
+      - {{ tableau.age_minimum }} ans</span
+    >
+    <span *ngIf="tableau.type_licence !== null && tableau.type_licence !== 1">
+      - {{ showTypeLicence(tableau.type_licence) }}</span
+    >
+  </span>
 </h1>
 
 <div id="actionButtons">
