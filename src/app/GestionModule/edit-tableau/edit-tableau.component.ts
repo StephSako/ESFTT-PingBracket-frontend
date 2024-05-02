@@ -87,12 +87,14 @@ export class EditTableauComponent implements OnInit {
       this.reactiveForm.get('consolante').value !== this.tableau.consolante &&
       !this.reactiveForm.get('consolante').value;
     const typeLicenceEdited =
-      this.reactiveForm.get('type_licence').value !== this.tableau.consolante &&
+      this.reactiveForm.get('type_licence').value !==
+        this.tableau.type_licence &&
       this.reactiveForm.get('type_licence').value !== 1;
     const ageMinimumEdited =
       this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum &&
       this.reactiveForm.get('age_minimum').value !== null &&
-      this.reactiveForm.get('age_minimum').value < this.tableau.age_minimum;
+      (this.reactiveForm.get('age_minimum').value < this.tableau.age_minimum ||
+        this.tableau.age_minimum === null);
 
     if (
       consolanteEdited ||
@@ -144,6 +146,8 @@ export class EditTableauComponent implements OnInit {
         optionMessage += 'Les poules seront regénérées. ';
       }
 
+      const typeLicenceToUnsubscribe =
+        this.reactiveForm.get('type_licence').value;
       if (typeLicenceEdited) {
         optionMessage +=
           'Les joueurs ' +
@@ -209,9 +213,13 @@ export class EditTableauComponent implements OnInit {
                   );
                 }
 
-                if (ageMinimumEdited) {
+                if (ageMinimumEdited || typeLicenceEdited) {
                   this.tableauService
-                    .unsubscribeInvalidPlayers(this.tableau)
+                    .unsubscribeInvalidPlayers(this.tableau, {
+                      age_flag: ageMinimumEdited,
+                      type_licence_flag: typeLicenceEdited,
+                      type_licence_to_unsubscribe: typeLicenceToUnsubscribe,
+                    })
                     .subscribe(
                       () => {
                         this.tableauService.tableauxChange.emit();

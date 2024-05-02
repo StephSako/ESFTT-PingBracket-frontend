@@ -20,7 +20,6 @@ import { PoulesService } from '../../Service/poules.service';
 import { BinomeService } from '../../Service/binome.service';
 import { Subscription } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { typesLicenceTableau } from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-gestion-tableaux',
@@ -300,10 +299,6 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   showTypeLicence(idTypeLicence: number): string {
-    return (
-      typesLicenceTableau.filter(
-        (typeLicence: any) => typeLicence.id === idTypeLicence
-      )[0]?.typeLicenceCourt ?? 'Indéfini'
-    );
+    return this.tableauService.showTypeLicence(idTypeLicence);
   }
 }

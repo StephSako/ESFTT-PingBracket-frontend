@@ -174,4 +174,8 @@ export class TableauComponent implements OnInit {
           this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
       );
   }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
+  }
 }

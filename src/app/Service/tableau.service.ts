@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { TableauInterface } from '../Interface/Tableau';
 import { environment } from '../../environments/environment';
+import { typesLicenceTableau } from 'src/app/const/options-tableaux';
 
 @Injectable({
   providedIn: 'root',
@@ -51,11 +52,20 @@ export class TableauService {
     });
   }
 
-  public unsubscribeInvalidPlayers(tableau: TableauInterface): Observable<any> {
-    return this.http.put(
-      `${this.baseURL}unsubscribe/invalid/${tableau._id}`,
-      tableau
-    );
+  public unsubscribeInvalidPlayers(
+    tableau: TableauInterface,
+    params: {
+      age_flag: boolean;
+      type_licence_flag: boolean;
+      type_licence_to_unsubscribe: number;
+    }
+  ): Observable<any> {
+    return this.http.put(`${this.baseURL}unsubscribe/invalid/${tableau._id}`, {
+      tableau: tableau,
+      age_flag: params.age_flag,
+      type_licence_flag: params.type_licence_flag,
+      type_licence_to_unsubscribe: params.type_licence_to_unsubscribe,
+    });
   }
 
   public reset(): Observable<any> {
@@ -70,5 +80,13 @@ export class TableauService {
 
   public unsubscribeAllPlayers(tableau_id: string): Observable<any> {
     return this.http.put(`${this.baseURL}unsubscribe_all`, { tableau_id });
+  }
+
+  public showTypeLicence(idTypeLicence: number): string {
+    return (
+      typesLicenceTableau.filter(
+        (typeLicence: any) => typeLicence.id === idTypeLicence
+      )[0]?.typeLicenceCourt ?? 'Indéfini'
+    );
   }
 }

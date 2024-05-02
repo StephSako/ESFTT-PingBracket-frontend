@@ -58,4 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
+  }
 }

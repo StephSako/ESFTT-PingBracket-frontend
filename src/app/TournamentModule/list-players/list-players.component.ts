@@ -117,15 +117,14 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     if (value && this.otherPlayers != null) {
       const filterValue = value.toLowerCase();
       return this.otherPlayers.filter(
-        (joueur) =>
+        (joueur: JoueurInterface) =>
           joueur.nom.toLowerCase().includes(filterValue) &&
           (this.tableau.age_minimum !== null
             ? joueur.age !== null && joueur.age < this.tableau.age_minimum
-            : true &&
-              ((!joueur.classement &&
-                (this.tableau.type_licence === 1 ||
-                  this.tableau.type_licence === 2)) ||
-                (joueur.classement && this.tableau.type_licence === 3)))
+            : true) &&
+          (this.tableau.type_licence === 1 ||
+            (this.tableau.type_licence === 2 && joueur.classement === 0) ||
+            (this.tableau.type_licence === 3 && joueur.classement !== 0))
       );
     } else {
       return [];
