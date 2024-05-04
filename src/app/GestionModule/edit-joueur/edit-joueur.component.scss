@@ -17,9 +17,23 @@ mat-slide-toggle {
   margin-left: 5px;
 }
 
+.row {
+  padding: 5px;
+  &.colored {
+    background-color: #e2eeff;
+    border-radius: 5px;
+  }
+}
+
+.containerLabelTableau {
+  position: relative;
+}
+
 h2.labelTableau {
-  margin-bottom: 8px;
-  margin-top: 8px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .enabledButtons {
@@ -40,7 +54,7 @@ h2.labelTableau {
 
 .enabledButtons,
 .disabledButtons {
-  margin-top: 6px;
+  margin: 6px auto;
 }
 
 .shakeit {

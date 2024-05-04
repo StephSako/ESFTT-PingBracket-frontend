@@ -188,12 +188,26 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     return this.joueur.nom !== null && this.joueur.nom.trim() !== '';
   }
 
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
+  }
+
   showTableauxPlayer(tableaux: TableauInterface[]): string {
     return tableaux
       .map(
         (tableau) =>
           tableau.nom +
-          (tableau.age_minimum ? ' -' + tableau.age_minimum + ' ans' : '')
+          (tableau.age_minimum !== null || tableau.type_licence !== 1
+            ? ' ('
+            : '') +
+          (tableau.age_minimum !== null ? tableau.age_minimum + ' ans' : '') +
+          (tableau.type_licence !== 1
+            ? (tableau.age_minimum !== null ? ' - ' : '') +
+              this.showTypeLicence(tableau.type_licence)
+            : '') +
+          (tableau.age_minimum !== null || tableau.type_licence !== 1
+            ? ')'
+            : '')
       )
       .join(', ');
   }

@@ -342,7 +342,9 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
     return tableau.age_minimum !== null
       ? this.joueur.age === null
         ? 'Âge requis'
-        : 'Âge supérieur à ' + tableau.age_minimum + ' ans'
+        : this.joueur.age >= tableau.age_minimum
+        ? 'Âge supérieur à ' + tableau.age_minimum + ' ans'
+        : ''
       : null;
   }
 
@@ -366,5 +368,9 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
 
   value(field: string): any {
     return this.reactiveForm.get(field).value;
+  }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
   }
 }
