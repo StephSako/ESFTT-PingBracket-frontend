@@ -1,0 +1,43 @@
+<div class="container">
+  <!-- <mat-card *ngIf="parametres.open !== null && !parametres.open">
+    <h1 class="lobster center">Les inscriptions au tournoi sont fermées ...</h1>
+  </mat-card>
+
+  <mat-card *ngIf="parametres.open !== null && parametres.open">
+  </mat-card> -->
+
+  <mat-card>
+    <button
+      (click)="parier()"
+      mat-dialog-close
+      mat-raised-button
+      class="center"
+      color="primary"
+    >
+      Parier
+    </button>
+
+    <br />
+
+    <button
+      (click)="annulerPari()"
+      mat-dialog-close
+      mat-raised-button
+      class="center"
+      color="primary"
+    >
+      Annuler
+    </button>
+    <br />
+
+    <button
+      (click)="toutSupprimer()"
+      mat-dialog-close
+      mat-raised-button
+      class="center"
+      color="primary"
+    >
+      Tout supprimer
+    </button>
+  </mat-card>
+</div>

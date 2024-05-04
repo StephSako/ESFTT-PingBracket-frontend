@@ -26,16 +26,19 @@
   </div>
 
   <span class="spacer"></span>
+  <button mat-raised-button routerLink="/formulaire" routerLinkActive="active">
+    Formulaire
+  </button>
+  <button mat-raised-button routerLink="/parier" routerLinkActive="active">
+    Parier
+  </button>
   <button
     mat-raised-button
     *ngIf="accountService.isLoggedIn()"
     routerLinkActive="active"
     routerLink="/gestion"
   >
-    Gestion
-  </button>
-  <button mat-raised-button routerLink="/formulaire" routerLinkActive="active">
-    Formulaire
+    <mat-icon>settings</mat-icon>
   </button>
   <button
     mat-raised-button
@@ -43,7 +46,7 @@
     routerLinkActive="active"
     routerLink="/login"
   >
-    Espace privé
+    <mat-icon><span class="material-icons">manage_accounts</span></mat-icon>
   </button>
   <button
     mat-raised-button
@@ -51,7 +54,7 @@
     (click)="accountService.logout()"
     color="warn"
   >
-    Se déconnecter
+    <mat-icon>power_settings_new</mat-icon>
   </button>
 </mat-toolbar>
 <router-outlet></router-outlet>
