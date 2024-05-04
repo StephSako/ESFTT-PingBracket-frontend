@@ -193,7 +193,12 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         .subscribe((id_action) => {
           if (id_action === this.joueur._id) {
             this.joueur.nom = this.value('nom');
-            this.joueur.classement = this.value('classement');
+            if (this.value('classement') === null) {
+              this.joueur.classement = 0;
+              this.reactiveForm.get('classement').setValue(0);
+            } else {
+              this.joueur.classement = this.value('classement');
+            }
             this.joueur.age = this.value('age');
             this.joueur.buffet = this.value('buffet');
 
@@ -281,7 +286,12 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         });
     } else if (!ageEdited && !classementEdited) {
       this.joueur.nom = this.value('nom');
-      this.joueur.classement = this.value('classement');
+      if (this.value('classement') === null) {
+        this.joueur.classement = 0;
+        this.reactiveForm.get('classement').setValue(0);
+      } else {
+        this.joueur.classement = this.value('classement');
+      }
       this.joueur.age = this.value('age');
       this.joueur.buffet = this.value('buffet');
       this.joueurService.edit(this.joueur).subscribe(
