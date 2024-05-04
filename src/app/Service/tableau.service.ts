@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { TableauInterface } from '../Interface/Tableau';
 import { environment } from '../../environments/environment';
 import { typesLicenceTableau } from 'src/app/const/options-tableaux';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Injectable({
   providedIn: 'root',
@@ -87,6 +88,33 @@ export class TableauService {
       typesLicenceTableau.filter(
         (typeLicence: any) => typeLicence.id === idTypeLicence
       )[0]?.typeLicenceCourt ?? 'Indéfini'
+    );
+  }
+
+  isTableauNotClickable(
+    tableau: TableauInterface,
+    joueurAge: number,
+    classement: number
+  ): boolean {
+    return (
+      (tableau.age_minimum !== null &&
+        (joueurAge === null || joueurAge >= tableau.age_minimum)) ||
+      (tableau.type_licence === 2 && classement !== null && classement !== 0) ||
+      (tableau.type_licence === 3 && (classement === null || classement === 0))
+    );
+  }
+
+  setAuthorizedTableaux(joueur: JoueurInterface): TableauInterface[] {
+    return joueur.tableaux.filter(
+      (tableau) =>
+        !(tableau.age_minimum !== null && joueur.age >= tableau.age_minimum) &&
+        !(
+          ((joueur.classement === null || joueur.classement === 0) &&
+            tableau.type_licence === 3) ||
+          (joueur.classement !== null &&
+            joueur.classement !== 0 &&
+            tableau.type_licence === 2)
+        )
     );
   }
 }

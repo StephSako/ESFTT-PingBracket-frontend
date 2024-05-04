@@ -336,28 +336,20 @@ export class FormulaireComponent implements OnInit {
       : false;
   }
 
-  clickable(
+  isTableauNotClickable(
     tableau: TableauInterface,
     joueurAge: number,
     classement: number
   ): boolean {
-    return (
-      (tableau.age_minimum !== null &&
-        (joueurAge === null || joueurAge >= tableau.age_minimum)) ||
-      (classement !== null && tableau.type_licence === 2) ||
-      (!classement && tableau.type_licence === 3)
+    return this.tableauService.isTableauNotClickable(
+      tableau,
+      joueurAge,
+      classement
     );
   }
 
   setAuthorizedTableaux(joueur: JoueurInterface): void {
-    joueur.tableaux = joueur.tableaux.filter(
-      (tableau) =>
-        !(tableau.age_minimum !== null && joueur.age >= tableau.age_minimum) &&
-        !(
-          (!joueur.classement && tableau.type_licence === 3) ||
-          (joueur.classement !== null && tableau.type_licence === 2)
-        )
-    );
+    joueur.tableaux = this.tableauService.setAuthorizedTableaux(joueur);
   }
 
   isPlayerSubscribing(): boolean {

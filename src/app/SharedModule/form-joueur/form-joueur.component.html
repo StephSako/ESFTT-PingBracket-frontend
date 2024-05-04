@@ -26,6 +26,7 @@
       <mat-icon matSuffix>bar_chart</mat-icon>
       <mat-label>Points mensuels (si compétiteur)</mat-label>
       <input
+        (blur)="setAuthorizedTableaux(joueur)"
         name="classement"
         type="number"
         [(ngModel)]="joueur.classement"
@@ -41,7 +42,7 @@
       <mat-icon matSuffix>today</mat-icon>
       <mat-label>Âge (si mineur)</mat-label>
       <input
-        (blur)="checkAge(); setAuthorizedTableaux()"
+        (blur)="checkAge(); setAuthorizedTableaux(joueur)"
         name="age"
         [(ngModel)]="joueur.age"
         type="number"
@@ -62,13 +63,22 @@
         multiple
       >
         <mat-option
-          [disabled]="clickable(tableau)"
+          [disabled]="
+            isTableauNotClickable(tableau, joueur.age, joueur.classement)
+          "
           *ngFor="let tableau of tableaux"
           [value]="tableau"
           ><span
             >{{ tableau.nom | titlecase }}
-            <span *ngIf="tableau.age_minimum !== null"
-              >-{{ tableau.age_minimum }} ans</span
+            <span *ngIf="tableau.age_minimum !== null">
+              - {{ tableau.age_minimum }} ans</span
+            >
+            <span
+              *ngIf="
+                tableau.type_licence !== null && tableau.type_licence !== 1
+              "
+            >
+              - {{ showTypeLicence(tableau.type_licence) }}</span
             ></span
           ></mat-option
         >

@@ -103,7 +103,11 @@
               >
                 <mat-option
                   [disabled]="
-                    clickable(tableau, joueurItem.age, joueurItem.classement)
+                    isTableauNotClickable(
+                      tableau,
+                      joueurItem.age,
+                      joueurItem.classement
+                    )
                   "
                   *ngFor="let tableau of tableaux"
                   [value]="tableau"
@@ -189,7 +193,11 @@
             >
               <mat-option
                 [disabled]="
-                  clickable(tableau, joueurData.age, joueurData.classement)
+                  isTableauNotClickable(
+                    tableau,
+                    joueurData.age,
+                    joueurData.classement
+                  )
                 "
                 *ngFor="let tableau of tableaux"
                 [value]="tableau"

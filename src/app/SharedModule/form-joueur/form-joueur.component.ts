@@ -80,15 +80,6 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     );
   }
 
-  setAuthorizedTableaux(): void {
-    this.joueur.tableaux = this.joueur.tableaux.filter(
-      (tableau) =>
-        !(
-          tableau.age_minimum !== null && this.joueur.age >= tableau.age_minimum
-        )
-    );
-  }
-
   checkAge(): void {
     if (this.joueur.age) {
       if (this.joueur.age < 5) {
@@ -108,11 +99,20 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
       : tableau1 === tableau2;
   }
 
-  clickable(tableau: TableauInterface): boolean {
-    return (
-      tableau.age_minimum !== null &&
-      (this.joueur.age === null || this.joueur.age >= tableau.age_minimum)
+  isTableauNotClickable(
+    tableau: TableauInterface,
+    joueurAge: number,
+    classement: number
+  ): boolean {
+    return this.tableauService.isTableauNotClickable(
+      tableau,
+      joueurAge,
+      classement
     );
+  }
+
+  setAuthorizedTableaux(joueur: JoueurInterface): void {
+    joueur.tableaux = this.tableauService.setAuthorizedTableaux(joueur);
   }
 
   isAlreadySubscribed(): boolean {
@@ -130,5 +130,9 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
       .toUpperCase()
       .trim()
       .replace(/\s{2,}/g, ' ');
+  }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
   }
 }
