@@ -3,12 +3,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
-import { ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TableauInterface } from '../../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { BracketInterface } from 'src/app/Interface/Bracket';
+import { TableauState } from 'src/app/SharedModule/TableauState.enum';
 
 @Component({
   selector: 'app-bracket',
@@ -32,6 +32,7 @@ export class BracketComponent implements OnInit {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
   };
   spinnerShown: boolean;
   idTableau: string;
@@ -39,7 +40,6 @@ export class BracketComponent implements OnInit {
 
   constructor(
     private tournoiService: BracketService,
-    private route: ActivatedRoute,
     private appService: AppService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -47,11 +47,9 @@ export class BracketComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.spinnerShown = false;
-      this.idTableau = params.tableau;
-      this.getBracket();
-    });
+    this.spinnerShown = false;
+    this.idTableau = this.tableau._id;
+    this.getBracket();
   }
 
   generateBracket(): void {
@@ -107,5 +105,9 @@ export class BracketComponent implements OnInit {
       (err) =>
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
     );
+  }
+
+  getTableauState(): typeof TableauState {
+    return this.appService.getTableauState();
   }
 }

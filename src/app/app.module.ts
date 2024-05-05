@@ -13,6 +13,7 @@ import { CoreModules } from './core.modules';
 import { HttpClientModule } from '@angular/common/http';
 import { FormulaireModules } from './FormulaireModule/formulaire.modules';
 import { MatIconModule } from '@angular/material/icon';
+import { ParierModule } from './ParierModule/parier.modules';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormulaireModules,
     WildcardModules,
     CoreModules,
+    ParierModule,
   ],
   bootstrap: [AppComponent],
 })

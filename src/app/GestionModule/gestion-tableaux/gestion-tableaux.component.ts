@@ -32,6 +32,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     'nom',
     'age_minimum',
     'format',
+    'pariable',
     'type_licence',
     'maxNumberPlayers',
     'handicap',
@@ -65,6 +66,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     palierConsolantes: 4,
     hasChapeau: false,
     type_licence: null,
+    pariable: false,
   };
 
   constructor(
@@ -141,6 +143,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           palierConsolantes: 4,
           hasChapeau: false,
           type_licence: 1,
+          pariable: false,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(
@@ -299,6 +302,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   showTypeLicence(idTypeLicence: number): string {
-    return this.tableauService.showTypeLicence(idTypeLicence);
+    return idTypeLicence !== 1
+      ? this.tableauService.showTypeLicence(idTypeLicence)
+      : '';
   }
 }

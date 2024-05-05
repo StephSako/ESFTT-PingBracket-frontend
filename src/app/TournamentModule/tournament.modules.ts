@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
-import { MatchComponent } from './match/match.component';
 import { TableauComponent } from './tableau/tableau.component';
 import { ListPlayersComponent } from './list-players/list-players.component';
 import { PouleComponent } from './poule/poule.component';
-import { BracketComponent } from './bracket/bracket.component';
 import { BinomeComponent } from './binome/binome.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,7 +11,6 @@ import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,11 +26,9 @@ import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
-    MatchComponent,
     TableauComponent,
     ListPlayersComponent,
     PouleComponent,
-    BracketComponent,
     BinomeComponent,
     HandicapComponent,
   ],
@@ -46,8 +41,6 @@ import { MatSortModule } from '@angular/material/sort';
     DragDropModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    NgTournamentTreeModule,
-    NgTournamentTreeModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,

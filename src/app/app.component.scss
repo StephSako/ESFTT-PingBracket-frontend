@@ -25,3 +25,8 @@ mat-toolbar {
 .summary {
   white-space: pre-line;
 }
+
+::ng-deep .mat-tab-label,
+.mat-tab-link {
+  color: white !important;
+}

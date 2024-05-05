@@ -42,6 +42,7 @@ export class PouleComponent implements OnInit, OnDestroy {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
   };
   @Output() getAllPoules: EventEmitter<any> = new EventEmitter();
   private tableauxEditionSubscription: Subscription;

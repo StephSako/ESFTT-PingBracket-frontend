@@ -1,6 +1,6 @@
 <div class="container" *ngIf="tableau">
   <button
-    *ngIf="tableau.is_launched !== appService.getTableauState().TermineState"
+    *ngIf="tableau.is_launched !== getTableauState().TermineState"
     (click)="generateBracket()"
     mat-raised-button
     class="center btnGenerateBracket"
@@ -15,7 +15,7 @@
   <mat-card
     *ngIf="
       tableau.consolante &&
-      tableau.is_launched === appService.getTableauState().BracketState
+      tableau.is_launched === getTableauState().BracketState
     "
   >
     <mat-icon class="center">info</mat-icon>

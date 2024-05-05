@@ -13,6 +13,7 @@ export interface TableauInterface {
   palierQualifies: number;
   palierConsolantes: number;
   hasChapeau: boolean;
+  pariable: boolean;
 }
 
 export interface PlayerCountPerTableau {

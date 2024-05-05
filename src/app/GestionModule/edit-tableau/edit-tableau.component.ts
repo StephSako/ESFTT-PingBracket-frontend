@@ -46,10 +46,8 @@ export class EditTableauComponent implements OnInit {
   filterStatus(): void {
     this.statuts = statuts.filter(
       (statut) =>
-        (this.reactiveForm.get('poules').value &&
-          statut.forNoPoule !== false) ||
-        (!this.reactiveForm.get('poules').value &&
-          statut.forNoPoule === undefined)
+        (this.value('poules') && statut.forNoPoule !== false) ||
+        (!this.value('poules') && statut.forNoPoule === undefined)
     );
   }
 
@@ -70,63 +68,61 @@ export class EditTableauComponent implements OnInit {
       palierQualifies: new FormControl(this.tableau.palierQualifies),
       palierConsolantes: new FormControl(this.tableau.palierConsolantes),
       hasChapeau: new FormControl(this.tableau.hasChapeau),
+      pariable: new FormControl(this.tableau.pariable),
     });
     this.filterStatus();
   }
 
   editTableau(): void {
-    const poulesEdited =
-      this.reactiveForm.get('poules').value !== this.tableau.poules;
+    const poulesEdited = this.value('poules') !== this.tableau.poules;
     const nbPoulesEdited =
-      this.reactiveForm.get('nbPoules').value !== this.tableau.nbPoules &&
+      this.value('nbPoules') !== this.tableau.nbPoules &&
       !poulesEdited &&
-      this.reactiveForm.get('poules').value;
-    const formatEdited =
-      this.reactiveForm.get('format').value !== this.tableau.format;
+      this.value('poules');
+    const formatEdited = this.value('format') !== this.tableau.format;
     const consolanteEdited =
-      this.reactiveForm.get('consolante').value !== this.tableau.consolante &&
-      !this.reactiveForm.get('consolante').value;
+      this.value('consolante') !== this.tableau.consolante &&
+      !this.value('consolante');
     const typeLicenceEdited =
-      this.reactiveForm.get('type_licence').value !==
-        this.tableau.type_licence &&
-      this.reactiveForm.get('type_licence').value !== 1;
+      this.value('type_licence') !== this.tableau.type_licence &&
+      this.value('type_licence') !== 1;
     const ageMinimumEdited =
-      this.reactiveForm.get('age_minimum').value !== this.tableau.age_minimum &&
-      this.reactiveForm.get('age_minimum').value !== null &&
-      (this.reactiveForm.get('age_minimum').value < this.tableau.age_minimum ||
+      this.value('age_minimum') !== this.tableau.age_minimum &&
+      this.value('age_minimum') !== null &&
+      (this.value('age_minimum') < this.tableau.age_minimum ||
         this.tableau.age_minimum === null);
 
     if (
       consolanteEdited ||
-      (poulesEdited && !this.reactiveForm.get('poules').value) ||
+      (poulesEdited && !this.value('poules')) ||
       ageMinimumEdited ||
-      (formatEdited && this.reactiveForm.get('format').value === 'simple') ||
+      (formatEdited && this.value('format') === 'simple') ||
       nbPoulesEdited ||
       typeLicenceEdited
     ) {
       let optionMessage = '';
       if (
         consolanteEdited ||
-        (poulesEdited && !this.reactiveForm.get('poules').value) ||
-        (formatEdited && this.reactiveForm.get('format').value === 'simple')
+        (poulesEdited && !this.value('poules')) ||
+        (formatEdited && this.value('format') === 'simple')
       ) {
         optionMessage += 'Suppression : ';
       }
       if (consolanteEdited) {
         optionMessage += '- la consolante ';
       }
-      if (poulesEdited && !this.reactiveForm.get('poules').value) {
+      if (poulesEdited && !this.value('poules')) {
         optionMessage += '- les poules';
       }
       if (formatEdited) {
-        if (this.reactiveForm.get('format').value === 'simple') {
+        if (this.value('format') === 'simple') {
           optionMessage += '- les binômes';
         }
       }
       if (
         consolanteEdited ||
-        (poulesEdited && !this.reactiveForm.get('poules').value) ||
-        (formatEdited && this.reactiveForm.get('format').value === 'simple')
+        (poulesEdited && !this.value('poules')) ||
+        (formatEdited && this.value('format') === 'simple')
       ) {
         optionMessage += '. ';
       }
@@ -134,26 +130,23 @@ export class EditTableauComponent implements OnInit {
       if (ageMinimumEdited) {
         optionMessage +=
           'Les joueurs de -' +
-          this.reactiveForm.get('age_minimum').value +
+          this.value('age_minimum') +
           ' ans seront désinscrits. ';
       }
 
       if (
         nbPoulesEdited ||
         ageMinimumEdited ||
-        (formatEdited && this.reactiveForm.get('poules').value)
+        (formatEdited && this.value('poules'))
       ) {
         optionMessage += 'Les poules seront regénérées. ';
       }
 
-      const typeLicenceToUnsubscribe =
-        this.reactiveForm.get('type_licence').value;
+      const typeLicenceToUnsubscribe = this.value('type_licence');
       if (typeLicenceEdited) {
         optionMessage +=
           'Les joueurs ' +
-          (this.reactiveForm.get('type_licence').value === 2
-            ? 'compétiteurs'
-            : 'loisirs') +
+          (this.value('type_licence') === 2 ? 'compétiteurs' : 'loisirs') +
           ' seront désinscrits. ';
       }
 
@@ -172,30 +165,24 @@ export class EditTableauComponent implements OnInit {
         .afterClosed()
         .subscribe((id_action) => {
           if (id_action === this.tableau._id) {
-            this.tableau.nom = this.reactiveForm.get('nom').value;
-            this.tableau.age_minimum =
-              this.reactiveForm.get('age_minimum').value;
-            this.tableau.poules = this.reactiveForm.get('poules').value;
-            this.tableau.is_launched =
-              this.reactiveForm.get('is_launched').value;
+            this.tableau.nom = this.value('nom');
+            this.tableau.age_minimum = this.value('age_minimum');
+            this.tableau.poules = this.value('poules');
+            this.tableau.is_launched = this.value('is_launched');
             this.tableau.nbPoules = this.tableau.poules
-              ? this.reactiveForm.get('nbPoules').value
+              ? this.value('nbPoules')
               : null;
-            this.tableau.maxNumberPlayers = this.reactiveForm.get(
-              'maxNumberPlayers'
-            ).value
-              ? this.reactiveForm.get('maxNumberPlayers').value
+            this.tableau.maxNumberPlayers = this.value('maxNumberPlayers')
+              ? this.value('maxNumberPlayers')
               : null;
-            this.tableau.type_licence =
-              this.reactiveForm.get('type_licence').value;
-            this.tableau.consolante = this.reactiveForm.get('consolante').value;
-            this.tableau.format = this.reactiveForm.get('format').value;
-            this.tableau.handicap = this.reactiveForm.get('handicap').value;
-            this.tableau.hasChapeau = this.reactiveForm.get('hasChapeau').value;
-            this.tableau.palierConsolantes =
-              this.reactiveForm.get('palierConsolantes').value;
-            this.tableau.palierQualifies =
-              this.reactiveForm.get('palierQualifies').value;
+            this.tableau.type_licence = this.value('type_licence');
+            this.tableau.consolante = this.value('consolante');
+            this.tableau.format = this.value('format');
+            this.tableau.handicap = this.value('handicap');
+            this.tableau.hasChapeau = this.value('hasChapeau');
+            this.tableau.palierConsolantes = this.value('palierConsolantes');
+            this.tableau.palierQualifies = this.value('palierQualifies');
+            this.tableau.pariable = this.value('pariable');
 
             this.tableauService.edit(this.tableau).subscribe(
               () => {
@@ -263,26 +250,24 @@ export class EditTableauComponent implements OnInit {
           }
         });
     } else {
-      this.tableau.nom = this.reactiveForm.get('nom').value;
-      this.tableau.age_minimum = this.reactiveForm.get('age_minimum').value;
-      this.tableau.type_licence = this.reactiveForm.get('type_licence').value;
-      this.tableau.is_launched = this.reactiveForm.get('is_launched').value;
-      this.tableau.poules = this.reactiveForm.get('poules').value;
+      this.tableau.nom = this.value('nom');
+      this.tableau.age_minimum = this.value('age_minimum');
+      this.tableau.type_licence = this.value('type_licence');
+      this.tableau.is_launched = this.value('is_launched');
+      this.tableau.poules = this.value('poules');
       this.tableau.nbPoules = this.tableau.poules
-        ? this.reactiveForm.get('nbPoules').value
+        ? this.value('nbPoules')
         : null;
-      this.tableau.maxNumberPlayers = this.reactiveForm.get('maxNumberPlayers')
-        .value
-        ? this.reactiveForm.get('maxNumberPlayers').value
+      this.tableau.maxNumberPlayers = this.value('maxNumberPlayers')
+        ? this.value('maxNumberPlayers')
         : null;
-      this.tableau.consolante = this.reactiveForm.get('consolante').value;
-      this.tableau.format = this.reactiveForm.get('format').value;
-      this.tableau.handicap = this.reactiveForm.get('handicap').value;
-      this.tableau.hasChapeau = this.reactiveForm.get('hasChapeau').value;
-      this.tableau.palierConsolantes =
-        this.reactiveForm.get('palierConsolantes').value;
-      this.tableau.palierQualifies =
-        this.reactiveForm.get('palierQualifies').value;
+      this.tableau.consolante = this.value('consolante');
+      this.tableau.format = this.value('format');
+      this.tableau.handicap = this.value('handicap');
+      this.tableau.hasChapeau = this.value('hasChapeau');
+      this.tableau.palierConsolantes = this.value('palierConsolantes');
+      this.tableau.palierQualifies = this.value('palierQualifies');
+      this.tableau.pariable = this.value('pariable');
 
       this.tableauService.edit(this.tableau).subscribe(
         () => {
@@ -305,14 +290,13 @@ export class EditTableauComponent implements OnInit {
 
   isValid(): boolean {
     return (
-      this.reactiveForm.get('nom').value !== null &&
-      this.reactiveForm.get('nom').value.trim() !== '' &&
-      ((this.reactiveForm.get('poules').value &&
-        this.reactiveForm.get('nbPoules').value !== null) ||
-        !this.reactiveForm.get('poules').value) &&
-      ((this.reactiveForm.get('format').value === 'double' &&
-        this.reactiveForm.get('maxNumberPlayers').value !== null) ||
-        this.reactiveForm.get('format').value === 'simple')
+      this.value('nom') !== null &&
+      this.value('nom').trim() !== '' &&
+      ((this.value('poules') && this.value('nbPoules') !== null) ||
+        !this.value('poules')) &&
+      ((this.value('format') === 'double' &&
+        this.value('maxNumberPlayers') !== null) ||
+        this.value('format') === 'simple')
     );
   }
 
@@ -320,16 +304,16 @@ export class EditTableauComponent implements OnInit {
     this.notifyService.notifyUser(err, this.snackBar, 'error', 'OK');
   }
 
-  fieldValue(field: string): any {
-    return this.reactiveForm.get(field).value;
-  }
-
   simpleFormatPouleOnChange(): void {
-    if (this.fieldValue('format') === 'simple') {
+    if (this.value('format') === 'simple') {
       this.reactiveForm.patchValue({
         poules: true,
       });
     }
     this.reactiveForm.get('hasChapeau').setValue(false);
+  }
+
+  value(field: string): any {
+    return this.reactiveForm.get(field).value;
   }
 }

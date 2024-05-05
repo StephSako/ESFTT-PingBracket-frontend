@@ -6,6 +6,21 @@
   <mat-card *ngIf="parametres.open !== null && parametres.open">
   </mat-card> -->
 
+  <mat-tab-group
+    mat-align-tabs="center"
+    color="accent"
+    [dynamicHeight]="true"
+    selectedIndex="0"
+  >
+    <mat-tab *ngFor="let tableau of tableauxPariables">
+      <ng-template mat-tab-label class="mat-tab-label">{{
+        tableau.nom | titlecase
+      }}</ng-template>
+
+      <app-bracket [phase]="'finale'" [tableau]="tableau"></app-bracket>
+    </mat-tab>
+  </mat-tab-group>
+
   <mat-card>
     <button
       (click)="parier()"

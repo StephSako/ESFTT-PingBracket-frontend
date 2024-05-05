@@ -31,6 +31,10 @@ export class TableauService {
     );
   }
 
+  public getPariables(): Observable<any> {
+    return this.http.get(`${this.baseURL}pariables`);
+  }
+
   public getTableau(id_tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}${id_tableau}`);
   }

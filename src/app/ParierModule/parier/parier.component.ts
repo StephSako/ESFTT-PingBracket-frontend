@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ParisJoueurInterface } from 'src/app/Interface/Pari';
+import { TableauInterface } from 'src/app/Interface/Tableau';
 import { PariService } from 'src/app/Service/pari.service';
+import { TableauService } from 'src/app/Service/tableau.service';
 
 @Component({
   selector: 'app-parier',
@@ -8,7 +10,12 @@ import { PariService } from 'src/app/Service/pari.service';
   styleUrls: ['./parier.component.scss'],
 })
 export class ParierComponent implements OnInit {
-  constructor(private readonly pariService: PariService) {}
+  public tableauxPariables: TableauInterface[] = [];
+
+  constructor(
+    private readonly pariService: PariService,
+    private readonly tableauService: TableauService
+  ) {}
 
   //TODO DELETE EN BRACKET
   public pari: ParisJoueurInterface = {
@@ -29,6 +36,11 @@ export class ParierComponent implements OnInit {
     this.pariService.getAll().subscribe((paris: ParisJoueurInterface) => {
       console.error(paris);
     });
+    this.tableauService
+      .getPariables()
+      .subscribe((tableauxPariables: TableauInterface[]) => {
+        this.tableauxPariables = tableauxPariables;
+      });
   }
 
   parier(): void {

@@ -36,6 +36,7 @@ export class TableauComponent implements OnInit {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
   };
 
   // Input variables

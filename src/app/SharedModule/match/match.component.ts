@@ -30,6 +30,7 @@ export class MatchComponent implements OnInit {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
   };
   @Output() updateBracket: EventEmitter<any> = new EventEmitter();
   public disabledMatChip = false;

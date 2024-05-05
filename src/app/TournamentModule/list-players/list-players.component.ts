@@ -48,6 +48,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
