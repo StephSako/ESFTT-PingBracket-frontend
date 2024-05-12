@@ -21,16 +21,21 @@ export class ParierComponent implements OnInit {
 
   public pariJoueur: ParisJoueurInterface = null;
   public isLoggedIn: boolean = false;
+  public tableauxGet: boolean = false;
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.accountService.getIdParieur();
     if (this.isLoggedIn) this.getAllParisJoueur();
 
-    this.tableauService
-      .getPariables()
-      .subscribe((tableauxPariables: TableauInterface[]) => {
+    this.tableauService.getPariables().subscribe(
+      (tableauxPariables: TableauInterface[]) => {
         this.tableauxPariables = tableauxPariables;
-      });
+        this.tableauxGet = true;
+      },
+      () => {
+        this.tableauxGet = true;
+      }
+    );
 
     this.pariService.listeParisJoueurLoggedIn.subscribe(() => {
       this.getAllParisJoueur();

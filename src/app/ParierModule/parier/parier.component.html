@@ -17,9 +17,9 @@
       Parier avec un autre profil
     </button>
 
-    <mat-card *ngIf="tableauxPariables.length === 0">
+    <mat-card *ngIf="tableauxPariables.length === 0 && tableauxGet">
       <h3 class="lobster center">
-        Il n'y a pas de tournois ouverts aux paris pour le moment
+        Il n'y a pas de tableaux ouverts aux paris pour le moment
       </h3>
     </mat-card>
     <mat-tab-group
