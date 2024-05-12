@@ -1,6 +1,6 @@
 import { JoueurInterface } from 'src/app/Interface/Joueur';
 
-interface JoueurMatchInterface {
+export interface JoueurMatchInterface {
   _id: JoueurInterface;
   winner: boolean;
 }

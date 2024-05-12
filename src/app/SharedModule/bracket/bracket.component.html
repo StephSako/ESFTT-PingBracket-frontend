@@ -1,4 +1,4 @@
-<div class="container" *ngIf="tableau">
+<div class="container" *ngIf="tableau && !isPari">
   <button
     *ngIf="tableau.is_launched !== getTableauState().TermineState"
     (click)="generateBracket()"
@@ -47,6 +47,8 @@
   <app-match
     (updateBracket)="getBracket()"
     [tableau]="tableau"
+    [isPari]="isPari"
+    [pariJoueur]="pariJoueur"
     [phase]="phase"
     [match]="match"
   ></app-match>

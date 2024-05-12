@@ -6,8 +6,10 @@ export interface ParisJoueurInterface {
 }
 
 export interface PariInterface {
+  _id: string;
   id_gagnant: string;
-  id_bracket: string;
+  id_tableau: string;
+  phase: string;
   id_match: number;
   round: number;
 }

@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { BracketInterface } from 'src/app/Interface/Bracket';
 import { TableauState } from 'src/app/SharedModule/TableauState.enum';
+import { ParisJoueurInterface } from 'src/app/Interface/Pari';
 
 @Component({
   selector: 'app-bracket',
@@ -16,6 +17,13 @@ import { TableauState } from 'src/app/SharedModule/TableauState.enum';
   styleUrls: ['./bracket.component.scss'],
 })
 export class BracketComponent implements OnInit {
+  @Input() isPari: boolean = false;
+  @Input() pariJoueur: ParisJoueurInterface = {
+    _id: null,
+    id_prono_vainqueur: null,
+    id_pronostiqueur: null,
+    paris: [],
+  };
   @Input() phase: string;
   @Input() tableau: TableauInterface = {
     _id: null,
@@ -98,7 +106,7 @@ export class BracketComponent implements OnInit {
 
   getBracket(): void {
     this.tournoiService.getBracket(this.idTableau, this.phase).subscribe(
-      (matches) => {
+      (matches: BracketInterface) => {
         this.bracket = matches;
         this.spinnerShown = false;
       },

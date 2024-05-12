@@ -16,6 +16,7 @@ import { environment } from '../../environments/environment';
 export class AccountService {
   private baseURL = environment.endpointNodeApi + 'account/';
   private token: string;
+  private idParieur: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -111,5 +112,24 @@ export class AccountService {
     setTimeout(() => {
       this.logout();
     }, this.getUserDetails().exp * 1000 - Date.now());
+  }
+
+  public getIdParieur(): string {
+    if (!this.idParieur) {
+      this.idParieur = localStorage.getItem('parieurId');
+    }
+    return this.idParieur;
+  }
+
+  public saveIdParieur(idParieur: string): void {
+    this.idParieur = idParieur;
+    localStorage.setItem('parieurId', idParieur);
+    this.launchAutoLogout();
+  }
+
+  public logoutParieur(): void {
+    this.idParieur = '';
+    localStorage.removeItem('parieurId');
+    // this.router.navigateByUrl('/formulaire'); // TODO REDIRIGER VERS LA PAGE DE CONNEXION DES PARIS
   }
 }

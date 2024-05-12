@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ParisJoueurInterface } from 'src/app/Interface/Pari';
 import { TableauInterface } from 'src/app/Interface/Tableau';
+import { AccountService } from 'src/app/Service/account.service';
 import { PariService } from 'src/app/Service/pari.service';
 import { TableauService } from 'src/app/Service/tableau.service';
 
@@ -14,47 +15,40 @@ export class ParierComponent implements OnInit {
 
   constructor(
     private readonly pariService: PariService,
-    private readonly tableauService: TableauService
+    private readonly tableauService: TableauService,
+    private readonly accountService: AccountService
   ) {}
 
-  //TODO DELETE EN BRACKET
-  public pari: ParisJoueurInterface = {
-    _id: null,
-    id_prono_vainqueur: '6636a1eaf02e5c065941dd47',
-    id_pronostiqueur: '6636899be6e3a6029a168158',
-    paris: [
-      {
-        id_bracket: '6636b5e4366a5809b915d534',
-        id_gagnant: '6636899be6e3a6029a168158',
-        id_match: 2,
-        round: 2,
-      },
-    ],
-  };
+  public pariJoueur: ParisJoueurInterface = null;
 
   ngOnInit(): void {
-    this.pariService.getAll().subscribe((paris: ParisJoueurInterface) => {
-      console.error(paris);
-    });
+    if (this.isParieurLoggedIn()) this.getAllParisJoueur();
+
     this.tableauService
       .getPariables()
       .subscribe((tableauxPariables: TableauInterface[]) => {
         this.tableauxPariables = tableauxPariables;
       });
-  }
 
-  parier(): void {
-    this.pariService.bet(this.pari).subscribe((pari: ParisJoueurInterface) => {
-      this.pari._id = pari._id; //TODO DELETE EN BRACKET
-      //TODO AFFICHER LES MESSAGES
+    this.pariService.listeParisJoueurLoggedIn.subscribe(() => {
+      this.getAllParisJoueur();
     });
   }
 
-  annulerPari(): void {
-    this.pariService.cancel(this.pari._id).subscribe(); //TODO AFFICHER LES MESSAGES
+  getAllParisJoueur(): void {
+    this.pariService
+      .getAllParisJoueur(this.accountService.getIdParieur())
+      .subscribe((paris: ParisJoueurInterface) => {
+        this.pariJoueur = paris;
+        this.pariService.updatePariMatch.next(this.pariJoueur);
+      });
   }
 
-  toutSupprimer(): void {
-    this.pariService.deleteAll().subscribe(); //TODO AFFICHER LES MESSAGES
+  isParieurLoggedIn(): boolean {
+    return !!this.accountService.getIdParieur();
+  }
+
+  logout(): void {
+    this.accountService.logoutParieur();
   }
 }

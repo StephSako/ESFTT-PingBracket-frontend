@@ -16,9 +16,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { SharedModules } from '../SharedModule/shared.modules';
+import { ConnexionParieurComponent } from './connexion-parieur/connexion-parieur.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [ParierComponent],
+  declarations: [ParierComponent, ConnexionParieurComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -34,6 +36,7 @@ import { SharedModules } from '../SharedModule/shared.modules';
     MatSelectModule,
     FlexLayoutModule,
     MatAutocompleteModule,
+    MatProgressSpinnerModule,
     ParierRoutingModule,
     SharedModules,
     AngularEditorModule,
