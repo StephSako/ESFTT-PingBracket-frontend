@@ -47,7 +47,6 @@ export class MatchComponent implements OnInit {
 
   public disabledMatChip = false;
   public disabledCancelButton = false;
-  public idParieur: string = null;
   public pariMatch: PariInterface = null;
 
   constructor(
@@ -62,7 +61,6 @@ export class MatchComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isPari) {
-      this.idParieur = this.accountService.getIdParieur();
       this.setMatchPari();
 
       this.pariService.updatePariMatch.subscribe(
@@ -188,7 +186,7 @@ export class MatchComponent implements OnInit {
     return (
       this.isPari &&
       this.getColorPari().icon &&
-      this.match.joueurs.filter((joueur) => joueur.winner).length !== 0
+      this.match.joueurs.filter((joueur) => joueur.winner).length === 1
     );
   }
 
@@ -234,7 +232,8 @@ export class MatchComponent implements OnInit {
       this.match.joueurs.filter(
         (joueur: JoueurMatchInterface) =>
           joueur?._id?._id === this.accountService.getIdParieur()
-      ).length > 0
+      ).length > 0 &&
+      this.match.joueurs.filter((joueur) => joueur.winner).length === 0
     );
   }
 

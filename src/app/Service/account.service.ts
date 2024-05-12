@@ -130,6 +130,5 @@ export class AccountService {
   public logoutParieur(): void {
     this.idParieur = '';
     localStorage.removeItem('parieurId');
-    // this.router.navigateByUrl('/formulaire'); // TODO REDIRIGER VERS LA PAGE DE CONNEXION DES PARIS
   }
 }

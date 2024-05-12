@@ -20,9 +20,11 @@ export class ParierComponent implements OnInit {
   ) {}
 
   public pariJoueur: ParisJoueurInterface = null;
+  public isLoggedIn: boolean = false;
 
   ngOnInit(): void {
-    if (this.isParieurLoggedIn()) this.getAllParisJoueur();
+    this.isLoggedIn = !!this.accountService.getIdParieur();
+    if (this.isLoggedIn) this.getAllParisJoueur();
 
     this.tableauService
       .getPariables()
@@ -39,16 +41,14 @@ export class ParierComponent implements OnInit {
     this.pariService
       .getAllParisJoueur(this.accountService.getIdParieur())
       .subscribe((paris: ParisJoueurInterface) => {
+        this.isLoggedIn = true;
         this.pariJoueur = paris;
         this.pariService.updatePariMatch.next(this.pariJoueur);
       });
   }
 
-  isParieurLoggedIn(): boolean {
-    return !!this.accountService.getIdParieur();
-  }
-
   logout(): void {
     this.accountService.logoutParieur();
+    this.isLoggedIn = false;
   }
 }

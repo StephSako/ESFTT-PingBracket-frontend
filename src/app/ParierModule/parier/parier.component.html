@@ -1,16 +1,11 @@
 <div class="container">
-  <!-- <mat-card *ngIf="parametres.open !== null && !parametres.open">
-    <h1 class="lobster center">Les inscriptions au tournoi sont fermées ...</h1>
-  </mat-card>
-
-  <mat-card *ngIf="parametres.open !== null && parametres.open">
-  </mat-card> -->
-
-  <div *ngIf="!isParieurLoggedIn()">
-    <app-connexion-parieur></app-connexion-parieur>
+  <div *ngIf="!isLoggedIn">
+    <app-connexion-parieur
+      (setParieurLoggedIn)="getAllParisJoueur()"
+    ></app-connexion-parieur>
   </div>
 
-  <div *ngIf="isParieurLoggedIn()">
+  <div *ngIf="isLoggedIn">
     <button
       class="center"
       type="button"
@@ -22,7 +17,13 @@
       Parier avec un autre profil
     </button>
 
+    <mat-card *ngIf="tableauxPariables.length === 0">
+      <h3 class="lobster center">
+        Il n'y a pas de tournois ouverts aux paris pour le moment
+      </h3>
+    </mat-card>
     <mat-tab-group
+      *ngIf="tableauxPariables.length > 0"
       mat-align-tabs="center"
       color="accent"
       [dynamicHeight]="true"
