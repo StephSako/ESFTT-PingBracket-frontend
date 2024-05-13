@@ -49,7 +49,6 @@ export class PariService {
     fichePariId: string,
     pariMatch: PariInterface
   ): Observable<any> {
-    console.error(fichePariId);
     return this.http.put(`${this.baseURL}cancel/${fichePariId}`, { pariMatch });
   }
 

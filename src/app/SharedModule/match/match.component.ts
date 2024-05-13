@@ -47,10 +47,11 @@ export class MatchComponent implements OnInit {
 
   public disabledMatChip = false;
   public disabledCancelButton = false;
+  public disabledLockToBets = false;
   public pariMatch: PariInterface = null;
 
   constructor(
-    private tournoiService: BracketService,
+    private bracketService: BracketService,
     private snackBar: MatSnackBar,
     private appService: AppService,
     private notifyService: NotifyService,
@@ -73,7 +74,7 @@ export class MatchComponent implements OnInit {
   }
 
   onClickJoueur(winnerId: string): void {
-    this.disabledMatChip = true;
+    this.toogleDisablers();
 
     // Ne pas pouvoir modifier le résultat du match si le résultat a déjà été renseigné ou si le pari a déjà été effectué
     if (
@@ -83,7 +84,8 @@ export class MatchComponent implements OnInit {
       !this.match.joueurs[0].winner &&
       ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
         !this.match.joueurs[1]) &&
-      (!this.isPari || (this.isPari && !this.pariMatch && !this.isMyMatch()))
+      (!this.isPari ||
+        (this.isPari && !this.pariMatch && !this.isMatchLocked()))
     ) {
       if (this.isPari) {
         this.parierWinner(winnerId);
@@ -91,7 +93,7 @@ export class MatchComponent implements OnInit {
         this.setWinner(winnerId);
       }
     } else {
-      this.disabledMatChip = false;
+      this.toogleDisablers();
     }
   }
 
@@ -108,7 +110,7 @@ export class MatchComponent implements OnInit {
       .subscribe(
         (result: any) => {
           // console.error(result); // TODO Update les paris du joueur dans sa variable
-          this.disabledMatChip = false;
+          this.toogleDisablers();
           this.pariService.listeParisJoueurLoggedIn.next();
         },
         (err) => {
@@ -118,7 +120,7 @@ export class MatchComponent implements OnInit {
             'error',
             'OK'
           );
-          this.disabledMatChip = false;
+          this.toogleDisablers();
         }
       );
   }
@@ -134,11 +136,10 @@ export class MatchComponent implements OnInit {
   }
 
   setWinner(winnerId: string): void {
-    this.disabledCancelButton = true;
     const looserId = this.match.joueurs.filter(
       (joueur) => joueur._id._id !== winnerId
     )[0]._id._id;
-    this.tournoiService
+    this.bracketService
       .edit(
         this.tableau._id,
         this.match.round,
@@ -150,8 +151,7 @@ export class MatchComponent implements OnInit {
       .subscribe(
         () => {
           this.updateBracket.emit();
-          this.disabledMatChip = false;
-          this.disabledCancelButton = false;
+          this.toogleDisablers();
         },
         (err) => {
           this.notifyService.notifyUser(
@@ -160,20 +160,63 @@ export class MatchComponent implements OnInit {
             'error',
             'OK'
           );
-          this.disabledMatChip = false;
-          this.disabledCancelButton = false;
+          this.toogleDisablers();
+        }
+      );
+  }
+
+  lockMatchToBets(): void {
+    this.toogleDisablers();
+
+    this.bracketService
+      .lockMatchToBets(
+        this.tableau._id,
+        this.match.round,
+        this.match.id,
+        this.phase,
+        this.match.isLockToBets
+      )
+      .subscribe(
+        () => {
+          this.match.isLockToBets = !this.match.isLockToBets;
+          this.toogleDisablers();
+        },
+        (err) => {
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+          this.toogleDisablers();
         }
       );
   }
 
   isClickable(): string {
-    return this.match.joueurs.length > 1 &&
-      !this.match.joueurs[0].winner &&
-      ((this.match.joueurs[1] && !this.match.joueurs[1].winner) ||
-        !this.match.joueurs[1]) &&
-      (!this.isPari || (this.isPari && !this.pariMatch && !this.isMyMatch()))
+    return this.isClickableToSetWinner() || this.isClickableToBet()
       ? 'clickable'
       : '';
+  }
+
+  isClickableToSetWinner(): boolean {
+    return (
+      this.match.joueurs.length > 1 &&
+      this.matchHasTwoPlayers() &&
+      this.tableau.is_launched ===
+        this.appService.getTableauState().BracketState &&
+      !this.match.joueurs[0]?.winner &&
+      !this.match.joueurs[1]?.winner
+    );
+  }
+
+  isClickableToBet(): boolean {
+    return (
+      this.isPari &&
+      !this.pariMatch &&
+      !this.isMatchLocked() &&
+      !this.match.isLockToBets
+    );
   }
 
   getColor(joueur: JoueurMatchInterface): string {
@@ -233,14 +276,15 @@ export class MatchComponent implements OnInit {
     }
   }
 
-  isMyMatch(): boolean {
+  isMatchLocked(): boolean {
     return (
       this.isPari &&
-      this.match.joueurs.filter(
+      this.match.joueurs.filter((joueur) => joueur.winner).length === 0 &&
+      (this.match.joueurs.filter(
         (joueur: JoueurMatchInterface) =>
           joueur?._id?._id === this.accountService.getParieur()._id
-      ).length > 0 &&
-      this.match.joueurs.filter((joueur) => joueur.winner).length === 0
+      ).length > 0 ||
+        this.match.isLockToBets)
     );
   }
 
@@ -276,18 +320,40 @@ export class MatchComponent implements OnInit {
   }
 
   isCancelable(): boolean {
+    return this.isMatchResultCancelable() || this.isPariCancelable();
+  }
+
+  isMatchResultCancelable(): boolean {
     return (
-      (!this.isPari &&
-        this.matchHasTwoPlayers() &&
-        this.match.isCancelable &&
-        this.tableau.is_launched === this.getTableauxStates().BracketState) ||
-      (this.isPari && !!this.getColorPari().color && !this.showResultatPari())
+      !this.isPari &&
+      this.matchHasTwoPlayers() &&
+      this.match.isCancelable &&
+      this.tableau.is_launched === this.getTableauxStates().BracketState
+    );
+  }
+
+  isMatchLockableForBets(): boolean {
+    return (
+      this.tableau.pariable &&
+      !this.isPari &&
+      this.matchHasTwoPlayers() &&
+      !(this.match.joueurs[0]?.winner || this.match.joueurs[1]?.winner) &&
+      !this.isCancelable() &&
+      this.tableau.is_launched === this.getTableauxStates().BracketState
+    );
+  }
+
+  isPariCancelable(): boolean {
+    return (
+      this.isPari &&
+      !!this.getColorPari().color &&
+      !this.showResultatPari() &&
+      !this.match.isLockToBets
     );
   }
 
   onCancelClick(): void {
-    this.disabledMatChip = true;
-    this.disabledCancelButton = true;
+    this.toogleDisablers();
 
     if (this.isPari) {
       this.cancelPariMatch();
@@ -297,7 +363,7 @@ export class MatchComponent implements OnInit {
   }
 
   cancelMatchResult(): void {
-    this.tournoiService
+    this.bracketService
       .cancelMatchResult(
         this.tableau._id,
         this.phase,
@@ -309,12 +375,10 @@ export class MatchComponent implements OnInit {
       .subscribe(
         () => {
           this.updateBracket.emit();
-          this.disabledMatChip = false;
-          this.disabledCancelButton = false;
+          this.toogleDisablers();
         },
         (err) => {
-          this.disabledMatChip = false;
-          this.disabledCancelButton = false;
+          this.toogleDisablers();
           this.notifyService.notifyUser(
             err.error,
             this.snackBar,
@@ -329,12 +393,10 @@ export class MatchComponent implements OnInit {
     this.pariService.cancel(this.pariJoueur._id, this.pariMatch).subscribe(
       () => {
         this.pariService.listeParisJoueurLoggedIn.next();
-        this.disabledMatChip = false;
-        this.disabledCancelButton = false;
+        this.toogleDisablers();
       },
       (err) => {
-        this.disabledMatChip = false;
-        this.disabledCancelButton = false;
+        this.toogleDisablers();
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
       }
     );
@@ -342,5 +404,11 @@ export class MatchComponent implements OnInit {
 
   getTableauxStates(): typeof TableauState {
     return this.appService.getTableauState();
+  }
+
+  toogleDisablers(): void {
+    this.disabledMatChip = !this.disabledMatChip;
+    this.disabledCancelButton = !this.disabledCancelButton;
+    this.disabledLockToBets = !this.disabledLockToBets;
   }
 }

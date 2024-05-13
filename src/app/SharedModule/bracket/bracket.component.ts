@@ -48,7 +48,7 @@ export class BracketComponent implements OnInit, OnDestroy {
   private intervalUpdateMatches = null;
 
   constructor(
-    private tournoiService: BracketService,
+    private bracketService: BracketService,
     private appService: AppService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -95,7 +95,7 @@ export class BracketComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.spinnerShown = true;
-          this.tournoiService
+          this.bracketService
             .generateBracket(
               this.tableau._id,
               this.tableau.format,
@@ -123,7 +123,7 @@ export class BracketComponent implements OnInit, OnDestroy {
   }
 
   getBracket(): void {
-    this.tournoiService.getBracket(this.idTableau, this.phase).subscribe(
+    this.bracketService.getBracket(this.idTableau, this.phase).subscribe(
       (matches: BracketInterface) => {
         this.bracket = matches;
         this.spinnerShown = false;

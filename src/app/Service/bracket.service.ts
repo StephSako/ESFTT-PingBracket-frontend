@@ -17,15 +17,28 @@ export class BracketService {
 
   public edit(
     tableau: string,
-    actualRound: number,
-    actualIdMatch: number,
+    round: number,
+    idMatch: number,
     winnerId: string,
     looserId: string,
     phase: string
   ): Observable<any> {
     return this.http.put(
-      `${this.baseURL}edit/${tableau}/${phase}/${actualRound}/${actualIdMatch}`,
+      `${this.baseURL}edit/${tableau}/${phase}/${round}/${idMatch}`,
       { winnerId, looserId }
+    );
+  }
+
+  public lockMatchToBets(
+    tableau: string,
+    round: number,
+    idMatch: number,
+    phase: string,
+    isLocked: boolean
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseURL}lock-paris/match/${tableau}/${phase}/${idMatch}/${round}`,
+      { isLocked }
     );
   }
 

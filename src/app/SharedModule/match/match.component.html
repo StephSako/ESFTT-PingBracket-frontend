@@ -10,6 +10,16 @@
     <mat-icon>backspace</mat-icon>
   </button>
 
+  <button
+    mat-icon-button
+    [class]="'lock-btn ' + (match.isLockToBets ? 'locked' : 'unlocked')"
+    [disabled]="disabledLockToBets"
+    *ngIf="isMatchLockableForBets()"
+    (click)="lockMatchToBets()"
+  >
+    <mat-icon>paid</mat-icon>
+  </button>
+
   <mat-icon
     [class]="'icon-resultat-pari ' + getColorPari().color"
     *ngIf="showResultatPari()"
@@ -39,7 +49,7 @@
               match.joueurs.length <= 1 ||
               tableau.is_launched > appService.getTableauState().TermineState ||
               disabledMatChip ||
-              isMyMatch()
+              isMatchLocked()
             "
             (click)="onClickJoueur(joueur._id._id)"
             [class]="

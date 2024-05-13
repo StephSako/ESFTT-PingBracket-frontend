@@ -62,6 +62,7 @@
           </ng-template>
 
           <app-bracket
+            *ngIf="pariJoueur !== null"
             [pariJoueur]="pariJoueur"
             [isPari]="true"
             [phase]="'finale'"
@@ -75,6 +76,7 @@
           >
 
           <app-bracket
+            *ngIf="pariJoueur !== null"
             [pariJoueur]="pariJoueur"
             [isPari]="true"
             [phase]="'consolante'"
