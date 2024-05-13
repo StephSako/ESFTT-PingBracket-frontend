@@ -9,6 +9,7 @@ import {
   UserInterface,
 } from '../Interface/Account';
 import { environment } from '../../environments/environment';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { environment } from '../../environments/environment';
 export class AccountService {
   private baseURL = environment.endpointNodeApi + 'account/';
   private token: string;
-  private idParieur: string;
+  private profilParieur: JoueurInterface;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -114,20 +115,20 @@ export class AccountService {
     }, this.getUserDetails().exp * 1000 - Date.now());
   }
 
-  public getIdParieur(): string {
-    if (!this.idParieur) {
-      this.idParieur = localStorage.getItem('parieurId');
+  public getParieur(): JoueurInterface {
+    if (!this.profilParieur) {
+      this.profilParieur = JSON.parse(localStorage.getItem('profilParieur'));
     }
-    return this.idParieur;
+    return this.profilParieur;
   }
 
-  public saveIdParieur(idParieur: string): void {
-    this.idParieur = idParieur;
-    localStorage.setItem('parieurId', idParieur);
+  public saveParieur(profilParieur: JoueurInterface): void {
+    this.profilParieur = profilParieur;
+    localStorage.setItem('profilParieur', JSON.stringify(profilParieur));
   }
 
   public logoutParieur(): void {
-    this.idParieur = '';
-    localStorage.removeItem('parieurId');
+    this.profilParieur = null;
+    localStorage.removeItem('profilParieur');
   }
 }

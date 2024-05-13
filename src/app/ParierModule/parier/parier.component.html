@@ -1,46 +1,87 @@
-<div class="container">
-  <div *ngIf="!isLoggedIn">
-    <app-connexion-parieur
-      (setParieurLoggedIn)="getAllParisJoueur()"
-    ></app-connexion-parieur>
-  </div>
+<div *ngIf="!isLoggedIn">
+  <app-connexion-parieur
+    (setParieurLoggedIn)="getAllParisJoueur()"
+  ></app-connexion-parieur>
+</div>
 
-  <div *ngIf="isLoggedIn">
-    <button
-      class="center"
-      type="button"
-      mat-raised-button
-      color="warn"
-      (click)="logout()"
-    >
-      <mat-icon>logout</mat-icon>
-      Parier avec un autre profil
-    </button>
+<div *ngIf="isLoggedIn">
+  <div class="container">
+    <mat-card>
+      <button
+        class="center"
+        type="button"
+        mat-raised-button
+        color="warn"
+        (click)="logout()"
+      >
+        <mat-icon>logout</mat-icon>
+        Parier avec un autre profil</button
+      ><br />
+
+      <h2 class="lobster center">{{ getNomParieur() }}</h2>
+
+      <h3 class="center">
+        <b>Votre score : </b
+        ><span id="score"
+          >{{ getPoints() }} point{{ getPoints() > 1 ? "s" : "" }}</span
+        >
+      </h3>
+    </mat-card>
 
     <mat-card *ngIf="tableauxPariables.length === 0 && tableauxGet">
       <h3 class="lobster center">
         Il n'y a pas de tableaux ouverts aux paris pour le moment
       </h3>
     </mat-card>
-    <mat-tab-group
-      *ngIf="tableauxPariables.length > 0"
-      mat-align-tabs="center"
-      color="accent"
-      [dynamicHeight]="true"
-      selectedIndex="0"
-    >
-      <mat-tab *ngFor="let tableau of tableauxPariables">
-        <ng-template mat-tab-label class="mat-tab-label">{{
-          tableau.nom | titlecase
-        }}</ng-template>
-
-        <app-bracket
-          [pariJoueur]="pariJoueur"
-          [isPari]="true"
-          [phase]="'finale'"
-          [tableau]="tableau"
-        ></app-bracket>
-      </mat-tab>
-    </mat-tab-group>
   </div>
+
+  <mat-tab-group
+    *ngIf="tableauxPariables.length > 0"
+    mat-align-tabs="center"
+    color="accent"
+    [dynamicHeight]="true"
+    selectedIndex="0"
+  >
+    <mat-tab *ngFor="let tableau of tableauxPariables">
+      <ng-template mat-tab-label class="mat-tab-label">{{
+        tableau.nom | titlecase
+      }}</ng-template>
+
+      <p *ngIf="tableau.is_launched > 2">Paris cloturés pour ce tableau</p>
+
+      <mat-tab-group
+        mat-align-tabs="center"
+        color="accent"
+        dynamicHeight="200%"
+        selectedIndex="0"
+        *ngIf="tableau._id"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label class="mat-tab-label">
+            Phases finales
+          </ng-template>
+
+          <app-bracket
+            [pariJoueur]="pariJoueur"
+            [isPari]="true"
+            [phase]="'finale'"
+            [tableau]="tableau"
+          ></app-bracket>
+        </mat-tab>
+
+        <mat-tab *ngIf="tableau.consolante">
+          <ng-template mat-tab-label class="mat-tab-label"
+            >Consolante</ng-template
+          >
+
+          <app-bracket
+            [pariJoueur]="pariJoueur"
+            [isPari]="true"
+            [phase]="'consolante'"
+            [tableau]="tableau"
+          ></app-bracket>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
 </div>

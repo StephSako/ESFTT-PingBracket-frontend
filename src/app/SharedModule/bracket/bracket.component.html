@@ -36,6 +36,9 @@
 </div>
 
 <ng-container *ngIf="bracket">
+  <span *ngIf="isPari" class="center aide"
+    >Scrollez vers la droite pour voir les prochains matches</span
+  >
   <ngtt-single-elimination-tree
     *ngIf="bracket.rounds.length"
     [tournament]="bracket"

@@ -238,7 +238,7 @@ export class MatchComponent implements OnInit {
       this.isPari &&
       this.match.joueurs.filter(
         (joueur: JoueurMatchInterface) =>
-          joueur?._id?._id === this.accountService.getIdParieur()
+          joueur?._id?._id === this.accountService.getParieur()._id
       ).length > 0 &&
       this.match.joueurs.filter((joueur) => joueur.winner).length === 0
     );

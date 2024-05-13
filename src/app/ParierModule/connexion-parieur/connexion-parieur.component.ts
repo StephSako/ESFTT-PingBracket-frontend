@@ -29,7 +29,7 @@ export class ConnexionParieurComponent implements OnInit {
     this.joueurService.checkIdParieur(this.idParieur).subscribe(
       (joueur: JoueurInterface) => {
         this.spinnerShown = false;
-        this.accountService.saveIdParieur(joueur._id);
+        this.accountService.saveParieur(joueur);
         this.setParieurLoggedIn.emit();
       },
       (err) => {
