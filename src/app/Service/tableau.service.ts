@@ -66,7 +66,7 @@ export class TableauService {
     }
   ): Observable<any> {
     return this.http.put(`${this.baseURL}unsubscribe/invalid/${tableau._id}`, {
-      tableau: tableau,
+      tableau,
       age_flag: params.age_flag,
       type_licence_flag: params.type_licence_flag,
       type_licence_to_unsubscribe: params.type_licence_to_unsubscribe,

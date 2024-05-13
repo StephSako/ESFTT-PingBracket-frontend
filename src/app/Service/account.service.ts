@@ -124,7 +124,6 @@ export class AccountService {
   public saveIdParieur(idParieur: string): void {
     this.idParieur = idParieur;
     localStorage.setItem('parieurId', idParieur);
-    this.launchAutoLogout();
   }
 
   public logoutParieur(): void {

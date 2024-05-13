@@ -11,6 +11,7 @@
               name="idParieur"
               type="text"
               matInput
+              maxlength="4"
               required
             />
             <mat-error *ngIf="!idParieur">
@@ -25,7 +26,7 @@
         type="submit"
         mat-raised-button
         color="primary"
-        [disabled]="!idParieur"
+        [disabled]="idParieur.length < 4"
         (click)="loginParieur()"
       >
         <mat-icon *ngIf="spinnerShown">

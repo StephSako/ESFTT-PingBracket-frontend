@@ -1,5 +1,5 @@
 import { AppService } from './../../app.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
@@ -16,8 +16,8 @@ import { ParisJoueurInterface } from 'src/app/Interface/Pari';
   templateUrl: './bracket.component.html',
   styleUrls: ['./bracket.component.scss'],
 })
-export class BracketComponent implements OnInit {
-  @Input() isPari: boolean = false;
+export class BracketComponent implements OnInit, OnDestroy {
+  @Input() isPari = false;
   @Input() pariJoueur: ParisJoueurInterface = {
     _id: null,
     id_prono_vainqueur: null,
@@ -45,6 +45,7 @@ export class BracketComponent implements OnInit {
   spinnerShown: boolean;
   idTableau: string;
   public bracket: BracketInterface;
+  private intervalUpdateMatches = null;
 
   constructor(
     private tournoiService: BracketService,
@@ -54,10 +55,27 @@ export class BracketComponent implements OnInit {
     private notifyService: NotifyService
   ) {}
 
+  ngOnDestroy(): void {
+    this.pariJoueur = {
+      _id: null,
+      id_prono_vainqueur: null,
+      id_pronostiqueur: null,
+      paris: [],
+    };
+    clearInterval(this.intervalUpdateMatches);
+  }
+
   ngOnInit(): void {
     this.spinnerShown = false;
     this.idTableau = this.tableau._id;
     this.getBracket();
+
+    if (this.isPari && this.pariJoueur._id !== null) {
+      this.intervalUpdateMatches = setInterval(() => {
+        this.spinnerShown = true;
+        this.getBracket();
+      }, 5000);
+    }
   }
 
   generateBracket(): void {
@@ -110,8 +128,10 @@ export class BracketComponent implements OnInit {
         this.bracket = matches;
         this.spinnerShown = false;
       },
-      (err) =>
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+      (err) => {
+        this.spinnerShown = false;
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
     );
   }
 

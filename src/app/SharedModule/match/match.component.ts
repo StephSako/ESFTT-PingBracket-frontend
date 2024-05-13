@@ -17,7 +17,7 @@ import { TableauState } from '../TableauState.enum';
   styleUrls: ['./match.component.scss'],
 })
 export class MatchComponent implements OnInit {
-  @Input() isPari: boolean = false;
+  @Input() isPari = false;
   @Input() pariJoueur: ParisJoueurInterface = {
     _id: null,
     id_prono_vainqueur: null,
@@ -97,25 +97,30 @@ export class MatchComponent implements OnInit {
 
   parierWinner(winnerId: string): void {
     const pariFromMatch: PariInterface = {
-      _id: this.pariJoueur._id,
       id_tableau: this.tableau._id,
       phase: this.phase,
       id_gagnant: winnerId,
       id_match: this.match.id,
       round: this.match.round,
     };
-    this.pariService.addPariFromMatch(pariFromMatch).subscribe(
-      (result: any) => {
-        // console.error(result); // TODO Update les paris du joueur dans sa variable
-        this.disabledMatChip = false;
-        this.pariService.listeParisJoueurLoggedIn.next();
-        //TODO AFFICHER LES MESSAGES
-      },
-      (err) => {
-        //TODO AFFICHER LES MESSAGES
-        this.disabledMatChip = false;
-      }
-    );
+    this.pariService
+      .addPariFromMatch(this.pariJoueur._id, pariFromMatch)
+      .subscribe(
+        (result: any) => {
+          // console.error(result); // TODO Update les paris du joueur dans sa variable
+          this.disabledMatChip = false;
+          this.pariService.listeParisJoueurLoggedIn.next();
+        },
+        (err) => {
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+          this.disabledMatChip = false;
+        }
+      );
   }
 
   setMatchPari(): void {
@@ -193,7 +198,9 @@ export class MatchComponent implements OnInit {
   getColorPari(joueur?: JoueurMatchInterface): { color: string; icon: string } {
     const idJoueur =
       joueur === undefined
-        ? this.match.joueurs.filter((joueur) => joueur.winner)[0]?._id._id
+        ? this.match.joueurs.filter(
+            (joueurM: JoueurMatchInterface) => joueurM.winner
+          )[0]?._id._id
         : joueur._id._id;
     if (this.isPari && this.pariMatch) {
       return {
@@ -269,12 +276,27 @@ export class MatchComponent implements OnInit {
   }
 
   isCancelable(): boolean {
-    return this.matchHasTwoPlayers() && this.match.isCancelable;
+    return (
+      (!this.isPari &&
+        this.matchHasTwoPlayers() &&
+        this.match.isCancelable &&
+        this.tableau.is_launched === this.getTableauxStates().BracketState) ||
+      (this.isPari && !!this.getColorPari().color && !this.showResultatPari())
+    );
+  }
+
+  onCancelClick(): void {
+    this.disabledMatChip = true;
+    this.disabledCancelButton = true;
+
+    if (this.isPari) {
+      this.cancelPariMatch();
+    } else {
+      this.cancelMatchResult();
+    }
   }
 
   cancelMatchResult(): void {
-    this.disabledMatChip = true;
-    this.disabledCancelButton = true;
     this.tournoiService
       .cancelMatchResult(
         this.tableau._id,
@@ -301,6 +323,21 @@ export class MatchComponent implements OnInit {
           );
         }
       );
+  }
+
+  cancelPariMatch(): void {
+    this.pariService.cancel(this.pariJoueur._id, this.pariMatch).subscribe(
+      () => {
+        this.pariService.listeParisJoueurLoggedIn.next();
+        this.disabledMatChip = false;
+        this.disabledCancelButton = false;
+      },
+      (err) => {
+        this.disabledMatChip = false;
+        this.disabledCancelButton = false;
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   getTableauxStates(): typeof TableauState {

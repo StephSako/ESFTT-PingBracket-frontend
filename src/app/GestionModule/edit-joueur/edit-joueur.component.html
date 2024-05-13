@@ -1,6 +1,12 @@
 <div *ngIf="joueur._id">
   <h2 class="center lobster"><b>Modifier le joueur</b></h2>
 
+  <p class="center">
+    <b>Identifiant parieur : </b
+    ><span class="id_parieur">{{ joueur._id | slice : -4 }}</span>
+  </p>
+  <br />
+
   <form fxLayout="row" [formGroup]="reactiveForm" (ngSubmit)="editPlayer()">
     <div fxFlex="60%">
       <div fxLayout="row">

@@ -4,12 +4,8 @@
     color="warn"
     class="cancel-btn"
     [disabled]="disabledCancelButton"
-    *ngIf="
-      !isPari &&
-      isCancelable() &&
-      tableau.is_launched === getTableauxStates().BracketState
-    "
-    (click)="cancelMatchResult()"
+    *ngIf="isCancelable()"
+    (click)="onCancelClick()"
   >
     <mat-icon>backspace</mat-icon>
   </button>

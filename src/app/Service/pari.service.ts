@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PariInterface, ParisJoueurInterface } from '../Interface/Pari';
+import { PariInterface } from '../Interface/Pari';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +19,16 @@ export class PariService {
   }
 
   public getAllParisJoueur(idJoueur: string): Observable<any> {
-    return this.http.get(`${this.baseURL}/${idJoueur}`);
+    return this.http.get(`${this.baseURL}${idJoueur.toLowerCase()}`);
   }
 
-  public createPari(pari: ParisJoueurInterface): Observable<any> {
-    return this.http.post(`${this.baseURL}createPari`, { pari });
-  }
-
-  public addPariFromMatch(pariFromMatch: PariInterface): Observable<any> {
-    return this.http.post(`${this.baseURL}addPariFromMatch`, { pariFromMatch });
+  public addPariFromMatch(
+    fichePariId: string,
+    pariFromMatch: PariInterface
+  ): Observable<any> {
+    return this.http.post(`${this.baseURL}addPariFromMatch/${fichePariId}`, {
+      pariFromMatch,
+    });
   }
 
   public updateVainqueur(
@@ -44,8 +45,12 @@ export class PariService {
     return this.http.put(`${this.baseURL}update`, { pari });
   }
 
-  public cancel(id_pari: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}cancel/${id_pari}`);
+  public cancel(
+    fichePariId: string,
+    pariMatch: PariInterface
+  ): Observable<any> {
+    console.error(fichePariId);
+    return this.http.put(`${this.baseURL}cancel/${fichePariId}`, { pariMatch });
   }
 
   public deleteAll(): Observable<any> {
