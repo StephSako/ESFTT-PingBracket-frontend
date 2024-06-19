@@ -1,7 +1,9 @@
+import { JoueurInterface } from './Joueur';
+
 export interface InfosParisJoueurInterface {
   _id: string;
   id_pronostiqueur: string;
-  id_prono_vainqueur: string;
+  id_prono_vainqueur: JoueurInterface;
   paris: PariInterface[];
 }
 

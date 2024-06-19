@@ -40,19 +40,76 @@
     [dynamicHeight]="true"
     selectedIndex="0"
   >
-    <mat-tab *ngFor="let tableau of tableauxPariables">
+    <mat-tab *ngFor="let tableauPariable of tableauxPariables">
       <ng-template mat-tab-label class="mat-tab-label">{{
-        tableau.nom | titlecase
+        tableauPariable.tableau.nom | titlecase
       }}</ng-template>
 
-      <p *ngIf="tableau.is_launched > 2">Paris cloturés pour ce tableau</p>
+      <p *ngIf="tableauPariable.tableau.is_launched > 2">
+        Paris cloturés pour ce tableau
+      </p>
+
+      <div class="container">
+        <mat-card>
+          <div *ngIf="tableauPariable.tableau.is_launched > 1">
+            <p
+              *ngIf="infosParisJoueur.id_prono_vainqueur"
+              class="center"
+              style="margin-bottom: 0px"
+            >
+              Vous avez parié sur
+              <b>{{ infosParisJoueur.id_prono_vainqueur.nom }}</b>
+            </p>
+            <p
+              *ngIf="!infosParisJoueur.id_prono_vainqueur"
+              class="center"
+              style="margin-bottom: 0px"
+            >
+              Vous n'avez pas parié sur le grand vainqueur
+            </p>
+          </div>
+          <div
+            fxLayout="column"
+            *ngIf="tableauPariable.tableau.is_launched === 1"
+            class="center"
+          >
+            <div fxFlex="100%">
+              <p>
+                <b
+                  >Parier sur le grand vainqueur du tableau
+                  {{ tableauPariable.tableau.nom | titlecase }} :</b
+                >
+              </p>
+            </div>
+            <div fxFlex="25%" fxFlex.lt-md="100%">
+              <mat-form-field appearance="fill">
+                <mat-label>Vainqueur</mat-label>
+                <mat-select
+                  (selectionChange)="updateVainqueur($event)"
+                  [ngModel]="getNgModelVainqueur()"
+                >
+                  <mat-option
+                    *ngFor="let participant of tableauPariable.participants"
+                    [value]="participant._id"
+                  >
+                    {{ participant.nom }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+      </div>
 
       <mat-tab-group
         mat-align-tabs="center"
         color="accent"
         dynamicHeight="200%"
         selectedIndex="0"
-        *ngIf="tableau._id"
+        *ngIf="
+          tableauPariable.tableau._id &&
+          tableauPariable.tableau.is_launched === 2
+        "
       >
         <mat-tab>
           <ng-template mat-tab-label class="mat-tab-label">
@@ -64,11 +121,11 @@
             [infosParisJoueur]="infosParisJoueur"
             [isPari]="true"
             [phase]="'finale'"
-            [tableau]="tableau"
+            [tableau]="tableauPariable.tableau"
           ></app-bracket>
         </mat-tab>
 
-        <mat-tab *ngIf="tableau.consolante">
+        <mat-tab *ngIf="tableauPariable.tableau.consolante">
           <ng-template mat-tab-label class="mat-tab-label"
             >Consolante</ng-template
           >
@@ -78,7 +135,7 @@
             [infosParisJoueur]="infosParisJoueur"
             [isPari]="true"
             [phase]="'consolante'"
-            [tableau]="tableau"
+            [tableau]="tableauPariable.tableau"
           ></app-bracket>
         </mat-tab>
       </mat-tab-group>

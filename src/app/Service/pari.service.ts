@@ -17,9 +17,9 @@ export class PariService {
 
   constructor(private http: HttpClient) {}
 
-  public getAll(): Observable<any> {
-    return this.http.get(this.baseURL);
-  }
+  // public getAll(): Observable<any> {
+  //   return this.http.get(this.baseURL);
+  // }
 
   //TODO Calcul des paris de parieur
   public getAllParisJoueur(idJoueur: string): Observable<any> {
@@ -35,18 +35,14 @@ export class PariService {
     });
   }
 
-  public updateVainqueur(
-    idParieur: string,
-    idVainqueur: string
+  public parierVainqueur(
+    id_parieur: string,
+    id_vainqueur: string
   ): Observable<any> {
-    return this.http.post(`${this.baseURL}updateVainqueur`, {
-      idParieur,
-      idVainqueur,
+    return this.http.post(`${this.baseURL}vainqueur`, {
+      id_parieur,
+      id_vainqueur,
     });
-  }
-
-  public update(pari: PariInterface): Observable<any> {
-    return this.http.put(`${this.baseURL}update`, { pari });
   }
 
   public cancel(
@@ -54,9 +50,5 @@ export class PariService {
     pariMatch: PariInterface
   ): Observable<any> {
     return this.http.put(`${this.baseURL}cancel/${fichePariId}`, { pariMatch });
-  }
-
-  public deleteAll(): Observable<any> {
-    return this.http.delete(`${this.baseURL}deleteAll`);
   }
 }

@@ -1,6 +1,13 @@
 import { AccountService } from './../../Service/account.service';
 import { JoueurMatchInterface, MatchInterface } from './../../Interface/Match';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { BracketService } from '../../Service/bracket.service';
 import { TableauInterface } from '../../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,7 +26,7 @@ import { TableauState } from '../TableauState.enum';
   templateUrl: './match.component.html',
   styleUrls: ['./match.component.scss'],
 })
-export class MatchComponent implements OnInit {
+export class MatchComponent implements OnInit, OnDestroy {
   @Input() isPari = false;
   @Input() infosParisJoueur: InfosParisJoueurInterface = {
     _id: null,
@@ -63,13 +70,17 @@ export class MatchComponent implements OnInit {
     private readonly accountService: AccountService
   ) {}
 
+  ngOnDestroy(): void {
+    this.isPari = false;
+  }
+
   ngOnInit(): void {
     if (this.isPari) {
       this.setMatchPari();
 
       this.pariService.updateListeParisMatches.subscribe(
         (listeParisJoueur: PariInterface[]) => {
-          if (listeParisJoueur !== null) {
+          if (listeParisJoueur) {
             this.infosParisJoueur.paris = listeParisJoueur;
             this.setMatchPari();
           }
@@ -130,7 +141,10 @@ export class MatchComponent implements OnInit {
   }
 
   setMatchPari(): void {
-    if (this.infosParisJoueur.hasOwnProperty('paris')) {
+    if (
+      this.infosParisJoueur !== null &&
+      this.infosParisJoueur.hasOwnProperty('paris')
+    ) {
       this.pariMatch = this.infosParisJoueur.paris.find(
         (pari: PariInterface) =>
           pari.id_match === this.match.id &&

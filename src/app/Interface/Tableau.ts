@@ -1,3 +1,5 @@
+import { JoueurInterface } from './Joueur';
+
 export interface TableauInterface {
   _id: string;
   nom: string;
@@ -18,4 +20,9 @@ export interface TableauInterface {
 
 export interface PlayerCountPerTableau {
   [key: string]: number;
+}
+
+export interface PariableTableauInterface {
+  tableau: TableauInterface;
+  participants: JoueurInterface;
 }

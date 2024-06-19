@@ -61,12 +61,7 @@ export class BracketComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.infosParisJoueur = {
-      _id: null,
-      id_prono_vainqueur: null,
-      id_pronostiqueur: null,
-      paris: [],
-    };
+    this.isPari = false;
     clearInterval(this.intervalUpdateMatches);
   }
 
