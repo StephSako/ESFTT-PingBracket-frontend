@@ -8,7 +8,10 @@ import { NotifyService } from '../../Service/notify.service';
 import { HandicapService } from 'src/app/Service/handicap.service';
 import { AppService } from 'src/app/app.service';
 import { PariService } from 'src/app/Service/pari.service';
-import { PariInterface, ParisJoueurInterface } from 'src/app/Interface/Pari';
+import {
+  PariInterface,
+  InfosParisJoueurInterface,
+} from 'src/app/Interface/Pari';
 import { TableauState } from '../TableauState.enum';
 
 @Component({
@@ -18,7 +21,7 @@ import { TableauState } from '../TableauState.enum';
 })
 export class MatchComponent implements OnInit {
   @Input() isPari = false;
-  @Input() pariJoueur: ParisJoueurInterface = {
+  @Input() infosParisJoueur: InfosParisJoueurInterface = {
     _id: null,
     id_prono_vainqueur: null,
     id_pronostiqueur: null,
@@ -64,10 +67,12 @@ export class MatchComponent implements OnInit {
     if (this.isPari) {
       this.setMatchPari();
 
-      this.pariService.updatePariMatch.subscribe(
-        (pariJoueur: ParisJoueurInterface) => {
-          this.pariJoueur = pariJoueur;
-          this.setMatchPari();
+      this.pariService.updateListeParisMatches.subscribe(
+        (listeParisJoueur: PariInterface[]) => {
+          if (listeParisJoueur !== null) {
+            this.infosParisJoueur.paris = listeParisJoueur;
+            this.setMatchPari();
+          }
         }
       );
     }
@@ -106,12 +111,11 @@ export class MatchComponent implements OnInit {
       round: this.match.round,
     };
     this.pariService
-      .addPariFromMatch(this.pariJoueur._id, pariFromMatch)
+      .addPariFromMatch(this.infosParisJoueur._id, pariFromMatch)
       .subscribe(
-        (result: any) => {
-          // console.error(result); // TODO Update les paris du joueur dans sa variable
+        () => {
           this.toogleDisablers();
-          this.pariService.listeParisJoueurLoggedIn.next();
+          this.pariService.addPariToListeParisMatches.next(pariFromMatch);
         },
         (err) => {
           this.notifyService.notifyUser(
@@ -126,13 +130,15 @@ export class MatchComponent implements OnInit {
   }
 
   setMatchPari(): void {
-    this.pariMatch = this.pariJoueur.paris.find(
-      (pari: PariInterface) =>
-        pari.id_match === this.match.id &&
-        pari.round === this.match.round &&
-        pari.phase === this.phase &&
-        pari.id_tableau === this.tableau._id
-    );
+    if (this.infosParisJoueur.hasOwnProperty('paris')) {
+      this.pariMatch = this.infosParisJoueur.paris.find(
+        (pari: PariInterface) =>
+          pari.id_match === this.match.id &&
+          pari.round === this.match.round &&
+          pari.phase === this.phase &&
+          pari.id_tableau === this.tableau._id
+      );
+    }
   }
 
   setWinner(winnerId: string): void {
@@ -390,16 +396,23 @@ export class MatchComponent implements OnInit {
   }
 
   cancelPariMatch(): void {
-    this.pariService.cancel(this.pariJoueur._id, this.pariMatch).subscribe(
-      () => {
-        this.pariService.listeParisJoueurLoggedIn.next();
-        this.toogleDisablers();
-      },
-      (err) => {
-        this.toogleDisablers();
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
-      }
-    );
+    this.pariService
+      .cancel(this.infosParisJoueur._id, this.pariMatch)
+      .subscribe(
+        () => {
+          this.pariService.deletePariToListeParisMatches.next(this.pariMatch);
+          this.toogleDisablers();
+        },
+        (err) => {
+          this.toogleDisablers();
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+        }
+      );
   }
 
   getTableauxStates(): typeof TableauState {

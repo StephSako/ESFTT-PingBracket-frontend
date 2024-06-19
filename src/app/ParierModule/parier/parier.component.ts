@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ParisJoueurInterface } from 'src/app/Interface/Pari';
+import { Title } from '@angular/platform-browser';
+import {
+  PariInterface,
+  InfosParisJoueurInterface,
+} from 'src/app/Interface/Pari';
 import { TableauInterface } from 'src/app/Interface/Tableau';
 import { AccountService } from 'src/app/Service/account.service';
 import { PariService } from 'src/app/Service/pari.service';
@@ -16,18 +20,23 @@ export class ParierComponent implements OnInit {
   constructor(
     private readonly pariService: PariService,
     private readonly tableauService: TableauService,
+    private titleService: Title,
     private readonly accountService: AccountService
   ) {}
 
-  public pariJoueur: ParisJoueurInterface = null;
-  public isLoggedIn = false;
+  public infosParisJoueur: InfosParisJoueurInterface = null;
   public tableauxGet = false;
 
   ngOnInit(): void {
-    this.isLoggedIn = !!this.accountService.getParieur();
-    if (this.isLoggedIn) {
-      this.getAllParisJoueur();
+    this.titleService.setTitle('Tournoi ESFTT - Parier');
+
+    if (this.isParieurLoggedIn()) {
+      this.getParisAndBracket();
     }
+
+    this.pariService.updateParisLoggIn.subscribe(() => {
+      this.getParisAndBracket();
+    });
 
     this.tableauService.getPariables().subscribe(
       (tableauxPariables: TableauInterface[]) => {
@@ -39,18 +48,45 @@ export class ParierComponent implements OnInit {
       }
     );
 
-    this.pariService.listeParisJoueurLoggedIn.subscribe(() => {
-      this.getAllParisJoueur();
-    });
+    this.pariService.updateInfoParisJoueur.subscribe(
+      (infosParisJoueur: InfosParisJoueurInterface) => {
+        if (infosParisJoueur !== null) {
+          this.infosParisJoueur = infosParisJoueur;
+        }
+      }
+    );
+
+    this.pariService.addPariToListeParisMatches.subscribe(
+      (pariToAdd: PariInterface) => {
+        if (pariToAdd !== null) {
+          this.infosParisJoueur.paris.push(pariToAdd);
+          this.pariService.updateListeParisMatches.next(
+            this.infosParisJoueur.paris
+          );
+        }
+      }
+    );
+
+    this.pariService.deletePariToListeParisMatches.subscribe(
+      (pariToDelete: PariInterface) => {
+        if (pariToDelete !== null) {
+          this.infosParisJoueur.paris = this.infosParisJoueur.paris.filter(
+            (pari: PariInterface) =>
+              JSON.stringify(pari) !== JSON.stringify(pariToDelete)
+          );
+          this.pariService.updateListeParisMatches.next(
+            this.infosParisJoueur.paris
+          );
+        }
+      }
+    );
   }
 
-  getAllParisJoueur(): void {
+  getParisAndBracket(): void {
     this.pariService
       .getAllParisJoueur(this.accountService.getParieur()._id)
-      .subscribe((paris: ParisJoueurInterface) => {
-        this.isLoggedIn = true;
-        this.pariJoueur = paris;
-        this.pariService.updatePariMatch.next(this.pariJoueur);
+      .subscribe((infosParisJoueur: InfosParisJoueurInterface) => {
+        this.infosParisJoueur = infosParisJoueur;
       });
   }
 
@@ -60,10 +96,13 @@ export class ParierComponent implements OnInit {
 
   logout(): void {
     this.accountService.logoutParieur();
-    this.isLoggedIn = false;
   }
 
   getPoints(): number {
     return 30;
+  }
+
+  isParieurLoggedIn(): boolean {
+    return !!this.accountService.getParieur();
   }
 }

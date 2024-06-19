@@ -94,6 +94,12 @@ span.handicap {
 }
 
 .lock-btn {
+  mat-icon {
+    background-color: white;
+    border-radius: 6px;
+    padding: 1px;
+  }
+
   &.unlocked {
     color: red;
   }

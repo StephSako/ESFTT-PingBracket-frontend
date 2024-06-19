@@ -1,4 +1,4 @@
-export interface ParisJoueurInterface {
+export interface InfosParisJoueurInterface {
   _id: string;
   id_pronostiqueur: string;
   id_prono_vainqueur: string;

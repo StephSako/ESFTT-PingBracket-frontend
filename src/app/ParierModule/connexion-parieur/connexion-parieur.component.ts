@@ -1,9 +1,10 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JoueurService } from './../../Service/joueur.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JoueurInterface } from 'src/app/Interface/Joueur';
 import { AccountService } from 'src/app/Service/account.service';
 import { NotifyService } from 'src/app/Service/notify.service';
+import { PariService } from 'src/app/Service/pari.service';
 
 @Component({
   selector: 'app-connexion-parieur',
@@ -11,7 +12,6 @@ import { NotifyService } from 'src/app/Service/notify.service';
   styleUrls: ['./connexion-parieur.component.scss'],
 })
 export class ConnexionParieurComponent implements OnInit {
-  @Output() setParieurLoggedIn: EventEmitter<any> = new EventEmitter();
   public idParieur = '';
   public spinnerShown = false;
 
@@ -19,6 +19,7 @@ export class ConnexionParieurComponent implements OnInit {
     private readonly accountService: AccountService,
     private readonly joueurService: JoueurService,
     private snackBar: MatSnackBar,
+    private pariService: PariService,
     private notifyService: NotifyService
   ) {}
 
@@ -30,7 +31,7 @@ export class ConnexionParieurComponent implements OnInit {
       (joueur: JoueurInterface) => {
         this.spinnerShown = false;
         this.accountService.saveParieur(joueur);
-        this.setParieurLoggedIn.emit();
+        this.pariService.updateParisLoggIn.next();
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');

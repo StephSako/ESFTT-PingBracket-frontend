@@ -9,7 +9,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { BracketInterface } from 'src/app/Interface/Bracket';
 import { TableauState } from 'src/app/SharedModule/TableauState.enum';
-import { ParisJoueurInterface } from 'src/app/Interface/Pari';
+import { InfosParisJoueurInterface } from 'src/app/Interface/Pari';
+import { ResponseGetBracket } from 'src/app/Interface/ResponseGetBracket';
+import { AccountService } from 'src/app/Service/account.service';
+import { PariService } from 'src/app/Service/pari.service';
 
 @Component({
   selector: 'app-bracket',
@@ -18,7 +21,7 @@ import { ParisJoueurInterface } from 'src/app/Interface/Pari';
 })
 export class BracketComponent implements OnInit, OnDestroy {
   @Input() isPari = false;
-  @Input() pariJoueur: ParisJoueurInterface = {
+  @Input() infosParisJoueur: InfosParisJoueurInterface = {
     _id: null,
     id_prono_vainqueur: null,
     id_pronostiqueur: null,
@@ -52,11 +55,13 @@ export class BracketComponent implements OnInit, OnDestroy {
     private appService: AppService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private notifyService: NotifyService
+    private accountService: AccountService,
+    private notifyService: NotifyService,
+    private readonly pariService: PariService
   ) {}
 
   ngOnDestroy(): void {
-    this.pariJoueur = {
+    this.infosParisJoueur = {
       _id: null,
       id_prono_vainqueur: null,
       id_pronostiqueur: null,
@@ -70,7 +75,7 @@ export class BracketComponent implements OnInit, OnDestroy {
     this.idTableau = this.tableau._id;
     this.getBracket();
 
-    if (this.isPari && this.pariJoueur._id !== null) {
+    if (this.isPari) {
       this.intervalUpdateMatches = setInterval(() => {
         this.spinnerShown = true;
         this.getBracket();
@@ -123,16 +128,36 @@ export class BracketComponent implements OnInit, OnDestroy {
   }
 
   getBracket(): void {
-    this.bracketService.getBracket(this.idTableau, this.phase).subscribe(
-      (matches: BracketInterface) => {
-        this.bracket = matches;
-        this.spinnerShown = false;
-      },
-      (err) => {
-        this.spinnerShown = false;
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
-      }
-    );
+    this.bracketService
+      .getBracket(
+        this.idTableau,
+        this.phase,
+        this.isPari && !!this.accountService.getParieur(),
+        this.accountService.getParieur()?._id
+      )
+      .subscribe(
+        (response: ResponseGetBracket) => {
+          this.bracket = response.bracket;
+
+          // Gestion des paris
+          this.pariService.updateInfoParisJoueur.next(response.parisJoueur);
+          this.pariService.updateListeParisMatches.next(
+            response.parisJoueur.paris
+          );
+          this.infosParisJoueur = response.parisJoueur;
+
+          this.spinnerShown = false;
+        },
+        (err) => {
+          this.spinnerShown = false;
+          this.notifyService.notifyUser(
+            err.error,
+            this.snackBar,
+            'error',
+            'OK'
+          );
+        }
+      );
   }
 
   getTableauState(): typeof TableauState {

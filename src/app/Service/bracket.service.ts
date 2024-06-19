@@ -11,8 +11,15 @@ export class BracketService {
 
   constructor(private http: HttpClient) {}
 
-  public getBracket(tableau: string, phase: string): Observable<any> {
-    return this.http.get(`${this.baseURL}${tableau}/${phase}`);
+  public getBracket(
+    tableau: string,
+    phase: string,
+    isPari: boolean,
+    parieurId: string
+  ): Observable<any> {
+    return this.http.get(
+      `${this.baseURL}${tableau}/${phase}/${isPari}/${parieurId}`
+    );
   }
 
   public edit(

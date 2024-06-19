@@ -35,12 +35,15 @@
   </mat-card>
 </div>
 
-<ng-container *ngIf="bracket">
+<span *ngIf="!bracket?.rounds.length" class="center aide">
+  <i>Le bracket n'a pas été généré</i>
+</span>
+
+<ng-container *ngIf="bracket?.rounds.length">
   <span *ngIf="isPari" class="center aide"
     >Scrollez vers la droite pour voir les prochains matches</span
   >
   <ngtt-single-elimination-tree
-    *ngIf="bracket.rounds.length"
     [tournament]="bracket"
     [matchTemplate]="matchTemplate"
   ></ngtt-single-elimination-tree>
@@ -51,7 +54,7 @@
     (updateBracket)="getBracket()"
     [tableau]="tableau"
     [isPari]="isPari"
-    [pariJoueur]="pariJoueur"
+    [infosParisJoueur]="infosParisJoueur"
     [phase]="phase"
     [match]="match"
   ></app-match>

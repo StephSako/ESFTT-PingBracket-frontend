@@ -1,10 +1,8 @@
-<div *ngIf="!isLoggedIn">
-  <app-connexion-parieur
-    (setParieurLoggedIn)="getAllParisJoueur()"
-  ></app-connexion-parieur>
+<div *ngIf="!isParieurLoggedIn()">
+  <app-connexion-parieur></app-connexion-parieur>
 </div>
 
-<div *ngIf="isLoggedIn">
+<div *ngIf="isParieurLoggedIn()">
   <div class="container">
     <mat-card>
       <button
@@ -62,8 +60,8 @@
           </ng-template>
 
           <app-bracket
-            *ngIf="pariJoueur !== null"
-            [pariJoueur]="pariJoueur"
+            *ngIf="infosParisJoueur !== null"
+            [infosParisJoueur]="infosParisJoueur"
             [isPari]="true"
             [phase]="'finale'"
             [tableau]="tableau"
@@ -76,8 +74,8 @@
           >
 
           <app-bracket
-            *ngIf="pariJoueur !== null"
-            [pariJoueur]="pariJoueur"
+            *ngIf="infosParisJoueur !== null"
+            [infosParisJoueur]="infosParisJoueur"
             [isPari]="true"
             [phase]="'consolante'"
             [tableau]="tableau"

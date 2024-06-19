@@ -49,19 +49,18 @@ export class HandicapComponent implements OnInit {
           o[1] +
           ']</b>   ' +
           j1.nom +
-          ' ' +
-          j1.classement +
-          ' pts <b>' +
+          ' [' +
+          (j1.classement === 0 ? 'LOISIR' : j1.classement + ' pts') +
+          '] <b>' +
           this.handicapService.calculHandicap(j1.classement, j2.classement)[0] +
           ' | ' +
           this.handicapService.calculHandicap(j1.classement, j2.classement)[1] +
           '</b> ' +
           ' ' +
           j2.nom +
-          ' ' +
-          j2.classement +
-          ' pts' +
-          '<br>'
+          ' [' +
+          (j2.classement === 0 ? 'LOISIR' : j2.classement + ' pts') +
+          ']<br>'
       );
     });
     return matchesPoules;

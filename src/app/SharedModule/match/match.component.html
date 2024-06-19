@@ -12,12 +12,12 @@
 
   <button
     mat-icon-button
-    [class]="'lock-btn ' + (match.isLockToBets ? 'locked' : 'unlocked')"
+    [class]="'lock-btn ' + (!match.isLockToBets ? 'locked' : 'unlocked')"
     [disabled]="disabledLockToBets"
     *ngIf="isMatchLockableForBets()"
     (click)="lockMatchToBets()"
   >
-    <mat-icon>paid</mat-icon>
+    <mat-icon>{{ !match.isLockToBets ? "lock_open" : "lock" }}</mat-icon>
   </button>
 
   <mat-icon

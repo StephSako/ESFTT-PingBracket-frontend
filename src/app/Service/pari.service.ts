@@ -2,15 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PariInterface } from '../Interface/Pari';
+import { InfosParisJoueurInterface, PariInterface } from '../Interface/Pari';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PariService {
   private baseURL = environment.endpointNodeApi + 'paris/';
-  listeParisJoueurLoggedIn = new Subject();
-  updatePariMatch = new BehaviorSubject({});
+  updateParisLoggIn = new Subject();
+  updateInfoParisJoueur = new BehaviorSubject<InfosParisJoueurInterface>(null);
+  updateListeParisMatches = new BehaviorSubject<PariInterface[]>(null);
+  addPariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
+  deletePariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +21,7 @@ export class PariService {
     return this.http.get(this.baseURL);
   }
 
+  //TODO Calcul des paris de parieur
   public getAllParisJoueur(idJoueur: string): Observable<any> {
     return this.http.get(`${this.baseURL}${idJoueur.toLowerCase()}`);
   }
