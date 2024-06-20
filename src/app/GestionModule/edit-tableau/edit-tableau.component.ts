@@ -268,11 +268,23 @@ export class EditTableauComponent implements OnInit {
     this.tableau.palierConsolantes = this.value('palierConsolantes');
     this.tableau.palierQualifies = this.value('palierQualifies');
     this.tableau.pariable = this.value('pariable');
-    this.tableau.consolantePariable = this.value('consolantePariable');
-    this.tableau.ptsGagnesParisWB = this.value('ptsGagnesParisWB');
-    this.tableau.ptsPerdusParisWB = this.value('ptsPerdusParisWB');
-    this.tableau.ptsGagnesParisLB = this.value('ptsGagnesParisLB');
-    this.tableau.ptsPerdusParisLB = this.value('ptsPerdusParisLB');
+    this.tableau.consolantePariable = this.value('pariable')
+      ? this.value('consolantePariable')
+      : false;
+    this.tableau.ptsGagnesParisWB = this.value('pariable')
+      ? this.value('ptsGagnesParisWB')
+      : 0;
+    this.tableau.ptsPerdusParisWB = this.value('pariable')
+      ? this.value('ptsPerdusParisWB')
+      : 0;
+    this.tableau.ptsGagnesParisLB =
+      this.value('pariable') && this.value('consolantePariable')
+        ? this.value('ptsGagnesParisLB')
+        : 0;
+    this.tableau.ptsPerdusParisLB =
+      this.value('pariable') && this.value('consolantePariable')
+        ? this.value('ptsPerdusParisLB')
+        : 0;
   }
 
   generatePoules(tableau: TableauInterface): void {
@@ -290,7 +302,15 @@ export class EditTableauComponent implements OnInit {
         !this.value('poules')) &&
       ((this.value('format') === 'double' &&
         this.value('maxNumberPlayers') !== null) ||
-        this.value('format') === 'simple')
+        this.value('format') === 'simple') &&
+      (!this.value('pariable') ||
+        (this.value('pariable') &&
+          this.value('ptsGagnesParisWB') !== null &&
+          this.value('ptsPerdusParisWB') !== null)) &&
+      (!this.value('consolantePariable') ||
+        (this.value('consolantePariable') &&
+          this.value('ptsGagnesParisLB') !== null &&
+          this.value('ptsPerdusParisLB') !== null))
     );
   }
 

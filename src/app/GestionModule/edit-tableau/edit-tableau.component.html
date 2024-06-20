@@ -174,7 +174,9 @@
           type="number"
           max="100"
           min="-100"
+          step="0.5"
           matInput
+          required
         />
       </mat-form-field>
     </div>
@@ -187,7 +189,9 @@
           type="number"
           max="100"
           min="-100"
+          step="0.5"
           matInput
+          required
         />
       </mat-form-field>
     </div>
@@ -201,7 +205,7 @@
       >
     </div>
 
-    <div fxFlex="15%" *ngIf="value('consolantePariable')">
+    <div fxFlex="15%" *ngIf="value('consolantePariable') && value('pariable')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Pts gagnés consolante</mat-label>
         <input
@@ -209,12 +213,14 @@
           type="number"
           max="100"
           min="-100"
+          step="0.5"
           matInput
+          required
         />
       </mat-form-field>
     </div>
 
-    <div fxFlex="15%" *ngIf="value('consolantePariable')">
+    <div fxFlex="15%" *ngIf="value('consolantePariable') && value('pariable')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Pts perdus consolante</mat-label>
         <input
@@ -222,7 +228,9 @@
           type="number"
           max="100"
           min="-100"
+          step="0.5"
           matInput
+          required
         />
       </mat-form-field>
     </div>

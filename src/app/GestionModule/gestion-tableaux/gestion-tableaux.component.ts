@@ -150,10 +150,10 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           type_licence: 1,
           pariable: false,
           consolantePariable: false,
-          ptsGagnesParisWB: 0,
-          ptsPerdusParisWB: 0,
-          ptsGagnesParisLB: 0,
-          ptsPerdusParisLB: 0,
+          ptsGagnesParisWB: null,
+          ptsPerdusParisWB: null,
+          ptsGagnesParisLB: null,
+          ptsPerdusParisLB: null,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(
@@ -303,7 +303,15 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
         !this.tableau.poules) &&
       ((this.tableau.format === 'double' &&
         this.tableau.maxNumberPlayers !== null) ||
-        this.tableau.format === 'simple')
+        this.tableau.format === 'simple') &&
+      (!this.tableau.pariable ||
+        (this.tableau.pariable &&
+          this.tableau.ptsGagnesParisWB !== null &&
+          this.tableau.ptsPerdusParisWB !== null)) &&
+      (!this.tableau.consolantePariable ||
+        (this.tableau.consolantePariable &&
+          this.tableau.ptsGagnesParisLB !== null &&
+          this.tableau.ptsPerdusParisLB !== null))
     );
   }
 
