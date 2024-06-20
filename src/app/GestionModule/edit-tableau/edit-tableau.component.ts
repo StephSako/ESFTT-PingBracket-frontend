@@ -69,6 +69,11 @@ export class EditTableauComponent implements OnInit {
       palierConsolantes: new FormControl(this.tableau.palierConsolantes),
       hasChapeau: new FormControl(this.tableau.hasChapeau),
       pariable: new FormControl(this.tableau.pariable),
+      consolantePariable: new FormControl(this.tableau.consolantePariable),
+      ptsGagnesParisWB: new FormControl(this.tableau.ptsGagnesParisWB),
+      ptsPerdusParisWB: new FormControl(this.tableau.ptsPerdusParisWB),
+      ptsGagnesParisLB: new FormControl(this.tableau.ptsGagnesParisLB),
+      ptsPerdusParisLB: new FormControl(this.tableau.ptsPerdusParisLB),
     });
     this.filterStatus();
   }
@@ -165,24 +170,7 @@ export class EditTableauComponent implements OnInit {
         .afterClosed()
         .subscribe((id_action) => {
           if (id_action === this.tableau._id) {
-            this.tableau.nom = this.value('nom');
-            this.tableau.age_minimum = this.value('age_minimum');
-            this.tableau.poules = this.value('poules');
-            this.tableau.is_launched = this.value('is_launched');
-            this.tableau.nbPoules = this.tableau.poules
-              ? this.value('nbPoules')
-              : null;
-            this.tableau.maxNumberPlayers = this.value('maxNumberPlayers')
-              ? this.value('maxNumberPlayers')
-              : null;
-            this.tableau.type_licence = this.value('type_licence');
-            this.tableau.consolante = this.value('consolante');
-            this.tableau.format = this.value('format');
-            this.tableau.handicap = this.value('handicap');
-            this.tableau.hasChapeau = this.value('hasChapeau');
-            this.tableau.palierConsolantes = this.value('palierConsolantes');
-            this.tableau.palierQualifies = this.value('palierQualifies');
-            this.tableau.pariable = this.value('pariable');
+            this.setTableauFromForm();
 
             this.tableauService.edit(this.tableau).subscribe(
               () => {
@@ -250,25 +238,7 @@ export class EditTableauComponent implements OnInit {
           }
         });
     } else {
-      this.tableau.nom = this.value('nom');
-      this.tableau.age_minimum = this.value('age_minimum');
-      this.tableau.type_licence = this.value('type_licence');
-      this.tableau.is_launched = this.value('is_launched');
-      this.tableau.poules = this.value('poules');
-      this.tableau.nbPoules = this.tableau.poules
-        ? this.value('nbPoules')
-        : null;
-      this.tableau.maxNumberPlayers = this.value('maxNumberPlayers')
-        ? this.value('maxNumberPlayers')
-        : null;
-      this.tableau.consolante = this.value('consolante');
-      this.tableau.format = this.value('format');
-      this.tableau.handicap = this.value('handicap');
-      this.tableau.hasChapeau = this.value('hasChapeau');
-      this.tableau.palierConsolantes = this.value('palierConsolantes');
-      this.tableau.palierQualifies = this.value('palierQualifies');
-      this.tableau.pariable = this.value('pariable');
-
+      this.setTableauFromForm();
       this.tableauService.edit(this.tableau).subscribe(
         () => {
           if (poulesEdited && this.tableau.poules) {
@@ -279,6 +249,30 @@ export class EditTableauComponent implements OnInit {
         (err) => this.emitErrorSnackbar(err)
       );
     }
+  }
+
+  setTableauFromForm(): void {
+    this.tableau.nom = this.value('nom');
+    this.tableau.age_minimum = this.value('age_minimum');
+    this.tableau.type_licence = this.value('type_licence');
+    this.tableau.is_launched = this.value('is_launched');
+    this.tableau.poules = this.value('poules');
+    this.tableau.nbPoules = this.tableau.poules ? this.value('nbPoules') : null;
+    this.tableau.maxNumberPlayers = this.value('maxNumberPlayers')
+      ? this.value('maxNumberPlayers')
+      : null;
+    this.tableau.consolante = this.value('consolante');
+    this.tableau.format = this.value('format');
+    this.tableau.handicap = this.value('handicap');
+    this.tableau.hasChapeau = this.value('hasChapeau');
+    this.tableau.palierConsolantes = this.value('palierConsolantes');
+    this.tableau.palierQualifies = this.value('palierQualifies');
+    this.tableau.pariable = this.value('pariable');
+    this.tableau.consolantePariable = this.value('consolantePariable');
+    this.tableau.ptsGagnesParisWB = this.value('ptsGagnesParisWB');
+    this.tableau.ptsPerdusParisWB = this.value('ptsPerdusParisWB');
+    this.tableau.ptsGagnesParisLB = this.value('ptsGagnesParisLB');
+    this.tableau.ptsPerdusParisLB = this.value('ptsPerdusParisLB');
   }
 
   generatePoules(tableau: TableauInterface): void {

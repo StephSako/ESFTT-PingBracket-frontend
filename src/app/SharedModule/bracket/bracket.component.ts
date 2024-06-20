@@ -44,6 +44,11 @@ export class BracketComponent implements OnInit, OnDestroy {
     hasChapeau: null,
     type_licence: null,
     pariable: null,
+    consolantePariable: null,
+    ptsGagnesParisWB: null,
+    ptsPerdusParisWB: null,
+    ptsGagnesParisLB: null,
+    ptsPerdusParisLB: null,
   };
   spinnerShown: boolean;
   idTableau: string;
@@ -157,5 +162,21 @@ export class BracketComponent implements OnInit, OnDestroy {
 
   getTableauState(): typeof TableauState {
     return this.appService.getTableauState();
+  }
+
+  getScore() {
+    if (this.isPari && this.bracket?.rounds.length) {
+      return this.pariService.calculateScore(
+        this.bracket.rounds,
+        this.infosParisJoueur.paris,
+        {
+          ptsGagnesParisWB: this.tableau.ptsGagnesParisWB,
+          ptsPerdusParisWB: this.tableau.ptsPerdusParisWB,
+          ptsGagnesParisLB: this.tableau.ptsGagnesParisLB,
+          ptsPerdusParisLB: this.tableau.ptsPerdusParisLB,
+        }
+      );
+    }
+    return 999;
   }
 }

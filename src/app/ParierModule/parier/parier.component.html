@@ -58,7 +58,8 @@
               style="margin-bottom: 0px"
             >
               Vous avez parié sur
-              <b>{{ infosParisJoueur.id_prono_vainqueur.nom }}</b>
+              <b>{{ infosParisJoueur.id_prono_vainqueur.nom }}</b> comme grand
+              vainqueur
             </p>
             <p
               *ngIf="!infosParisJoueur.id_prono_vainqueur"
@@ -125,7 +126,12 @@
           ></app-bracket>
         </mat-tab>
 
-        <mat-tab *ngIf="tableauPariable.tableau.consolante">
+        <mat-tab
+          *ngIf="
+            tableauPariable.tableau.consolante &&
+            tableauPariable.tableau.consolantePariable
+          "
+        >
           <ng-template mat-tab-label class="mat-tab-label"
             >Consolante</ng-template
           >

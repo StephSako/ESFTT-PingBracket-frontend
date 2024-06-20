@@ -14,3 +14,10 @@ export interface PariInterface {
   id_match: number;
   round: number;
 }
+
+export interface ReglePointsParis {
+  ptsGagnesParisWB: number;
+  ptsPerdusParisWB: number;
+  ptsGagnesParisLB: number;
+  ptsPerdusParisLB: number;
+}

@@ -10,16 +10,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="8%">
-    <mat-slide-toggle
-      color="primary"
-      class="center"
-      [(ngModel)]="tableau.pariable"
-      >Paris</mat-slide-toggle
-    >
-  </div>
-
-  <div fxFlex="12%">
+  <div fxFlex="16%">
     <mat-slide-toggle
       color="primary"
       class="center"
@@ -28,7 +19,7 @@
     >
   </div>
 
-  <div fxFlex="12%">
+  <div fxFlex="16%">
     <mat-slide-toggle
       color="primary"
       class="center"
@@ -149,6 +140,77 @@
         [(ngModel)]="tableau.palierConsolantes"
         type="number"
         max="20"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="11%">
+    <mat-slide-toggle
+      color="primary"
+      class="center"
+      [(ngModel)]="tableau.pariable"
+      >Pariable</mat-slide-toggle
+    >
+  </div>
+
+  <div fxFlex="12%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts gagnés</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsGagnesParisWB"
+        type="number"
+        max="100"
+        min="-100"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="12%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts perdus</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsPerdusParisWB"
+        type="number"
+        max="100"
+        min="-100"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="18%" *ngIf="tableau.pariable">
+    <mat-slide-toggle
+      color="primary"
+      class="center"
+      [(ngModel)]="tableau.consolantePariable"
+      >Consolante pariable</mat-slide-toggle
+    >
+  </div>
+
+  <div fxFlex="15%" *ngIf="tableau.consolantePariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts gagnés consolante</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsGagnesParisLB"
+        type="number"
+        max="100"
+        min="-100"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="15%" *ngIf="tableau.consolantePariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts perdus consolante</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsPerdusParisLB"
+        type="number"
+        max="100"
+        min="-100"
         matInput
       />
     </mat-form-field>

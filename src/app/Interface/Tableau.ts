@@ -16,6 +16,11 @@ export interface TableauInterface {
   palierConsolantes: number;
   hasChapeau: boolean;
   pariable: boolean;
+  consolantePariable: boolean;
+  ptsGagnesParisWB: number;
+  ptsPerdusParisWB: number;
+  ptsGagnesParisLB: number;
+  ptsPerdusParisLB: number;
 }
 
 export interface PlayerCountPerTableau {

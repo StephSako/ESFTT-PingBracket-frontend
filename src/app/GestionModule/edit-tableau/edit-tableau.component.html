@@ -9,16 +9,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="8%">
-      <mat-slide-toggle
-        color="primary"
-        class="center"
-        formControlName="pariable"
-        >Paris</mat-slide-toggle
-      >
-    </div>
-
-    <div fxFlex="12%">
+    <div fxFlex="16%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -27,7 +18,7 @@
       >
     </div>
 
-    <div fxFlex="12%">
+    <div fxFlex="16%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -162,6 +153,77 @@
             {{ statut.libelle }}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="11%">
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="pariable"
+        >Pariable</mat-slide-toggle
+      >
+    </div>
+
+    <div fxFlex="12%" *ngIf="value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts gagnés</mat-label>
+        <input
+          formControlName="ptsGagnesParisWB"
+          type="number"
+          max="100"
+          min="-100"
+          matInput
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="12%" *ngIf="value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts perdus</mat-label>
+        <input
+          formControlName="ptsPerdusParisWB"
+          type="number"
+          max="100"
+          min="-100"
+          matInput
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="18%" *ngIf="value('pariable')">
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="consolantePariable"
+        >Consolante pariable</mat-slide-toggle
+      >
+    </div>
+
+    <div fxFlex="15%" *ngIf="value('consolantePariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts gagnés consolante</mat-label>
+        <input
+          formControlName="ptsGagnesParisLB"
+          type="number"
+          max="100"
+          min="-100"
+          matInput
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="15%" *ngIf="value('consolantePariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts perdus consolante</mat-label>
+        <input
+          formControlName="ptsPerdusParisLB"
+          type="number"
+          max="100"
+          min="-100"
+          matInput
+        />
       </mat-form-field>
     </div>
   </div>

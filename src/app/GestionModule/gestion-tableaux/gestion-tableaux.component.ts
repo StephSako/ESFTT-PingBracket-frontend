@@ -67,6 +67,11 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     hasChapeau: false,
     type_licence: null,
     pariable: false,
+    consolantePariable: false,
+    ptsGagnesParisWB: 0,
+    ptsPerdusParisWB: 0,
+    ptsGagnesParisLB: 0,
+    ptsPerdusParisLB: 0,
   };
 
   constructor(
@@ -144,6 +149,11 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           hasChapeau: false,
           type_licence: 1,
           pariable: false,
+          consolantePariable: false,
+          ptsGagnesParisWB: 0,
+          ptsPerdusParisWB: 0,
+          ptsGagnesParisLB: 0,
+          ptsPerdusParisLB: 0,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(
