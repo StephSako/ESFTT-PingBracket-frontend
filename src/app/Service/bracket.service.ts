@@ -56,7 +56,9 @@ export class BracketService {
     poules: boolean,
     maxNumberPlayers: number,
     palierQualifies: number,
-    palierConsolantes: number
+    palierConsolantes: number,
+    pariable: boolean,
+    consolantePariable: boolean
   ): Observable<any> {
     return this.http.put(`${this.baseURL}generate/${bracket}/${phase}`, {
       format,
@@ -64,6 +66,8 @@ export class BracketService {
       maxNumberPlayers,
       palierQualifies,
       palierConsolantes,
+      pariable,
+      consolantePariable,
     });
   }
 

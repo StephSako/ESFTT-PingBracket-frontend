@@ -77,14 +77,24 @@ export class ParierComponent implements OnInit, OnDestroy {
       (tableauxPariablesResponse: TableauInterface[]) => {
         if (tableauxPariablesResponse !== null) {
           this.tableauxPariables.forEach(
-            (tableauPariable: PariableTableauInterface) => {
-              tableauPariable.tableau = tableauxPariablesResponse.find(
+            (tableauPariable: PariableTableauInterface, index: number) => {
+              let indexSearchTableau = tableauxPariablesResponse.findIndex(
                 (tableauPariableResponse: TableauInterface) =>
                   tableauPariable.tableau._id === tableauPariableResponse._id
               );
+              if (indexSearchTableau !== -1) {
+                tableauPariable.tableau =
+                  tableauxPariablesResponse[indexSearchTableau];
+              } else {
+                delete this.tableauxPariables[index];
+              }
             }
           );
 
+          this.tableauxPariables = this.tableauxPariables.filter(
+            (tableaupariableToClean: PariableTableauInterface) =>
+              !!tableaupariableToClean
+          );
           this.pariService.initScoreParTableau(this.tableauxPariables);
         }
       }

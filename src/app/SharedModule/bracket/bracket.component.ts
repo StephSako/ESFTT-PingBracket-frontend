@@ -113,7 +113,9 @@ export class BracketComponent implements OnInit, OnDestroy {
               this.tableau.poules,
               this.tableau.maxNumberPlayers,
               this.tableau.palierQualifies,
-              this.tableau.palierConsolantes
+              this.tableau.palierConsolantes,
+              this.tableau.pariable,
+              this.tableau.consolantePariable
             )
             .subscribe(
               () => this.getBracket(),
