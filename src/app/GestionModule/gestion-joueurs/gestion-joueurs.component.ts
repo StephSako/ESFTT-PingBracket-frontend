@@ -237,4 +237,13 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
       (joueur: JoueurInterface) => joueur.classement
     ).length;
   }
+
+  hideDeleteJoueurButton(joueur: JoueurInterface): boolean {
+    return (
+      joueur.tableaux.filter(
+        (tableau: TableauInterface) =>
+          tableau.is_launched > this.appService.getTableauState().PointageState
+      ).length !== 0
+    );
+  }
 }

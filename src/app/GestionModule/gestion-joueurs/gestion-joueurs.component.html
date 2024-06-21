@@ -116,6 +116,7 @@
             (click)="delete(joueur)"
             class="center"
             mat-raised-button
+            *ngIf="!hideDeleteJoueurButton(joueur)"
             color="warn"
           >
             Supprimer

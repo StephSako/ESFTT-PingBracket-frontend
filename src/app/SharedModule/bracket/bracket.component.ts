@@ -86,7 +86,12 @@ export class BracketComponent implements OnInit, OnDestroy {
   generateBracket(): void {
     const accountToDelete: Dialog = {
       id: 'true',
-      action: 'Régénérer le tableau ?',
+      action:
+        'Régénérer le tableau ?' +
+        ((this.phase === 'finale' && this.tableau.pariable) ||
+        (this.phase === 'consolante' && this.tableau.consolantePariable)
+          ? " Les paris de la phase '" + this.phase + "' seront supprimés."
+          : ''),
       option: null,
       action_button_text: 'Régénérer',
     };
@@ -130,7 +135,7 @@ export class BracketComponent implements OnInit, OnDestroy {
   getBracket(): void {
     if (this.isPari) {
       this.pariService.updateScoreTableauPhaseWaiting(
-        this.tableau,
+        this.tableau._id,
         this.phase,
         true
       );
@@ -156,11 +161,15 @@ export class BracketComponent implements OnInit, OnDestroy {
             this.infosParisJoueur = response.parisJoueur;
 
             this.pariService.updateScoreTableauPhaseWaiting(
-              this.tableau,
+              this.tableau._id,
               this.phase,
               false,
               response.bracket.rounds,
               response.parisJoueur.paris
+            );
+
+            this.pariService.updateListeTableauxPariables.next(
+              response.tableauxPariables
             );
           }
 

@@ -48,13 +48,23 @@
         tableauPariable.tableau.nom | titlecase
       }}</ng-template>
 
-      <p *ngIf="tableauPariable.tableau.is_launched > 2">
+      <p
+        *ngIf="
+          tableauPariable.tableau.is_launched >
+          appService.getTableauState().BracketState
+        "
+      >
         Paris cloturés pour ce tableau
       </p>
 
       <div class="container">
         <mat-card class="center cardGrandGagnant">
-          <div *ngIf="tableauPariable.tableau.is_launched > 1">
+          <div
+            *ngIf="
+              tableauPariable.tableau.is_launched >
+              appService.getTableauState().PouleState
+            "
+          >
             <p
               *ngIf="infosParisJoueur.id_prono_vainqueur"
               class="center"
@@ -75,7 +85,10 @@
           </div>
           <div
             fxLayout="column"
-            *ngIf="tableauPariable.tableau.is_launched === 1"
+            *ngIf="
+              tableauPariable.tableau.is_launched ===
+              appService.getTableauState().PouleState
+            "
             class="center"
           >
             <div fxFlex="100%">
@@ -113,7 +126,8 @@
         selectedIndex="0"
         *ngIf="
           tableauPariable.tableau._id &&
-          tableauPariable.tableau.is_launched === 2
+          tableauPariable.tableau.is_launched ===
+            appService.getTableauState().BracketState
         "
       >
         <mat-tab>

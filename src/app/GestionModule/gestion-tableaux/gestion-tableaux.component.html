@@ -200,9 +200,9 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let tableau">
           <button
-            *ngIf="showPlayerCountPerTableau(tableau._id)"
-            [disabled]="
-              tableau.is_launched !== appService.getTableauState().PointageState
+            *ngIf="
+              showPlayerCountPerTableau(tableau._id) &&
+              tableau.is_launched === appService.getTableauState().PointageState
             "
             (click)="unsubscribeAll(tableau)"
             class="center unsubscribeBtn"

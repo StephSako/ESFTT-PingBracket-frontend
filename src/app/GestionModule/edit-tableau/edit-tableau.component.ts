@@ -16,6 +16,7 @@ import {
   statuts,
   typesLicenceTableau,
 } from 'src/app/const/options-tableaux';
+import { PariService } from 'src/app/Service/pari.service';
 
 @Component({
   selector: 'app-edit-tableau',
@@ -37,6 +38,7 @@ export class EditTableauComponent implements OnInit {
     private notifyService: NotifyService,
     private tableauService: TableauService,
     public dialog: MatDialog,
+    private pariService: PariService,
     private poulesService: PoulesService,
     private binomeService: BinomeService
   ) {
@@ -80,6 +82,9 @@ export class EditTableauComponent implements OnInit {
 
   editTableau(): void {
     const poulesEdited = this.value('poules') !== this.tableau.poules;
+    const pariableEdited = this.value('pariable') !== this.tableau.pariable;
+    const consolantePariableEdited =
+      this.value('consolantePariable') !== this.tableau.consolantePariable;
     const nbPoulesEdited =
       this.value('nbPoules') !== this.tableau.nbPoules &&
       !poulesEdited &&
@@ -103,10 +108,15 @@ export class EditTableauComponent implements OnInit {
       ageMinimumEdited ||
       (formatEdited && this.value('format') === 'simple') ||
       nbPoulesEdited ||
-      typeLicenceEdited
+      typeLicenceEdited ||
+      pariableEdited ||
+      consolantePariableEdited
     ) {
       let optionMessage = '';
       if (
+        (pariableEdited && !this.value('pariable')) ||
+        (consolantePariableEdited &&
+          (!this.value('pariable') || !this.value('consolantePariable'))) ||
         consolanteEdited ||
         (poulesEdited && !this.value('poules')) ||
         (formatEdited && this.value('format') === 'simple')
@@ -119,6 +129,32 @@ export class EditTableauComponent implements OnInit {
       if (poulesEdited && !this.value('poules')) {
         optionMessage += '- les poules';
       }
+
+      // Gestion des paris
+      if (
+        pariableEdited &&
+        !this.value('pariable') &&
+        !this.value('consolantePariable') &&
+        !consolantePariableEdited
+      ) {
+        optionMessage += '- les paris (phase finale)';
+      }
+      if (
+        pariableEdited &&
+        !this.value('pariable') &&
+        ((!consolantePariableEdited && this.value('consolantePariable')) ||
+          (consolantePariableEdited && !this.value('consolantePariable')))
+      ) {
+        optionMessage += '- les paris (phase finale et consolante)';
+      }
+      if (
+        !pariableEdited &&
+        consolantePariableEdited &&
+        !this.value('consolantePariable')
+      ) {
+        optionMessage += '- les paris (phase consolante)';
+      }
+
       if (formatEdited) {
         if (this.value('format') === 'simple') {
           optionMessage += '- les binômes';
@@ -218,6 +254,48 @@ export class EditTableauComponent implements OnInit {
                         (err) => this.emitErrorSnackbar(err)
                       );
                   }
+                }
+
+                // On supprime les paris si phase(s) non pariable(s)
+                if (
+                  pariableEdited &&
+                  !this.value('pariable') &&
+                  !this.value('consolantePariable') &&
+                  !consolantePariableEdited
+                ) {
+                  this.pariService
+                    .deleteParisTableauPhase('finale', this.tableau._id)
+                    .subscribe(
+                      () => {},
+                      (err) => this.emitErrorSnackbar(err)
+                    );
+                }
+                if (
+                  pariableEdited &&
+                  !this.value('pariable') &&
+                  ((!consolantePariableEdited &&
+                    this.value('consolantePariable')) ||
+                    (consolantePariableEdited &&
+                      !this.value('consolantePariable')))
+                ) {
+                  this.pariService
+                    .deleteParisTableauPhase(null, this.tableau._id)
+                    .subscribe(
+                      () => {},
+                      (err) => this.emitErrorSnackbar(err)
+                    );
+                }
+                if (
+                  !pariableEdited &&
+                  consolantePariableEdited &&
+                  !this.value('consolantePariable')
+                ) {
+                  this.pariService
+                    .deleteParisTableauPhase('consolante', this.tableau._id)
+                    .subscribe(
+                      () => {},
+                      (err) => this.emitErrorSnackbar(err)
+                    );
                 }
 
                 if (nbPoulesEdited) {

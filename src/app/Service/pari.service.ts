@@ -23,6 +23,7 @@ export class PariService {
   updateParisLoggIn = new BehaviorSubject<boolean>(null);
   updateInfoParisJoueur = new BehaviorSubject<InfosParisJoueurInterface>(null);
   updateListeParisMatches = new BehaviorSubject<PariInterface[]>(null);
+  updateListeTableauxPariables = new BehaviorSubject<TableauInterface[]>(null);
   addPariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
   deletePariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
   updateScorePariJoueur = new BehaviorSubject<number>(null);
@@ -31,11 +32,18 @@ export class PariService {
 
   constructor(private http: HttpClient) {}
 
+  //TODO Calculer les paris de tous les joueurs
   // public getAll(): Observable<any> {
   //   return this.http.get(this.baseURL);
   // }
 
-  //TODO Calcul des paris de parieur
+  public deleteParisTableauPhase(
+    phase: string,
+    idTableau: string
+  ): Observable<any> {
+    return this.http.delete(`${this.baseURL}delete/${idTableau}/${phase}`);
+  }
+
   public getAllParisJoueur(idJoueur: string): Observable<any> {
     return this.http.get(`${this.baseURL}${idJoueur.toLowerCase()}`);
   }
@@ -66,7 +74,6 @@ export class PariService {
     return this.http.put(`${this.baseURL}cancel/${fichePariId}`, { pariMatch });
   }
 
-  //TODO Type de retour
   public calculateScoreTableauPhase(
     rounds: RoundInterface[],
     paris: PariInterface[],
@@ -113,35 +120,81 @@ export class PariService {
     return score;
   }
 
-  public setScoreParTableau(
+  public initScoreParTableau(
     tableauxPariables: PariableTableauInterface[]
   ): void {
     tableauxPariables.forEach((tableauPariable: PariableTableauInterface) => {
-      this.scoresParTableauPhase.push({
-        tableau: tableauPariable.tableau,
-        phase: 'finale',
-        rounds: [],
-        paris: [],
-        waiting: false,
-      });
+      let findIndexTableauPhaseFinale = this.scoresParTableauPhase.findIndex(
+        (scoreParTableauPhase: ScoreTableauPhaseInterface) =>
+          scoreParTableauPhase.tableau._id === tableauPariable.tableau._id &&
+          scoreParTableauPhase.phase === 'finale'
+      );
+      if (findIndexTableauPhaseFinale === -1) {
+        this.scoresParTableauPhase.push({
+          tableau: tableauPariable.tableau,
+          phase: 'finale',
+          rounds: [],
+          paris: [],
+          waiting: false,
+        });
+      } else {
+        this.scoresParTableauPhase[findIndexTableauPhaseFinale].tableau =
+          tableauPariable.tableau;
+      }
 
       if (
         tableauPariable.tableau.consolante &&
         tableauPariable.tableau.consolantePariable
       ) {
-        this.scoresParTableauPhase.push({
-          tableau: tableauPariable.tableau,
-          phase: 'consolante',
-          rounds: [],
-          paris: [],
-          waiting: false,
-        });
+        let findIndexTableauPhaseConsolante =
+          this.scoresParTableauPhase.findIndex(
+            (scoreParTableauPhase: ScoreTableauPhaseInterface) =>
+              scoreParTableauPhase.tableau._id ===
+                tableauPariable.tableau._id &&
+              scoreParTableauPhase.phase === 'consolante'
+          );
+
+        if (findIndexTableauPhaseConsolante === -1) {
+          this.scoresParTableauPhase.push({
+            tableau: tableauPariable.tableau,
+            phase: 'consolante',
+            rounds: [],
+            paris: [],
+            waiting: false,
+          });
+        } else {
+          this.scoresParTableauPhase[findIndexTableauPhaseConsolante].tableau =
+            tableauPariable.tableau;
+        }
       }
     });
+
+    // On clean scoresParTableauPhase si des tableaux ont été supprimés ou rendus non pariables
+    this.scoresParTableauPhase.forEach(
+      (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
+        let indexSearchFinale = tableauxPariables.findIndex(
+          (tableauPariable: PariableTableauInterface) =>
+            tableauPariable.tableau._id === scoreParTableauPhase.tableau._id
+        );
+        if (indexSearchFinale === -1) {
+          delete this.scoresParTableauPhase[indexSearchFinale];
+        }
+
+        let indexSearchConsolante = tableauxPariables.findIndex(
+          (tableauPariable: PariableTableauInterface) =>
+            tableauPariable.tableau._id === scoreParTableauPhase.tableau._id &&
+            scoreParTableauPhase.phase === 'consolante' &&
+            !tableauPariable.tableau.consolantePariable
+        );
+        if (indexSearchConsolante === -1) {
+          delete this.scoresParTableauPhase[indexSearchConsolante];
+        }
+      }
+    );
   }
 
   updateScoreTableauPhaseWaiting(
-    _idTableau: TableauInterface,
+    _idTableau: string,
     phase: string,
     waiting: boolean,
     rounds?: RoundInterface[],
@@ -150,51 +203,50 @@ export class PariService {
     this.scoresParTableauPhase.find(
       (scoreTableauPhase: ScoreTableauPhaseInterface) =>
         scoreTableauPhase.phase === phase &&
-        scoreTableauPhase.tableau === _idTableau
+        scoreTableauPhase.tableau._id === _idTableau
     ).waiting = waiting;
 
     if (rounds !== undefined && paris !== undefined) {
       this.scoresParTableauPhase.find(
         (scoreTableauPhase: ScoreTableauPhaseInterface) =>
           scoreTableauPhase.phase === phase &&
-          scoreTableauPhase.tableau === _idTableau
+          scoreTableauPhase.tableau._id === _idTableau
       ).rounds = rounds;
 
       this.scoresParTableauPhase.find(
         (scoreTableauPhase: ScoreTableauPhaseInterface) =>
           scoreTableauPhase.phase === phase &&
-          scoreTableauPhase.tableau === _idTableau
+          scoreTableauPhase.tableau._id === _idTableau
       ).paris = paris;
     }
 
-    if (!waiting) {
-      this.getScoreGeneral();
-    }
-  }
-
-  getScoreGeneral(): void {
     if (
+      !waiting &&
       this.scoresParTableauPhase.filter(
         (scoreParTableauPhase: ScoreTableauPhaseInterface) =>
           scoreParTableauPhase.waiting
       ).length === 0
     ) {
-      let scoreGeneral = 0;
-      this.scoresParTableauPhase.forEach(
-        (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
-          scoreGeneral += this.calculateScoreTableauPhase(
-            scoreParTableauPhase.rounds,
-            scoreParTableauPhase.paris,
-            {
-              ptsGagnesParisWB: scoreParTableauPhase.tableau.ptsGagnesParisWB,
-              ptsPerdusParisWB: scoreParTableauPhase.tableau.ptsPerdusParisWB,
-              ptsGagnesParisLB: scoreParTableauPhase.tableau.ptsGagnesParisLB,
-              ptsPerdusParisLB: scoreParTableauPhase.tableau.ptsPerdusParisLB,
-            }
-          );
-        }
-      );
-      this.updateScorePariJoueur.next(scoreGeneral);
+      this.getScoreGeneral();
     }
+  }
+
+  getScoreGeneral(): void {
+    let scoreGeneral = 0;
+    this.scoresParTableauPhase.forEach(
+      (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
+        scoreGeneral += this.calculateScoreTableauPhase(
+          scoreParTableauPhase.rounds,
+          scoreParTableauPhase.paris,
+          {
+            ptsGagnesParisWB: scoreParTableauPhase.tableau.ptsGagnesParisWB,
+            ptsPerdusParisWB: scoreParTableauPhase.tableau.ptsPerdusParisWB,
+            ptsGagnesParisLB: scoreParTableauPhase.tableau.ptsGagnesParisLB,
+            ptsPerdusParisLB: scoreParTableauPhase.tableau.ptsPerdusParisLB,
+          }
+        );
+      }
+    );
+    this.updateScorePariJoueur.next(scoreGeneral);
   }
 }

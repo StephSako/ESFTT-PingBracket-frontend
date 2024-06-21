@@ -2,11 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { AppService } from 'src/app/app.service';
 import {
   PariInterface,
   InfosParisJoueurInterface,
 } from 'src/app/Interface/Pari';
-import { PariableTableauInterface } from 'src/app/Interface/Tableau';
+import {
+  PariableTableauInterface,
+  TableauInterface,
+} from 'src/app/Interface/Tableau';
 import { AccountService } from 'src/app/Service/account.service';
 import { NotifyService } from 'src/app/Service/notify.service';
 import { PariService } from 'src/app/Service/pari.service';
@@ -35,7 +39,8 @@ export class ParierComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private notifyService: NotifyService,
     private readonly accountService: AccountService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public appService: AppService
   ) {}
 
   ngOnDestroy(): void {
@@ -49,21 +54,39 @@ export class ParierComponent implements OnInit, OnDestroy {
       this.getParisAndBracket();
     }
 
+    this.tableauService.getPariables().subscribe(
+      (tableauxPariables: PariableTableauInterface[]) => {
+        this.tableauxPariables = tableauxPariables;
+        this.tableauxGet = true;
+
+        this.pariService.initScoreParTableau(this.tableauxPariables);
+      },
+      () => {
+        this.tableauxGet = true;
+      }
+    );
+
+    // Observables permettant la mise à jour des données en temps réèl
     this.pariService.updateParisLoggIn.subscribe((ok: boolean) => {
       if (ok) {
         this.getParisAndBracket();
       }
     });
 
-    this.tableauService.getPariables().subscribe(
-      (tableauxPariables: PariableTableauInterface[]) => {
-        this.tableauxPariables = tableauxPariables;
-        this.tableauxGet = true;
+    this.pariService.updateListeTableauxPariables.subscribe(
+      (tableauxPariablesResponse: TableauInterface[]) => {
+        if (tableauxPariablesResponse !== null) {
+          this.tableauxPariables.forEach(
+            (tableauPariable: PariableTableauInterface) => {
+              tableauPariable.tableau = tableauxPariablesResponse.find(
+                (tableauPariableResponse: TableauInterface) =>
+                  tableauPariable.tableau._id === tableauPariableResponse._id
+              );
+            }
+          );
 
-        this.pariService.setScoreParTableau(this.tableauxPariables);
-      },
-      () => {
-        this.tableauxGet = true;
+          this.pariService.initScoreParTableau(this.tableauxPariables);
+        }
       }
     );
 
@@ -101,7 +124,7 @@ export class ParierComponent implements OnInit, OnDestroy {
     );
 
     this.pariService.updateScorePariJoueur.subscribe((scoreGeneral: number) => {
-      if (scoreGeneral) {
+      if (typeof scoreGeneral === 'number') {
         this.scoreTotal = scoreGeneral;
       }
     });
