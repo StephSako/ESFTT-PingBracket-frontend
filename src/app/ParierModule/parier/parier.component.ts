@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
@@ -17,8 +17,17 @@ import { TableauService } from 'src/app/Service/tableau.service';
   templateUrl: './parier.component.html',
   styleUrls: ['./parier.component.scss'],
 })
-export class ParierComponent implements OnInit {
+export class ParierComponent implements OnInit, OnDestroy {
   public tableauxPariables: PariableTableauInterface[] = [];
+  public infosParisJoueur: InfosParisJoueurInterface = {
+    _id: null,
+    id_prono_vainqueur: null,
+    id_pronostiqueur: null,
+    paris: [],
+  };
+  public tableauxGet = false;
+  public listeJoueursParTableaux = [];
+  public scoreTotal = 0;
 
   constructor(
     private readonly pariService: PariService,
@@ -29,14 +38,9 @@ export class ParierComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  public infosParisJoueur: InfosParisJoueurInterface = {
-    _id: null,
-    id_prono_vainqueur: null,
-    id_pronostiqueur: null,
-    paris: [],
-  };
-  public tableauxGet = false;
-  public listeJoueursParTableaux = [];
+  ngOnDestroy(): void {
+    this.pariService.scoresParTableauPhase = [];
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('Tournoi ESFTT - Parier');
@@ -45,14 +49,18 @@ export class ParierComponent implements OnInit {
       this.getParisAndBracket();
     }
 
-    this.pariService.updateParisLoggIn.subscribe(() => {
-      this.getParisAndBracket();
+    this.pariService.updateParisLoggIn.subscribe((ok: boolean) => {
+      if (ok) {
+        this.getParisAndBracket();
+      }
     });
 
     this.tableauService.getPariables().subscribe(
       (tableauxPariables: PariableTableauInterface[]) => {
         this.tableauxPariables = tableauxPariables;
         this.tableauxGet = true;
+
+        this.pariService.setScoreParTableau(this.tableauxPariables);
       },
       () => {
         this.tableauxGet = true;
@@ -91,6 +99,12 @@ export class ParierComponent implements OnInit {
         }
       }
     );
+
+    this.pariService.updateScorePariJoueur.subscribe((scoreGeneral: number) => {
+      if (scoreGeneral) {
+        this.scoreTotal = scoreGeneral;
+      }
+    });
   }
 
   getParisAndBracket(): void {
@@ -105,12 +119,12 @@ export class ParierComponent implements OnInit {
     return this.accountService.getParieur().nom;
   }
 
-  logout(): void {
-    this.accountService.logoutParieur();
+  getIdParieur(): string {
+    return this.accountService.getParieur()._id;
   }
 
-  getPoints(): number {
-    return 30;
+  logout(): void {
+    this.accountService.logoutParieur();
   }
 
   isParieurLoggedIn(): boolean {

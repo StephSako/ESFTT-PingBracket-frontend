@@ -128,6 +128,14 @@ export class BracketComponent implements OnInit, OnDestroy {
   }
 
   getBracket(): void {
+    if (this.isPari) {
+      this.pariService.updateScoreTableauPhaseWaiting(
+        this.tableau,
+        this.phase,
+        true
+      );
+    }
+
     this.bracketService
       .getBracket(
         this.idTableau,
@@ -140,11 +148,21 @@ export class BracketComponent implements OnInit, OnDestroy {
           this.bracket = response.bracket;
 
           // Gestion des paris
-          this.pariService.updateInfoParisJoueur.next(response.parisJoueur);
-          this.pariService.updateListeParisMatches.next(
-            response.parisJoueur.paris
-          );
-          this.infosParisJoueur = response.parisJoueur;
+          if (this.isPari) {
+            this.pariService.updateInfoParisJoueur.next(response.parisJoueur);
+            this.pariService.updateListeParisMatches.next(
+              response.parisJoueur.paris
+            );
+            this.infosParisJoueur = response.parisJoueur;
+
+            this.pariService.updateScoreTableauPhaseWaiting(
+              this.tableau,
+              this.phase,
+              false,
+              response.bracket.rounds,
+              response.parisJoueur.paris
+            );
+          }
 
           this.spinnerShown = false;
         },
@@ -160,23 +178,11 @@ export class BracketComponent implements OnInit, OnDestroy {
       );
   }
 
-  getTableauState(): typeof TableauState {
-    return this.appService.getTableauState();
+  isConsolante(): boolean {
+    return this.phase === 'consolante';
   }
 
-  getScore() {
-    if (this.isPari && this.bracket?.rounds.length) {
-      return this.pariService.calculateScore(
-        this.bracket.rounds,
-        this.infosParisJoueur.paris,
-        {
-          ptsGagnesParisWB: this.tableau.ptsGagnesParisWB,
-          ptsPerdusParisWB: this.tableau.ptsPerdusParisWB,
-          ptsGagnesParisLB: this.tableau.ptsGagnesParisLB,
-          ptsPerdusParisLB: this.tableau.ptsPerdusParisLB,
-        }
-      );
-    }
-    return 999;
+  getTableauState(): typeof TableauState {
+    return this.appService.getTableauState();
   }
 }

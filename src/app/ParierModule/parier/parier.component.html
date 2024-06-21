@@ -16,12 +16,15 @@
         Parier avec un autre profil</button
       ><br />
 
-      <h2 class="lobster center">{{ getNomParieur() }}</h2>
+      <h2 class="center">
+        {{ getNomParieur() }} -
+        <span class="id_parieur">{{ getIdParieur() | slice : -4 }}</span>
+      </h2>
 
       <h3 class="center">
         <b>Votre score : </b
         ><span id="score"
-          >{{ getPoints() }} point{{ getPoints() > 1 ? "s" : "" }}</span
+          >{{ scoreTotal }} point{{ scoreTotal > 1 ? "s" : "" }}</span
         >
       </h3>
     </mat-card>
@@ -50,7 +53,7 @@
       </p>
 
       <div class="container">
-        <mat-card>
+        <mat-card class="center cardGrandGagnant">
           <div *ngIf="tableauPariable.tableau.is_launched > 1">
             <p
               *ngIf="infosParisJoueur.id_prono_vainqueur"
@@ -58,8 +61,9 @@
               style="margin-bottom: 0px"
             >
               Vous avez parié sur
-              <b>{{ infosParisJoueur.id_prono_vainqueur.nom }}</b> comme grand
-              vainqueur
+              <b>{{ infosParisJoueur.id_prono_vainqueur.nom }}</b> comme
+              vainqueur du tableau
+              <b>{{ tableauPariable.tableau.nom | titlecase }}</b>
             </p>
             <p
               *ngIf="!infosParisJoueur.id_prono_vainqueur"

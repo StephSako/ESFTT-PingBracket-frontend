@@ -51,9 +51,14 @@
           <span class="center">Paris</span>
         </th>
         <td mat-cell *matCellDef="let tableau">
-          <span class="center"
-            ><mat-icon *ngIf="tableau.pariable">done</mat-icon></span
-          >
+          <span class="center">
+            <mat-icon *ngIf="tableau.pariable && !tableau.consolantePariable"
+              >done</mat-icon
+            >
+            <mat-icon *ngIf="tableau.pariable && tableau.consolantePariable"
+              >done_all</mat-icon
+            >
+          </span>
         </td>
       </ng-container>
 

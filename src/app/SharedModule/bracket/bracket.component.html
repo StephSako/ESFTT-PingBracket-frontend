@@ -39,12 +39,34 @@
   <i>Le bracket n'a pas été généré</i>
 </span>
 
-<p>{{ getScore() }}</p>
-
 <ng-container *ngIf="bracket?.rounds.length">
-  <span *ngIf="isPari" class="center aide"
-    >Scrollez vers la droite pour voir les prochains matches</span
-  >
+  <div *ngIf="isPari">
+    <mat-card class="cardPointsParis center">
+      <mat-icon class="center">info</mat-icon>
+      <p>
+        <b>Pari correct :</b>
+        {{
+          "+" +
+            (!isConsolante()
+              ? tableau.ptsGagnesParisWB
+              : tableau.ptsGagnesParisLB) +
+            " pts"
+        }}
+      </p>
+      <p>
+        <b>Pari incorrect :</b>
+        {{
+          (!isConsolante()
+            ? tableau.ptsPerdusParisWB
+            : tableau.ptsPerdusParisLB) + " pts"
+        }}
+      </p>
+    </mat-card>
+
+    <span class="center aide"
+      >Scrollez vers la droite pour voir les prochains matches</span
+    >
+  </div>
   <ngtt-single-elimination-tree
     [tournament]="bracket"
     [matchTemplate]="matchTemplate"

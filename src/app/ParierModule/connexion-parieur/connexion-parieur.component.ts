@@ -31,7 +31,7 @@ export class ConnexionParieurComponent implements OnInit {
       (joueur: JoueurInterface) => {
         this.spinnerShown = false;
         this.accountService.saveParieur(joueur);
-        this.pariService.updateParisLoggIn.next();
+        this.pariService.updateParisLoggIn.next(true);
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');

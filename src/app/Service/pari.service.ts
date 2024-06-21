@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   InfosParisJoueurInterface,
@@ -9,18 +9,25 @@ import {
 } from '../Interface/Pari';
 import { RoundInterface } from '../Interface/Bracket';
 import { JoueurMatchInterface, MatchInterface } from '../Interface/Match';
+import { ScoreTableauPhaseInterface } from '../Interface/ScoreTableau';
+import {
+  PariableTableauInterface,
+  TableauInterface,
+} from '../Interface/Tableau';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PariService {
   private baseURL = environment.endpointNodeApi + 'paris/';
-  updateParisLoggIn = new Subject();
+  updateParisLoggIn = new BehaviorSubject<boolean>(null);
   updateInfoParisJoueur = new BehaviorSubject<InfosParisJoueurInterface>(null);
   updateListeParisMatches = new BehaviorSubject<PariInterface[]>(null);
   addPariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
   deletePariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
-  getScorePariJoueur = new BehaviorSubject<number>(null);
+  updateScorePariJoueur = new BehaviorSubject<number>(null);
+
+  public scoresParTableauPhase: ScoreTableauPhaseInterface[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -60,7 +67,7 @@ export class PariService {
   }
 
   //TODO Type de retour
-  public calculateScore(
+  public calculateScoreTableauPhase(
     rounds: RoundInterface[],
     paris: PariInterface[],
     reglePointsParis: ReglePointsParis
@@ -73,7 +80,12 @@ export class PariService {
             pari.id_tableau === round.tableau._id &&
             pari.phase === round.phase &&
             pari.id_match === match.id &&
-            pari.round === match.round
+            pari.round === match.round &&
+            match.joueurs.length === 2 &&
+            match.joueurs.filter(
+              (joueur: JoueurMatchInterface) => joueur.winner === true
+            ).length === 1 &&
+            match.isLockToBets
         );
 
         if (indexPari !== -1) {
@@ -98,7 +110,91 @@ export class PariService {
         }
       });
     });
-    // console.log(score);
     return score;
+  }
+
+  public setScoreParTableau(
+    tableauxPariables: PariableTableauInterface[]
+  ): void {
+    tableauxPariables.forEach((tableauPariable: PariableTableauInterface) => {
+      this.scoresParTableauPhase.push({
+        tableau: tableauPariable.tableau,
+        phase: 'finale',
+        rounds: [],
+        paris: [],
+        waiting: false,
+      });
+
+      if (
+        tableauPariable.tableau.consolante &&
+        tableauPariable.tableau.consolantePariable
+      ) {
+        this.scoresParTableauPhase.push({
+          tableau: tableauPariable.tableau,
+          phase: 'consolante',
+          rounds: [],
+          paris: [],
+          waiting: false,
+        });
+      }
+    });
+  }
+
+  updateScoreTableauPhaseWaiting(
+    _idTableau: TableauInterface,
+    phase: string,
+    waiting: boolean,
+    rounds?: RoundInterface[],
+    paris?: PariInterface[]
+  ): void {
+    this.scoresParTableauPhase.find(
+      (scoreTableauPhase: ScoreTableauPhaseInterface) =>
+        scoreTableauPhase.phase === phase &&
+        scoreTableauPhase.tableau === _idTableau
+    ).waiting = waiting;
+
+    if (rounds !== undefined && paris !== undefined) {
+      this.scoresParTableauPhase.find(
+        (scoreTableauPhase: ScoreTableauPhaseInterface) =>
+          scoreTableauPhase.phase === phase &&
+          scoreTableauPhase.tableau === _idTableau
+      ).rounds = rounds;
+
+      this.scoresParTableauPhase.find(
+        (scoreTableauPhase: ScoreTableauPhaseInterface) =>
+          scoreTableauPhase.phase === phase &&
+          scoreTableauPhase.tableau === _idTableau
+      ).paris = paris;
+    }
+
+    if (!waiting) {
+      this.getScoreGeneral();
+    }
+  }
+
+  getScoreGeneral(): void {
+    if (
+      this.scoresParTableauPhase.filter(
+        (scoreParTableauPhase: ScoreTableauPhaseInterface) =>
+          scoreParTableauPhase.waiting
+      ).length === 0
+    ) {
+      let scoreGeneral = 0;
+      this.scoresParTableauPhase.forEach(
+        (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
+          scoreGeneral += this.calculateScoreTableauPhase(
+            scoreParTableauPhase.rounds,
+            scoreParTableauPhase.paris,
+            {
+              ptsGagnesParisWB: scoreParTableauPhase.tableau.ptsGagnesParisWB,
+              ptsPerdusParisWB: scoreParTableauPhase.tableau.ptsPerdusParisWB,
+              ptsGagnesParisLB: scoreParTableauPhase.tableau.ptsGagnesParisLB,
+              ptsPerdusParisLB: scoreParTableauPhase.tableau.ptsPerdusParisLB,
+            }
+          );
+        }
+      );
+      this.updateScorePariJoueur.next(scoreGeneral);
+    }
   }
 }

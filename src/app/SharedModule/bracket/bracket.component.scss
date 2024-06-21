@@ -36,4 +36,18 @@ span.aide {
 
 mat-card {
   background-color: #dbf1ff;
+
+  &.cardPointsParis {
+    width: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    p {
+      margin-bottom: 6px;
+    }
+
+    mat-icon {
+      margin-bottom: 4px;
+    }
+  }
 }
