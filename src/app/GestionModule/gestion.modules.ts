@@ -30,6 +30,7 @@ import { GestionRoutingModule } from './gestion-routing.module';
 import { SharedModules } from '../SharedModule/shared.modules';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
+import { GestionParisComponent } from './gestion-paris/gestion-paris.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
     GestionComponent,
     GestionJoueursComponent,
     GestionTableauxComponent,
+    GestionParisComponent,
     FormTableauComponent,
     EditTableauComponent,
     GestionFormulaireComponent,

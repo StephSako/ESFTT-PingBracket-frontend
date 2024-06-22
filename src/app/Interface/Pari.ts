@@ -2,7 +2,7 @@ import { JoueurInterface } from './Joueur';
 
 export interface InfosParisJoueurInterface {
   _id: string;
-  id_pronostiqueur: string;
+  id_pronostiqueur: { _id: string; nom: string };
   id_prono_vainqueur: JoueurInterface;
   paris: PariInterface[];
 }
@@ -13,11 +13,4 @@ export interface PariInterface {
   phase: string;
   id_match: number;
   round: number;
-}
-
-export interface ReglePointsParis {
-  ptsGagnesParisWB: number;
-  ptsPerdusParisWB: number;
-  ptsGagnesParisLB: number;
-  ptsPerdusParisLB: number;
 }

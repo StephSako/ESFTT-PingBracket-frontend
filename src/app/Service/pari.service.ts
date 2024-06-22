@@ -2,11 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  InfosParisJoueurInterface,
-  PariInterface,
-  ReglePointsParis,
-} from '../Interface/Pari';
+import { InfosParisJoueurInterface, PariInterface } from '../Interface/Pari';
 import { RoundInterface } from '../Interface/Bracket';
 import { JoueurMatchInterface, MatchInterface } from '../Interface/Match';
 import { ScoreTableauPhaseInterface } from '../Interface/ScoreTableau';
@@ -32,10 +28,9 @@ export class PariService {
 
   constructor(private http: HttpClient) {}
 
-  //TODO Calculer les paris de tous les joueurs
-  // public getAll(): Observable<any> {
-  //   return this.http.get(this.baseURL);
-  // }
+  public getGeneralResult(): Observable<any> {
+    return this.http.get(this.baseURL);
+  }
 
   public deleteParisTableauPhase(
     phase: string,
@@ -76,23 +71,31 @@ export class PariService {
 
   public calculateScoreTableauPhase(
     rounds: RoundInterface[],
-    paris: PariInterface[],
-    reglePointsParis: ReglePointsParis
+    paris: PariInterface[]
   ): number {
     let score = 0;
+
+    if (paris.length === 0) {
+      return score;
+    }
+
     rounds.forEach((round: RoundInterface) => {
-      round.matches.forEach((match: MatchInterface) => {
+      let matches = round.matches.filter(
+        (match: MatchInterface) =>
+          match.joueurs.length === 2 &&
+          match.joueurs.filter(
+            (joueur: JoueurMatchInterface) => joueur.winner === true
+          ).length === 1 &&
+          match.isLockToBets
+      );
+
+      matches.forEach((match: MatchInterface) => {
         let indexPari = paris.findIndex(
           (pari: PariInterface) =>
             pari.id_tableau === round.tableau._id &&
             pari.phase === round.phase &&
             pari.id_match === match.id &&
-            pari.round === match.round &&
-            match.joueurs.length === 2 &&
-            match.joueurs.filter(
-              (joueur: JoueurMatchInterface) => joueur.winner === true
-            ).length === 1 &&
-            match.isLockToBets
+            pari.round === match.round
         );
 
         if (indexPari !== -1) {
@@ -105,14 +108,14 @@ export class PariService {
           ) {
             score +=
               paris[indexPari].phase === 'finale'
-                ? reglePointsParis.ptsGagnesParisWB
-                : reglePointsParis.ptsGagnesParisLB;
+                ? round.tableau.ptsGagnesParisWB
+                : round.tableau.ptsGagnesParisLB;
           } // Le pari est incorrect
           else {
             score +=
               paris[indexPari].phase === 'finale'
-                ? reglePointsParis.ptsPerdusParisWB
-                : reglePointsParis.ptsPerdusParisLB;
+                ? round.tableau.ptsPerdusParisWB
+                : round.tableau.ptsPerdusParisLB;
           }
         }
       });
@@ -237,13 +240,7 @@ export class PariService {
       (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
         scoreGeneral += this.calculateScoreTableauPhase(
           scoreParTableauPhase.rounds,
-          scoreParTableauPhase.paris,
-          {
-            ptsGagnesParisWB: scoreParTableauPhase.tableau.ptsGagnesParisWB,
-            ptsPerdusParisWB: scoreParTableauPhase.tableau.ptsPerdusParisWB,
-            ptsGagnesParisLB: scoreParTableauPhase.tableau.ptsGagnesParisLB,
-            ptsPerdusParisLB: scoreParTableauPhase.tableau.ptsPerdusParisLB,
-          }
+          scoreParTableauPhase.paris
         );
       }
     );
