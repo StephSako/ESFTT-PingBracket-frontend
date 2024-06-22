@@ -5,6 +5,7 @@
   - {{ resultatPariJoueur.details.length }} pari{{
     resultatPariJoueur.details.length > 1 ? "s" : ""
   }}
+  validé{{ resultatPariJoueur.details.length > 1 ? "s" : "" }}
 </h2>
 
 <div *ngIf="resultatPariJoueur.details.length > 0" class="divDetails">

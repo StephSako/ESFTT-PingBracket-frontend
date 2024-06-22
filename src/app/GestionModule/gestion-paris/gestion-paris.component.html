@@ -14,15 +14,15 @@
           </td>
           <td *ngIf="classementJoueur.details.length > 0">
             <b>{{ classementJoueur.score }}</b> point{{
-              classementJoueur.score > 0 ? "s" : ""
+              classementJoueur.score > 1 ? "s" : ""
             }}
           </td>
           <td *ngIf="classementJoueur.details.length > 0">
             <i
               >{{ classementJoueur.details.length }} pari{{
-                classementJoueur.details.length > 0 ? "s" : ""
+                classementJoueur.details.length > 1 ? "s" : ""
               }}
-              validé{{ classementJoueur.details.length > 0 ? "s" : "" }}</i
+              validé{{ classementJoueur.details.length > 1 ? "s" : "" }}</i
             >
           </td>
           <td *ngIf="classementJoueur.details.length > 0">
