@@ -11,6 +11,7 @@ import { ordresRencontres } from 'src/app/const/options-poules';
 })
 export class HandicapComponent implements OnInit {
   public listeJoueurs: JoueurInterface[] = null;
+  public numPoule: number = null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -18,6 +19,7 @@ export class HandicapComponent implements OnInit {
     private readonly handicapService: HandicapService
   ) {
     this.listeJoueurs = data.listeJoueurs;
+    this.numPoule = data.numPoule;
   }
 
   ngOnInit(): void {}

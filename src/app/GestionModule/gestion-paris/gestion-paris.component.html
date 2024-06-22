@@ -1,5 +1,41 @@
 <div class="container">
   <mat-card>
-    <p>{{ classementGeneral | json }}</p>
+    <h2 class="lobster center">Classement général des paris</h2>
+
+    <p *ngIf="!displayParis()" class="center">
+      Il n'y a pas de paris validés pour le moment ...
+    </p>
+
+    <table *ngIf="displayParis()">
+      <tbody>
+        <tr *ngFor="let classementJoueur of classementGeneral">
+          <td *ngIf="classementJoueur.details.length > 0">
+            <b>{{ classementJoueur.nom }}</b>
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <b>{{ classementJoueur.score }}</b> point{{
+              classementJoueur.score > 0 ? "s" : ""
+            }}
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <i
+              >{{ classementJoueur.details.length }} pari{{
+                classementJoueur.details.length > 0 ? "s" : ""
+              }}
+              validé{{ classementJoueur.details.length > 0 ? "s" : "" }}</i
+            >
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="openDetails(classementJoueur)"
+            >
+              <mat-icon>manage_search</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </mat-card>
 </div>

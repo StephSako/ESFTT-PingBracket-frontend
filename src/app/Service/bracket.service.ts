@@ -88,4 +88,23 @@ export class BracketService {
       {}
     );
   }
+
+  getLibelleRound(round: number, idMatch: number) {
+    switch (round) {
+      case 1:
+        return idMatch === 1 ? 'Finale' : 'Petite finale';
+      case 2:
+        return 'Demi-finale';
+      case 3:
+        return 'Quart';
+      case 4:
+        return '8ème';
+      case 5:
+        return '16ème';
+      case 6:
+        return '32ème';
+      case 7:
+        return '64ème';
+    }
+  }
 }

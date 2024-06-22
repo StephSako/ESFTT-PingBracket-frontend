@@ -120,7 +120,10 @@ export class MatchComponent implements OnInit, OnDestroy {
 
   parierWinner(winnerId: string): void {
     const pariFromMatch: PariInterface = {
-      id_tableau: this.tableau._id,
+      id_tableau: {
+        _id: this.tableau._id,
+        nom: this.tableau.nom,
+      },
       phase: this.phase,
       id_gagnant: winnerId,
       id_match: this.match.id,
@@ -155,7 +158,7 @@ export class MatchComponent implements OnInit, OnDestroy {
           pari.id_match === this.match.id &&
           pari.round === this.match.round &&
           pari.phase === this.phase &&
-          pari.id_tableau === this.tableau._id
+          pari.id_tableau._id === this.tableau._id
       );
     }
   }

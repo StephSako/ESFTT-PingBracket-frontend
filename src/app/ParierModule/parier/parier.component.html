@@ -24,9 +24,20 @@
       <h3 class="center">
         <b>Votre score : </b
         ><span id="score"
-          >{{ scoreTotal }} point{{ scoreTotal > 1 ? "s" : "" }}</span
+          >{{ resultatParisJoueur.score }} point{{
+            resultatParisJoueur.score > 1 ? "s" : ""
+          }}</span
         >
       </h3>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="center"
+        (click)="openDetails()"
+      >
+        Voir le détails
+      </button>
     </mat-card>
 
     <mat-card *ngIf="tableauxPariables.length === 0 && tableauxGet">

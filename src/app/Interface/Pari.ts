@@ -9,8 +9,14 @@ export interface InfosParisJoueurInterface {
 
 export interface PariInterface {
   id_gagnant: string;
-  id_tableau: string;
+  id_tableau: { _id: string; nom: string };
   phase: string;
   id_match: number;
   round: number;
+}
+
+export interface ResultatPariJoueur {
+  nom?: string;
+  score: number;
+  details: string[];
 }

@@ -22,27 +22,27 @@ export class HandicapService {
     let inverser = false;
     let handicap: any[number] = [0, 0];
 
-    if (joueur1 !== joueur2 || Math.abs(joueur1 - joueur2) <= 100) {
+    const ecart = Math.abs(joueur1 - joueur2);
+    if (ecart >= 100) {
       if (joueur1 < joueur2) {
         inverser = true;
       }
 
-      const ecart = Math.abs(joueur1 - joueur2);
-      if (ecart >= 101 && ecart <= 200) {
+      if (ecart >= 100 && ecart <= 199) {
         handicap = [-1, 0];
-      } else if (ecart >= 201 && ecart <= 300) {
+      } else if (ecart >= 200 && ecart <= 299) {
         handicap = [-1, 1];
-      } else if (ecart >= 301 && ecart <= 400) {
+      } else if (ecart >= 300 && ecart <= 399) {
         handicap = [-2, 1];
-      } else if (ecart >= 401 && ecart <= 500) {
+      } else if (ecart >= 400 && ecart <= 499) {
         handicap = [-2, 2];
-      } else if (ecart >= 501 && ecart <= 600) {
+      } else if (ecart >= 500 && ecart <= 599) {
         handicap = [-3, 2];
-      } else if (ecart >= 601 && ecart <= 700) {
+      } else if (ecart >= 600 && ecart <= 699) {
         handicap = [-3, 3];
-      } else if (ecart >= 701 && ecart <= 800) {
+      } else if (ecart >= 700 && ecart <= 799) {
         handicap = [-4, 3];
-      } else if (ecart >= 801) {
+      } else if (ecart >= 800) {
         handicap = [-4, 4];
       }
     }
@@ -57,6 +57,7 @@ export class HandicapService {
     if (inverser) {
       handicap.reverse();
     }
+
     return handicap.map((handicapItem) => {
       handicapItem =
         handicapItem > 0 ? '+' + handicapItem : String(handicapItem);

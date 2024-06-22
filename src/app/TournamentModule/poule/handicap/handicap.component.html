@@ -1,4 +1,4 @@
-<h2 class="lobster center">Handicap</h2>
+<h2 class="lobster center">Handicap - Poule n°{{ numPoule }}</h2>
 
 <div *ngIf="listeJoueurs">
   <p *ngFor="let match of showHandicap()" [outerHTML]="match"></p>

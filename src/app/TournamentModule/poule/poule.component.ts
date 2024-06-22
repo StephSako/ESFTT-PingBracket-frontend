@@ -138,11 +138,12 @@ export class PouleComponent implements OnInit, OnDestroy {
     }
   }
 
-  openMatchesHandicap(listeJoueurs: JoueurInterface[]): void {
+  openMatchesHandicap(listeJoueurs: JoueurInterface[], numPoule: number): void {
     this.dialog.open(HandicapComponent, {
       width: '50%',
       data: {
         listeJoueurs,
+        numPoule,
       },
     });
   }

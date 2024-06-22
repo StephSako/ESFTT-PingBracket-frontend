@@ -31,6 +31,7 @@ import { SharedModules } from '../SharedModule/shared.modules';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
 import { GestionParisComponent } from './gestion-paris/gestion-paris.component';
+import { DetailsParisComponent } from './gestion-paris/details-paris/details-paris.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { GestionParisComponent } from './gestion-paris/gestion-paris.component';
     EditTableauComponent,
     GestionFormulaireComponent,
     LogsTableauComponent,
+    DetailsParisComponent,
   ],
   imports: [
     RouterModule,

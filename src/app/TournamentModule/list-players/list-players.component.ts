@@ -414,16 +414,18 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       const listJoueursLength =
         this.listJoueurs.length % 2 === 0
           ? this.listJoueurs.length / 2
-          : this.listJoueurs.length / 2 + 0.5;
+          : this.listJoueurs.length / 2 - 0.5;
 
       const chapeauHaut = this.dataSource
         .sortData(this.dataSource.filteredData, this.dataSource.sort)
         .slice(0, listJoueursLength)
         .map((j) => j._id);
+
       const chapeauBas = this.dataSource
         .sortData(this.dataSource.filteredData, this.dataSource.sort)
         .slice(listJoueursLength, this.dataSource.data.length)
         .map((j) => j._id);
+
       return [
         i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut',
         i >= listJoueursLength

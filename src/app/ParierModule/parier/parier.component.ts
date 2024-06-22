@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { AppService } from 'src/app/app.service';
+import { DetailsParisComponent } from 'src/app/GestionModule/gestion-paris/details-paris/details-paris.component';
 import {
   PariInterface,
   InfosParisJoueurInterface,
+  ResultatPariJoueur,
 } from 'src/app/Interface/Pari';
 import {
   PariableTableauInterface,
@@ -31,7 +34,10 @@ export class ParierComponent implements OnInit, OnDestroy {
   };
   public tableauxGet = false;
   public listeJoueursParTableaux = [];
-  public scoreTotal = 0;
+  public resultatParisJoueur: ResultatPariJoueur = {
+    score: 0,
+    details: [],
+  };
 
   constructor(
     private readonly pariService: PariService,
@@ -40,7 +46,8 @@ export class ParierComponent implements OnInit, OnDestroy {
     private notifyService: NotifyService,
     private readonly accountService: AccountService,
     private snackBar: MatSnackBar,
-    public appService: AppService
+    public appService: AppService,
+    public dialog: MatDialog
   ) {}
 
   ngOnDestroy(): void {
@@ -133,11 +140,13 @@ export class ParierComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.pariService.updateScorePariJoueur.subscribe((scoreGeneral: number) => {
-      if (typeof scoreGeneral === 'number') {
-        this.scoreTotal = scoreGeneral;
+    this.pariService.updateScorePariJoueur.subscribe(
+      (resultatParisJoueur: ResultatPariJoueur) => {
+        if (resultatParisJoueur) {
+          this.resultatParisJoueur = resultatParisJoueur;
+        }
       }
-    });
+    );
   }
 
   getParisAndBracket(): void {
@@ -185,5 +194,14 @@ export class ParierComponent implements OnInit, OnDestroy {
     return this.infosParisJoueur.id_prono_vainqueur
       ? this.infosParisJoueur.id_prono_vainqueur._id
       : null;
+  }
+
+  openDetails(): void {
+    this.dialog.open(DetailsParisComponent, {
+      width: '100%',
+      data: {
+        resultatPariJoueur: this.resultatParisJoueur,
+      },
+    });
   }
 }

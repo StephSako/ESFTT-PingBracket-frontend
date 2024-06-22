@@ -30,14 +30,15 @@
           <button
             title="Fiche des handicaps"
             class="btn-handicap"
-            color="primary"
             *ngIf="
               tableau.handicap && poules[indexList].participants.length > 1
             "
-            (click)="openMatchesHandicap(poules[indexList].participants)"
+            (click)="
+              openMatchesHandicap(poules[indexList].participants, indexList + 1)
+            "
             mat-icon-button
           >
-            <mat-icon>format_list_numbered</mat-icon>
+            <mat-icon class="iconHandicap">accessible</mat-icon>
           </button>
         </div>
 

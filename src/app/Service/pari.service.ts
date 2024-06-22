@@ -1,3 +1,4 @@
+import { ResultatPariJoueur } from './../Interface/Pari';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -10,6 +11,7 @@ import {
   PariableTableauInterface,
   TableauInterface,
 } from '../Interface/Tableau';
+import { BracketService } from './bracket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +24,14 @@ export class PariService {
   updateListeTableauxPariables = new BehaviorSubject<TableauInterface[]>(null);
   addPariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
   deletePariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
-  updateScorePariJoueur = new BehaviorSubject<number>(null);
+  updateScorePariJoueur = new BehaviorSubject<ResultatPariJoueur>(null);
 
   public scoresParTableauPhase: ScoreTableauPhaseInterface[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private bracketService: BracketService
+  ) {}
 
   public getGeneralResult(): Observable<any> {
     return this.http.get(this.baseURL);
@@ -72,12 +77,27 @@ export class PariService {
   public calculateScoreTableauPhase(
     rounds: RoundInterface[],
     paris: PariInterface[]
-  ): number {
+  ): ResultatPariJoueur {
     let score = 0;
+    let details: string[] = [];
 
     if (paris.length === 0) {
-      return score;
+      return {
+        score: 0,
+        details: [],
+      };
     }
+
+    paris.sort((a, b) => {
+      if (a.id_tableau._id == b.id_tableau._id) {
+        return a.round > b.round ? -1 : a.round < b.round ? 1 : 0;
+      } else {
+        return a.id_tableau._id.concat(a.phase) <
+          b.id_tableau._id.concat(a.phase)
+          ? -1
+          : 1;
+      }
+    });
 
     rounds.forEach((round: RoundInterface) => {
       let matches = round.matches.filter(
@@ -92,13 +112,14 @@ export class PariService {
       matches.forEach((match: MatchInterface) => {
         let indexPari = paris.findIndex(
           (pari: PariInterface) =>
-            pari.id_tableau === round.tableau._id &&
+            pari.id_tableau._id === round.tableau._id &&
             pari.phase === round.phase &&
             pari.id_match === match.id &&
             pari.round === match.round
         );
 
         if (indexPari !== -1) {
+          let ptsGagnePerdu = 0;
           // Le pari est correct
           if (
             match.joueurs.find(
@@ -106,21 +127,64 @@ export class PariService {
                 joueur._id._id === paris[indexPari].id_gagnant
             ).winner
           ) {
-            score +=
+            ptsGagnePerdu =
               paris[indexPari].phase === 'finale'
                 ? round.tableau.ptsGagnesParisWB
                 : round.tableau.ptsGagnesParisLB;
+            score += ptsGagnePerdu;
           } // Le pari est incorrect
           else {
-            score +=
+            ptsGagnePerdu =
               paris[indexPari].phase === 'finale'
                 ? round.tableau.ptsPerdusParisWB
                 : round.tableau.ptsPerdusParisLB;
+            score += ptsGagnePerdu;
           }
+
+          const joueurParié = match.joueurs.find(
+            (joueur: JoueurMatchInterface) =>
+              joueur._id._id === paris[indexPari].id_gagnant
+          )._id.nom;
+          const joueurNonParié = match.joueurs.find(
+            (joueur: JoueurMatchInterface) =>
+              joueur._id._id !== paris[indexPari].id_gagnant
+          )._id.nom;
+
+          details.push(
+            (ptsGagnePerdu > 0
+              ? "<span class='detailsGagne'>GAGNÉ</span>"
+              : "<span class='detailsPerdu'>PERDU</span>") +
+              ' : <b>' +
+              paris[indexPari].id_tableau.nom
+                .split(' ')
+                .map((l: string) => l[0].toUpperCase() + l.substr(1))
+                .join(' ') +
+              ' - phase ' +
+              round.phase +
+              '</b>' +
+              ' - ' +
+              this.bracketService.getLibelleRound(match.round, match.id) +
+              ' : parié sur ' +
+              joueurParié +
+              ' contre ' +
+              joueurNonParié +
+              ' : <b>' +
+              (score - ptsGagnePerdu) +
+              (ptsGagnePerdu > 0 ? '+' : '') +
+              ptsGagnePerdu +
+              ' = ' +
+              score +
+              ' pt' +
+              (score > 1 || score < 0 ? 's' : '') +
+              '</b><br>'
+          );
         }
       });
     });
-    return score;
+    return {
+      score: score,
+      details: details,
+    };
   }
 
   public initScoreParTableau(
@@ -235,15 +299,21 @@ export class PariService {
   }
 
   getScoreGeneral(): void {
-    let scoreGeneral = 0;
+    let resultatJoueur: ResultatPariJoueur = {
+      details: [],
+      score: 0,
+    };
     this.scoresParTableauPhase.forEach(
       (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
-        scoreGeneral += this.calculateScoreTableauPhase(
-          scoreParTableauPhase.rounds,
-          scoreParTableauPhase.paris
-        );
+        let resultatPariJoueur: ResultatPariJoueur =
+          this.calculateScoreTableauPhase(
+            scoreParTableauPhase.rounds,
+            scoreParTableauPhase.paris
+          );
+        resultatJoueur.score += resultatPariJoueur.score;
+        resultatJoueur.details.push(...resultatPariJoueur.details);
       }
     );
-    this.updateScorePariJoueur.next(scoreGeneral);
+    this.updateScorePariJoueur.next(resultatJoueur);
   }
 }
