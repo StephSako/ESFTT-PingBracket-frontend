@@ -68,6 +68,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     type_licence: null,
     pariable: false,
     consolantePariable: false,
+    ptsGagnesParisVainqueur: 0,
+    ptsPerdusParisVainqueur: 0,
     ptsGagnesParisWB: 0,
     ptsPerdusParisWB: 0,
     ptsGagnesParisLB: 0,
@@ -150,6 +152,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           type_licence: 1,
           pariable: false,
           consolantePariable: false,
+          ptsGagnesParisVainqueur: null,
+          ptsPerdusParisVainqueur: null,
           ptsGagnesParisWB: null,
           ptsPerdusParisWB: null,
           ptsGagnesParisLB: null,
@@ -306,6 +310,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
         this.tableau.format === 'simple') &&
       (!this.tableau.pariable ||
         (this.tableau.pariable &&
+          this.tableau.ptsGagnesParisVainqueur !== null &&
+          this.tableau.ptsPerdusParisVainqueur !== null &&
           this.tableau.ptsGagnesParisWB !== null &&
           this.tableau.ptsPerdusParisWB !== null)) &&
       (!this.tableau.consolantePariable ||

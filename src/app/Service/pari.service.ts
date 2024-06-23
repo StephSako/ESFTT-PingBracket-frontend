@@ -1,4 +1,8 @@
-import { ResultatPariJoueur } from './../Interface/Pari';
+import {
+  PariVainqueurTableauResult,
+  PronoVainqueur,
+  ResultatPariJoueur,
+} from './../Interface/Pari';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,6 +16,7 @@ import {
   TableauInterface,
 } from '../Interface/Tableau';
 import { BracketService } from './bracket.service';
+import { IdNomInterface } from '../Interface/IdNomInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -59,12 +64,17 @@ export class PariService {
 
   public parierVainqueur(
     id_parieur: string,
-    id_vainqueur: string
+    id_gagnant: string,
+    id_tableau: string,
+    creation_prono_vainqueur: boolean
   ): Observable<any> {
-    return this.http.post(`${this.baseURL}vainqueur`, {
-      id_parieur,
-      id_vainqueur,
-    });
+    return this.http.post(
+      `${this.baseURL}vainqueur/${id_tableau}/${id_gagnant}`,
+      {
+        id_parieur,
+        creation_prono_vainqueur,
+      }
+    );
   }
 
   public cancel(
@@ -76,15 +86,18 @@ export class PariService {
 
   public calculateScoreTableauPhase(
     rounds: RoundInterface[],
-    paris: PariInterface[]
+    paris: PariInterface[],
+    pronos_vainqueurs: PronoVainqueur[]
   ): ResultatPariJoueur {
     let score = 0;
     let details: string[] = [];
+    let pariVainqueurTableau: PariVainqueurTableauResult = null;
 
-    if (paris.length === 0) {
+    if (paris.length === 0 && pronos_vainqueurs.length === 0) {
       return {
         score: 0,
         details: [],
+        parisVainqueursTableauxResults: [],
       };
     }
 
@@ -155,7 +168,7 @@ export class PariService {
               ? "<span class='detailsGagne'>GAGNÉ</span>"
               : "<span class='detailsPerdu'>PERDU</span>") +
               ' : <b>' +
-              paris[indexPari].id_tableau.nom
+              round.tableau.nom
                 .split(' ')
                 .map((l: string) => l[0].toUpperCase() + l.substr(1))
                 .join(' ') +
@@ -164,13 +177,13 @@ export class PariService {
               '</b>' +
               ' - ' +
               this.bracketService.getLibelleRound(match.round, match.id) +
-              ' : parié sur ' +
+              ' : pari sur ' +
               joueurParié +
               ' contre ' +
               joueurNonParié +
               ' : <b>' +
               (score - ptsGagnePerdu) +
-              (ptsGagnePerdu > 0 ? '+' : '') +
+              (ptsGagnePerdu >= 0 ? '+' : '') +
               ptsGagnePerdu +
               ' = ' +
               score +
@@ -180,10 +193,75 @@ export class PariService {
           );
         }
       });
+
+      // On donne les points du pari sur le vainqueur du tableau
+      if (round.round === 1 && round.phase === 'finale') {
+        let pronoVainqueurTableauSearch: PronoVainqueur =
+          pronos_vainqueurs.find(
+            (pronoVainqueurTableau: PronoVainqueur) =>
+              pronoVainqueurTableau.id_tableau === round.tableau._id
+          );
+
+        let finale: MatchInterface = round.matches.find(
+          (match: MatchInterface) =>
+            match.joueurs.length === 2 &&
+            match.joueurs.filter(
+              (joueur: JoueurMatchInterface) => joueur.winner === true
+            ).length === 1 &&
+            match.id === 1
+        );
+
+        if (finale && pronoVainqueurTableauSearch) {
+          let vainqueurTableau = finale.joueurs.find(
+            (joueur: JoueurMatchInterface) => joueur.winner
+          )._id;
+
+          let ptsGagnePerduVainqueur =
+            pronoVainqueurTableauSearch.id_gagnant._id === vainqueurTableau._id
+              ? round.tableau.ptsGagnesParisVainqueur
+              : round.tableau.ptsPerdusParisVainqueur;
+
+          score += ptsGagnePerduVainqueur;
+          pariVainqueurTableau = {
+            id_tableau: round.tableau._id,
+            pariVainqueurOK:
+              pronoVainqueurTableauSearch.id_gagnant._id ===
+              vainqueurTableau._id,
+          };
+
+          details.push(
+            (pronoVainqueurTableauSearch.id_gagnant._id === vainqueurTableau._id
+              ? "<span class='detailsGagne'>GAGNÉ</span>"
+              : "<span class='detailsPerdu'>PERDU</span>") +
+              ' : <b>Vainqueur ' +
+              round.tableau.nom
+                .split(' ')
+                .map((l: string) => l[0].toUpperCase() + l.substr(1))
+                .join(' ') +
+              '</b>' +
+              ' : pari sur ' +
+              pronoVainqueurTableauSearch.id_gagnant.nom +
+              (pronoVainqueurTableauSearch.id_gagnant._id !==
+              vainqueurTableau._id
+                ? ' contre ' + vainqueurTableau.nom
+                : '') +
+              ' : <b>' +
+              (score - ptsGagnePerduVainqueur) +
+              (ptsGagnePerduVainqueur >= 0 ? '+' : '') +
+              ptsGagnePerduVainqueur +
+              ' = ' +
+              score +
+              ' pt' +
+              (score > 1 || score < 0 ? 's' : '') +
+              '</b><br>'
+          );
+        }
+      }
     });
     return {
       score: score,
       details: details,
+      parisVainqueursTableauxResults: [pariVainqueurTableau],
     };
   }
 
@@ -203,6 +281,7 @@ export class PariService {
           rounds: [],
           paris: [],
           waiting: false,
+          pronos_vainqueurs: [],
         });
       } else {
         this.scoresParTableauPhase[findIndexTableauPhaseFinale].tableau =
@@ -264,6 +343,7 @@ export class PariService {
     _idTableau: string,
     phase: string,
     waiting: boolean,
+    pronosVainqueurs?: PronoVainqueur[],
     rounds?: RoundInterface[],
     paris?: PariInterface[]
   ): void {
@@ -273,7 +353,11 @@ export class PariService {
         scoreTableauPhase.tableau._id === _idTableau
     ).waiting = waiting;
 
-    if (rounds !== undefined && paris !== undefined) {
+    if (
+      rounds !== undefined &&
+      paris !== undefined &&
+      pronosVainqueurs !== undefined
+    ) {
       this.scoresParTableauPhase.find(
         (scoreTableauPhase: ScoreTableauPhaseInterface) =>
           scoreTableauPhase.phase === phase &&
@@ -285,6 +369,12 @@ export class PariService {
           scoreTableauPhase.phase === phase &&
           scoreTableauPhase.tableau._id === _idTableau
       ).paris = paris;
+
+      this.scoresParTableauPhase.find(
+        (scoreTableauPhase: ScoreTableauPhaseInterface) =>
+          scoreTableauPhase.phase === phase &&
+          scoreTableauPhase.tableau._id === _idTableau
+      ).pronos_vainqueurs = pronosVainqueurs;
     }
 
     if (
@@ -302,16 +392,30 @@ export class PariService {
     let resultatJoueur: ResultatPariJoueur = {
       details: [],
       score: 0,
+      parisVainqueursTableauxResults: [],
     };
+
     this.scoresParTableauPhase.forEach(
       (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
         let resultatPariJoueur: ResultatPariJoueur =
           this.calculateScoreTableauPhase(
             scoreParTableauPhase.rounds,
-            scoreParTableauPhase.paris
+            scoreParTableauPhase.paris,
+            scoreParTableauPhase.pronos_vainqueurs
           );
         resultatJoueur.score += resultatPariJoueur.score;
         resultatJoueur.details.push(...resultatPariJoueur.details);
+
+        if (
+          resultatPariJoueur.parisVainqueursTableauxResults.filter(
+            (pariVainqueurTableauResult: PariVainqueurTableauResult) =>
+              pariVainqueurTableauResult !== null
+          ).length > 0
+        ) {
+          resultatJoueur.parisVainqueursTableauxResults.push(
+            ...resultatPariJoueur.parisVainqueursTableauxResults
+          );
+        }
       }
     );
     this.updateScorePariJoueur.next(resultatJoueur);

@@ -1,5 +1,5 @@
 import { RoundInterface } from './Bracket';
-import { PariInterface } from './Pari';
+import { PariInterface, PronoVainqueur } from './Pari';
 import { TableauInterface } from './Tableau';
 
 export interface ScoreTableauPhaseInterface {
@@ -8,4 +8,5 @@ export interface ScoreTableauPhaseInterface {
   rounds: RoundInterface[];
   paris: PariInterface[];
   waiting: boolean;
+  pronos_vainqueurs?: PronoVainqueur[];
 }

@@ -72,6 +72,12 @@ export class EditTableauComponent implements OnInit {
       hasChapeau: new FormControl(this.tableau.hasChapeau),
       pariable: new FormControl(this.tableau.pariable),
       consolantePariable: new FormControl(this.tableau.consolantePariable),
+      ptsGagnesParisVainqueur: new FormControl(
+        this.tableau.ptsGagnesParisVainqueur
+      ),
+      ptsPerdusParisVainqueur: new FormControl(
+        this.tableau.ptsPerdusParisVainqueur
+      ),
       ptsGagnesParisWB: new FormControl(this.tableau.ptsGagnesParisWB),
       ptsPerdusParisWB: new FormControl(this.tableau.ptsPerdusParisWB),
       ptsGagnesParisLB: new FormControl(this.tableau.ptsGagnesParisLB),
@@ -349,6 +355,12 @@ export class EditTableauComponent implements OnInit {
     this.tableau.consolantePariable = this.value('pariable')
       ? this.value('consolantePariable')
       : false;
+    this.tableau.ptsGagnesParisVainqueur = this.value('pariable')
+      ? this.value('ptsGagnesParisVainqueur')
+      : 0;
+    this.tableau.ptsPerdusParisVainqueur = this.value('pariable')
+      ? this.value('ptsPerdusParisVainqueur')
+      : 0;
     this.tableau.ptsGagnesParisWB = this.value('pariable')
       ? this.value('ptsGagnesParisWB')
       : 0;
@@ -383,6 +395,8 @@ export class EditTableauComponent implements OnInit {
         this.value('format') === 'simple') &&
       (!this.value('pariable') ||
         (this.value('pariable') &&
+          this.value('ptsGagnesParisVainqueur') !== null &&
+          this.value('ptsPerdusParisVainqueur') !== null &&
           this.value('ptsGagnesParisWB') !== null &&
           this.value('ptsPerdusParisWB') !== null)) &&
       (!this.value('consolantePariable') ||

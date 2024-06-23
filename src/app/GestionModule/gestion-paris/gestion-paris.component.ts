@@ -27,7 +27,8 @@ export class GestionParisComponent implements OnInit {
         if (
           generalResults.parisJoueurs.filter(
             (listeParisJoueur: InfosParisJoueurInterface) =>
-              listeParisJoueur.paris.length > 0
+              listeParisJoueur.paris.length > 0 ||
+              listeParisJoueur.pronos_vainqueurs.length > 0
           ).length === 0
         ) {
           this.noParis = true;
@@ -36,12 +37,15 @@ export class GestionParisComponent implements OnInit {
             (infosParisJoueurs: InfosParisJoueurInterface) => {
               let resultat = this.pariService.calculateScoreTableauPhase(
                 generalResults.brackets,
-                infosParisJoueurs.paris
+                infosParisJoueurs.paris,
+                infosParisJoueurs.pronos_vainqueurs
               );
               this.classementGeneral.push({
                 nom: infosParisJoueurs.id_pronostiqueur.nom,
                 score: resultat.score,
                 details: resultat.details,
+                parisVainqueursTableauxResults:
+                  resultat.parisVainqueursTableauxResults,
               });
             }
           );

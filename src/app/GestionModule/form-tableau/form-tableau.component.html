@@ -157,6 +157,36 @@
 
   <div fxFlex="12%" *ngIf="tableau.pariable">
     <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts gagnés vainqueur</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsGagnesParisVainqueur"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="12%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts perdus vainqueur</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsPerdusParisVainqueur"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="10%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
       <mat-label>Pts gagnés</mat-label>
       <input
         [(ngModel)]="tableau.ptsGagnesParisWB"
@@ -170,7 +200,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="12%" *ngIf="tableau.pariable">
+  <div fxFlex="10%" *ngIf="tableau.pariable">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Pts perdus</mat-label>
       <input

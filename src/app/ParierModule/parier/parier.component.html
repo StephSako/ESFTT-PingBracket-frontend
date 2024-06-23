@@ -35,6 +35,7 @@
         color="primary"
         class="center"
         (click)="openDetails()"
+        *ngIf="resultatParisJoueur.details.length > 0"
       >
         Voir le détails
       </button>
@@ -70,6 +71,20 @@
 
       <div class="container">
         <mat-card class="center cardGrandGagnant">
+          <mat-card class="cardPointsParis center">
+            <mat-icon class="center">info</mat-icon>
+            <p>
+              <b>Pari vainqueur correct :</b>
+              {{
+                "+" + tableauPariable.tableau.ptsGagnesParisVainqueur + " pts"
+              }}
+            </p>
+            <p>
+              <b>Pari vainqueur incorrect :</b>
+              {{ tableauPariable.tableau.ptsPerdusParisVainqueur + " pts" }}
+            </p>
+          </mat-card>
+
           <div
             *ngIf="
               tableauPariable.tableau.is_launched >
@@ -77,21 +92,44 @@
             "
           >
             <p
-              *ngIf="infosParisJoueur.id_prono_vainqueur"
+              *ngIf="getPronoVainqueurTableau(tableauPariable.tableau._id)"
               class="center"
               style="margin-bottom: 0px"
             >
+              <span
+                *ngIf="
+                  isPariVainqueurTableauOK(tableauPariable.tableau._id) !==
+                  undefined
+                "
+              >
+                <mat-icon
+                  class="pariVainqueur{{
+                    isPariVainqueurTableauOK(tableauPariable.tableau._id)
+                      .pariVainqueurOK
+                      ? 'OK'
+                      : 'KO'
+                  }}"
+                  >{{
+                    isPariVainqueurTableauOK(tableauPariable.tableau._id)
+                      .pariVainqueurOK
+                      ? "verified"
+                      : "cancel"
+                  }}</mat-icon
+                ></span
+              >
               Vous avez parié sur
-              <b>{{ infosParisJoueur.id_prono_vainqueur.nom }}</b> comme
-              vainqueur du tableau
+              <b>{{
+                getPronoVainqueurTableau(tableauPariable.tableau._id).nom
+              }}</b>
+              comme vainqueur du tableau
               <b>{{ tableauPariable.tableau.nom | titlecase }}</b>
             </p>
             <p
-              *ngIf="!infosParisJoueur.id_prono_vainqueur"
+              *ngIf="!getPronoVainqueurTableau(tableauPariable.tableau._id)"
               class="center"
               style="margin-bottom: 0px"
             >
-              Vous n'avez pas parié sur le grand vainqueur
+              <i>Vous n'avez pas parié sur le grand vainqueur</i>
             </p>
           </div>
           <div
@@ -114,8 +152,12 @@
               <mat-form-field appearance="fill">
                 <mat-label>Vainqueur</mat-label>
                 <mat-select
-                  (selectionChange)="updateVainqueur($event)"
-                  [ngModel]="getNgModelVainqueur()"
+                  (selectionChange)="
+                    updateVainqueurTableau($event, tableauPariable.tableau._id)
+                  "
+                  [ngModel]="
+                    getPronoVainqueurTableau(tableauPariable.tableau._id)?._id
+                  "
                 >
                   <mat-option
                     *ngFor="let participant of tableauPariable.participants"

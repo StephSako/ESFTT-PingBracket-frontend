@@ -30,7 +30,7 @@ export class MatchComponent implements OnInit, OnDestroy {
   @Input() isPari = false;
   @Input() infosParisJoueur: InfosParisJoueurInterface = {
     _id: null,
-    id_prono_vainqueur: null,
+    pronos_vainqueurs: [],
     id_pronostiqueur: null,
     paris: [],
   };
@@ -53,6 +53,8 @@ export class MatchComponent implements OnInit, OnDestroy {
     type_licence: null,
     pariable: null,
     consolantePariable: null,
+    ptsGagnesParisVainqueur: null,
+    ptsPerdusParisVainqueur: null,
     ptsGagnesParisWB: null,
     ptsPerdusParisWB: null,
     ptsGagnesParisLB: null,

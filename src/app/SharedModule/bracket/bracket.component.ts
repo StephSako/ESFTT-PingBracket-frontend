@@ -9,7 +9,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { BracketInterface } from 'src/app/Interface/Bracket';
 import { TableauState } from 'src/app/SharedModule/TableauState.enum';
-import { InfosParisJoueurInterface } from 'src/app/Interface/Pari';
+import {
+  InfosParisJoueurInterface,
+  PronoVainqueur,
+} from 'src/app/Interface/Pari';
 import { ResponseGetBracket } from 'src/app/Interface/ResponseGetBracket';
 import { AccountService } from 'src/app/Service/account.service';
 import { PariService } from 'src/app/Service/pari.service';
@@ -23,7 +26,7 @@ export class BracketComponent implements OnInit, OnDestroy {
   @Input() isPari = false;
   @Input() infosParisJoueur: InfosParisJoueurInterface = {
     _id: null,
-    id_prono_vainqueur: null,
+    pronos_vainqueurs: [],
     id_pronostiqueur: null,
     paris: [],
   };
@@ -45,6 +48,8 @@ export class BracketComponent implements OnInit, OnDestroy {
     type_licence: null,
     pariable: null,
     consolantePariable: null,
+    ptsGagnesParisVainqueur: null,
+    ptsPerdusParisVainqueur: null,
     ptsGagnesParisWB: null,
     ptsPerdusParisWB: null,
     ptsGagnesParisLB: null,
@@ -166,6 +171,7 @@ export class BracketComponent implements OnInit, OnDestroy {
               this.tableau._id,
               this.phase,
               false,
+              response.parisJoueur.pronos_vainqueurs,
               response.bracket.rounds,
               response.parisJoueur.paris
             );

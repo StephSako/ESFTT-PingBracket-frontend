@@ -17,6 +17,8 @@ export interface TableauInterface {
   hasChapeau: boolean;
   pariable: boolean;
   consolantePariable: boolean;
+  ptsGagnesParisVainqueur: number;
+  ptsPerdusParisVainqueur: number;
   ptsGagnesParisWB: number;
   ptsPerdusParisWB: number;
   ptsGagnesParisLB: number;

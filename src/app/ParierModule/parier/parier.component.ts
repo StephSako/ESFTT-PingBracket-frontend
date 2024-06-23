@@ -1,3 +1,7 @@
+import {
+  PariVainqueurTableauResult,
+  PronoVainqueur,
+} from './../../Interface/Pari';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
@@ -5,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { AppService } from 'src/app/app.service';
 import { DetailsParisComponent } from 'src/app/GestionModule/gestion-paris/details-paris/details-paris.component';
+import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 import {
   PariInterface,
   InfosParisJoueurInterface,
@@ -28,7 +33,7 @@ export class ParierComponent implements OnInit, OnDestroy {
   public tableauxPariables: PariableTableauInterface[] = [];
   public infosParisJoueur: InfosParisJoueurInterface = {
     _id: null,
-    id_prono_vainqueur: null,
+    pronos_vainqueurs: [],
     id_pronostiqueur: null,
     paris: [],
   };
@@ -37,6 +42,8 @@ export class ParierComponent implements OnInit, OnDestroy {
   public resultatParisJoueur: ResultatPariJoueur = {
     score: 0,
     details: [],
+    nom: null,
+    parisVainqueursTableauxResults: [],
   };
 
   constructor(
@@ -144,6 +151,7 @@ export class ParierComponent implements OnInit, OnDestroy {
       (resultatParisJoueur: ResultatPariJoueur) => {
         if (resultatParisJoueur) {
           this.resultatParisJoueur = resultatParisJoueur;
+          this.resultatParisJoueur.nom = this.getNomParieur();
         }
       }
     );
@@ -173,9 +181,17 @@ export class ParierComponent implements OnInit, OnDestroy {
     return !!this.accountService.getParieur();
   }
 
-  updateVainqueur(event: MatSelectChange): void {
+  updateVainqueurTableau(event: MatSelectChange, id_tableau: string): void {
     this.pariService
-      .parierVainqueur(this.accountService.getParieur()._id, event.value)
+      .parierVainqueur(
+        this.accountService.getParieur()._id,
+        event.value,
+        id_tableau,
+        !this.infosParisJoueur.pronos_vainqueurs.find(
+          (pronoVainqueurTableau: PronoVainqueur) =>
+            pronoVainqueurTableau.id_tableau === id_tableau
+        )
+      )
       .subscribe(
         (result) => {
           this.notifyService.notifyUser(
@@ -190,9 +206,14 @@ export class ParierComponent implements OnInit, OnDestroy {
       );
   }
 
-  getNgModelVainqueur(): string | null {
-    return this.infosParisJoueur.id_prono_vainqueur
-      ? this.infosParisJoueur.id_prono_vainqueur._id
+  getPronoVainqueurTableau(id_tableau: string): IdNomInterface | null {
+    let pronoVainqueurTableauSearch =
+      this.infosParisJoueur.pronos_vainqueurs.find(
+        (pronoVainqueurTableau: PronoVainqueur) =>
+          pronoVainqueurTableau.id_tableau === id_tableau
+      );
+    return pronoVainqueurTableauSearch
+      ? pronoVainqueurTableauSearch.id_gagnant
       : null;
   }
 
@@ -203,5 +224,12 @@ export class ParierComponent implements OnInit, OnDestroy {
         resultatPariJoueur: this.resultatParisJoueur,
       },
     });
+  }
+
+  isPariVainqueurTableauOK(id_tableau: string): PariVainqueurTableauResult {
+    return this.resultatParisJoueur.parisVainqueursTableauxResults.find(
+      (pariVainqueurTableauResult: PariVainqueurTableauResult) =>
+        pariVainqueurTableauResult.id_tableau === id_tableau
+    );
   }
 }

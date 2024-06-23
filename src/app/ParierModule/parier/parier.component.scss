@@ -12,3 +12,31 @@ span#score {
 .cardGrandGagnant {
   width: fit-content;
 }
+
+mat-card.cardPointsParis {
+  background-color: #dbf1ff;
+
+  width: fit-content;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  p {
+    margin-bottom: 6px;
+  }
+
+  mat-icon {
+    margin-bottom: 4px;
+  }
+}
+
+mat-icon {
+  vertical-align: bottom;
+
+  &.pariVainqueurOK {
+    color: green;
+  }
+
+  &.pariVainqueurKO {
+    color: red;
+  }
+}
