@@ -7,6 +7,17 @@
     </p>
 
     <table *ngIf="displayParis()">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>
+            <b><i>Vainqueurs trouvés</i></b>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
       <tbody>
         <tr *ngFor="let classementJoueur of classementGeneral">
           <td *ngIf="classementJoueur.details.length > 0">
@@ -24,6 +35,15 @@
               }}
               validé{{ classementJoueur.details.length > 1 ? "s" : "" }}</i
             >
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <p>
+              {{
+                getNbParisVainqueursTotalTableaux(
+                  classementJoueur.parisVainqueursTableauxResults
+                )
+              }}
+            </p>
           </td>
           <td *ngIf="classementJoueur.details.length > 0">
             <button

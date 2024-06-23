@@ -1,6 +1,6 @@
 import {
   InfosParisJoueurInterface,
-  PariInterface,
+  PariVainqueurTableauResult,
   ResultatPariJoueur,
 } from 'src/app/Interface/Pari';
 import { Component, OnInit } from '@angular/core';
@@ -79,5 +79,18 @@ export class GestionParisComponent implements OnInit {
         resultatPariJoueur,
       },
     });
+  }
+
+  getNbParisVainqueursTotalTableaux(
+    parisVainqueursTableauxResults: PariVainqueurTableauResult[]
+  ): string {
+    return (
+      parisVainqueursTableauxResults.filter(
+        (pariVainqueurTableauResult: PariVainqueurTableauResult) =>
+          pariVainqueurTableauResult.pariVainqueurOK === true
+      ).length +
+      '/' +
+      parisVainqueursTableauxResults.length
+    );
   }
 }

@@ -175,7 +175,7 @@ export class PariService {
               ' - phase ' +
               round.phase +
               '</b>' +
-              ' - ' +
+              ' | ' +
               this.bracketService.getLibelleRound(match.round, match.id) +
               ' : pari sur ' +
               joueurParié +
@@ -261,7 +261,10 @@ export class PariService {
     return {
       score: score,
       details: details,
-      parisVainqueursTableauxResults: [pariVainqueurTableau],
+      parisVainqueursTableauxResults: [pariVainqueurTableau].filter(
+        (pariVainqueurTableau: PariVainqueurTableauResult) =>
+          pariVainqueurTableau !== null
+      ),
     };
   }
 

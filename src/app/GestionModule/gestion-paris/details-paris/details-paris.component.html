@@ -1,8 +1,8 @@
 <h2 class="lobster center">
-  {{ resultatPariJoueur.nom }} - {{ resultatPariJoueur.score }} point{{
+  {{ resultatPariJoueur.nom }} | {{ resultatPariJoueur.score }} point{{
     resultatPariJoueur.score > 1 ? "s" : ""
   }}
-  - {{ resultatPariJoueur.details.length }} pari{{
+  | {{ resultatPariJoueur.details.length }} pari{{
     resultatPariJoueur.details.length > 1 ? "s" : ""
   }}
   validé{{ resultatPariJoueur.details.length > 1 ? "s" : "" }}
