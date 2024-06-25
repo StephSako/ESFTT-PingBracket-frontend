@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DetailsParisComponent } from './details-paris/details-paris.component';
 import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 import { DialogPrintListComponent } from 'src/app/SharedModule/dialog-print-list/dialog-print-list';
+import { NotifyService } from 'src/app/Service/notify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-paris',
@@ -21,12 +23,21 @@ export class GestionParisComponent implements OnInit {
   public noParis = false;
   @Input() allIdentifiantsJoueurs: IdNomInterface[] = [];
 
-  constructor(private pariService: PariService, public dialog: MatDialog) {}
+  constructor(
+    private pariService: PariService,
+    private notifyService: NotifyService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.pariService
-      .getGeneralResult()
-      .subscribe((generalResults: ResponseGetAllParisBrackets) => {
+    this.getClassementGeneral(false);
+  }
+
+  getClassementGeneral(refresh: boolean): void {
+    this.pariService.getGeneralResult().subscribe(
+      (generalResults: ResponseGetAllParisBrackets) => {
+        this.classementGeneral = [];
         if (
           generalResults.parisJoueurs.filter(
             (listeParisJoueur: InfosParisJoueurInterface) =>
@@ -61,8 +72,21 @@ export class GestionParisComponent implements OnInit {
             }
             return 0;
           });
+
+          if (refresh) {
+            this.notifyService.notifyUser(
+              'Classement général des paris mis à jour',
+              this.snackBar,
+              'success',
+              'OK'
+            );
+          }
         }
-      });
+      },
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 
   displayParis(): boolean {
@@ -77,7 +101,7 @@ export class GestionParisComponent implements OnInit {
 
   openDetails(resultatPariJoueur: ResultatPariJoueur): void {
     this.dialog.open(DetailsParisComponent, {
-      width: '100%',
+      width: '60%',
       data: {
         resultatPariJoueur,
       },

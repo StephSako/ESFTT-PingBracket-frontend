@@ -11,6 +11,14 @@
       Tous les identifiants
     </button>
 
+    <button
+      mat-raised-button
+      class="center refreshClassement"
+      (click)="getClassementGeneral(true)"
+    >
+      Rafraichir le classement
+    </button>
+
     <p *ngIf="!displayParis()" class="center">
       Il n'y a pas de paris validés pour le moment ...
     </p>
