@@ -386,6 +386,7 @@ export class EditTableauComponent implements OnInit {
 
   isValid(): boolean {
     return (
+      this.value('type_licence') !== null &&
       this.value('nom') !== null &&
       this.value('nom').trim() !== '' &&
       ((this.value('poules') && this.value('nbPoules') !== null) ||

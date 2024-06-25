@@ -9,12 +9,12 @@
 <h2 mat-dialog-content class="center" *ngIf="data.option">
   {{ data.option }}
 </h2>
-<p
+<div
   mat-dialog-content
   class="center summary"
   *ngIf="data.text"
   [innerHTML]="data.text | noSanitize"
-></p>
+></div>
 <div mat-dialog-actions class="center">
   <button mat-button mat-dialog-close>
     {{ data.close_button ? data.close_button : "Annuler" }}

@@ -16,7 +16,6 @@ import {
   TableauInterface,
 } from '../Interface/Tableau';
 import { BracketService } from './bracket.service';
-import { IdNomInterface } from '../Interface/IdNomInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -133,13 +132,12 @@ export class PariService {
 
         if (indexPari !== -1) {
           let ptsGagnePerdu = 0;
+          let isPariCorrect = match.joueurs.find(
+            (joueur: JoueurMatchInterface) =>
+              joueur._id._id === paris[indexPari].id_gagnant
+          ).winner;
           // Le pari est correct
-          if (
-            match.joueurs.find(
-              (joueur: JoueurMatchInterface) =>
-                joueur._id._id === paris[indexPari].id_gagnant
-            ).winner
-          ) {
+          if (isPariCorrect) {
             ptsGagnePerdu =
               paris[indexPari].phase === 'finale'
                 ? round.tableau.ptsGagnesParisWB
@@ -164,7 +162,7 @@ export class PariService {
           )._id.nom;
 
           details.push(
-            (ptsGagnePerdu > 0
+            (isPariCorrect
               ? "<span class='detailsGagne'>GAGNÉ</span>"
               : "<span class='detailsPerdu'>PERDU</span>") +
               ' : <b>' +
@@ -215,11 +213,12 @@ export class PariService {
           let vainqueurTableau = finale.joueurs.find(
             (joueur: JoueurMatchInterface) => joueur.winner
           )._id;
+          let pronoVainqueurCorrect =
+            pronoVainqueurTableauSearch.id_gagnant._id === vainqueurTableau._id;
 
-          let ptsGagnePerduVainqueur =
-            pronoVainqueurTableauSearch.id_gagnant._id === vainqueurTableau._id
-              ? round.tableau.ptsGagnesParisVainqueur
-              : round.tableau.ptsPerdusParisVainqueur;
+          let ptsGagnePerduVainqueur = pronoVainqueurCorrect
+            ? round.tableau.ptsGagnesParisVainqueur
+            : round.tableau.ptsPerdusParisVainqueur;
 
           score += ptsGagnePerduVainqueur;
           pariVainqueurTableau = {
@@ -230,7 +229,7 @@ export class PariService {
           };
 
           details.push(
-            (pronoVainqueurTableauSearch.id_gagnant._id === vainqueurTableau._id
+            (pronoVainqueurCorrect
               ? "<span class='detailsGagne'>GAGNÉ</span>"
               : "<span class='detailsPerdu'>PERDU</span>") +
               ' : <b>Vainqueur ' +

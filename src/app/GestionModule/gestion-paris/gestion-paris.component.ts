@@ -3,11 +3,13 @@ import {
   PariVainqueurTableauResult,
   ResultatPariJoueur,
 } from 'src/app/Interface/Pari';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ResponseGetAllParisBrackets } from 'src/app/Interface/ResponseGetBracket';
 import { PariService } from 'src/app/Service/pari.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsParisComponent } from './details-paris/details-paris.component';
+import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
+import { ModaleIdentifiantsParisComponent } from './modale-identifiants-paris/modale-identifiants-paris.component';
 
 @Component({
   selector: 'app-gestion-paris',
@@ -17,6 +19,7 @@ import { DetailsParisComponent } from './details-paris/details-paris.component';
 export class GestionParisComponent implements OnInit {
   public classementGeneral: ResultatPariJoueur[] = [];
   public noParis = false;
+  @Input() allIdentifiantsJoueurs: IdNomInterface[] = [];
 
   constructor(private pariService: PariService, public dialog: MatDialog) {}
 
@@ -92,5 +95,27 @@ export class GestionParisComponent implements OnInit {
       '/' +
       parisVainqueursTableauxResults.length
     );
+  }
+
+  openTousLesIdentifiants(): void {
+    let tableHTML = '<table><tbody>';
+    tableHTML += this.allIdentifiantsJoueurs
+      .map(
+        (idNomJoueur: IdNomInterface) =>
+          '<tr><td>' +
+          idNomJoueur.nom +
+          '</td><td><span class="id_parieur">' +
+          idNomJoueur._id +
+          '</span></td></tr>'
+      )
+      .join('');
+    tableHTML.concat('</tbody></table>');
+
+    this.dialog.open(ModaleIdentifiantsParisComponent, {
+      width: '50%',
+      data: {
+        text: tableHTML,
+      },
+    });
   }
 }

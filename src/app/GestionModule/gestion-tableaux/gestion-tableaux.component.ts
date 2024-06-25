@@ -301,6 +301,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   isInvalidTableau(): boolean {
     return (
+      this.tableau.type_licence !== null &&
       this.tableau.nom !== null &&
       this.tableau.nom.trim() !== '' &&
       ((this.tableau.poules && this.tableau.nbPoules !== null) ||

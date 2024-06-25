@@ -79,7 +79,7 @@ export class TableauService {
 
   public delete(tableau: TableauInterface): Observable<any> {
     return this.http.delete(
-      `${this.baseURL}delete/${tableau._id}/${tableau.format}/${tableau.poules}`
+      `${this.baseURL}delete/${tableau._id}/${tableau.format}/${tableau.poules}/${tableau.pariable}/${tableau.consolantePariable}`
     );
   }
 

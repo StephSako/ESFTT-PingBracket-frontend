@@ -32,6 +32,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
 import { GestionParisComponent } from './gestion-paris/gestion-paris.component';
 import { DetailsParisComponent } from './gestion-paris/details-paris/details-paris.component';
+import { ModaleIdentifiantsParisComponent } from './gestion-paris/modale-identifiants-paris/modale-identifiants-paris.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DetailsParisComponent } from './gestion-paris/details-paris/details-par
     GestionFormulaireComponent,
     LogsTableauComponent,
     DetailsParisComponent,
+    ModaleIdentifiantsParisComponent,
   ],
   imports: [
     RouterModule,

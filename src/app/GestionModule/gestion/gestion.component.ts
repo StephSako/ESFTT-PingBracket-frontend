@@ -8,6 +8,7 @@ import { JoueurService } from '../../Service/joueur.service';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { Router } from '@angular/router';
 import { TableauService } from 'src/app/Service/tableau.service';
+import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 
 @Component({
   selector: 'app-gestion',
@@ -16,6 +17,7 @@ import { TableauService } from 'src/app/Service/tableau.service';
 })
 export class GestionComponent implements OnInit {
   allJoueurs: JoueurInterface[] = [];
+  allIdentifiantsJoueurs: IdNomInterface[] = [];
 
   constructor(
     private router: Router,
@@ -71,10 +73,22 @@ export class GestionComponent implements OnInit {
 
   getAllJoueurs(): void {
     this.joueurService.getAllPlayers().subscribe(
-      (joueurs) => (this.allJoueurs = joueurs),
+      (joueurs) => {
+        this.allJoueurs = joueurs;
+        this.allIdentifiantsJoueurs = this.getIdsParisNomJoueurs();
+      },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
       }
     );
+  }
+
+  getIdsParisNomJoueurs(): IdNomInterface[] {
+    return this.allJoueurs.map((joueur: JoueurInterface) => {
+      return {
+        _id: joueur._id.slice(-4),
+        nom: joueur.nom,
+      };
+    });
   }
 }

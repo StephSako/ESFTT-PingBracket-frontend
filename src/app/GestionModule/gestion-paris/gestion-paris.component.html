@@ -2,6 +2,15 @@
   <mat-card>
     <h2 class="lobster center">Classement général des paris</h2>
 
+    <button
+      mat-raised-button
+      class="center"
+      color="primary"
+      (click)="openTousLesIdentifiants()"
+    >
+      Tous les identitiants
+    </button>
+
     <p *ngIf="!displayParis()" class="center">
       Il n'y a pas de paris validés pour le moment ...
     </p>

@@ -30,7 +30,7 @@
     <div fxFlex="25%">
       <mat-form-field appearance="outline">
         <mat-label>Restriction licence</mat-label>
-        <mat-select formControlName="type_licence">
+        <mat-select formControlName="type_licence" required>
           <mat-option
             *ngFor="let typeLicence of typesLicenceTableau"
             [value]="typeLicence.id"
