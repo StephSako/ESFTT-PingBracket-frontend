@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ResultatPariJoueur } from 'src/app/Interface/Pari';
-import { HandicapComponent } from 'src/app/TournamentModule/poule/handicap/handicap.component';
 
 @Component({
   selector: 'app-details-paris',
@@ -13,7 +12,7 @@ export class DetailsParisComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
-    public dialogRef: MatDialogRef<HandicapComponent>
+    public dialogRef: MatDialogRef<DetailsParisComponent>
   ) {
     this.resultatPariJoueur = data.resultatPariJoueur;
   }

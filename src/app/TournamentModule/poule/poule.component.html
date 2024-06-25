@@ -5,77 +5,91 @@
     </h2>
   </mat-card>
 
-  <div fxLayout="row wrap">
-    <div
-      [fxFlex]="
-        tableau.nbPoules > 2 ? '33%' : tableau.nbPoules === 2 ? '50%' : '100%'
-      "
-      *ngFor="let poule of poules; let indexList = index"
+  <div *ngIf="poules.length">
+    <button
+      class="center"
+      (click)="openPrintHandicap()"
+      mat-raised-button
+      color="primary"
     >
-      <mat-card class="mat-elevation-z8">
-        <div
-          [style]="
-            tableau.handicap
-              ? 'display: flex; justify-content: space-between;'
-              : ''
-          "
-        >
-          <p></p>
-          <h2 class="lobster center">
-            <mat-icon *ngIf="poule.locked" class="locked"
-              >check_circle</mat-icon
-            >
-            Poule n°{{ indexList + 1 }}
-          </h2>
-          <button
-            title="Fiche des handicaps"
-            class="btn-handicap"
-            *ngIf="
-              tableau.handicap && poules[indexList].participants.length > 1
-            "
-            (click)="
-              openMatchesHandicap(poules[indexList].participants, indexList + 1)
-            "
-            mat-icon-button
-          >
-            <mat-icon class="iconHandicap">accessible</mat-icon>
-          </button>
-        </div>
+      Imprimer tous les handicaps
+    </button>
 
-        <div
-          cdkDropList
-          [cdkDropListData]="poules[indexList].participants"
-          class="list"
-          (cdkDropListDropped)="editPoule($event, poule._id)"
-        >
+    <div fxLayout="row wrap">
+      <div
+        [fxFlex]="
+          tableau.nbPoules > 2 ? '33%' : tableau.nbPoules === 2 ? '50%' : '100%'
+        "
+        *ngFor="let poule of poules; let indexList = index"
+      >
+        <mat-card class="mat-elevation-z8">
           <div
-            [cdkDragData]="[poule._id, participant._id]"
-            [cdkDragDisabled]="poule.locked"
-            class="box center"
-            [class]="getQualifies(i, poule.locked)"
-            [ngClass]="{ tight: poules[indexList].objectRef === 'Binomes' }"
-            *ngFor="
-              let participant of poules[indexList].participants;
-              let i = index
+            [style]="
+              tableau.handicap
+                ? 'display: flex; justify-content: space-between;'
+                : ''
             "
-            cdkDrag
           >
-            <span
-              [outerHTML]="
-                showParticipant(poules[indexList].objectRef, participant)
+            <p></p>
+            <h2 class="lobster center">
+              <mat-icon *ngIf="poule.locked" class="locked"
+                >check_circle</mat-icon
+              >
+              Poule n°{{ indexList + 1 }}
+            </h2>
+            <button
+              title="Fiche des handicaps"
+              class="btn-handicap"
+              *ngIf="
+                tableau.handicap && poules[indexList].participants.length > 1
               "
-            ></span>
+              (click)="
+                openMatchesHandicap(
+                  poules[indexList].participants,
+                  indexList + 1
+                )
+              "
+              mat-icon-button
+            >
+              <mat-icon class="iconHandicap">accessible</mat-icon>
+            </button>
           </div>
-        </div>
-        <button
-          (click)="setStatus(poule)"
-          mat-raised-button
-          class="center btnSetLockedPoule"
-          color="primary"
-        >
-          {{ poule.locked ? "Modifier" : "Valider" }}
-        </button>
-      </mat-card>
+
+          <div
+            cdkDropList
+            [cdkDropListData]="poules[indexList].participants"
+            class="list"
+            (cdkDropListDropped)="editPoule($event, poule._id)"
+          >
+            <div
+              [cdkDragData]="[poule._id, participant._id]"
+              [cdkDragDisabled]="poule.locked"
+              class="box center"
+              [class]="getQualifies(i, poule.locked)"
+              [ngClass]="{ tight: poules[indexList].objectRef === 'Binomes' }"
+              *ngFor="
+                let participant of poules[indexList].participants;
+                let i = index
+              "
+              cdkDrag
+            >
+              <span
+                [outerHTML]="
+                  showParticipant(poules[indexList].objectRef, participant)
+                "
+              ></span>
+            </div>
+          </div>
+          <button
+            (click)="setStatus(poule)"
+            mat-raised-button
+            class="center btnSetLockedPoule"
+            color="primary"
+          >
+            {{ poule.locked ? "Modifier" : "Valider" }}
+          </button>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

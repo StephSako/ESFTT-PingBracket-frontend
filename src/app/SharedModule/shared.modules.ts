@@ -17,6 +17,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatChipsModule } from '@angular/material/chips';
+import { DialogPrintListComponent } from './dialog-print-list/dialog-print-list';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatChipsModule } from '@angular/material/chips';
     BracketComponent,
     MatchComponent,
     DialogComponent,
+    DialogPrintListComponent,
     NoSanitizePipe,
   ],
   imports: [

@@ -47,6 +47,16 @@
       >)
     </h2>
 
+    <button
+      class="center"
+      (click)="openPrintChapeaux()"
+      mat-raised-button
+      color="primary"
+      *ngIf="tableau.hasChapeau && listJoueurs.length > 0"
+    >
+      Imprimer les chapeaux
+    </button>
+
     <div fxLayout="row">
       <div
         [fxFlex]="playersMovable() ? '50%' : '100%'"

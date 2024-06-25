@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ordresRencontres } from '../const/options-poules';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +65,48 @@ export class HandicapService {
         handicapItem > 0 ? '+' + handicapItem : String(handicapItem);
       return handicapItem;
     });
+  }
+
+  getHandicapPoule(listeJoueurs: JoueurInterface[]): string {
+    let matchesPoules = '<table><tbody>';
+    const sortedJoueursList = [...listeJoueurs].sort((j1, j2) =>
+      j1.classement < j2.classement
+        ? 1
+        : j1.classement > j2.classement
+        ? -1
+        : j1.nom.localeCompare(j2.nom)
+    );
+    const ordre = ordresRencontres.find(
+      (o) => o.nbJoueurs === sortedJoueursList.length
+    )?.ordre;
+    if (!ordre) {
+      return `<tr><td><b>Les poules de ${sortedJoueursList.length} joueurs ne sont pas encore prises en compte</b></td></tr>`;
+    }
+    ordre.forEach((o) => {
+      const j1 = sortedJoueursList[o[0] - 1];
+      const j2 = sortedJoueursList[o[1] - 1];
+      matchesPoules +=
+        '<tr><td><b>[' +
+        o[0] +
+        ' vs ' +
+        o[1] +
+        ']</b>   ' +
+        j1.nom +
+        ' [' +
+        (j1.classement === 0 ? 'LOISIR' : j1.classement + ' pts') +
+        '] <b>' +
+        this.calculHandicap(j1.classement, j2.classement)[0] +
+        ' | ' +
+        this.calculHandicap(j1.classement, j2.classement)[1] +
+        '</b> ' +
+        ' ' +
+        j2.nom +
+        ' [' +
+        (j2.classement === 0 ? 'LOISIR' : j2.classement + ' pts') +
+        ']</td></tr>';
+    });
+
+    matchesPoules += '</tbody></table>';
+    return matchesPoules;
   }
 }

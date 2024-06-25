@@ -9,7 +9,7 @@ import { PariService } from 'src/app/Service/pari.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsParisComponent } from './details-paris/details-paris.component';
 import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
-import { ModaleIdentifiantsParisComponent } from './modale-identifiants-paris/modale-identifiants-paris.component';
+import { DialogPrintListComponent } from 'src/app/SharedModule/dialog-print-list/dialog-print-list';
 
 @Component({
   selector: 'app-gestion-paris',
@@ -97,7 +97,7 @@ export class GestionParisComponent implements OnInit {
     );
   }
 
-  openTousLesIdentifiants(): void {
+  openPrintIdentifiantsParis(): void {
     let tableHTML = '<table><tbody>';
     tableHTML += this.allIdentifiantsJoueurs
       .map(
@@ -109,12 +109,14 @@ export class GestionParisComponent implements OnInit {
           '</span></td></tr>'
       )
       .join('');
-    tableHTML.concat('</tbody></table>');
+    tableHTML += '</tbody></table>';
 
-    this.dialog.open(ModaleIdentifiantsParisComponent, {
+    this.dialog.open(DialogPrintListComponent, {
       width: '50%',
       data: {
         text: tableHTML,
+        printTitle: true,
+        action: 'Identifiants des joueurs pour parier',
       },
     });
   }

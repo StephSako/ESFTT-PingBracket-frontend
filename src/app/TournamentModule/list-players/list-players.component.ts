@@ -24,6 +24,8 @@ import { Observable, Subscription } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AppService } from 'src/app/app.service';
+import { DialogPrintListComponent } from 'src/app/SharedModule/dialog-print-list/dialog-print-list';
+import { ChapeauxInterface } from 'src/app/Interface/Binome';
 
 @Component({
   selector: 'app-list-players',
@@ -436,5 +438,48 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       ];
     }
     return ['', ''];
+  }
+
+  openPrintChapeaux(): void {
+    const chapeaux: ChapeauxInterface = this.binomeService.getChapeaux(
+      this.listJoueurs
+    );
+    let tableHTML = '';
+
+    if (chapeaux.chapeauHaut.length > 0) {
+      tableHTML += '<h3><b>Chapeau haut</b></h3><table><tbody>';
+      tableHTML += chapeaux.chapeauHaut
+        .map(
+          (idNomJoueur: JoueurInterface) =>
+            '<tr><td style="padding: 10px !important">' +
+            idNomJoueur.nom +
+            '</td><td style="padding: 10px !important"><span class="id_parieur">' +
+            idNomJoueur.classement +
+            ' pts</span></td></tr>'
+        )
+        .join('');
+      tableHTML += '</tbody></table></br>';
+    }
+
+    tableHTML += '<h3><b>Chapeau bas</b></h3><table><tbody>';
+    tableHTML += chapeaux.chapeauBas
+      .map(
+        (idNomJoueur: JoueurInterface) =>
+          '<tr><td style="padding: 10px !important">' +
+          idNomJoueur.nom +
+          '</td><td style="padding: 10px !important"><span class="id_parieur">' +
+          idNomJoueur.classement +
+          ' pts</span></td></tr>'
+      )
+      .join('');
+    tableHTML += '</tbody></table>';
+
+    this.dialog.open(DialogPrintListComponent, {
+      width: '50%',
+      data: {
+        text: tableHTML,
+        printTitle: false,
+      },
+    });
   }
 }

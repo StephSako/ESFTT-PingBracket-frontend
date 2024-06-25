@@ -19,6 +19,8 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HandicapComponent } from './handicap/handicap.component';
 import { AppService } from 'src/app/app.service';
+import { DialogPrintListComponent } from 'src/app/SharedModule/dialog-print-list/dialog-print-list';
+import { HandicapService } from 'src/app/Service/handicap.service';
 
 @Component({
   selector: 'app-poule',
@@ -61,6 +63,7 @@ export class PouleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private gestionService: TableauService,
+    private handicapService: HandicapService,
     private notifyService: NotifyService,
     public dialog: MatDialog
   ) {}
@@ -162,5 +165,29 @@ export class PouleComponent implements OnInit, OnDestroy {
       }
     }
     return '';
+  }
+
+  openPrintHandicap(): void {
+    let tableHTML = '';
+    tableHTML += this.poules
+      .map(
+        (poule: PouleInterface, i: number) =>
+          '<h2>Poule n° ' +
+          (i + 1) +
+          '</h2>' +
+          this.handicapService.getHandicapPoule(
+            poule.participants as JoueurInterface[]
+          ) +
+          (i < this.poules.length - 1 ? '</br>' : '')
+      )
+      .join('');
+
+    this.dialog.open(DialogPrintListComponent, {
+      width: '50%',
+      data: {
+        text: tableHTML,
+        printTitle: false,
+      },
+    });
   }
 }

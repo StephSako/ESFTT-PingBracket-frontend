@@ -1,5 +1,10 @@
-<div id="tableIdsParis">
-  <h1 mat-dialog-title class="center">Identifiants des joueurs pour parier</h1>
+<h1 mat-dialog-title class="center" *ngIf="!data.printTitle">
+  {{ data.action }}
+</h1>
+<div id="divToPrint">
+  <h1 mat-dialog-title class="center" *ngIf="data.printTitle && data.action">
+    {{ data.action }}
+  </h1>
   <div
     mat-dialog-content
     class="center summary"
@@ -12,7 +17,7 @@
   class="center"
   mat-flat-button
   color="primary"
-  (click)="printListeIdsParis()"
+  (click)="printDiv()"
 >
   <mat-icon>print</mat-icon>
 </button>
