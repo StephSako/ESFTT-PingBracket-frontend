@@ -1,0 +1,17 @@
+<h2 class="lobster center">
+  {{ resultatPariJoueur.nom }} | {{ resultatPariJoueur.score }} point{{
+    resultatPariJoueur.score > 1 ? "s" : ""
+  }}
+  | {{ resultatPariJoueur.details.length }} pari{{
+    resultatPariJoueur.details.length > 1 ? "s" : ""
+  }}
+  validé{{ resultatPariJoueur.details.length > 1 ? "s" : "" }}
+</h2>
+
+<div *ngIf="resultatPariJoueur.details.length > 0" class="divDetails">
+  <p *ngFor="let detail of resultatPariJoueur.details" [innerHTML]="detail"></p>
+</div>
+
+<div mat-dialog-actions class="center">
+  <button mat-button (click)="close()" color="primary">OK</button>
+</div>

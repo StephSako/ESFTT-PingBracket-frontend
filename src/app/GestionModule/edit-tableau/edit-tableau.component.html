@@ -2,14 +2,14 @@
 
 <form [formGroup]="reactiveForm" (ngSubmit)="editTableau()">
   <div fxLayout="row">
-    <div fxFlex="27%">
+    <div fxFlex="23%">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nom du tableau</mat-label>
         <input formControlName="nom" matInput required />
       </mat-form-field>
     </div>
 
-    <div fxFlex="19%">
+    <div fxFlex="16%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -18,7 +18,7 @@
       >
     </div>
 
-    <div fxFlex="19%">
+    <div fxFlex="16%">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -27,10 +27,10 @@
       >
     </div>
 
-    <div fxFlex="18%">
+    <div fxFlex="25%">
       <mat-form-field appearance="outline">
         <mat-label>Restriction licence</mat-label>
-        <mat-select formControlName="type_licence">
+        <mat-select formControlName="type_licence" required>
           <mat-option
             *ngFor="let typeLicence of typesLicenceTableau"
             [value]="typeLicence.id"
@@ -41,7 +41,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="17%">
+    <div fxFlex="20%">
       <mat-form-field appearance="outline">
         <mat-label>Catégorie d'âge</mat-label>
         <mat-select formControlName="age_minimum">
@@ -75,7 +75,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="13%" *ngIf="fieldValue('format') === 'double'">
+    <div fxFlex="13%" *ngIf="value('format') === 'double'">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nb max joueurs/binôme</mat-label>
         <input
@@ -88,7 +88,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="13%" *ngIf="fieldValue('format') === 'double'">
+    <div fxFlex="13%" *ngIf="value('format') === 'double'">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -103,12 +103,12 @@
         class="center"
         formControlName="poules"
         (change)="filterStatus()"
-        [disabled]="fieldValue('format') === 'simple'"
+        [disabled]="value('format') === 'simple'"
         >Poules</mat-slide-toggle
       >
     </div>
 
-    <div fxFlex="12%" *ngIf="fieldValue('poules')">
+    <div fxFlex="12%" *ngIf="value('poules')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Nombre de poules</mat-label>
         <input
@@ -121,7 +121,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="12%" *ngIf="fieldValue('poules')">
+    <div fxFlex="12%" *ngIf="value('poules')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Palier qualifiés</mat-label>
         <input
@@ -133,7 +133,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="12%" *ngIf="fieldValue('poules') && fieldValue('consolante')">
+    <div fxFlex="12%" *ngIf="value('poules') && value('consolante')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Palier consolantes</mat-label>
         <input
@@ -153,6 +153,115 @@
             {{ statut.libelle }}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="15%">
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="pariable"
+        >Pariable</mat-slide-toggle
+      >
+    </div>
+
+    <div fxFlex="12%" *ngIf="value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts gagnés vainqueur</mat-label>
+        <input
+          formControlName="ptsGagnesParisVainqueur"
+          type="number"
+          max="100"
+          min="-100"
+          step="0.5"
+          matInput
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="12%" *ngIf="value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts perdus vainqueur</mat-label>
+        <input
+          formControlName="ptsPerdusParisVainqueur"
+          type="number"
+          max="100"
+          min="-100"
+          step="0.5"
+          matInput
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="10%" *ngIf="value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts gagnés</mat-label>
+        <input
+          formControlName="ptsGagnesParisWB"
+          type="number"
+          max="100"
+          min="-100"
+          step="0.5"
+          matInput
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="10%" *ngIf="value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts perdus</mat-label>
+        <input
+          formControlName="ptsPerdusParisWB"
+          type="number"
+          max="100"
+          min="-100"
+          step="0.5"
+          matInput
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="20%" *ngIf="value('pariable')">
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="consolantePariable"
+        >Consolante pariable</mat-slide-toggle
+      >
+    </div>
+
+    <div fxFlex="15%" *ngIf="value('consolantePariable') && value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts gagnés consolante</mat-label>
+        <input
+          formControlName="ptsGagnesParisLB"
+          type="number"
+          max="100"
+          min="-100"
+          step="0.5"
+          matInput
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="15%" *ngIf="value('consolantePariable') && value('pariable')">
+      <mat-form-field appearance="outline" class="center">
+        <mat-label>Pts perdus consolante</mat-label>
+        <input
+          formControlName="ptsPerdusParisLB"
+          type="number"
+          max="100"
+          min="-100"
+          step="0.5"
+          matInput
+          required
+        />
       </mat-form-field>
     </div>
   </div>

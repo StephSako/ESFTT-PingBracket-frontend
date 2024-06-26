@@ -20,6 +20,11 @@ const routes: Routes = [
         (m) => m.FormulaireModules
       ),
   },
+  {
+    path: 'parier',
+    loadChildren: () =>
+      import('./ParierModule/parier.modules').then((m) => m.ParierModule),
+  },
 ];
 
 @NgModule({

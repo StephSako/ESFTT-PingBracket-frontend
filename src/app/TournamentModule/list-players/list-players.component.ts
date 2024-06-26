@@ -24,6 +24,8 @@ import { Observable, Subscription } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AppService } from 'src/app/app.service';
+import { DialogPrintListComponent } from 'src/app/SharedModule/dialog-print-list/dialog-print-list';
+import { ChapeauxInterface } from 'src/app/Interface/Binome';
 
 @Component({
   selector: 'app-list-players',
@@ -48,6 +50,14 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
+    consolantePariable: null,
+    ptsGagnesParisVainqueur: null,
+    ptsPerdusParisVainqueur: null,
+    ptsGagnesParisWB: null,
+    ptsPerdusParisWB: null,
+    ptsGagnesParisLB: null,
+    ptsPerdusParisLB: null,
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
@@ -408,16 +418,18 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       const listJoueursLength =
         this.listJoueurs.length % 2 === 0
           ? this.listJoueurs.length / 2
-          : this.listJoueurs.length / 2 + 0.5;
+          : this.listJoueurs.length / 2 - 0.5;
 
       const chapeauHaut = this.dataSource
         .sortData(this.dataSource.filteredData, this.dataSource.sort)
         .slice(0, listJoueursLength)
         .map((j) => j._id);
+
       const chapeauBas = this.dataSource
         .sortData(this.dataSource.filteredData, this.dataSource.sort)
         .slice(listJoueursLength, this.dataSource.data.length)
         .map((j) => j._id);
+
       return [
         i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut',
         i >= listJoueursLength
@@ -426,5 +438,48 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       ];
     }
     return ['', ''];
+  }
+
+  openPrintChapeaux(): void {
+    const chapeaux: ChapeauxInterface = this.binomeService.getChapeaux(
+      this.listJoueurs
+    );
+    let tableHTML = '';
+
+    if (chapeaux.chapeauHaut.length > 0) {
+      tableHTML += '<h3><b>Chapeau haut</b></h3><table><tbody>';
+      tableHTML += chapeaux.chapeauHaut
+        .map(
+          (idNomJoueur: JoueurInterface) =>
+            '<tr><td style="padding: 10px !important">' +
+            idNomJoueur.nom +
+            '</td><td style="padding: 10px !important"><span class="id_parieur">' +
+            idNomJoueur.classement +
+            ' pts</span></td></tr>'
+        )
+        .join('');
+      tableHTML += '</tbody></table></br>';
+    }
+
+    tableHTML += '<h3><b>Chapeau bas</b></h3><table><tbody>';
+    tableHTML += chapeaux.chapeauBas
+      .map(
+        (idNomJoueur: JoueurInterface) =>
+          '<tr><td style="padding: 10px !important">' +
+          idNomJoueur.nom +
+          '</td><td style="padding: 10px !important"><span class="id_parieur">' +
+          idNomJoueur.classement +
+          ' pts</span></td></tr>'
+      )
+      .join('');
+    tableHTML += '</tbody></table>';
+
+    this.dialog.open(DialogPrintListComponent, {
+      width: '50%',
+      data: {
+        text: tableHTML,
+        printTitle: false,
+      },
+    });
   }
 }

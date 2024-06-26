@@ -1,6 +1,6 @@
 import { JoueurInterface } from 'src/app/Interface/Joueur';
 
-interface JoueurMatchInterface {
+export interface JoueurMatchInterface {
   _id: JoueurInterface;
   winner: boolean;
 }
@@ -8,6 +8,7 @@ interface JoueurMatchInterface {
 export interface MatchInterface {
   id: number;
   isCancelable: boolean;
+  isLockToBets: boolean;
   round: number;
   joueurs: JoueurMatchInterface[];
 }

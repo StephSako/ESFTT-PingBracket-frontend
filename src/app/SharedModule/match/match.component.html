@@ -1,18 +1,32 @@
 <div class="ngtt__match-wrapper">
+  <button
+    mat-icon-button
+    color="warn"
+    class="cancel-btn"
+    [disabled]="disabledCancelButton"
+    *ngIf="isCancelable()"
+    (click)="onCancelClick()"
+  >
+    <mat-icon>backspace</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    [class]="'lock-btn ' + (!match.isLockToBets ? 'locked' : 'unlocked')"
+    [disabled]="disabledLockToBets"
+    *ngIf="isMatchLockableForBets()"
+    (click)="lockMatchToBets()"
+  >
+    <mat-icon>{{ !match.isLockToBets ? "lock_open" : "lock" }}</mat-icon>
+  </button>
+
+  <mat-icon
+    [class]="'icon-resultat-pari ' + getColorPari().color"
+    *ngIf="showResultatPari()"
+    >{{ getColorPari().icon }}
+  </mat-icon>
+
   <ng-container *ngFor="let joueur of match.joueurs; let index = index">
-    <button
-      mat-icon-button
-      color="warn"
-      class="cancel-btn"
-      [disabled]="disabledCancelButton"
-      *ngIf="
-        isCancelable() &&
-        tableau.is_launched === appService.getTableauState().BracketState
-      "
-      (click)="cancelMatchResult()"
-    >
-      <mat-icon>backspace</mat-icon>
-    </button>
     <div fxLayout="row">
       <div id="finale" *ngIf="displayFinalIcons()">
         <mat-icon id="yellow" *ngIf="match.id === 1 && joueur.winner" matSuffix
@@ -28,18 +42,26 @@
           >looks_4</mat-icon
         >
       </div>
-
       <div class="ngtt__team-wrapper">
         <mat-chip-list *ngIf="joueur._id">
           <mat-chip
             [disabled]="
               match.joueurs.length <= 1 ||
               tableau.is_launched > appService.getTableauState().TermineState ||
-              disabledMatChip
+              disabledMatChip ||
+              isMatchLocked()
             "
-            (click)="setWinner(joueur._id._id)"
-            [color]="getColor(joueur)"
-            [class]="'ngtt__team-title ' + isClickable()"
+            (click)="
+              onClickJoueur({ _id: joueur._id._id, nom: joueur._id.nom })
+            "
+            [class]="
+              'ngtt__team-title ' +
+              isClickable() +
+              ' ' +
+              getColor(joueur) +
+              ' ' +
+              getColorPari(joueur).color
+            "
           >
             {{ getName(joueur._id) }}
           </mat-chip>

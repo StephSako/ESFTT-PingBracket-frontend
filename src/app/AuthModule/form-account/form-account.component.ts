@@ -16,7 +16,7 @@ export class FormAccountComponent implements OnInit {
     username: '',
     password: '',
   };
-  spinnerShown: boolean;
+  spinnerShown = false;
   passwordVisibility = false;
   inputPasswordType = 'password';
   reactiveForm: FormGroup;

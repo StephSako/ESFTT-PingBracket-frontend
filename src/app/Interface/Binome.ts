@@ -6,3 +6,8 @@ export interface BinomeInterface {
   locked: boolean;
   joueurs: JoueurInterface[];
 }
+
+export interface ChapeauxInterface {
+  chapeauHaut: JoueurInterface[];
+  chapeauBas: JoueurInterface[];
+}

@@ -3,14 +3,14 @@
 </h2>
 
 <div fxLayout="row">
-  <div fxFlex="27%">
+  <div fxFlex="23%">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Nom du tableau</mat-label>
       <input [(ngModel)]="tableau.nom" matInput required />
     </mat-form-field>
   </div>
 
-  <div fxFlex="19%">
+  <div fxFlex="16%">
     <mat-slide-toggle
       color="primary"
       class="center"
@@ -19,7 +19,7 @@
     >
   </div>
 
-  <div fxFlex="19%">
+  <div fxFlex="16%">
     <mat-slide-toggle
       color="primary"
       class="center"
@@ -28,10 +28,10 @@
     >
   </div>
 
-  <div fxFlex="18%">
+  <div fxFlex="25%">
     <mat-form-field appearance="outline">
       <mat-label>Restriction licence</mat-label>
-      <mat-select [(ngModel)]="tableau.type_licence">
+      <mat-select [(ngModel)]="tableau.type_licence" required>
         <mat-option
           *ngFor="let typeLicence of typesLicenceTableau"
           [value]="typeLicence.id"
@@ -42,7 +42,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="17%">
+  <div fxFlex="20%">
     <mat-form-field appearance="outline">
       <mat-label>Catégorie d'âge</mat-label>
       <mat-select [(ngModel)]="tableau.age_minimum">
@@ -61,7 +61,7 @@
 </div>
 
 <div fxLayout="row">
-  <div fxFlex="16%">
+  <div fxFlex="13%">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Format</mat-label>
       <mat-select
@@ -76,7 +76,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="14%" *ngIf="tableau.format === 'double'">
+  <div fxFlex="13%" *ngIf="tableau.format === 'double'">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Nb max joueurs/binôme</mat-label>
       <input
@@ -98,7 +98,7 @@
     >
   </div>
 
-  <div fxFlex="14%">
+  <div fxFlex="11%">
     <mat-slide-toggle
       color="primary"
       class="center"
@@ -108,7 +108,7 @@
     >
   </div>
 
-  <div fxFlex="15%" *ngIf="tableau.poules">
+  <div fxFlex="12%" *ngIf="tableau.poules">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Nombre de poules</mat-label>
       <input
@@ -121,7 +121,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="14%" *ngIf="tableau.poules">
+  <div fxFlex="12%" *ngIf="tableau.poules">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Palier qualifiés</mat-label>
       <input
@@ -133,7 +133,7 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="14%" *ngIf="tableau.poules && tableau.consolante">
+  <div fxFlex="12%" *ngIf="tableau.poules && tableau.consolante">
     <mat-form-field appearance="outline" class="center">
       <mat-label>Palier consolantes</mat-label>
       <input
@@ -141,6 +141,115 @@
         type="number"
         max="20"
         matInput
+      />
+    </mat-form-field>
+  </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="11%">
+    <mat-slide-toggle
+      color="primary"
+      class="center"
+      [(ngModel)]="tableau.pariable"
+      >Pariable</mat-slide-toggle
+    >
+  </div>
+
+  <div fxFlex="12%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts gagnés vainqueur</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsGagnesParisVainqueur"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="12%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts perdus vainqueur</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsPerdusParisVainqueur"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="10%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts gagnés</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsGagnesParisWB"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="10%" *ngIf="tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts perdus</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsPerdusParisWB"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="18%" *ngIf="tableau.pariable">
+    <mat-slide-toggle
+      color="primary"
+      class="center"
+      [(ngModel)]="tableau.consolantePariable"
+      >Consolante pariable</mat-slide-toggle
+    >
+  </div>
+
+  <div fxFlex="15%" *ngIf="tableau.consolantePariable && tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts gagnés consolante</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsGagnesParisLB"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="15%" *ngIf="tableau.consolantePariable && tableau.pariable">
+    <mat-form-field appearance="outline" class="center">
+      <mat-label>Pts perdus consolante</mat-label>
+      <input
+        [(ngModel)]="tableau.ptsPerdusParisLB"
+        type="number"
+        max="100"
+        min="-100"
+        step="0.5"
+        matInput
+        required
       />
     </mat-form-field>
   </div>

@@ -30,19 +30,27 @@
   text-overflow: ellipsis;
 }
 
-.mat-winner {
+mat-chip {
+  background-color: white;
+  color: black;
+}
+
+mat-chip.winner {
   background-color: #0d980d;
   color: white;
 }
 
-.mat-looser {
+mat-chip.looser {
   background-color: red;
   color: white;
 }
 
-.mat-undefined {
-  background-color: white;
-  color: black;
+.pari-winner:not(.winner):not(.looser) {
+  color: #0d980d;
+}
+
+.pari-looser:not(.winner):not(.looser) {
+  color: red;
 }
 
 .clickable {
@@ -77,9 +85,36 @@ span.handicap {
   right: -19px;
 }
 
-.cancel-btn {
+.cancel-btn,
+.lock-btn {
   position: absolute;
   right: -18px;
   top: -21px;
   z-index: 1;
+}
+
+.lock-btn {
+  mat-icon {
+    background-color: white;
+    border-radius: 6px;
+    padding: 1px;
+  }
+
+  &.unlocked {
+    color: red;
+  }
+
+  &.locked {
+    color: #0d980d;
+  }
+}
+
+.icon-resultat-pari {
+  position: absolute;
+  right: 298px;
+  top: -14px;
+  z-index: 1;
+  background-color: white;
+  padding: 2px;
+  border-radius: 4px;
 }

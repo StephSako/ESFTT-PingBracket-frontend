@@ -1,0 +1,20 @@
+:host ::ng-deep {
+  span {
+    &.detailsGagne {
+      color: green;
+    }
+
+    &.detailsPerdu {
+      color: red;
+    }
+  }
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+.divDetails {
+  height: 400px;
+  overflow-y: scroll;
+}

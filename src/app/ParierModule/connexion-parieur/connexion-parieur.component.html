@@ -1,0 +1,39 @@
+<div class="container">
+  <mat-card class="center">
+    <h1 class="lobster center">Se connecter pour parier</h1>
+    <form>
+      <div fxLayout="column" fxLayout.lt-md="column">
+        <div fxFlexAlign="center">
+          <mat-form-field appearance="outline" class="center">
+            <mat-label>Identifiant</mat-label>
+            <input
+              [(ngModel)]="idParieur"
+              name="idParieur"
+              type="text"
+              matInput
+              maxlength="4"
+              required
+            />
+            <mat-error *ngIf="!idParieur">
+              Identifiant <strong>obligatoire</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button
+        class="center"
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="idParieur.length < 4"
+        (click)="loginParieur()"
+      >
+        <mat-icon *ngIf="spinnerShown">
+          <mat-spinner color="primary" [diameter]="20"></mat-spinner>
+        </mat-icon>
+        Aller parier !
+      </button>
+    </form>
+  </mat-card>
+</div>

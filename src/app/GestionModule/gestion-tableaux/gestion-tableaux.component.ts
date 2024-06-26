@@ -32,6 +32,7 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     'nom',
     'age_minimum',
     'format',
+    'pariable',
     'type_licence',
     'maxNumberPlayers',
     'handicap',
@@ -65,6 +66,14 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
     palierConsolantes: 4,
     hasChapeau: false,
     type_licence: null,
+    pariable: false,
+    consolantePariable: false,
+    ptsGagnesParisVainqueur: 0,
+    ptsPerdusParisVainqueur: 0,
+    ptsGagnesParisWB: 0,
+    ptsPerdusParisWB: 0,
+    ptsGagnesParisLB: 0,
+    ptsPerdusParisLB: 0,
   };
 
   constructor(
@@ -141,6 +150,14 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
           palierConsolantes: 4,
           hasChapeau: false,
           type_licence: 1,
+          pariable: false,
+          consolantePariable: false,
+          ptsGagnesParisVainqueur: null,
+          ptsPerdusParisVainqueur: null,
+          ptsGagnesParisWB: null,
+          ptsPerdusParisWB: null,
+          ptsGagnesParisLB: null,
+          ptsPerdusParisLB: null,
         };
         this.getAllTableaux();
         this.notifyService.notifyUser(
@@ -284,13 +301,24 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
 
   isInvalidTableau(): boolean {
     return (
+      this.tableau.type_licence !== null &&
       this.tableau.nom !== null &&
       this.tableau.nom.trim() !== '' &&
       ((this.tableau.poules && this.tableau.nbPoules !== null) ||
         !this.tableau.poules) &&
       ((this.tableau.format === 'double' &&
         this.tableau.maxNumberPlayers !== null) ||
-        this.tableau.format === 'simple')
+        this.tableau.format === 'simple') &&
+      (!this.tableau.pariable ||
+        (this.tableau.pariable &&
+          this.tableau.ptsGagnesParisVainqueur !== null &&
+          this.tableau.ptsPerdusParisVainqueur !== null &&
+          this.tableau.ptsGagnesParisWB !== null &&
+          this.tableau.ptsPerdusParisWB !== null)) &&
+      (!this.tableau.consolantePariable ||
+        (this.tableau.consolantePariable &&
+          this.tableau.ptsGagnesParisLB !== null &&
+          this.tableau.ptsPerdusParisLB !== null))
     );
   }
 
@@ -299,6 +327,8 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
   }
 
   showTypeLicence(idTypeLicence: number): string {
-    return this.tableauService.showTypeLicence(idTypeLicence);
+    return idTypeLicence !== 1
+      ? this.tableauService.showTypeLicence(idTypeLicence)
+      : '';
   }
 }

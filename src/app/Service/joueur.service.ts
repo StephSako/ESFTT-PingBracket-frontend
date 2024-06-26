@@ -77,4 +77,10 @@ export class JoueurService {
       pointage: !joueur.pointage,
     });
   }
+
+  public checkIdParieur(idParieur): Observable<any> {
+    return this.http.get(
+      this.baseURL + `check/id_parieur/${idParieur.toLowerCase()}`
+    );
+  }
 }

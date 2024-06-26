@@ -1,6 +1,6 @@
 import { TableauInterface } from './Tableau';
 import { MatchInterface } from './Match';
-interface RoundInterface {
+export interface RoundInterface {
   _id: string;
   objectRef: string;
   phase: string;

@@ -31,6 +31,10 @@ export class TableauService {
     );
   }
 
+  public getPariables(): Observable<any> {
+    return this.http.get(`${this.baseURL}pariables`);
+  }
+
   public getTableau(id_tableau: string): Observable<any> {
     return this.http.get(`${this.baseURL}${id_tableau}`);
   }
@@ -62,7 +66,7 @@ export class TableauService {
     }
   ): Observable<any> {
     return this.http.put(`${this.baseURL}unsubscribe/invalid/${tableau._id}`, {
-      tableau: tableau,
+      tableau,
       age_flag: params.age_flag,
       type_licence_flag: params.type_licence_flag,
       type_licence_to_unsubscribe: params.type_licence_to_unsubscribe,
@@ -75,7 +79,7 @@ export class TableauService {
 
   public delete(tableau: TableauInterface): Observable<any> {
     return this.http.delete(
-      `${this.baseURL}delete/${tableau._id}/${tableau.format}/${tableau.poules}`
+      `${this.baseURL}delete/${tableau._id}/${tableau.format}/${tableau.poules}/${tableau.pariable}/${tableau.consolantePariable}`
     );
   }
 

@@ -1,0 +1,82 @@
+<div class="container">
+  <mat-card>
+    <h2 class="lobster center">Classement général des paris</h2>
+
+    <button
+      mat-raised-button
+      class="center"
+      color="primary"
+      (click)="openPrintIdentifiantsParis()"
+    >
+      Tous les identifiants
+    </button>
+
+    <button
+      mat-raised-button
+      class="center refreshClassement"
+      (click)="getClassementGeneral(true)"
+    >
+      Rafraichir le classement
+    </button>
+
+    <p *ngIf="!displayParis()" class="center noParis">
+      Il n'y a pas de paris validés pour le moment ...
+    </p>
+
+    <p *ngIf="joueursLesPlusParies.length > 0" class="joueursLesPlusParies">
+      <b>Joueurs les plus pariés :</b> {{ joueursLesPlusParies.join(", ") }}
+    </p>
+
+    <table *ngIf="displayParis()">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>
+            <b><i>Vainqueurs trouvés</i></b>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let classementJoueur of classementGeneral">
+          <td *ngIf="classementJoueur.details.length > 0">
+            <b>{{ classementJoueur.nom }}</b>
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <b>{{ classementJoueur.score }}</b> point{{
+              classementJoueur.score > 1 ? "s" : ""
+            }}
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <i
+              >{{ classementJoueur.details.length }} pari{{
+                classementJoueur.details.length > 1 ? "s" : ""
+              }}
+              validé{{ classementJoueur.details.length > 1 ? "s" : "" }}</i
+            >
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <p>
+              {{
+                getNbParisVainqueursTotalTableaux(
+                  classementJoueur.parisVainqueursTableauxResults
+                )
+              }}
+            </p>
+          </td>
+          <td *ngIf="classementJoueur.details.length > 0">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="openDetails(classementJoueur)"
+            >
+              <mat-icon>manage_search</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+</div>

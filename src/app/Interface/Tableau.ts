@@ -1,3 +1,5 @@
+import { JoueurInterface } from './Joueur';
+
 export interface TableauInterface {
   _id: string;
   nom: string;
@@ -13,8 +15,21 @@ export interface TableauInterface {
   palierQualifies: number;
   palierConsolantes: number;
   hasChapeau: boolean;
+  pariable: boolean;
+  consolantePariable: boolean;
+  ptsGagnesParisVainqueur: number;
+  ptsPerdusParisVainqueur: number;
+  ptsGagnesParisWB: number;
+  ptsPerdusParisWB: number;
+  ptsGagnesParisLB: number;
+  ptsPerdusParisLB: number;
 }
 
 export interface PlayerCountPerTableau {
   [key: string]: number;
+}
+
+export interface PariableTableauInterface {
+  tableau: TableauInterface;
+  participants: JoueurInterface;
 }

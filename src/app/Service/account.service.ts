@@ -9,6 +9,7 @@ import {
   UserInterface,
 } from '../Interface/Account';
 import { environment } from '../../environments/environment';
+import { JoueurInterface } from '../Interface/Joueur';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ import { environment } from '../../environments/environment';
 export class AccountService {
   private baseURL = environment.endpointNodeApi + 'account/';
   private token: string;
+  private profilParieur: JoueurInterface;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -111,5 +113,22 @@ export class AccountService {
     setTimeout(() => {
       this.logout();
     }, this.getUserDetails().exp * 1000 - Date.now());
+  }
+
+  public getParieur(): JoueurInterface {
+    if (!this.profilParieur) {
+      this.profilParieur = JSON.parse(localStorage.getItem('profilParieur'));
+    }
+    return this.profilParieur;
+  }
+
+  public saveParieur(profilParieur: JoueurInterface): void {
+    this.profilParieur = profilParieur;
+    localStorage.setItem('profilParieur', JSON.stringify(profilParieur));
+  }
+
+  public logoutParieur(): void {
+    this.profilParieur = null;
+    localStorage.removeItem('profilParieur');
   }
 }

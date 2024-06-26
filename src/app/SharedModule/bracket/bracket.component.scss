@@ -26,12 +26,28 @@
   }
 }
 
-// :host ::ng-deep .ngtt-se__match-wrapper:nth-child(odd)::after,
-// :host ::ng-deep .ngtt-se__match-wrapper:nth-child(even)::after {
-//   border-top: 2px solid #76b8ff;
-//   border-right: 2px solid #76b8ff;
-// }
+span.aide {
+  color: white;
+  font-style: italic;
+  margin-top: 16px;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
 
 mat-card {
   background-color: #dbf1ff;
+
+  &.cardPointsParis {
+    width: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    p {
+      margin-bottom: 6px;
+    }
+
+    mat-icon {
+      margin-bottom: 4px;
+    }
+  }
 }

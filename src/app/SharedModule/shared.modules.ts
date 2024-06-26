@@ -1,3 +1,5 @@
+import { MatchComponent } from './match/match.component';
+import { BracketComponent } from './bracket/bracket.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormJoueurComponent } from './form-joueur/form-joueur.component';
@@ -12,13 +14,26 @@ import { MatButtonModule } from '@angular/material/button';
 import { DialogComponent } from './dialog/dialog.component';
 import { NoSanitizePipe } from './no-sanitize.pipe';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { NgTournamentTreeModule } from 'ng-tournament-tree';
+import { MatChipsModule } from '@angular/material/chips';
+import { DialogPrintListComponent } from './dialog-print-list/dialog-print-list';
 
 @NgModule({
-  declarations: [FormJoueurComponent, DialogComponent, NoSanitizePipe],
+  declarations: [
+    FormJoueurComponent,
+    BracketComponent,
+    MatchComponent,
+    DialogComponent,
+    DialogPrintListComponent,
+    NoSanitizePipe,
+  ],
   imports: [
     CommonModule,
+    MatCardModule,
     MatIconModule,
     MatInputModule,
+    NgTournamentTreeModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     MatSelectModule,
@@ -27,7 +42,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatDialogModule,
     MatButtonModule,
     MatSlideToggleModule,
+    MatChipsModule,
   ],
-  exports: [FormJoueurComponent, NoSanitizePipe],
+  exports: [
+    FormJoueurComponent,
+    BracketComponent,
+    MatchComponent,
+    NoSanitizePipe,
+  ],
 })
 export class SharedModules {}

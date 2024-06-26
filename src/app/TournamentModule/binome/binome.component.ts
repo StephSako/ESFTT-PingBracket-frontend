@@ -46,6 +46,14 @@ export class BinomeComponent implements OnInit, OnDestroy {
     palierConsolantes: null,
     hasChapeau: null,
     type_licence: null,
+    pariable: null,
+    consolantePariable: null,
+    ptsGagnesParisVainqueur: null,
+    ptsPerdusParisVainqueur: null,
+    ptsGagnesParisWB: null,
+    ptsPerdusParisWB: null,
+    ptsGagnesParisLB: null,
+    ptsPerdusParisLB: null,
   };
   private tableauxEditionSubscription: Subscription;
   @Output() generatePoules: EventEmitter<any> = new EventEmitter();
@@ -202,37 +210,14 @@ export class BinomeComponent implements OnInit, OnDestroy {
 
   getChapeau(id: string): any[] {
     if (this.showChapeauColors && this.listJoueursTotal.length > 0) {
-      const listJoueursLength =
-        this.listJoueursTotal.length % 2 === 0
-          ? this.listJoueursTotal.length / 2
-          : this.listJoueursTotal.length / 2 + 0.5;
+      const chapeaux = this.binomeService.getChapeaux(this.listJoueursTotal);
 
-      const chapeauHaut = this.listJoueursTotal
-        .sort((j1, j2) =>
-          j1.classement < j2.classement
-            ? 1
-            : j1.classement > j2.classement
-            ? -1
-            : j1.nom.localeCompare(j2.nom)
-        )
-        .slice(0, listJoueursLength)
-        .map((j) => j._id);
-
-      const chapeauBas = this.listJoueursTotal
-        .sort((j1, j2) =>
-          j1.classement < j2.classement
-            ? 1
-            : j1.classement > j2.classement
-            ? -1
-            : j1.nom.localeCompare(j2.nom)
-        )
-        .slice(listJoueursLength, this.listJoueursTotal.length)
-        .map((j) => j._id);
-
-      const isChapeauHaut = chapeauHaut.indexOf(id);
+      const isChapeauHaut = chapeaux.chapeauHaut.map((j) => j._id).indexOf(id);
       return [
         isChapeauHaut < 0 ? 'chapeauBas' : 'chapeauHaut',
-        isChapeauHaut < 0 ? chapeauBas.indexOf(id) : chapeauHaut.indexOf(id),
+        isChapeauHaut < 0
+          ? chapeaux.chapeauBas.map((j) => j._id).indexOf(id)
+          : chapeaux.chapeauHaut.map((j) => j._id).indexOf(id),
       ];
     }
     return ['', ''];

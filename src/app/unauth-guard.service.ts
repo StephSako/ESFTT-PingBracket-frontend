@@ -13,7 +13,7 @@ export class UnauthGuardService implements CanActivate {
   constructor(private accountService: AccountService, private router: Router) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
+    _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
     if (state.url === '/login' && !this.accountService.isLoggedIn()) {

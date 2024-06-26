@@ -19,6 +19,8 @@ import { PoulesService } from '../../Service/poules.service';
 import { Subscription } from 'rxjs';
 import { TableauService } from '../../Service/tableau.service';
 import { AppService } from 'src/app/app.service';
+import { PariService } from 'src/app/Service/pari.service';
+import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 
 @Component({
   selector: 'app-gestion-joueurs',
@@ -62,6 +64,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     private appService: AppService,
     public dialog: MatDialog,
     private poulesService: PoulesService,
+    private pariService: PariService,
     private tableauService: TableauService
   ) {}
 
@@ -236,5 +239,14 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     return this.allJoueurs.filter(
       (joueur: JoueurInterface) => joueur.classement
     ).length;
+  }
+
+  hideDeleteJoueurButton(joueur: JoueurInterface): boolean {
+    return (
+      joueur.tableaux.filter(
+        (tableau: TableauInterface) =>
+          tableau.is_launched > this.appService.getTableauState().PointageState
+      ).length !== 0
+    );
   }
 }
