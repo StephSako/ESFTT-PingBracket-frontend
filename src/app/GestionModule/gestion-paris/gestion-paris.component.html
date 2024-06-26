@@ -19,8 +19,12 @@
       Rafraichir le classement
     </button>
 
-    <p *ngIf="!displayParis()" class="center">
+    <p *ngIf="!displayParis()" class="center noParis">
       Il n'y a pas de paris validés pour le moment ...
+    </p>
+
+    <p *ngIf="joueursLesPlusParies.length > 0" class="joueursLesPlusParies">
+      <b>Joueurs les plus pariés :</b> {{ joueursLesPlusParies.join(", ") }}
     </p>
 
     <table *ngIf="displayParis()">

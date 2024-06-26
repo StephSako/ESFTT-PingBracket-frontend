@@ -51,7 +51,9 @@
               disabledMatChip ||
               isMatchLocked()
             "
-            (click)="onClickJoueur(joueur._id._id)"
+            (click)="
+              onClickJoueur({ _id: joueur._id._id, nom: joueur._id.nom })
+            "
             [class]="
               'ngtt__team-title ' +
               isClickable() +

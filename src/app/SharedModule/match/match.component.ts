@@ -20,6 +20,7 @@ import {
   InfosParisJoueurInterface,
 } from 'src/app/Interface/Pari';
 import { TableauState } from '../TableauState.enum';
+import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 
 @Component({
   selector: 'app-match',
@@ -96,7 +97,7 @@ export class MatchComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClickJoueur(winnerId: string): void {
+  onClickJoueur(winner: IdNomInterface): void {
     this.toogleDisablers();
 
     // Ne pas pouvoir modifier le résultat du match si le résultat a déjà été renseigné ou si le pari a déjà été effectué
@@ -111,23 +112,24 @@ export class MatchComponent implements OnInit, OnDestroy {
         (this.isPari && !this.pariMatch && !this.isMatchLocked()))
     ) {
       if (this.isPari) {
-        this.parierWinner(winnerId);
+        this.parierWinner(winner);
       } else {
-        this.setWinner(winnerId);
+        this.setWinner(winner._id);
       }
     } else {
       this.toogleDisablers();
     }
   }
 
-  parierWinner(winnerId: string): void {
+  parierWinner(winner: IdNomInterface): void {
     const pariFromMatch: PariInterface = {
       id_tableau: {
         _id: this.tableau._id,
         nom: this.tableau.nom,
+        format: this.tableau.format,
       },
       phase: this.phase,
-      id_gagnant: winnerId,
+      id_gagnant: winner,
       id_match: this.match.id,
       round: this.match.round,
     };
@@ -278,11 +280,11 @@ export class MatchComponent implements OnInit, OnDestroy {
     if (this.isPari && this.pariMatch) {
       return {
         color:
-          idJoueur === this.pariMatch?.id_gagnant
+          idJoueur === this.pariMatch?.id_gagnant._id
             ? 'pari-winner'
             : 'pari-looser',
         icon:
-          idJoueur === this.pariMatch?.id_gagnant
+          idJoueur === this.pariMatch?.id_gagnant._id
             ? 'thumb_up_alt'
             : 'thumb_down',
       };

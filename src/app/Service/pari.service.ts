@@ -134,7 +134,7 @@ export class PariService {
           let ptsGagnePerdu = 0;
           let isPariCorrect = match.joueurs.find(
             (joueur: JoueurMatchInterface) =>
-              joueur._id._id === paris[indexPari].id_gagnant
+              joueur._id._id === paris[indexPari].id_gagnant._id
           ).winner;
           // Le pari est correct
           if (isPariCorrect) {
@@ -154,11 +154,11 @@ export class PariService {
 
           const joueurParié = match.joueurs.find(
             (joueur: JoueurMatchInterface) =>
-              joueur._id._id === paris[indexPari].id_gagnant
+              joueur._id._id === paris[indexPari].id_gagnant._id
           )._id.nom;
           const joueurNonParié = match.joueurs.find(
             (joueur: JoueurMatchInterface) =>
-              joueur._id._id !== paris[indexPari].id_gagnant
+              joueur._id._id !== paris[indexPari].id_gagnant._id
           )._id.nom;
 
           details.push(

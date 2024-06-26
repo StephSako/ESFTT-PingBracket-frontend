@@ -24,10 +24,11 @@
     "@angular/platform-browser-dynamic": "~10.1.6",
     "@angular/router": "~10.1.6",
     "@kolkov/angular-editor": "^1.1.4",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "ng-tournament-tree": "^2.0.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
-    "moment": "^2.29.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

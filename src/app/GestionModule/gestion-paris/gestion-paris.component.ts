@@ -1,5 +1,6 @@
 import {
   InfosParisJoueurInterface,
+  PariInterface,
   PariVainqueurTableauResult,
   ResultatPariJoueur,
 } from 'src/app/Interface/Pari';
@@ -11,6 +12,7 @@ import { DetailsParisComponent } from './details-paris/details-paris.component';
 import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 import { DialogPrintListComponent } from 'src/app/SharedModule/dialog-print-list/dialog-print-list';
 import { NotifyService } from 'src/app/Service/notify.service';
+import * as _ from 'lodash';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -20,6 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class GestionParisComponent implements OnInit {
   public classementGeneral: ResultatPariJoueur[] = [];
+  public joueursLesPlusParies: string[] = [];
   public noParis = false;
   @Input() allIdentifiantsJoueurs: IdNomInterface[] = [];
 
@@ -37,6 +40,24 @@ export class GestionParisComponent implements OnInit {
   getClassementGeneral(refresh: boolean): void {
     this.pariService.getGeneralResult().subscribe(
       (generalResults: ResponseGetAllParisBrackets) => {
+        // On détermine les joueurs les plus pariés
+        let tri = _.countBy(
+          _.flatten(
+            generalResults.parisJoueurs
+              .map((infosParis: InfosParisJoueurInterface) => infosParis.paris)
+              .filter((paris: PariInterface[]) => paris.length > 0)
+          )
+            .filter(
+              (pari: PariInterface) => pari.id_tableau.format === 'simple'
+            )
+            .map((pari: PariInterface) => pari.id_gagnant.nom)
+        );
+        const nbMaxPari = _.max(Object.values(tri), (nb) => nb);
+        const joueursLesPlusParies = Object.keys(tri).filter(
+          (v) => tri[v] === nbMaxPari
+        );
+        this.joueursLesPlusParies = joueursLesPlusParies;
+
         this.classementGeneral = [];
         if (
           generalResults.parisJoueurs.filter(
@@ -72,15 +93,15 @@ export class GestionParisComponent implements OnInit {
             }
             return 0;
           });
+        }
 
-          if (refresh) {
-            this.notifyService.notifyUser(
-              'Classement général des paris mis à jour',
-              this.snackBar,
-              'success',
-              'OK'
-            );
-          }
+        if (refresh) {
+          this.notifyService.notifyUser(
+            'Classement général des paris mis à jour',
+            this.snackBar,
+            'success',
+            'OK'
+          );
         }
       },
       (err) => {

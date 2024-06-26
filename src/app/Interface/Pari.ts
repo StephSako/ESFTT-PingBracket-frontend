@@ -1,4 +1,4 @@
-import { IdNomInterface } from './IdNomInterface';
+import { IdNomFormatInterface, IdNomInterface } from './IdNomInterface';
 
 export interface InfosParisJoueurInterface {
   _id: string;
@@ -8,8 +8,8 @@ export interface InfosParisJoueurInterface {
 }
 
 export interface PariInterface {
-  id_gagnant: string;
-  id_tableau: IdNomInterface;
+  id_gagnant: IdNomInterface;
+  id_tableau: IdNomFormatInterface;
   phase: string;
   id_match: number;
   round: number;
