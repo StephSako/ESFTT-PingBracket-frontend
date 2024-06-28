@@ -166,11 +166,11 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   getNomParieur(): string {
-    return this.accountService.getParieur().nom;
+    return this.accountService.getParieur()?.nom;
   }
 
   getIdParieur(): string {
-    return this.accountService.getParieur()._id;
+    return this.accountService.getParieur()?._id;
   }
 
   logout(): void {
@@ -189,7 +189,7 @@ export class ParierComponent implements OnInit, OnDestroy {
         id_tableau,
         !this.infosParisJoueur.pronos_vainqueurs.find(
           (pronoVainqueurTableau: PronoVainqueur) =>
-            pronoVainqueurTableau.id_tableau === id_tableau
+            pronoVainqueurTableau.id_tableau._id === id_tableau
         )
       )
       .subscribe(
@@ -210,7 +210,7 @@ export class ParierComponent implements OnInit, OnDestroy {
     let pronoVainqueurTableauSearch =
       this.infosParisJoueur.pronos_vainqueurs.find(
         (pronoVainqueurTableau: PronoVainqueur) =>
-          pronoVainqueurTableau.id_tableau === id_tableau
+          pronoVainqueurTableau.id_tableau._id === id_tableau
       );
     return pronoVainqueurTableauSearch
       ? pronoVainqueurTableauSearch.id_gagnant

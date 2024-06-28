@@ -2,6 +2,7 @@ import {
   InfosParisJoueurInterface,
   PariInterface,
   PariVainqueurTableauResult,
+  PronoVainqueur,
   ResultatPariJoueur,
 } from 'src/app/Interface/Pari';
 import { Component, Input, OnInit } from '@angular/core';
@@ -22,7 +23,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class GestionParisComponent implements OnInit {
   public classementGeneral: ResultatPariJoueur[] = [];
-  public joueursLesPlusParies: string[] = [];
+  public joueursLesPlusPariesMatches: any[] = [];
+  public joueursLesPlusPariesVainqueur: any[] = [];
   public noParis = false;
   @Input() allIdentifiantsJoueurs: IdNomInterface[] = [];
 
@@ -40,24 +42,6 @@ export class GestionParisComponent implements OnInit {
   getClassementGeneral(refresh: boolean): void {
     this.pariService.getGeneralResult().subscribe(
       (generalResults: ResponseGetAllParisBrackets) => {
-        // On détermine les joueurs les plus pariés
-        let tri = _.countBy(
-          _.flatten(
-            generalResults.parisJoueurs
-              .map((infosParis: InfosParisJoueurInterface) => infosParis.paris)
-              .filter((paris: PariInterface[]) => paris.length > 0)
-          )
-            .filter(
-              (pari: PariInterface) => pari.id_tableau.format === 'simple'
-            )
-            .map((pari: PariInterface) => pari.id_gagnant.nom)
-        );
-        const nbMaxPari = _.max(Object.values(tri), (nb) => nb);
-        const joueursLesPlusParies = Object.keys(tri).filter(
-          (v) => tri[v] === nbMaxPari
-        );
-        this.joueursLesPlusParies = joueursLesPlusParies;
-
         this.classementGeneral = [];
         if (
           generalResults.parisJoueurs.filter(
@@ -68,6 +52,79 @@ export class GestionParisComponent implements OnInit {
         ) {
           this.noParis = true;
         } else {
+          // On détermine les joueurs les plus pariés dans les matches ...
+          this.joueursLesPlusPariesMatches = [];
+          this.joueursLesPlusPariesVainqueur = [];
+
+          let triJoueursLesPlusPariesMatches = _.countBy(
+            _.flatten(
+              generalResults.parisJoueurs
+                .map(
+                  (infosParis: InfosParisJoueurInterface) => infosParis.paris
+                )
+                .filter((paris: PariInterface[]) => paris.length > 0)
+            )
+              .filter(
+                (pari: PariInterface) => pari.id_tableau.format === 'simple'
+              )
+              .map((pari: PariInterface) => pari.id_gagnant.nom)
+          );
+
+          Object.keys(triJoueursLesPlusPariesMatches).forEach((joueur) => {
+            this.joueursLesPlusPariesMatches.push({
+              nom: joueur,
+              nbParis: triJoueursLesPlusPariesMatches[joueur],
+            });
+          });
+
+          this.joueursLesPlusPariesMatches.sort((a, b) => {
+            if (a.nbParis < b.nbParis) {
+              return 1;
+            } else if (a.nbParis > b.nbParis) {
+              return -1;
+            }
+            return 0;
+          });
+
+          // ... et ceux en tant que vainqueur
+          let triJoueursLesPlusPariesVainqueur = _.countBy(
+            _.flatten(
+              generalResults.parisJoueurs
+                .map(
+                  (infosParis: InfosParisJoueurInterface) =>
+                    infosParis.pronos_vainqueurs
+                )
+                .filter(
+                  (pronos_vainqueurs: PronoVainqueur[]) =>
+                    pronos_vainqueurs.length > 0
+                )
+            )
+              .filter(
+                (prono_vainqueur: PronoVainqueur) =>
+                  prono_vainqueur.id_tableau.format === 'simple'
+              )
+              .map(
+                (prono_vainqueur: PronoVainqueur) =>
+                  prono_vainqueur.id_gagnant.nom
+              )
+          );
+
+          Object.keys(triJoueursLesPlusPariesVainqueur).forEach((joueur) => {
+            this.joueursLesPlusPariesVainqueur.push({
+              nom: joueur,
+              nbParis: triJoueursLesPlusPariesVainqueur[joueur],
+            });
+          });
+
+          this.joueursLesPlusPariesVainqueur.sort((a, b) => {
+            if (a.nbParis < b.nbParis) {
+              return 1;
+            } else if (a.nbParis > b.nbParis) {
+              return -1;
+            }
+            return 0;
+          });
+
           generalResults.parisJoueurs.forEach(
             (infosParisJoueurs: InfosParisJoueurInterface) => {
               let resultat = this.pariService.calculateScoreTableauPhase(

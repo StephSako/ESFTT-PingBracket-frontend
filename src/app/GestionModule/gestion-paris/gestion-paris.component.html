@@ -23,9 +23,40 @@
       Il n'y a pas de paris validés pour le moment ...
     </p>
 
-    <p *ngIf="joueursLesPlusParies.length > 0" class="joueursLesPlusParies">
-      <b>Joueurs les plus pariés :</b> {{ joueursLesPlusParies.join(", ") }}
-    </p>
+    <div *ngIf="displayParis()">
+      <p
+        *ngIf="joueursLesPlusPariesMatches.length > 0"
+        class="joueursLesPlusParies"
+      >
+        <b>Joueurs les plus pariés dans les matches : </b>
+        <span
+          *ngFor="
+            let joueurParie of joueursLesPlusPariesMatches;
+            let index = index
+          "
+          >{{ joueurParie.nom }} ({{ joueurParie.nbParis }})<span
+            *ngIf="index + 1 < joueursLesPlusPariesMatches.length"
+            >,
+          </span></span
+        >
+      </p>
+      <p
+        *ngIf="joueursLesPlusPariesVainqueur.length > 0"
+        class="joueursLesPlusParies"
+      >
+        <b>Joueurs les plus pariés en tant que vainqueur : </b>
+        <span
+          *ngFor="
+            let joueurParie of joueursLesPlusPariesVainqueur;
+            let index = index
+          "
+          >{{ joueurParie.nom }} ({{ joueurParie.nbParis }})<span
+            *ngIf="index + 1 < joueursLesPlusPariesVainqueur.length"
+            >,
+          </span></span
+        >
+      </p>
+    </div>
 
     <table *ngIf="displayParis()">
       <thead>
