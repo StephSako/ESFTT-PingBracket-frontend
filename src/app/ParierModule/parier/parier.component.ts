@@ -64,9 +64,7 @@ export class ParierComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle('Tournoi ESFTT - Parier');
 
-    if (this.isParieurLoggedIn()) {
-      this.getParisAndBracket();
-    }
+    this.getParisAndBracket();
 
     this.tableauService.getPariables().subscribe(
       (tableauxPariables: PariableTableauInterface[]) => {
@@ -158,11 +156,13 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   getParisAndBracket(): void {
-    this.pariService
-      .getAllParisJoueur(this.accountService.getParieur()._id)
-      .subscribe((infosParisJoueur: InfosParisJoueurInterface) => {
-        this.infosParisJoueur = infosParisJoueur;
-      });
+    if (this.isParieurLoggedIn()) {
+      this.pariService
+        .getAllParisJoueur(this.accountService.getParieur()._id)
+        .subscribe((infosParisJoueur: InfosParisJoueurInterface) => {
+          this.infosParisJoueur = infosParisJoueur;
+        });
+    }
   }
 
   getNomParieur(): string {
