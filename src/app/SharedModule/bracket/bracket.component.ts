@@ -1,21 +1,19 @@
+import { TableauInterface } from './../../Interface/Tableau';
 import { AppService } from './../../app.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Dialog } from '../../Interface/Dialog';
 import { DialogComponent } from '../../SharedModule/dialog/dialog.component';
 import { BracketService } from '../../Service/bracket.service';
 import { MatDialog } from '@angular/material/dialog';
-import { TableauInterface } from '../../Interface/Tableau';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifyService } from '../../Service/notify.service';
 import { BracketInterface } from 'src/app/Interface/Bracket';
 import { TableauState } from 'src/app/SharedModule/TableauState.enum';
-import {
-  InfosParisJoueurInterface,
-  PronoVainqueur,
-} from 'src/app/Interface/Pari';
+import { InfosParisJoueurInterface } from 'src/app/Interface/Pari';
 import { ResponseGetBracket } from 'src/app/Interface/ResponseGetBracket';
 import { AccountService } from 'src/app/Service/account.service';
 import { PariService } from 'src/app/Service/pari.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bracket',
@@ -30,8 +28,8 @@ export class BracketComponent implements OnInit, OnDestroy {
     id_pronostiqueur: null,
     paris: [],
   };
-  @Input() phase: string;
-  @Input() tableau: TableauInterface = {
+  @Input() phase: string | any;
+  @Input() tableau: TableauInterface | any = {
     _id: null,
     nom: null,
     poules: null,
@@ -56,9 +54,10 @@ export class BracketComponent implements OnInit, OnDestroy {
     ptsPerdusParisLB: null,
   };
   spinnerShown: boolean;
-  idTableau: string;
+  hideBracket = false;
   public bracket: BracketInterface;
   private intervalUpdateMatches = null;
+  private tableauxSubscription: Subscription;
 
   constructor(
     private bracketService: BracketService,
@@ -73,11 +72,11 @@ export class BracketComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.isPari = false;
     clearInterval(this.intervalUpdateMatches);
+    this.tableauxSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
     this.spinnerShown = false;
-    this.idTableau = this.tableau._id;
     this.getBracket();
 
     if (this.isPari) {
@@ -86,6 +85,15 @@ export class BracketComponent implements OnInit, OnDestroy {
         this.getBracket();
       }, 5000);
     }
+
+    this.tableauxSubscription = this.bracketService.updateBracket.subscribe(
+      () => {
+        this.hideBracket = true;
+        setTimeout(() => {
+          this.getBracket();
+        }, 500);
+      }
+    );
   }
 
   generateBracket(): void {
@@ -123,7 +131,9 @@ export class BracketComponent implements OnInit, OnDestroy {
               this.tableau.consolantePariable
             )
             .subscribe(
-              () => this.getBracket(),
+              () => {
+                this.getBracket();
+              },
               (err) => {
                 this.spinnerShown = false;
                 this.bracket = null;
@@ -150,7 +160,7 @@ export class BracketComponent implements OnInit, OnDestroy {
 
     this.bracketService
       .getBracket(
-        this.idTableau,
+        this.tableau._id,
         this.phase,
         this.isPari && !!this.accountService.getParieur(),
         this.accountService.getParieur()?._id
@@ -181,10 +191,12 @@ export class BracketComponent implements OnInit, OnDestroy {
             );
           }
 
+          this.hideBracket = false;
           this.spinnerShown = false;
         },
         (err) => {
           this.spinnerShown = false;
+          this.hideBracket = false;
           this.notifyService.notifyUser(
             err.error,
             this.snackBar,

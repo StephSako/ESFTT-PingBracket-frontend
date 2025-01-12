@@ -56,7 +56,7 @@ export class GestionParisComponent implements OnInit {
           this.joueursLesPlusPariesMatches = [];
           this.joueursLesPlusPariesVainqueur = [];
 
-          let triJoueursLesPlusPariesMatches = _.countBy(
+          const triJoueursLesPlusPariesMatches = _.countBy(
             _.flatten(
               generalResults.parisJoueurs
                 .map(
@@ -87,7 +87,7 @@ export class GestionParisComponent implements OnInit {
           });
 
           // ... et ceux en tant que vainqueur
-          let triJoueursLesPlusPariesVainqueur = _.countBy(
+          const triJoueursLesPlusPariesVainqueur = _.countBy(
             _.flatten(
               generalResults.parisJoueurs
                 .map(
@@ -127,7 +127,7 @@ export class GestionParisComponent implements OnInit {
 
           generalResults.parisJoueurs.forEach(
             (infosParisJoueurs: InfosParisJoueurInterface) => {
-              let resultat = this.pariService.calculateScoreTableauPhase(
+              const resultat = this.pariService.calculateScoreTableauPhase(
                 generalResults.brackets,
                 infosParisJoueurs.paris,
                 infosParisJoueurs.pronos_vainqueurs

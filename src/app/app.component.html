@@ -4,6 +4,7 @@
       *ngFor="let tableau of tableaux"
       mat-raised-button
       routerLinkActive="active"
+      (click)="refreshTableau(tableau)"
       [routerLink]="'/tableau/' + tableau._id"
     >
       <span

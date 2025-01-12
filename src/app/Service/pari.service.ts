@@ -89,7 +89,7 @@ export class PariService {
     pronos_vainqueurs: PronoVainqueur[]
   ): ResultatPariJoueur {
     let score = 0;
-    let details: string[] = [];
+    const details: string[] = [];
     let pariVainqueurTableau: PariVainqueurTableauResult = null;
 
     if (paris.length === 0 && pronos_vainqueurs.length === 0) {
@@ -101,7 +101,7 @@ export class PariService {
     }
 
     paris.sort((a, b) => {
-      if (a.id_tableau._id == b.id_tableau._id) {
+      if (a.id_tableau._id === b.id_tableau._id) {
         return a.round > b.round ? -1 : a.round < b.round ? 1 : 0;
       } else {
         return a.id_tableau._id.concat(a.phase) <
@@ -112,7 +112,7 @@ export class PariService {
     });
 
     rounds.forEach((round: RoundInterface) => {
-      let matches = round.matches.filter(
+      const matches = round.matches.filter(
         (match: MatchInterface) =>
           match.joueurs.length === 2 &&
           match.joueurs.filter(
@@ -122,7 +122,7 @@ export class PariService {
       );
 
       matches.forEach((match: MatchInterface) => {
-        let indexPari = paris.findIndex(
+        const indexPari = paris.findIndex(
           (pari: PariInterface) =>
             pari.id_tableau._id === round.tableau._id &&
             pari.phase === round.phase &&
@@ -132,7 +132,7 @@ export class PariService {
 
         if (indexPari !== -1) {
           let ptsGagnePerdu = 0;
-          let isPariCorrect = match.joueurs.find(
+          const isPariCorrect = match.joueurs.find(
             (joueur: JoueurMatchInterface) =>
               joueur._id._id === paris[indexPari].id_gagnant._id
           ).winner;
@@ -194,13 +194,13 @@ export class PariService {
 
       // On donne les points du pari sur le vainqueur du tableau
       if (round.round === 1 && round.phase === 'finale') {
-        let pronoVainqueurTableauSearch: PronoVainqueur =
+        const pronoVainqueurTableauSearch: PronoVainqueur =
           pronos_vainqueurs.find(
             (pronoVainqueurTableau: PronoVainqueur) =>
               pronoVainqueurTableau.id_tableau._id === round.tableau._id
           );
 
-        let finale: MatchInterface = round.matches.find(
+        const finale: MatchInterface = round.matches.find(
           (match: MatchInterface) =>
             match.joueurs.length === 2 &&
             match.joueurs.filter(
@@ -210,13 +210,13 @@ export class PariService {
         );
 
         if (finale && pronoVainqueurTableauSearch) {
-          let vainqueurTableau = finale.joueurs.find(
+          const vainqueurTableau = finale.joueurs.find(
             (joueur: JoueurMatchInterface) => joueur.winner
           )._id;
-          let pronoVainqueurCorrect =
+          const pronoVainqueurCorrect =
             pronoVainqueurTableauSearch.id_gagnant._id === vainqueurTableau._id;
 
-          let ptsGagnePerduVainqueur = pronoVainqueurCorrect
+          const ptsGagnePerduVainqueur = pronoVainqueurCorrect
             ? round.tableau.ptsGagnesParisVainqueur
             : round.tableau.ptsPerdusParisVainqueur;
 
@@ -258,11 +258,11 @@ export class PariService {
       }
     });
     return {
-      score: score,
-      details: details,
+      score,
+      details,
       parisVainqueursTableauxResults: [pariVainqueurTableau].filter(
-        (pariVainqueurTableau: PariVainqueurTableauResult) =>
-          pariVainqueurTableau !== null
+        (pariVainqueurTableauFilter: PariVainqueurTableauResult) =>
+          pariVainqueurTableauFilter !== null
       ),
     };
   }
@@ -271,7 +271,7 @@ export class PariService {
     tableauxPariables: PariableTableauInterface[]
   ): void {
     tableauxPariables.forEach((tableauPariable: PariableTableauInterface) => {
-      let findIndexTableauPhaseFinale = this.scoresParTableauPhase.findIndex(
+      const findIndexTableauPhaseFinale = this.scoresParTableauPhase.findIndex(
         (scoreParTableauPhase: ScoreTableauPhaseInterface) =>
           scoreParTableauPhase.tableau._id === tableauPariable.tableau._id &&
           scoreParTableauPhase.phase === 'finale'
@@ -294,7 +294,7 @@ export class PariService {
         tableauPariable.tableau.consolante &&
         tableauPariable.tableau.consolantePariable
       ) {
-        let findIndexTableauPhaseConsolante =
+        const findIndexTableauPhaseConsolante =
           this.scoresParTableauPhase.findIndex(
             (scoreParTableauPhase: ScoreTableauPhaseInterface) =>
               scoreParTableauPhase.tableau._id ===
@@ -320,7 +320,7 @@ export class PariService {
     // On clean scoresParTableauPhase si des tableaux ont été supprimés ou rendus non pariables
     this.scoresParTableauPhase.forEach(
       (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
-        let indexSearchFinale = tableauxPariables.findIndex(
+        const indexSearchFinale = tableauxPariables.findIndex(
           (tableauPariable: PariableTableauInterface) =>
             tableauPariable.tableau._id === scoreParTableauPhase.tableau._id
         );
@@ -328,7 +328,7 @@ export class PariService {
           delete this.scoresParTableauPhase[indexSearchFinale];
         }
 
-        let indexSearchConsolante = tableauxPariables.findIndex(
+        const indexSearchConsolante = tableauxPariables.findIndex(
           (tableauPariable: PariableTableauInterface) =>
             tableauPariable.tableau._id === scoreParTableauPhase.tableau._id &&
             scoreParTableauPhase.phase === 'consolante' &&
@@ -391,7 +391,7 @@ export class PariService {
   }
 
   getScoreGeneral(): void {
-    let resultatJoueur: ResultatPariJoueur = {
+    const resultatJoueur: ResultatPariJoueur = {
       details: [],
       score: 0,
       parisVainqueursTableauxResults: [],
@@ -399,7 +399,7 @@ export class PariService {
 
     this.scoresParTableauPhase.forEach(
       (scoreParTableauPhase: ScoreTableauPhaseInterface) => {
-        let resultatPariJoueur: ResultatPariJoueur =
+        const resultatPariJoueur: ResultatPariJoueur =
           this.calculateScoreTableauPhase(
             scoreParTableauPhase.rounds,
             scoreParTableauPhase.paris,

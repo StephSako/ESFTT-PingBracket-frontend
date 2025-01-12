@@ -8,13 +8,11 @@ import { Dialog } from 'src/app/Interface/Dialog';
   styleUrls: ['./dialog-print-list.scss'],
 })
 export class DialogPrintListComponent {
-  public submitBtnDisabled = false;
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: Dialog) {}
 
   printDiv(): void {
-    let divToPrint = document.getElementById('divToPrint');
-    let newWin = window.open('_');
+    const divToPrint = document.getElementById('divToPrint');
+    const newWin = window.open('_');
     newWin.document.write(divToPrint.outerHTML);
   }
 }

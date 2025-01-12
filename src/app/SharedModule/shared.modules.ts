@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NgTournamentTreeModule } from 'ng-tournament-tree';
 import { MatChipsModule } from '@angular/material/chips';
 import { DialogPrintListComponent } from './dialog-print-list/dialog-print-list';
+import { DialogPrintPouleComponent } from './dialog-print-poule/dialog-print-poule.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DialogPrintListComponent } from './dialog-print-list/dialog-print-list'
     MatchComponent,
     DialogComponent,
     DialogPrintListComponent,
+    DialogPrintPouleComponent,
     NoSanitizePipe,
   ],
   imports: [

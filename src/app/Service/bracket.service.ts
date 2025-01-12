@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class BracketService {
   private baseURL = environment.endpointNodeApi + 'bracket/';
+  public updateBracket: EventEmitter<void> = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
@@ -89,7 +90,7 @@ export class BracketService {
     );
   }
 
-  getLibelleRound(round: number, idMatch: number) {
+  getLibelleRound(round: number, idMatch: number): string {
     switch (round) {
       case 1:
         return idMatch === 1 ? 'Finale' : 'Petite finale';

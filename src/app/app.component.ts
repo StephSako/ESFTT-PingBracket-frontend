@@ -1,3 +1,4 @@
+import { BracketService } from './Service/bracket.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TableauInterface } from './Interface/Tableau';
 import { TableauService } from './Service/tableau.service';
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public appService: AppService,
     public accountService: AccountService,
     private tableauService: TableauService,
+    private bracketService: BracketService,
     private snackBar: MatSnackBar,
     private notifyService: NotifyService
   ) {}
@@ -61,5 +63,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   showTypeLicence(idTypeLicence: number): string {
     return this.tableauService.showTypeLicence(idTypeLicence);
+  }
+
+  refreshTableau(tableau: TableauInterface): void {
+    if (
+      tableau.is_launched === this.appService.getTableauState().BracketState
+    ) {
+      this.bracketService.updateBracket.emit();
+    }
   }
 }

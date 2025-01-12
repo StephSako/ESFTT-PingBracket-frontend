@@ -39,7 +39,7 @@
   <i>Le bracket n'a pas été généré</i>
 </span>
 
-<ng-container *ngIf="bracket?.rounds.length">
+<ng-container *ngIf="bracket?.rounds.length && !hideBracket">
   <div *ngIf="isPari">
     <mat-card class="cardPointsParis center">
       <mat-icon class="center">info</mat-icon>
@@ -67,6 +67,7 @@
       >Scrollez vers la droite pour voir les prochains matches</span
     >
   </div>
+
   <ngtt-single-elimination-tree
     [tournament]="bracket"
     [matchTemplate]="matchTemplate"

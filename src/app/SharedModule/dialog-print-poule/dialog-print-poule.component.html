@@ -1,0 +1,145 @@
+<div mat-dialog-content>
+  <button
+    id="printButton"
+    class="center"
+    mat-flat-button
+    color="primary"
+    (click)="printDiv()"
+  >
+    <mat-icon>print</mat-icon>
+  </button>
+  <div mat-dialog-actions class="center">
+    <button mat-button mat-dialog-close>OK</button>
+  </div>
+
+  <div id="divToPrint">
+    <div *ngFor="let poule of poules; let indexPoule = index">
+      <h2>Poule n°{{ indexPoule + 1 }}</h2>
+
+      <table style="width: fit-content; border-collapse: collapse">
+        <tr>
+          <th style="border: 1px solid black; padding: 5px">N°</th>
+          <th style="border: 1px solid black; padding: 5px">Joueurs</th>
+          <th style="border: 1px solid black; padding: 5px">Points</th>
+        </tr>
+        <tr *ngFor="let joueur of poule.participants; let indexJoueur = index">
+          <td style="border: 1px solid black; padding: 5px">
+            {{ indexJoueur + 1 }}
+          </td>
+          <td style="border: 1px solid black; padding: 5px">
+            {{ getNomlibelleParticipant(joueur) }}
+          </td>
+          <td style="border: 1px solid black; padding: 5px">
+            {{ joueur.classement === 0 ? "LOISIR" : joueur.classement }}
+          </td>
+        </tr>
+      </table>
+      <br />
+
+      <table
+        [style]="
+          'width: fit-content;border-collapse: collapse;page-break-after: ' +
+          ((indexPoule + 1) % (getMaxJoueursPoules() > 5 ? 1 : 2) == 0
+            ? 'always'
+            : 'avoid')
+        "
+      >
+        <tr>
+          <th style="border: 1px solid black">Parties</th>
+          <th colspan="2" style="border: 1px solid black">Contre</th>
+          <th style="border: 1px solid black; width: 50px; padding: 5px">
+            set 1
+          </th>
+          <th style="border: 1px solid black; width: 50px; padding: 5px">
+            set 2
+          </th>
+          <th style="border: 1px solid black; width: 50px; padding: 5px">
+            set 3
+          </th>
+          <th
+            style="border: 1px solid black; width: 40px; padding: 5px"
+            *ngFor="
+              let joueur of poule.participants;
+              let indexJoueurCaseTh = index
+            "
+          >
+            {{ indexJoueurCaseTh + 1 }}
+          </th>
+        </tr>
+        <tr
+          *ngFor="
+            let partie of getOrdreMatches(poule.participants.length).ordre
+          "
+        >
+          <td
+            style="border: 1px solid black; padding: 5px; white-space: nowrap"
+          >
+            {{ partie[0] }} contre {{ partie[1] }}
+          </td>
+          <td
+            style="border: 1px solid black; padding: 5px; white-space: nowrap"
+          >
+            {{ getNomlibelleParticipant(poule.participants[partie[0] - 1]) }}
+            <span *ngIf="hasTableauHandicap"
+              ><b>{{
+                getHandicap(
+                  poule.participants[partie[0] - 1].classement,
+                  poule.participants[partie[1] - 1].classement
+                )[0]
+              }}</b></span
+            >
+          </td>
+          <td
+            style="border: 1px solid black; padding: 5px; white-space: nowrap"
+          >
+            {{ getNomlibelleParticipant(poule.participants[partie[1] - 1]) }}
+            <span *ngIf="hasTableauHandicap"
+              ><b>{{
+                getHandicap(
+                  poule.participants[partie[0] - 1].classement,
+                  poule.participants[partie[1] - 1].classement
+                )[1]
+              }}</b></span
+            >
+          </td>
+          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black"></td>
+          <td
+            [id]="indexJoueurCase + 1"
+            [style]="
+              '-webkit-print-color-adjust: exact;print-color-adjust: exact;border: 1px solid black; background-color:' +
+              griserCase(partie, indexJoueurCase)
+            "
+            *ngFor="
+              let joueur of poule.participants;
+              let indexJoueurCase = index
+            "
+          ></td>
+        </tr>
+        <tr>
+          <td style="border: 0; padding: 5px"></td>
+          <td></td>
+          <td></td>
+          <td colspan="3" style="text-align: right; padding: 5px">Total</td>
+          <td
+            style="border: 1px solid black"
+            *ngFor="let joueur of poule.participants"
+          ></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td colspan="3" style="text-align: right; padding: 5px">
+            Classement
+          </td>
+          <td
+            style="border: 1px solid black"
+            *ngFor="let joueur of poule.participants"
+          ></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

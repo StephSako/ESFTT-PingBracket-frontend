@@ -90,7 +90,7 @@ export class ParierComponent implements OnInit, OnDestroy {
         if (tableauxPariablesResponse !== null) {
           this.tableauxPariables.forEach(
             (tableauPariable: PariableTableauInterface, index: number) => {
-              let indexSearchTableau = tableauxPariablesResponse.findIndex(
+              const indexSearchTableau = tableauxPariablesResponse.findIndex(
                 (tableauPariableResponse: TableauInterface) =>
                   tableauPariable.tableau._id === tableauPariableResponse._id
               );
@@ -207,7 +207,7 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   getPronoVainqueurTableau(id_tableau: string): IdNomInterface | null {
-    let pronoVainqueurTableauSearch =
+    const pronoVainqueurTableauSearch =
       this.infosParisJoueur.pronos_vainqueurs.find(
         (pronoVainqueurTableau: PronoVainqueur) =>
           pronoVainqueurTableau.id_tableau._id === id_tableau
