@@ -64,9 +64,7 @@ export class ParierComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle('Tournoi ESFTT - Parier');
 
-    if (this.isParieurLoggedIn()) {
-      this.getParisAndBracket();
-    }
+    this.getParisAndBracket();
 
     this.tableauService.getPariables().subscribe(
       (tableauxPariables: PariableTableauInterface[]) => {
@@ -158,19 +156,21 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   getParisAndBracket(): void {
-    this.pariService
-      .getAllParisJoueur(this.accountService.getParieur()._id)
-      .subscribe((infosParisJoueur: InfosParisJoueurInterface) => {
-        this.infosParisJoueur = infosParisJoueur;
-      });
+    if (this.isParieurLoggedIn()) {
+      this.pariService
+        .getAllParisJoueur(this.accountService.getParieur()._id)
+        .subscribe((infosParisJoueur: InfosParisJoueurInterface) => {
+          this.infosParisJoueur = infosParisJoueur;
+        });
+    }
   }
 
   getNomParieur(): string {
-    return this.accountService.getParieur().nom;
+    return this.accountService.getParieur()?.nom;
   }
 
   getIdParieur(): string {
-    return this.accountService.getParieur()._id;
+    return this.accountService.getParieur()?._id;
   }
 
   logout(): void {
@@ -189,7 +189,7 @@ export class ParierComponent implements OnInit, OnDestroy {
         id_tableau,
         !this.infosParisJoueur.pronos_vainqueurs.find(
           (pronoVainqueurTableau: PronoVainqueur) =>
-            pronoVainqueurTableau.id_tableau === id_tableau
+            pronoVainqueurTableau.id_tableau._id === id_tableau
         )
       )
       .subscribe(
@@ -210,7 +210,7 @@ export class ParierComponent implements OnInit, OnDestroy {
     let pronoVainqueurTableauSearch =
       this.infosParisJoueur.pronos_vainqueurs.find(
         (pronoVainqueurTableau: PronoVainqueur) =>
-          pronoVainqueurTableau.id_tableau === id_tableau
+          pronoVainqueurTableau.id_tableau._id === id_tableau
       );
     return pronoVainqueurTableauSearch
       ? pronoVainqueurTableauSearch.id_gagnant

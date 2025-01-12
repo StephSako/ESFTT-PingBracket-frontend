@@ -197,7 +197,7 @@ export class PariService {
         let pronoVainqueurTableauSearch: PronoVainqueur =
           pronos_vainqueurs.find(
             (pronoVainqueurTableau: PronoVainqueur) =>
-              pronoVainqueurTableau.id_tableau === round.tableau._id
+              pronoVainqueurTableau.id_tableau._id === round.tableau._id
           );
 
         let finale: MatchInterface = round.matches.find(

@@ -17,7 +17,7 @@ export interface PariInterface {
 
 export interface PronoVainqueur {
   id_gagnant: IdNomInterface;
-  id_tableau: string;
+  id_tableau: IdNomFormatInterface;
 }
 
 export interface ResultatPariJoueur {

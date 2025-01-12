@@ -89,8 +89,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
         this.joueur.tableaux.sort((tableau1, tableau2) => {
           if (tableau1.nom < tableau2.nom) {
             return -1;
-          }
-          if (tableau1.nom > tableau2.nom) {
+          } else if (tableau1.nom > tableau2.nom) {
             return 1;
           }
           return 0;
