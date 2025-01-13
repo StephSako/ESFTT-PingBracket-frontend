@@ -1,4 +1,6 @@
 <div class="ngtt__match-wrapper">
+  <p *ngIf="getLibelleRound()" class="libelleRound">{{ getLibelleRound() }}s</p>
+
   <button
     mat-icon-button
     color="warn"

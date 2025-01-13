@@ -450,4 +450,10 @@ export class MatchComponent implements OnInit, OnDestroy {
     this.disabledCancelButton = !this.disabledCancelButton;
     this.disabledLockToBets = !this.disabledLockToBets;
   }
+
+  getLibelleRound(): string | null {
+    return this.match.id === 1
+      ? this.bracketService.getLibelleRound(this.match.round, this.match.id)
+      : null;
+  }
 }
