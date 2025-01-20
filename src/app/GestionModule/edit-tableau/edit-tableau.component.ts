@@ -353,6 +353,7 @@ export class EditTableauComponent implements OnInit {
     this.tableau.palierConsolantes = this.value('palierConsolantes');
     this.tableau.palierQualifies = this.value('palierQualifies');
     this.tableau.pariable = this.value('pariable');
+    this.tableau.bracketPariable = this.value('bracketPariable');
     this.tableau.consolantePariable = this.value('pariable')
       ? this.value('consolantePariable')
       : false;
