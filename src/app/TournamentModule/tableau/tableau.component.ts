@@ -37,6 +37,7 @@ export class TableauComponent implements OnInit {
     hasChapeau: null,
     type_licence: null,
     pariable: null,
+    bracketPariable: null,
     consolantePariable: null,
     ptsGagnesParisVainqueur: null,
     ptsPerdusParisVainqueur: null,

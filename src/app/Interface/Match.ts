@@ -1,4 +1,5 @@
 import { JoueurInterface } from 'src/app/Interface/Joueur';
+import { RoundInterface } from './Bracket';
 
 export interface JoueurMatchInterface {
   _id: JoueurInterface;
@@ -11,4 +12,10 @@ export interface MatchInterface {
   isLockToBets: boolean;
   round: number;
   joueurs: JoueurMatchInterface[];
+}
+
+export interface TableauMatchInterface {
+  tableauId: string;
+  match: RoundInterface[];
+  phase: string;
 }

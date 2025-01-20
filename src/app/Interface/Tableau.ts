@@ -16,6 +16,7 @@ export interface TableauInterface {
   palierConsolantes: number;
   hasChapeau: boolean;
   pariable: boolean;
+  bracketPariable: boolean;
   consolantePariable: boolean;
   ptsGagnesParisVainqueur: number;
   ptsPerdusParisVainqueur: number;

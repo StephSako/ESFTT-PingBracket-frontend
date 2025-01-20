@@ -45,6 +45,7 @@ export class PouleComponent implements OnInit, OnDestroy {
     hasChapeau: null,
     type_licence: null,
     pariable: null,
+    bracketPariable: null,
     consolantePariable: null,
     ptsGagnesParisVainqueur: null,
     ptsPerdusParisVainqueur: null,

@@ -45,6 +45,7 @@ export class BracketComponent implements OnInit, OnDestroy {
     hasChapeau: null,
     type_licence: null,
     pariable: null,
+    bracketPariable: null,
     consolantePariable: null,
     ptsGagnesParisVainqueur: null,
     ptsPerdusParisVainqueur: null,
@@ -189,6 +190,12 @@ export class BracketComponent implements OnInit, OnDestroy {
             this.pariService.updateListeTableauxPariables.next(
               response.tableauxPariables
             );
+
+            this.pariService.updateMatchesTableaux.next({
+              tableauId: this.tableau._id,
+              match: response.bracket.rounds,
+              phase: this.phase,
+            });
           }
 
           this.hideBracket = false;

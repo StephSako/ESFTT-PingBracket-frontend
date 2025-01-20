@@ -9,7 +9,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { InfosParisJoueurInterface, PariInterface } from '../Interface/Pari';
 import { RoundInterface } from '../Interface/Bracket';
-import { JoueurMatchInterface, MatchInterface } from '../Interface/Match';
+import {
+  JoueurMatchInterface,
+  MatchInterface,
+  TableauMatchInterface,
+} from '../Interface/Match';
 import { ScoreTableauPhaseInterface } from '../Interface/ScoreTableau';
 import {
   PariableTableauInterface,
@@ -29,6 +33,7 @@ export class PariService {
   addPariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
   deletePariToListeParisMatches = new BehaviorSubject<PariInterface>(null);
   updateScorePariJoueur = new BehaviorSubject<ResultatPariJoueur>(null);
+  updateMatchesTableaux = new BehaviorSubject<TableauMatchInterface>(null);
 
   public scoresParTableauPhase: ScoreTableauPhaseInterface[] = [];
 
@@ -65,10 +70,11 @@ export class PariService {
     id_parieur: string,
     id_gagnant: string,
     id_tableau: string,
+    objectRef: string,
     creation_prono_vainqueur: boolean
   ): Observable<any> {
     return this.http.post(
-      `${this.baseURL}vainqueur/${id_tableau}/${id_gagnant}`,
+      `${this.baseURL}vainqueur/${id_tableau}/${id_gagnant}/${objectRef}`,
       {
         id_parieur,
         creation_prono_vainqueur,

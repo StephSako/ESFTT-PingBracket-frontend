@@ -70,7 +70,7 @@
       </p>
 
       <div class="container">
-        <mat-card class="center cardGrandGagnant">
+        <mat-card class="center">
           <mat-card class="cardPointsParis center">
             <mat-icon class="center">info</mat-icon>
             <p>
@@ -88,11 +88,17 @@
           <div
             *ngIf="
               tableauPariable.tableau.is_launched >
-              appService.getTableauState().PouleState
+                appService.getTableauState().PouleState &&
+              !grandVainqueurPariable(tableauPariable.tableau, 'finale')
             "
           >
             <p
-              *ngIf="getPronoVainqueurTableau(tableauPariable.tableau._id)"
+              *ngIf="
+                getPronoVainqueurTableau(
+                  tableauPariable.tableau._id,
+                  tableauPariable.participants
+                )
+              "
               class="center"
               style="margin-bottom: 0px"
             >
@@ -119,13 +125,21 @@
               >
               Vous avez parié sur
               <b>{{
-                getPronoVainqueurTableau(tableauPariable.tableau._id).nom
+                getPronoVainqueurTableau(
+                  tableauPariable.tableau._id,
+                  tableauPariable.participants
+                ).nom
               }}</b>
               comme vainqueur du tableau
               <b>{{ tableauPariable.tableau.nom | titlecase }}</b>
             </p>
             <p
-              *ngIf="!getPronoVainqueurTableau(tableauPariable.tableau._id)"
+              *ngIf="
+                !getPronoVainqueurTableau(
+                  tableauPariable.tableau._id,
+                  tableauPariable.participants
+                )
+              "
               class="center"
               style="margin-bottom: 0px"
             >
@@ -134,10 +148,7 @@
           </div>
           <div
             fxLayout="column"
-            *ngIf="
-              tableauPariable.tableau.is_launched ===
-              appService.getTableauState().PouleState
-            "
+            *ngIf="grandVainqueurPariable(tableauPariable.tableau, 'finale')"
             class="center"
           >
             <div fxFlex="100%">
@@ -153,10 +164,19 @@
                 <mat-label>Vainqueur</mat-label>
                 <mat-select
                   (selectionChange)="
-                    updateVainqueurTableau($event, tableauPariable.tableau._id)
+                    updateVainqueurTableau(
+                      $event,
+                      tableauPariable.tableau._id,
+                      tableauPariable.tableau.format === 'simple'
+                        ? 'Joueurs'
+                        : 'Binomes'
+                    )
                   "
                   [ngModel]="
-                    getPronoVainqueurTableau(tableauPariable.tableau._id)?._id
+                    getPronoVainqueurTableau(
+                      tableauPariable.tableau._id,
+                      tableauPariable.participants
+                    )?._id
                   "
                 >
                   <mat-option
@@ -172,50 +192,64 @@
         </mat-card>
       </div>
 
-      <mat-tab-group
-        mat-align-tabs="center"
-        color="accent"
-        dynamicHeight="200%"
-        selectedIndex="0"
-        *ngIf="
-          tableauPariable.tableau._id &&
-          tableauPariable.tableau.is_launched ===
-            appService.getTableauState().BracketState
-        "
+      <div
+        style="visibility: hidden"
+        *ngIf="!tableauPariable.tableau.bracketPariable"
       >
-        <mat-tab>
-          <ng-template mat-tab-label class="mat-tab-label">
-            Phases finales
-          </ng-template>
-
-          <app-bracket
-            *ngIf="infosParisJoueur !== null"
-            [infosParisJoueur]="infosParisJoueur"
-            [isPari]="true"
-            [phase]="'finale'"
-            [tableau]="tableauPariable.tableau"
-          ></app-bracket>
-        </mat-tab>
-
-        <mat-tab
+        <app-bracket
+          *ngIf="infosParisJoueur !== null"
+          [infosParisJoueur]="infosParisJoueur"
+          [isPari]="true"
+          [phase]="'finale'"
+          [tableau]="tableauPariable.tableau"
+        ></app-bracket>
+      </div>
+      <div *ngIf="tableauPariable.tableau.bracketPariable">
+        <mat-tab-group
+          mat-align-tabs="center"
+          color="accent"
+          dynamicHeight="200%"
+          selectedIndex="0"
           *ngIf="
-            tableauPariable.tableau.consolante &&
-            tableauPariable.tableau.consolantePariable
+            tableauPariable.tableau._id &&
+            tableauPariable.tableau.is_launched ===
+              appService.getTableauState().BracketState
           "
         >
-          <ng-template mat-tab-label class="mat-tab-label"
-            >Consolante</ng-template
-          >
+          <mat-tab>
+            <ng-template mat-tab-label class="mat-tab-label">
+              Phases finales
+            </ng-template>
 
-          <app-bracket
-            *ngIf="infosParisJoueur !== null"
-            [infosParisJoueur]="infosParisJoueur"
-            [isPari]="true"
-            [phase]="'consolante'"
-            [tableau]="tableauPariable.tableau"
-          ></app-bracket>
-        </mat-tab>
-      </mat-tab-group>
+            <app-bracket
+              *ngIf="infosParisJoueur !== null"
+              [infosParisJoueur]="infosParisJoueur"
+              [isPari]="true"
+              [phase]="'finale'"
+              [tableau]="tableauPariable.tableau"
+            ></app-bracket>
+          </mat-tab>
+
+          <mat-tab
+            *ngIf="
+              tableauPariable.tableau.consolante &&
+              tableauPariable.tableau.consolantePariable
+            "
+          >
+            <ng-template mat-tab-label class="mat-tab-label"
+              >Consolante</ng-template
+            >
+
+            <app-bracket
+              *ngIf="infosParisJoueur !== null"
+              [infosParisJoueur]="infosParisJoueur"
+              [isPari]="true"
+              [phase]="'consolante'"
+              [tableau]="tableauPariable.tableau"
+            ></app-bracket>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </div>

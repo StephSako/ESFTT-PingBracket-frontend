@@ -9,7 +9,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { AppService } from 'src/app/app.service';
 import { DetailsParisComponent } from 'src/app/GestionModule/gestion-paris/details-paris/details-paris.component';
+import { RoundInterface } from 'src/app/Interface/Bracket';
 import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
+import {
+  JoueurMatchInterface,
+  MatchInterface,
+  TableauMatchInterface,
+} from 'src/app/Interface/Match';
 import {
   PariInterface,
   InfosParisJoueurInterface,
@@ -45,6 +51,7 @@ export class ParierComponent implements OnInit, OnDestroy {
     nom: null,
     parisVainqueursTableauxResults: [],
   };
+  public tableauxMatches: TableauMatchInterface[] = [];
 
   constructor(
     private readonly pariService: PariService,
@@ -153,6 +160,59 @@ export class ParierComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.pariService.updateMatchesTableaux.subscribe(
+      (resultatParisJoueur: TableauMatchInterface) => {
+        let tableauMatches: TableauMatchInterface = this.tableauxMatches.find(
+          (tableauMatch: TableauMatchInterface) =>
+            tableauMatch?.tableauId === resultatParisJoueur.tableauId &&
+            tableauMatch?.phase === resultatParisJoueur.phase
+        );
+
+        if (tableauMatches) {
+          tableauMatches.match = resultatParisJoueur.match;
+        } else {
+          this.tableauxMatches.push(resultatParisJoueur);
+        }
+      }
+    );
+  }
+
+  grandVainqueurPariable(tableau: TableauInterface, phase: string): boolean {
+    // Tableaux sans poules dont les 1ers tours n'ont pas encore commencé (comme le tableau Double - Compétiteur)
+    if (
+      !tableau.poules &&
+      tableau.is_launched === this.appService.getTableauState().BracketState
+    ) {
+      const tableauMatches: TableauMatchInterface = this.tableauxMatches.find(
+        (tableauMatch: TableauMatchInterface) =>
+          tableauMatch?.tableauId === tableau._id &&
+          tableauMatch?.phase === phase
+      );
+      if (tableauMatches) {
+        return (
+          tableauMatches.match.filter((round: RoundInterface) => {
+            return (
+              round.matches[0].joueurs.length === 2 &&
+              round.matches[0].joueurs.filter(
+                (joueur: JoueurMatchInterface) => joueur.winner
+              ).length > 0
+            );
+          }).length === 0
+        );
+      } else {
+        return true;
+      }
+    }
+    // Tableaux avec des poules avant que le bracket ne commence (comme le tableau Open)
+    else if (
+      tableau.poules &&
+      tableau.is_launched === this.appService.getTableauState().PouleState
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getParisAndBracket(): void {
@@ -181,12 +241,17 @@ export class ParierComponent implements OnInit, OnDestroy {
     return !!this.accountService.getParieur();
   }
 
-  updateVainqueurTableau(event: MatSelectChange, id_tableau: string): void {
+  updateVainqueurTableau(
+    event: MatSelectChange,
+    id_tableau: string,
+    objectRef: string
+  ): void {
     this.pariService
       .parierVainqueur(
         this.accountService.getParieur()._id,
         event.value,
         id_tableau,
+        objectRef,
         !this.infosParisJoueur.pronos_vainqueurs.find(
           (pronoVainqueurTableau: PronoVainqueur) =>
             pronoVainqueurTableau.id_tableau._id === id_tableau
@@ -206,14 +271,20 @@ export class ParierComponent implements OnInit, OnDestroy {
       );
   }
 
-  getPronoVainqueurTableau(id_tableau: string): IdNomInterface | null {
+  getPronoVainqueurTableau(
+    id_tableau: string,
+    listeParticipants: IdNomInterface[]
+  ): IdNomInterface | null {
     const pronoVainqueurTableauSearch =
       this.infosParisJoueur.pronos_vainqueurs.find(
         (pronoVainqueurTableau: PronoVainqueur) =>
           pronoVainqueurTableau.id_tableau._id === id_tableau
       );
     return pronoVainqueurTableauSearch
-      ? pronoVainqueurTableauSearch.id_gagnant
+      ? listeParticipants.find(
+          (participant: IdNomInterface) =>
+            participant._id === pronoVainqueurTableauSearch.id_gagnant._id
+        )
       : null;
   }
 

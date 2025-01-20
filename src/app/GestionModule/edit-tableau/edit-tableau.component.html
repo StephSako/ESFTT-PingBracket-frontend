@@ -196,7 +196,16 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="10%" *ngIf="value('pariable')">
+    <div fxFlex="20%" *ngIf="value('pariable')">
+      <mat-slide-toggle
+        color="primary"
+        class="center"
+        formControlName="bracketPariable"
+        >Bracket pariable</mat-slide-toggle
+      >
+    </div>
+
+    <div fxFlex="10%" *ngIf="value('pariable') && value('bracketPariable')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Pts gagnés</mat-label>
         <input
@@ -211,7 +220,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="10%" *ngIf="value('pariable')">
+    <div fxFlex="10%" *ngIf="value('pariable') && value('bracketPariable')">
       <mat-form-field appearance="outline" class="center">
         <mat-label>Pts perdus</mat-label>
         <input
@@ -225,8 +234,10 @@
         />
       </mat-form-field>
     </div>
+  </div>
 
-    <div fxFlex="20%" *ngIf="value('pariable')">
+  <div fxLayout="row">
+    <div fxFlex="25%" *ngIf="value('pariable') && value('bracketPariable')">
       <mat-slide-toggle
         color="primary"
         class="center"
@@ -235,7 +246,14 @@
       >
     </div>
 
-    <div fxFlex="15%" *ngIf="value('consolantePariable') && value('pariable')">
+    <div
+      fxFlex="20%"
+      *ngIf="
+        value('consolantePariable') &&
+        value('pariable') &&
+        value('bracketPariable')
+      "
+    >
       <mat-form-field appearance="outline" class="center">
         <mat-label>Pts gagnés consolante</mat-label>
         <input
@@ -250,7 +268,14 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="15%" *ngIf="value('consolantePariable') && value('pariable')">
+    <div
+      fxFlex="20%"
+      *ngIf="
+        value('consolantePariable') &&
+        value('pariable') &&
+        value('bracketPariable')
+      "
+    >
       <mat-form-field appearance="outline" class="center">
         <mat-label>Pts perdus consolante</mat-label>
         <input

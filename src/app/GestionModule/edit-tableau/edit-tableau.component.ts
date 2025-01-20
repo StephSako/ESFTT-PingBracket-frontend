@@ -71,6 +71,7 @@ export class EditTableauComponent implements OnInit {
       palierConsolantes: new FormControl(this.tableau.palierConsolantes),
       hasChapeau: new FormControl(this.tableau.hasChapeau),
       pariable: new FormControl(this.tableau.pariable),
+      bracketPariable: new FormControl(this.tableau.bracketPariable),
       consolantePariable: new FormControl(this.tableau.consolantePariable),
       ptsGagnesParisVainqueur: new FormControl(
         this.tableau.ptsGagnesParisVainqueur
