@@ -67,7 +67,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   refreshTableau(tableau: TableauInterface): void {
     if (
-      tableau.is_launched === this.appService.getTableauState().BracketState
+      tableau.is_launched === this.appService.getTableauState().BracketState ||
+      tableau.is_launched === this.appService.getTableauState().TermineState
     ) {
       this.bracketService.updateBracket.emit();
     }
