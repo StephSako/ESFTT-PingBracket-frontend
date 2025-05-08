@@ -303,4 +303,8 @@ export class ParierComponent implements OnInit, OnDestroy {
         pariVainqueurTableauResult.id_tableau === id_tableau
     );
   }
+
+  showTypeLicence(idTypeLicence: number): string {
+    return this.tableauService.showTypeLicence(idTypeLicence);
+  }
 }

@@ -130,10 +130,55 @@ export class GestionTableauxComponent implements OnInit, OnDestroy {
       : 0;
   }
 
+  setTableauFromForm(): void {
+    this.tableau.nbPoules = this.tableau.poules ? this.tableau.nbPoules : null;
+    this.tableau.maxNumberPlayers = this.tableau.maxNumberPlayers
+      ? this.tableau.maxNumberPlayers
+      : null;
+    this.tableau.palierConsolantes = this.tableau.consolante
+      ? this.tableau.palierConsolantes
+      : null;
+    this.tableau.bracketPariable = this.tableau.pariable
+      ? this.tableau.bracketPariable
+      : false;
+    this.tableau.consolantePariable =
+      this.tableau.pariable &&
+      this.tableau.bracketPariable &&
+      this.tableau.consolante
+        ? this.tableau.consolantePariable
+        : false;
+    this.tableau.ptsGagnesParisVainqueur = this.tableau.pariable
+      ? this.tableau.ptsGagnesParisVainqueur
+      : 0;
+    this.tableau.ptsPerdusParisVainqueur = this.tableau.pariable
+      ? this.tableau.ptsPerdusParisVainqueur
+      : 0;
+    this.tableau.ptsGagnesParisWB =
+      this.tableau.pariable && this.tableau.bracketPariable
+        ? this.tableau.ptsGagnesParisWB
+        : 0;
+    this.tableau.ptsPerdusParisWB =
+      this.tableau.pariable && this.tableau.bracketPariable
+        ? this.tableau.ptsPerdusParisWB
+        : 0;
+    this.tableau.ptsGagnesParisLB =
+      this.tableau.pariable &&
+      this.tableau.consolantePariable &&
+      this.tableau.bracketPariable &&
+      this.tableau.consolante
+        ? this.tableau.ptsGagnesParisLB
+        : 0;
+    this.tableau.ptsPerdusParisLB =
+      this.tableau.pariable &&
+      this.tableau.consolantePariable &&
+      this.tableau.bracketPariable &&
+      this.tableau.consolante
+        ? this.tableau.ptsPerdusParisLB
+        : 0;
+  }
+
   create(): void {
-    if (!this.tableau.poules) {
-      this.tableau.nbPoules = null;
-    }
+    this.setTableauFromForm();
     this.tableauService.create(this.tableau).subscribe(
       () => {
         this.tableau = {

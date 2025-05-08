@@ -236,7 +236,7 @@
     </div>
   </div>
 
-  <div fxLayout="row">
+  <div fxLayout="row" *ngIf="value('consolante')">
     <div fxFlex="25%" *ngIf="value('pariable') && value('bracketPariable')">
       <mat-slide-toggle
         color="primary"

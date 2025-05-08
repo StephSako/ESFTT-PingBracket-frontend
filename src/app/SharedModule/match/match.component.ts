@@ -367,7 +367,8 @@ export class MatchComponent implements OnInit, OnDestroy {
 
   isMatchLockableForBets(): boolean {
     return (
-      this.tableau.pariable &&
+      ((this.phase === 'finale' && this.tableau.bracketPariable) ||
+        (this.phase === 'consolante' && this.tableau.consolantePariable)) &&
       !this.isPari &&
       this.matchHasTwoPlayers() &&
       !(this.match.joueurs[0]?.winner || this.match.joueurs[1]?.winner) &&

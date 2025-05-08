@@ -98,7 +98,11 @@ export class PariService {
     const details: string[] = [];
     let pariVainqueurTableau: PariVainqueurTableauResult = null;
 
-    if (paris.length === 0 && pronos_vainqueurs.length === 0) {
+    if (
+      paris.length === 0 &&
+      !!pronos_vainqueurs &&
+      pronos_vainqueurs.length === 0
+    ) {
       return {
         score: 0,
         details: [],

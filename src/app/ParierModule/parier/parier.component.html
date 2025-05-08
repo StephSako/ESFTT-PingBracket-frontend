@@ -56,9 +56,20 @@
     selectedIndex="0"
   >
     <mat-tab *ngFor="let tableauPariable of tableauxPariables">
-      <ng-template mat-tab-label class="mat-tab-label">{{
-        tableauPariable.tableau.nom | titlecase
-      }}</ng-template>
+      <ng-template mat-tab-label class="mat-tab-label"
+        >{{ tableauPariable.tableau.nom | titlecase }}
+        <span *ngIf="tableauPariable.tableau.age_minimum !== null">
+          &nbsp;- {{ tableauPariable.tableau.age_minimum }} ans</span
+        >
+        <span
+          *ngIf="
+            tableauPariable.tableau.type_licence !== null &&
+            tableauPariable.tableau.type_licence !== 1
+          "
+          >&nbsp;-
+          {{ showTypeLicence(tableauPariable.tableau.type_licence) }}</span
+        ></ng-template
+      >
 
       <p
         *ngIf="

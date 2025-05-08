@@ -90,6 +90,8 @@ export class EditTableauComponent implements OnInit {
   editTableau(): void {
     const poulesEdited = this.value('poules') !== this.tableau.poules;
     const pariableEdited = this.value('pariable') !== this.tableau.pariable;
+    const bracketPariableEdited =
+      this.value('bracketPariable') !== this.tableau.bracketPariable;
     const consolantePariableEdited =
       this.value('consolantePariable') !== this.tableau.consolantePariable;
     const nbPoulesEdited =
@@ -117,91 +119,13 @@ export class EditTableauComponent implements OnInit {
       nbPoulesEdited ||
       typeLicenceEdited ||
       pariableEdited ||
+      bracketPariableEdited ||
       consolantePariableEdited
     ) {
-      let optionMessage = '';
-      if (
-        (pariableEdited && !this.value('pariable')) ||
-        (consolantePariableEdited &&
-          (!this.value('pariable') || !this.value('consolantePariable'))) ||
-        consolanteEdited ||
-        (poulesEdited && !this.value('poules')) ||
-        (formatEdited && this.value('format') === 'simple')
-      ) {
-        optionMessage += 'Suppression : ';
-      }
-      if (consolanteEdited) {
-        optionMessage += '- la consolante ';
-      }
-      if (poulesEdited && !this.value('poules')) {
-        optionMessage += '- les poules';
-      }
-
-      // Gestion des paris
-      if (
-        pariableEdited &&
-        !this.value('pariable') &&
-        !this.value('consolantePariable') &&
-        !consolantePariableEdited
-      ) {
-        optionMessage += '- les paris (phase finale)';
-      }
-      if (
-        pariableEdited &&
-        !this.value('pariable') &&
-        ((!consolantePariableEdited && this.value('consolantePariable')) ||
-          (consolantePariableEdited && !this.value('consolantePariable')))
-      ) {
-        optionMessage += '- les paris (phase finale et consolante)';
-      }
-      if (
-        !pariableEdited &&
-        consolantePariableEdited &&
-        !this.value('consolantePariable')
-      ) {
-        optionMessage += '- les paris (phase consolante)';
-      }
-
-      if (formatEdited) {
-        if (this.value('format') === 'simple') {
-          optionMessage += '- les binômes';
-        }
-      }
-      if (
-        consolanteEdited ||
-        (poulesEdited && !this.value('poules')) ||
-        (formatEdited && this.value('format') === 'simple')
-      ) {
-        optionMessage += '. ';
-      }
-
-      if (ageMinimumEdited) {
-        optionMessage +=
-          'Les joueurs de -' +
-          this.value('age_minimum') +
-          ' ans seront désinscrits. ';
-      }
-
-      if (
-        nbPoulesEdited ||
-        ageMinimumEdited ||
-        (formatEdited && this.value('poules'))
-      ) {
-        optionMessage += 'Les poules seront regénérées. ';
-      }
-
       const typeLicenceToUnsubscribe = this.value('type_licence');
-      if (typeLicenceEdited) {
-        optionMessage +=
-          'Les joueurs ' +
-          (this.value('type_licence') === 2 ? 'compétiteurs' : 'loisirs') +
-          ' seront désinscrits. ';
-      }
-
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'Des informations ont été modifées.',
-        option: optionMessage,
         action_button_text: 'Confirmer',
       };
 
@@ -265,25 +189,8 @@ export class EditTableauComponent implements OnInit {
 
                 // On supprime les paris si phase(s) non pariable(s)
                 if (
-                  pariableEdited &&
-                  !this.value('pariable') &&
-                  !this.value('consolantePariable') &&
-                  !consolantePariableEdited
-                ) {
-                  this.pariService
-                    .deleteParisTableauPhase('finale', this.tableau._id)
-                    .subscribe(
-                      () => {},
-                      (err) => this.emitErrorSnackbar(err)
-                    );
-                }
-                if (
-                  pariableEdited &&
-                  !this.value('pariable') &&
-                  ((!consolantePariableEdited &&
-                    this.value('consolantePariable')) ||
-                    (consolantePariableEdited &&
-                      !this.value('consolantePariable')))
+                  (pariableEdited && !this.value('pariable')) ||
+                  (bracketPariableEdited && !this.value('bracketPariable'))
                 ) {
                   this.pariService
                     .deleteParisTableauPhase(null, this.tableau._id)
@@ -350,31 +257,46 @@ export class EditTableauComponent implements OnInit {
     this.tableau.format = this.value('format');
     this.tableau.handicap = this.value('handicap');
     this.tableau.hasChapeau = this.value('hasChapeau');
-    this.tableau.palierConsolantes = this.value('palierConsolantes');
+    this.tableau.palierConsolantes = this.value('consolante')
+      ? this.value('palierConsolantes')
+      : null;
     this.tableau.palierQualifies = this.value('palierQualifies');
     this.tableau.pariable = this.value('pariable');
-    this.tableau.bracketPariable = this.value('bracketPariable');
-    this.tableau.consolantePariable = this.value('pariable')
-      ? this.value('consolantePariable')
+    this.tableau.bracketPariable = this.value('pariable')
+      ? this.value('bracketPariable')
       : false;
+    this.tableau.consolantePariable =
+      this.value('pariable') &&
+      this.value('bracketPariable') &&
+      this.value('consolante')
+        ? this.value('consolantePariable')
+        : false;
     this.tableau.ptsGagnesParisVainqueur = this.value('pariable')
       ? this.value('ptsGagnesParisVainqueur')
       : 0;
     this.tableau.ptsPerdusParisVainqueur = this.value('pariable')
       ? this.value('ptsPerdusParisVainqueur')
       : 0;
-    this.tableau.ptsGagnesParisWB = this.value('pariable')
-      ? this.value('ptsGagnesParisWB')
-      : 0;
-    this.tableau.ptsPerdusParisWB = this.value('pariable')
-      ? this.value('ptsPerdusParisWB')
-      : 0;
+    this.tableau.ptsGagnesParisWB =
+      this.value('pariable') && this.value('bracketPariable')
+        ? this.value('ptsGagnesParisWB')
+        : 0;
+    this.tableau.ptsPerdusParisWB =
+      this.value('pariable') && this.value('bracketPariable')
+        ? this.value('ptsPerdusParisWB')
+        : 0;
     this.tableau.ptsGagnesParisLB =
-      this.value('pariable') && this.value('consolantePariable')
+      this.value('pariable') &&
+      this.value('consolantePariable') &&
+      this.value('bracketPariable') &&
+      this.value('consolante')
         ? this.value('ptsGagnesParisLB')
         : 0;
     this.tableau.ptsPerdusParisLB =
-      this.value('pariable') && this.value('consolantePariable')
+      this.value('pariable') &&
+      this.value('consolantePariable') &&
+      this.value('bracketPariable') &&
+      this.value('consolante')
         ? this.value('ptsPerdusParisLB')
         : 0;
   }
