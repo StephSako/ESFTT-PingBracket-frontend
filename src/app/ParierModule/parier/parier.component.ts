@@ -13,7 +13,6 @@ import { RoundInterface } from 'src/app/Interface/Bracket';
 import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 import {
   JoueurMatchInterface,
-  MatchInterface,
   TableauMatchInterface,
 } from 'src/app/Interface/Match';
 import {
@@ -271,21 +270,11 @@ export class ParierComponent implements OnInit, OnDestroy {
       );
   }
 
-  getPronoVainqueurTableau(
-    id_tableau: string,
-    listeParticipants: IdNomInterface[]
-  ): IdNomInterface | null {
-    const pronoVainqueurTableauSearch =
-      this.infosParisJoueur.pronos_vainqueurs.find(
-        (pronoVainqueurTableau: PronoVainqueur) =>
-          pronoVainqueurTableau.id_tableau._id === id_tableau
-      );
-    return pronoVainqueurTableauSearch
-      ? listeParticipants.find(
-          (participant: IdNomInterface) =>
-            participant._id === pronoVainqueurTableauSearch.id_gagnant._id
-        )
-      : null;
+  getPronoVainqueurTableau(id_tableau: string): IdNomInterface | null {
+    return this.infosParisJoueur.pronos_vainqueurs.find(
+      (pronoVainqueurTableau: PronoVainqueur) =>
+        pronoVainqueurTableau.id_tableau._id === id_tableau
+    ).id_gagnant;
   }
 
   openDetails(): void {

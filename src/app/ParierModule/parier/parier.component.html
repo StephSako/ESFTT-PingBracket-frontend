@@ -104,12 +104,7 @@
             "
           >
             <p
-              *ngIf="
-                getPronoVainqueurTableau(
-                  tableauPariable.tableau._id,
-                  tableauPariable.participants
-                )
-              "
+              *ngIf="getPronoVainqueurTableau(tableauPariable.tableau._id)"
               class="center"
               style="margin-bottom: 0px"
             >
@@ -136,21 +131,13 @@
               >
               Vous avez parié sur
               <b>{{
-                getPronoVainqueurTableau(
-                  tableauPariable.tableau._id,
-                  tableauPariable.participants
-                ).nom
+                getPronoVainqueurTableau(tableauPariable.tableau._id).nom
               }}</b>
               comme vainqueur du tableau
               <b>{{ tableauPariable.tableau.nom | titlecase }}</b>
             </p>
             <p
-              *ngIf="
-                !getPronoVainqueurTableau(
-                  tableauPariable.tableau._id,
-                  tableauPariable.participants
-                )
-              "
+              *ngIf="!getPronoVainqueurTableau(tableauPariable.tableau._id)"
               class="center"
               style="margin-bottom: 0px"
             >
@@ -184,10 +171,7 @@
                     )
                   "
                   [ngModel]="
-                    getPronoVainqueurTableau(
-                      tableauPariable.tableau._id,
-                      tableauPariable.participants
-                    )?._id
+                    getPronoVainqueurTableau(tableauPariable.tableau._id)?._id
                   "
                 >
                   <mat-option
