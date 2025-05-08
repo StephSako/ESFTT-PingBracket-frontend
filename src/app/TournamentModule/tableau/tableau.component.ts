@@ -96,7 +96,7 @@ export class TableauComponent implements OnInit {
         this.appService.getTableauState().PointageState
           ? (this.tableau.format !== 'double'
               ? 'Les inscriptions seront fermées'
-              : 'Les inscriptions et les binômes seront fermés,') +
+              : 'Les inscriptions seront fermées, les binômes seront validés,') +
             ' et les absents seront éliminés'
           : this.tableau.is_launched ===
             this.appService.getTableauState().PouleState
@@ -119,29 +119,31 @@ export class TableauComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response) {
-          this.tableau.is_launched = nextState;
-          this.tableauService.tableauxEditSource.next(this.tableau);
-          this.tableauService.changeLaunchState(this.tableau).subscribe(
-            () => {
-              if (
-                this.tableau.poules &&
-                this.tableau.is_launched ===
-                  this.appService.getTableauState().BracketState
-              ) {
-                this.pouleService
-                  .validateAllPoules(this.tableau._id)
-                  .subscribe();
+          this.tableauService
+            .changeLaunchState(this.tableau, nextState)
+            .subscribe(
+              () => {
+                this.tableau.is_launched = nextState;
+                this.tableauService.tableauxEditSource.next(this.tableau);
+                if (
+                  this.tableau.poules &&
+                  this.tableau.is_launched ===
+                    this.appService.getTableauState().BracketState
+                ) {
+                  this.pouleService
+                    .validateAllPoules(this.tableau._id)
+                    .subscribe();
+                }
+              },
+              (err) => {
+                this.notifyService.notifyUser(
+                  err.error,
+                  this.snackBar,
+                  'error',
+                  'OK'
+                );
               }
-            },
-            (err) => {
-              this.notifyService.notifyUser(
-                err.error,
-                this.snackBar,
-                'error',
-                'OK'
-              );
-            }
-          );
+            );
         }
       });
   }

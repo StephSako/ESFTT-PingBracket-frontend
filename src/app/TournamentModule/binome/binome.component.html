@@ -52,7 +52,10 @@
               </div>
 
               <p
-                *ngIf="binome.joueurs.length === 1"
+                *ngIf="
+                  binome.joueurs.length > 0 &&
+                  binome.joueurs.length < tableau.maxNumberPlayers
+                "
                 class="center error_message"
               >
                 Binôme inqualifiable car incomplet

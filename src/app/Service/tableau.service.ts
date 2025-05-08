@@ -51,9 +51,15 @@ export class TableauService {
     return this.http.put(`${this.baseURL}edit/${tableau._id}`, tableau);
   }
 
-  public changeLaunchState(tableau: TableauInterface): Observable<any> {
+  public changeLaunchState(
+    tableau: TableauInterface,
+    nextState: number
+  ): Observable<any> {
     return this.http.put(`${this.baseURL}change_launch_state/${tableau._id}`, {
-      is_launched: tableau.is_launched,
+      is_launched: nextState,
+      format: tableau.format,
+      poules: tableau.poules,
+      maxNumberPlayers: tableau.maxNumberPlayers,
     });
   }
 

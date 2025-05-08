@@ -188,19 +188,24 @@ export class EditTableauComponent implements OnInit {
                 }
 
                 // On supprime les paris si phase(s) non pariable(s)
-                if (
-                  (pariableEdited && !this.value('pariable')) ||
-                  (bracketPariableEdited && !this.value('bracketPariable'))
-                ) {
+                if (pariableEdited && !this.value('pariable')) {
                   this.pariService
-                    .deleteParisTableauPhase(null, this.tableau._id)
+                    .deleteParisTableauPhase('all', this.tableau._id)
                     .subscribe(
                       () => {},
                       (err) => this.emitErrorSnackbar(err)
                     );
-                }
-                if (
-                  !pariableEdited &&
+                } else if (
+                  bracketPariableEdited &&
+                  !this.value('bracketPariable')
+                ) {
+                  this.pariService
+                    .deleteParisTableauPhase('all_brackets', this.tableau._id)
+                    .subscribe(
+                      () => {},
+                      (err) => this.emitErrorSnackbar(err)
+                    );
+                } else if (
                   consolantePariableEdited &&
                   !this.value('consolantePariable')
                 ) {

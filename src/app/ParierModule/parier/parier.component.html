@@ -71,17 +71,17 @@
         ></ng-template
       >
 
-      <p
-        *ngIf="
-          tableauPariable.tableau.is_launched >
-          appService.getTableauState().BracketState
-        "
-      >
-        Paris cloturés pour ce tableau
-      </p>
-
       <div class="container">
         <mat-card class="center">
+          <h2
+            *ngIf="
+              tableauPariable.tableau.is_launched >
+              appService.getTableauState().BracketState
+            "
+          >
+            <b>Paris cloturés pour ce tableau</b>
+          </h2>
+
           <mat-card class="cardPointsParis center">
             <mat-icon class="center">info</mat-icon>
             <p>
