@@ -13,6 +13,7 @@ import { RoundInterface } from 'src/app/Interface/Bracket';
 import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
 import {
   JoueurMatchInterface,
+  MatchInterface,
   TableauMatchInterface,
 } from 'src/app/Interface/Match';
 import { ParametreInterface } from 'src/app/Interface/Parametre';
@@ -92,10 +93,17 @@ export class ParierComponent implements OnInit, OnDestroy {
         return (
           tableauMatches.match.filter((round: RoundInterface) => {
             return (
-              round.matches[0].joueurs.length === 2 &&
-              round.matches[0].joueurs.filter(
-                (joueur: JoueurMatchInterface) => joueur.winner
-              ).length > 0
+              round.matches.filter((match: MatchInterface) => {
+                return (
+                  match.joueurs.length === 2 &&
+                  match.joueurs.filter(
+                    (joueur: JoueurMatchInterface) => !!joueur?._id
+                  ).length === 2 &&
+                  match.joueurs.filter(
+                    (joueur: JoueurMatchInterface) => joueur.winner
+                  ).length > 0
+                );
+              }).length > 0
             );
           }).length === 0
         );
