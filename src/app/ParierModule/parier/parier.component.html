@@ -82,14 +82,15 @@
 
         <div class="container">
           <mat-card class="center">
-            <h2
+            <h3
+              class="parisClotures"
               *ngIf="
                 tableauPariable.tableau.is_launched >
                 appService.getTableauState().BracketState
               "
             >
               <b>Paris cloturés pour ce tableau</b>
-            </h2>
+            </h3>
 
             <mat-card class="cardPointsParis center">
               <mat-icon class="center">info</mat-icon>
@@ -216,7 +217,7 @@
             selectedIndex="0"
             *ngIf="
               tableauPariable.tableau._id &&
-              tableauPariable.tableau.is_launched ===
+              tableauPariable.tableau.is_launched >=
                 appService.getTableauState().BracketState
             "
           >
