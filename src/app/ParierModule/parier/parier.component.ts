@@ -184,12 +184,18 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   getPronoVainqueurTableau(id_tableau: string): IdNomInterface | null {
-    return this.infosParisJoueur.pronos_vainqueurs.length > 0
-      ? this.infosParisJoueur.pronos_vainqueurs.find(
+    if (this.infosParisJoueur.pronos_vainqueurs.length > 0) {
+      let findPariVainqueurTableau =
+        this.infosParisJoueur.pronos_vainqueurs.find(
           (pronoVainqueurTableau: PronoVainqueur) =>
             pronoVainqueurTableau.id_tableau._id === id_tableau
-        ).id_gagnant
-      : null;
+        );
+
+      if (!!findPariVainqueurTableau) {
+        return findPariVainqueurTableau.id_gagnant;
+      }
+    }
+    return null;
   }
 
   openDetails(): void {
