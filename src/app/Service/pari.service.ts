@@ -190,13 +190,10 @@ export class PariService {
               ' contre ' +
               joueurNonParié +
               ' : <b>' +
-              (score - ptsGagnePerdu) +
               (ptsGagnePerdu >= 0 ? '+' : '') +
               ptsGagnePerdu +
-              ' = ' +
-              score +
               ' pt' +
-              (score > 1 || score < 0 ? 's' : '') +
+              (ptsGagnePerdu > 1 || ptsGagnePerdu < 0 ? 's' : '') +
               '</b><br>'
           );
         }
@@ -255,13 +252,12 @@ export class PariService {
                 ? ' contre ' + vainqueurTableau.nom
                 : '') +
               ' : <b>' +
-              (score - ptsGagnePerduVainqueur) +
               (ptsGagnePerduVainqueur >= 0 ? '+' : '') +
               ptsGagnePerduVainqueur +
-              ' = ' +
-              score +
               ' pt' +
-              (score > 1 || score < 0 ? 's' : '') +
+              (ptsGagnePerduVainqueur > 1 || ptsGagnePerduVainqueur < 0
+                ? 's'
+                : '') +
               '</b><br>'
           );
         }

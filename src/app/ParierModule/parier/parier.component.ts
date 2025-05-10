@@ -74,114 +74,7 @@ export class ParierComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getParametres();
-
     this.titleService.setTitle('Tournoi ESFTT - Parier');
-
-    this.getParisAndBracket();
-
-    this.tableauService.getPariables().subscribe(
-      (tableauxPariables: PariableTableauInterface[]) => {
-        this.tableauxPariables = tableauxPariables;
-        this.tableauxGet = true;
-
-        this.pariService.initScoreParTableau(this.tableauxPariables);
-      },
-      () => {
-        this.tableauxGet = true;
-      }
-    );
-
-    // Observables permettant la mise à jour des données en temps réèl
-    this.pariService.updateParisLoggIn.subscribe((ok: boolean) => {
-      if (ok) {
-        this.getParisAndBracket();
-      }
-    });
-
-    this.pariService.updateListeTableauxPariables.subscribe(
-      (tableauxPariablesResponse: TableauInterface[]) => {
-        if (tableauxPariablesResponse !== null) {
-          this.tableauxPariables.forEach(
-            (tableauPariable: PariableTableauInterface, index: number) => {
-              const indexSearchTableau = tableauxPariablesResponse.findIndex(
-                (tableauPariableResponse: TableauInterface) =>
-                  tableauPariable.tableau._id === tableauPariableResponse._id
-              );
-              if (indexSearchTableau !== -1) {
-                tableauPariable.tableau =
-                  tableauxPariablesResponse[indexSearchTableau];
-              } else {
-                delete this.tableauxPariables[index];
-              }
-            }
-          );
-
-          this.tableauxPariables = this.tableauxPariables.filter(
-            (tableaupariableToClean: PariableTableauInterface) =>
-              !!tableaupariableToClean
-          );
-          this.pariService.initScoreParTableau(this.tableauxPariables);
-        }
-      }
-    );
-
-    this.pariService.updateInfoParisJoueur.subscribe(
-      (infosParisJoueur: InfosParisJoueurInterface) => {
-        if (infosParisJoueur) {
-          this.infosParisJoueur = infosParisJoueur;
-        }
-      }
-    );
-
-    this.pariService.addPariToListeParisMatches.subscribe(
-      (pariToAdd: PariInterface) => {
-        if (pariToAdd) {
-          this.infosParisJoueur.paris.push(pariToAdd);
-          this.pariService.updateListeParisMatches.next(
-            this.infosParisJoueur.paris
-          );
-        }
-      }
-    );
-
-    this.pariService.deletePariToListeParisMatches.subscribe(
-      (pariToDelete: PariInterface) => {
-        if (pariToDelete) {
-          this.infosParisJoueur.paris = this.infosParisJoueur.paris.filter(
-            (pari: PariInterface) =>
-              JSON.stringify(pari) !== JSON.stringify(pariToDelete)
-          );
-          this.pariService.updateListeParisMatches.next(
-            this.infosParisJoueur.paris
-          );
-        }
-      }
-    );
-
-    this.pariService.updateScorePariJoueur.subscribe(
-      (resultatParisJoueur: ResultatPariJoueur) => {
-        if (resultatParisJoueur) {
-          this.resultatParisJoueur = resultatParisJoueur;
-          this.resultatParisJoueur.nom = this.getNomParieur();
-        }
-      }
-    );
-
-    this.pariService.updateMatchesTableaux.subscribe(
-      (resultatParisJoueur: TableauMatchInterface) => {
-        let tableauMatches: TableauMatchInterface = this.tableauxMatches.find(
-          (tableauMatch: TableauMatchInterface) =>
-            tableauMatch?.tableauId === resultatParisJoueur.tableauId &&
-            tableauMatch?.phase === resultatParisJoueur.phase
-        );
-
-        if (tableauMatches) {
-          tableauMatches.match = resultatParisJoueur.match;
-        } else {
-          this.tableauxMatches.push(resultatParisJoueur);
-        }
-      }
-    );
   }
 
   grandVainqueurPariable(tableau: TableauInterface, phase: string): boolean {
@@ -323,6 +216,121 @@ export class ParierComponent implements OnInit, OnDestroy {
     this.parametreService.getParametres().subscribe(
       (parametres: ParametreInterface) => {
         this.formulaireOpen = parametres.open;
+
+        if (!this.formulaireOpen) {
+          this.getParisAndBracket();
+
+          this.tableauService.getPariables().subscribe(
+            (tableauxPariables: PariableTableauInterface[]) => {
+              this.tableauxPariables = tableauxPariables;
+              this.tableauxGet = true;
+
+              this.pariService.initScoreParTableau(this.tableauxPariables);
+            },
+            () => {
+              this.tableauxGet = true;
+            }
+          );
+
+          // Observables permettant la mise à jour des données en temps réèl
+          this.pariService.updateParisLoggIn.subscribe((ok: boolean) => {
+            if (ok) {
+              this.getParisAndBracket();
+            }
+          });
+
+          this.pariService.updateListeTableauxPariables.subscribe(
+            (tableauxPariablesResponse: TableauInterface[]) => {
+              if (tableauxPariablesResponse !== null) {
+                this.tableauxPariables.forEach(
+                  (
+                    tableauPariable: PariableTableauInterface,
+                    index: number
+                  ) => {
+                    const indexSearchTableau =
+                      tableauxPariablesResponse.findIndex(
+                        (tableauPariableResponse: TableauInterface) =>
+                          tableauPariable.tableau._id ===
+                          tableauPariableResponse._id
+                      );
+                    if (indexSearchTableau !== -1) {
+                      tableauPariable.tableau =
+                        tableauxPariablesResponse[indexSearchTableau];
+                    } else {
+                      delete this.tableauxPariables[index];
+                    }
+                  }
+                );
+
+                this.tableauxPariables = this.tableauxPariables.filter(
+                  (tableaupariableToClean: PariableTableauInterface) =>
+                    !!tableaupariableToClean
+                );
+                this.pariService.initScoreParTableau(this.tableauxPariables);
+              }
+            }
+          );
+
+          this.pariService.updateInfoParisJoueur.subscribe(
+            (infosParisJoueur: InfosParisJoueurInterface) => {
+              if (infosParisJoueur) {
+                this.infosParisJoueur = infosParisJoueur;
+              }
+            }
+          );
+
+          this.pariService.addPariToListeParisMatches.subscribe(
+            (pariToAdd: PariInterface) => {
+              if (pariToAdd) {
+                this.infosParisJoueur.paris.push(pariToAdd);
+                this.pariService.updateListeParisMatches.next(
+                  this.infosParisJoueur.paris
+                );
+              }
+            }
+          );
+
+          this.pariService.deletePariToListeParisMatches.subscribe(
+            (pariToDelete: PariInterface) => {
+              if (pariToDelete) {
+                this.infosParisJoueur.paris =
+                  this.infosParisJoueur.paris.filter(
+                    (pari: PariInterface) =>
+                      JSON.stringify(pari) !== JSON.stringify(pariToDelete)
+                  );
+                this.pariService.updateListeParisMatches.next(
+                  this.infosParisJoueur.paris
+                );
+              }
+            }
+          );
+
+          this.pariService.updateScorePariJoueur.subscribe(
+            (resultatParisJoueur: ResultatPariJoueur) => {
+              if (resultatParisJoueur) {
+                this.resultatParisJoueur = resultatParisJoueur;
+                this.resultatParisJoueur.nom = this.getNomParieur();
+              }
+            }
+          );
+
+          this.pariService.updateMatchesTableaux.subscribe(
+            (resultatParisJoueur: TableauMatchInterface) => {
+              let tableauMatches: TableauMatchInterface =
+                this.tableauxMatches.find(
+                  (tableauMatch: TableauMatchInterface) =>
+                    tableauMatch?.tableauId === resultatParisJoueur.tableauId &&
+                    tableauMatch?.phase === resultatParisJoueur.phase
+                );
+
+              if (tableauMatches) {
+                tableauMatches.match = resultatParisJoueur.match;
+              } else {
+                this.tableauxMatches.push(resultatParisJoueur);
+              }
+            }
+          );
+        }
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
