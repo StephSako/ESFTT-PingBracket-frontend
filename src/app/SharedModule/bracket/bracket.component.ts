@@ -202,6 +202,9 @@ export class BracketComponent implements OnInit, OnDestroy {
           this.spinnerShown = false;
         },
         (err) => {
+          if (err.status === 511) {
+            this.accountService.logoutParieur();
+          }
           this.spinnerShown = false;
           this.hideBracket = false;
           this.notifyService.notifyUser(

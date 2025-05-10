@@ -116,9 +116,7 @@ export class AccountService {
   }
 
   public getParieur(): JoueurInterface {
-    if (!this.profilParieur) {
-      this.profilParieur = JSON.parse(localStorage.getItem('profilParieur'));
-    }
+    this.profilParieur = JSON.parse(localStorage.getItem('profilParieur'));
     return this.profilParieur;
   }
 

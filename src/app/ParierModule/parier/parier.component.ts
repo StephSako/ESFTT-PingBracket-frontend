@@ -15,6 +15,7 @@ import {
   JoueurMatchInterface,
   TableauMatchInterface,
 } from 'src/app/Interface/Match';
+import { ParametreInterface } from 'src/app/Interface/Parametre';
 import {
   PariInterface,
   InfosParisJoueurInterface,
@@ -26,6 +27,7 @@ import {
 } from 'src/app/Interface/Tableau';
 import { AccountService } from 'src/app/Service/account.service';
 import { NotifyService } from 'src/app/Service/notify.service';
+import { ParametresService } from 'src/app/Service/parametres.service';
 import { PariService } from 'src/app/Service/pari.service';
 import { TableauService } from 'src/app/Service/tableau.service';
 
@@ -52,6 +54,8 @@ export class ParierComponent implements OnInit, OnDestroy {
   };
   public tableauxMatches: TableauMatchInterface[] = [];
 
+  public formulaireOpen: boolean = true;
+
   constructor(
     private readonly pariService: PariService,
     private readonly tableauService: TableauService,
@@ -60,7 +64,8 @@ export class ParierComponent implements OnInit, OnDestroy {
     private readonly accountService: AccountService,
     private snackBar: MatSnackBar,
     public appService: AppService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private parametreService: ParametresService
   ) {}
 
   ngOnDestroy(): void {
@@ -68,6 +73,8 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getParametres();
+
     this.titleService.setTitle('Tournoi ESFTT - Parier');
 
     this.getParisAndBracket();
@@ -218,9 +225,22 @@ export class ParierComponent implements OnInit, OnDestroy {
     if (this.isParieurLoggedIn()) {
       this.pariService
         .getAllParisJoueur(this.accountService.getParieur()._id)
-        .subscribe((infosParisJoueur: InfosParisJoueurInterface) => {
-          this.infosParisJoueur = infosParisJoueur;
-        });
+        .subscribe(
+          (infosParisJoueur: InfosParisJoueurInterface) => {
+            this.infosParisJoueur = infosParisJoueur;
+          },
+          (err) => {
+            if (err.status === 511) {
+              this.logout();
+            }
+            this.notifyService.notifyUser(
+              err.error,
+              this.snackBar,
+              'error',
+              'OK'
+            );
+          }
+        );
     }
   }
 
@@ -271,10 +291,12 @@ export class ParierComponent implements OnInit, OnDestroy {
   }
 
   getPronoVainqueurTableau(id_tableau: string): IdNomInterface | null {
-    return this.infosParisJoueur.pronos_vainqueurs.find(
-      (pronoVainqueurTableau: PronoVainqueur) =>
-        pronoVainqueurTableau.id_tableau._id === id_tableau
-    ).id_gagnant;
+    return this.infosParisJoueur.pronos_vainqueurs.length > 0
+      ? this.infosParisJoueur.pronos_vainqueurs.find(
+          (pronoVainqueurTableau: PronoVainqueur) =>
+            pronoVainqueurTableau.id_tableau._id === id_tableau
+        ).id_gagnant
+      : null;
   }
 
   openDetails(): void {
@@ -295,5 +317,16 @@ export class ParierComponent implements OnInit, OnDestroy {
 
   showTypeLicence(idTypeLicence: number): string {
     return this.tableauService.showTypeLicence(idTypeLicence);
+  }
+
+  getParametres(): void {
+    this.parametreService.getParametres().subscribe(
+      (parametres: ParametreInterface) => {
+        this.formulaireOpen = parametres.open;
+      },
+      (err) => {
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
+      }
+    );
   }
 }
