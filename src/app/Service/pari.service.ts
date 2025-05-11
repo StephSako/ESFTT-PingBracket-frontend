@@ -185,9 +185,9 @@ export class PariService {
               '</b>' +
               ' | ' +
               this.bracketService.getLibelleRound(match.round, match.id) +
-              ' : pari sur ' +
+              ' : pari sur <b>' +
               joueurParié +
-              ' contre ' +
+              '</b> contre ' +
               joueurNonParié +
               ' : <b>' +
               (ptsGagnePerdu >= 0 ? '+' : '') +
@@ -245,13 +245,9 @@ export class PariService {
                 .map((l: string) => l[0].toUpperCase() + l.substr(1))
                 .join(' ') +
               '</b>' +
-              ' : pari sur ' +
+              ' : pari sur <b>' +
               pronoVainqueurTableauSearch.id_gagnant.nom +
-              (pronoVainqueurTableauSearch.id_gagnant._id !==
-              vainqueurTableau._id
-                ? ' contre ' + vainqueurTableau.nom
-                : '') +
-              ' : <b>' +
+              '</b> : <b>' +
               (ptsGagnePerduVainqueur >= 0 ? '+' : '') +
               ptsGagnePerduVainqueur +
               ' pt' +

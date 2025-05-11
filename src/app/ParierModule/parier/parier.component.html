@@ -82,16 +82,6 @@
 
         <div class="container">
           <mat-card class="center">
-            <h3
-              class="parisClotures"
-              *ngIf="
-                tableauPariable.tableau.is_launched >
-                appService.getTableauState().BracketState
-              "
-            >
-              <b>Paris cloturés pour ce tableau</b>
-            </h3>
-
             <mat-card class="cardPointsParis center">
               <mat-icon class="center">info</mat-icon>
               <p>

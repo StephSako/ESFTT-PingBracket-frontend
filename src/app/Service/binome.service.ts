@@ -52,28 +52,32 @@ export class BinomeService {
         ? listJoueurs.length / 2
         : listJoueurs.length / 2 - 0.5;
 
-    const chapeauHaut = listJoueurs
-      .sort((j1, j2) =>
-        j1.classement < j2.classement
-          ? 1
-          : j1.classement > j2.classement
-          ? -1
-          : j1.nom.localeCompare(j2.nom)
-      )
-      .slice(0, listJoueursLength);
-    const chapeauBas = listJoueurs
-      .sort((j1, j2) =>
-        j1.classement < j2.classement
-          ? 1
-          : j1.classement > j2.classement
-          ? -1
-          : j1.nom.localeCompare(j2.nom)
-      )
-      .slice(listJoueursLength, listJoueurs.length);
+    const chapeauHaut = this.sortPlayerslist(listJoueurs, 0, listJoueursLength);
+    const chapeauBas = this.sortPlayerslist(
+      listJoueurs,
+      listJoueursLength,
+      listJoueurs.length
+    );
 
     return {
       chapeauHaut,
       chapeauBas,
     };
+  }
+
+  sortPlayerslist(
+    listJoueurs: JoueurInterface[],
+    min: number,
+    max: number
+  ): JoueurInterface[] {
+    return listJoueurs
+      .sort((j1, j2) =>
+        j1.classement < j2.classement
+          ? 1
+          : j1.classement > j2.classement
+          ? -1
+          : j1.nom.localeCompare(j2.nom)
+      )
+      .slice(min, max);
   }
 }
