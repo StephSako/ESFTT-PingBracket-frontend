@@ -236,7 +236,7 @@
     <br />
 
     <br />
-    <h2 class="lobster">2. Participation au buffet du soir</h2>
+    <h2 class="lobster">2. Buffet du soir</h2>
     <p [innerHTML]="parametres.texte_buffet | noSanitize" class="fromData"></p>
 
     <div *ngIf="listeJoueurs.length">
@@ -267,31 +267,24 @@
       <br />
     </div>
 
-    <br />
-    <p>
-      <b
-        >Indiquez ci-dessous le nombre TOTAL de participants au buffet du soir
-        :</b
-      >
-    </p>
-
     <div class="nbParticipants">
-      <p>Nombre d'enfants (-14 ans) au total :</p>
-      <mat-form-field class="shorten" appearance="outline">
-        <input
-          matInput
-          type="number"
-          [min]="minParticipantsEnfantsBuffet"
-          [(ngModel)]="buffet.enfant"
-          (blur)="updateMinAllParticipantsBuffet()"
-          name="enfant"
-        />
-      </mat-form-field>
+      <p>Nombre d'enfants (-14 ans) :</p>
+      <p>
+        <mat-form-field class="shorten" appearance="outline">
+          <input
+            matInput
+            type="number"
+            [min]="minParticipantsEnfantsBuffet"
+            [(ngModel)]="buffet.enfant"
+            (blur)="updateMinAllParticipantsBuffet()"
+            name="enfant"
+          />
+        </mat-form-field>
+      </p>
     </div>
-    <br />
 
     <div class="nbParticipants">
-      <p>Nombre d'ados (14 ans et +)/adultes au total :</p>
+      <p>Nombre d'ados (+14 ans) & adultes :</p>
       <mat-form-field class="shorten" appearance="outline">
         <input
           matInput
@@ -315,6 +308,10 @@
         Écrivez <b>un</b> plat, puis appuyez sur la touche
         <strong>Entrée</strong> de votre clavier pour l'ajouter à votre liste,
         et ainsi de suite <b>pour chaque plat</b> que vous voulez ajouter.</i
+      ><br />
+      <i
+        >Il est possible d'ajouter des plats même si vous ne participez pas au
+        buffet.</i
       >
     </p>
 
