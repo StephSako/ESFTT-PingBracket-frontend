@@ -50,6 +50,7 @@ export class GestionFormulaireComponent implements OnInit {
     date: null,
     titre: null,
     texte_fin: null,
+    texte_contact: null,
     consignes_tableaux: null,
     texte_buffet: null,
     open: null,
@@ -114,6 +115,7 @@ export class GestionFormulaireComponent implements OnInit {
       texte_debut: new FormControl(''),
       texte_buffet: new FormControl(''),
       texte_fin: new FormControl(''),
+      texte_contact: new FormControl(''),
       consignes_tableaux: new FormControl(''),
       date: new FormControl(''),
     });
@@ -135,6 +137,7 @@ export class GestionFormulaireComponent implements OnInit {
           texte_debut: this.parametres.texte_debut,
           texte_buffet: this.parametres.texte_buffet,
           texte_fin: this.parametres.texte_fin,
+          texte_contact: this.parametres.texte_contact,
           consignes_tableaux: this.parametres.consignes_tableaux,
           date: this.parametres.date,
         });
@@ -154,6 +157,7 @@ export class GestionFormulaireComponent implements OnInit {
       texte_debut: this.reactiveFormFormulaire.get('texte_debut').value,
       texte_buffet: this.reactiveFormFormulaire.get('texte_buffet').value,
       texte_fin: this.reactiveFormFormulaire.get('texte_fin').value,
+      texte_contact: this.reactiveFormFormulaire.get('texte_contact').value,
       consignes_tableaux:
         this.reactiveFormFormulaire.get('consignes_tableaux').value,
     };

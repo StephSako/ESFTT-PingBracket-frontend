@@ -113,21 +113,28 @@
         Consignes pour les inscriptions aux tableaux
       </h2>
       <angular-editor
-        id="editor4"
+        id="editor3"
         formControlName="consignes_tableaux"
         [config]="editorConfig"
       ></angular-editor>
 
       <h2 class="lobster special_margin">Texte du buffet</h2>
       <angular-editor
-        id="editor3"
+        id="editor4"
         formControlName="texte_buffet"
+        [config]="editorConfig"
+      ></angular-editor>
+
+      <h2 class="lobster special_margin">Texte du bloc contact</h2>
+      <angular-editor
+        id="editor5"
+        formControlName="texte_contact"
         [config]="editorConfig"
       ></angular-editor>
 
       <h2 class="lobster special_margin">Texte de fin</h2>
       <angular-editor
-        id="editor4"
+        id="editor6"
         formControlName="texte_fin"
         [config]="editorConfig"
       ></angular-editor>

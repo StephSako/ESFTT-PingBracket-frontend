@@ -354,7 +354,25 @@
     <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br />
 
     <br />
-    <h2 class="lobster">3. Validez le formulaire !</h2>
+    <h2 class="lobster">3. Vous contacter</h2>
+    <p [innerHTML]="parametres.texte_contact | noSanitize" class="fromData"></p>
+
+    <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+      <div fxFlex="35%" fxFlex.lt-md="100%">
+        <mat-form-field appearance="outline">
+          <mat-label>Adresse email *</mat-label>
+          <input
+            type="email"
+            matInput
+            [(ngModel)]="email"
+            placeholder="Ex: ping@pong.fr"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <br />
+
+    <h2 class="lobster">4. Validez le formulaire !</h2>
 
     <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">
       Un joueur est en cours d'inscription et n'a pas été validé.<br /><i

@@ -44,6 +44,7 @@ export class FormulaireComponent implements OnInit {
     titre: null,
     texte_buffet: null,
     texte_fin: null,
+    texte_contact: null,
     consignes_tableaux: null,
     open: null,
   };
@@ -61,6 +62,7 @@ export class FormulaireComponent implements OnInit {
     plats: [],
   };
   public platsAlreadyCooked: string[] = [];
+  public email: string = '';
 
   /* Dupliquer le formulaire pour un nouveau joueur */
   public joueurData: JoueurInterface = {
@@ -252,9 +254,7 @@ export class FormulaireComponent implements OnInit {
     let summary: string =
       '<p><i>Inscription le ' +
       this.datepipe.transform(new Date(), 'dd/MM/yyyy à HH:mm') +
-      '</i><br>';
-    summary +=
-      '<h3 style="margin-bottom: 2px;"><b><u>Buffet :</u></b></h3><b>Nombre d\'enfants :</b> ' +
+      '</i><br><h3 style="margin-bottom: 2px;"><b><u>Buffet :</u></b></h3><b>Nombre d\'enfants :</b> ' +
       this.buffet.enfant +
       "<br><b>Nombre d'ados/adultes :</b> " +
       this.buffet.ado_adulte +
@@ -265,7 +265,7 @@ export class FormulaireComponent implements OnInit {
       '<br><br><h3 style="margin-bottom: 2px;"><b><u>Inscription des joueurs :</u></b></h3>';
 
     if (this.listeJoueurs.length > 0) {
-      this.listeJoueurs.forEach((joueur) => {
+      this.listeJoueurs.forEach((joueur, i) => {
         summary +=
           '<b style="color: #3f51b5">' +
           this.formatNom(joueur.nom) +
@@ -293,13 +293,18 @@ export class FormulaireComponent implements OnInit {
             .join(', ') +
           '<br><b>Buffet :</b> ' +
           (joueur.buffet ? 'Oui' : 'Non') +
-          '<br><br>';
+          (i < this.listeJoueurs.length - 1 ? '<br><br>' : '');
       });
     } else {
       summary += '<i>Aucun joueur inscrit</i>';
     }
 
-    return summary + '</p>';
+    summary +=
+      '<br><br><h3 style="margin-bottom: 2px;"><b><u>Email :</u></b></h3> ' +
+      this.email +
+      '<br><br></p>';
+
+    return summary;
   }
 
   disabledAddPlayer(joueurData: JoueurInterface): boolean {
@@ -326,7 +331,8 @@ export class FormulaireComponent implements OnInit {
       this.isPlayerSubscribing() ||
       this.hasSameNamePlayers().length > 0 ||
       this.isAlreadySubscribed().length > 0 ||
-      this.listeJoueursHasInvalidPlayer().length > 0
+      this.listeJoueursHasInvalidPlayer().length > 0 ||
+      this.email.length === 0
     );
   }
 
