@@ -193,6 +193,14 @@ export class FormulaireComponent implements OnInit {
     const errOf: string[] = [];
     const tabOf: any = [];
 
+    // Correction des inputs des nombres de personnes au buffet
+    if (!this.buffet.enfant) {
+      this.buffet.enfant = 0;
+    }
+    if (!this.buffet.ado_adulte) {
+      this.buffet.ado_adulte = 0;
+    }
+
     // Enregistrement des données du buffet
     tabOf.push(this.buffetService.register(this.buffet));
 
@@ -255,9 +263,9 @@ export class FormulaireComponent implements OnInit {
       '<p><i>Inscription le ' +
       this.datepipe.transform(new Date(), 'dd/MM/yyyy à HH:mm') +
       '</i><br><h3 style="margin-bottom: 2px;"><b><u>Buffet :</u></b></h3><b>Nombre d\'enfants :</b> ' +
-      this.buffet.enfant +
+      (!!this.buffet.enfant ? this.buffet.enfant : 0) +
       "<br><b>Nombre d'ados/adultes :</b> " +
-      this.buffet.ado_adulte +
+      (!!this.buffet.ado_adulte ? this.buffet.ado_adulte : 0) +
       '<br><b>Plats préparés :</b> ' +
       (this.buffet.plats.length > 0
         ? this.buffet.plats.join(', ')
@@ -434,7 +442,7 @@ export class FormulaireComponent implements OnInit {
       .afterClosed()
       .subscribe(
         (res) => {
-          if (res) {
+          if (res === 'confirm') {
             this.submit().then();
           }
         },
