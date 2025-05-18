@@ -10,9 +10,106 @@
     <p [innerHTML]="parametres.texte_debut | noSanitize" class="fromData"></p>
 
     <br />
-    <h2 class="lobster">1. Inscription aux tableaux</h2>
+    <h2 class="lobster">1. Inscription des joueurs aux tableaux</h2>
     <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div>
 
+    <form>
+      <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+        <div fxFlex="25%" fxFlex.lt-md="100%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-label>NOM Prénom *</mat-label>
+            <input name="nom" [(ngModel)]="joueurData.nom" matInput />
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="25%" fxFlex.lt-md="100%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-label>Points mensuels (si compétiteur)</mat-label>
+            <input
+              name="classement"
+              [(ngModel)]="joueurData.classement"
+              (blur)="setAuthorizedTableaux(joueurData)"
+              type="number"
+              min="0"
+              max="3000"
+              matInput
+            />
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="15%" fxFlex.lt-md="100%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-label>Âge (si mineur)</mat-label>
+            <input
+              (blur)="checkAge(joueurData); setAuthorizedTableaux(joueurData)"
+              name="age"
+              [(ngModel)]="joueurData.age"
+              type="number"
+              min="5"
+              max="17"
+              matInput
+            />
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="20%" fxFlex.lt-md="100%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-label>Tableau(x) *</mat-label>
+            <mat-select
+              name="tableaux"
+              [(ngModel)]="joueurData.tableaux"
+              multiple
+            >
+              <mat-option
+                [disabled]="
+                  isTableauNotClickable(
+                    tableau,
+                    joueurData.age,
+                    joueurData.classement
+                  )
+                "
+                *ngFor="let tableau of tableaux"
+                [value]="tableau"
+                ><span
+                  >{{ tableau.nom | titlecase }}
+                  <span *ngIf="tableau.age_minimum !== null">
+                    - {{ tableau.age_minimum }} ans</span
+                  >
+                  <span
+                    *ngIf="
+                      tableau.type_licence !== null &&
+                      tableau.type_licence !== 1
+                    "
+                  >
+                    - {{ showTypeLicence(tableau.type_licence) }}</span
+                  >
+                </span></mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="15%" fxFlex.lt-md="100%">
+          <button
+            class="center btn_action"
+            [disabled]="disabledAddPlayer(joueurData)"
+            (click)="addJoueur(joueurData)"
+            mat-raised-button
+            color="primary"
+          >
+            Valider ce joueur
+          </button>
+        </div>
+      </div>
+    </form>
+    <br /><br />
+
+    <p>
+      <b><u>Joueurs validés :</u></b>
+    </p>
+    <p *ngIf="listeJoueurs.length === 0">
+      <i>Aucun joueur validé pour le moment</i>
+    </p>
     <div *ngFor="let joueurItem of listeJoueurs">
       <form>
         <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
@@ -143,96 +240,6 @@
         </div>
       </form>
     </div>
-
-    <form>
-      <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
-        <div fxFlex="25%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>NOM Prénom *</mat-label>
-            <input name="nom" [(ngModel)]="joueurData.nom" matInput />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="25%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>Points mensuels (si compétiteur)</mat-label>
-            <input
-              name="classement"
-              [(ngModel)]="joueurData.classement"
-              (blur)="setAuthorizedTableaux(joueurData)"
-              type="number"
-              min="0"
-              max="3000"
-              matInput
-            />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="15%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>Âge (si mineur)</mat-label>
-            <input
-              (blur)="checkAge(joueurData); setAuthorizedTableaux(joueurData)"
-              name="age"
-              [(ngModel)]="joueurData.age"
-              type="number"
-              min="5"
-              max="17"
-              matInput
-            />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="20%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>Tableau(x) *</mat-label>
-            <mat-select
-              name="tableaux"
-              [(ngModel)]="joueurData.tableaux"
-              multiple
-            >
-              <mat-option
-                [disabled]="
-                  isTableauNotClickable(
-                    tableau,
-                    joueurData.age,
-                    joueurData.classement
-                  )
-                "
-                *ngFor="let tableau of tableaux"
-                [value]="tableau"
-                ><span
-                  >{{ tableau.nom | titlecase }}
-                  <span *ngIf="tableau.age_minimum !== null">
-                    - {{ tableau.age_minimum }} ans</span
-                  >
-                  <span
-                    *ngIf="
-                      tableau.type_licence !== null &&
-                      tableau.type_licence !== 1
-                    "
-                  >
-                    - {{ showTypeLicence(tableau.type_licence) }}</span
-                  >
-                </span></mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="15%" fxFlex.lt-md="100%">
-          <button
-            class="center btn_action"
-            [disabled]="disabledAddPlayer(joueurData)"
-            (click)="addJoueur(joueurData)"
-            mat-raised-button
-            color="primary"
-          >
-            Valider ce joueur
-          </button>
-        </div>
-      </div>
-    </form>
     <br />
 
     <br />

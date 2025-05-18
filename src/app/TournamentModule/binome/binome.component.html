@@ -73,6 +73,24 @@
       >
         <div class="listPlayers">
           <mat-card>
+            <p
+              class="center error_message"
+              *ngIf="listJoueursTotal.length % tableau.maxNumberPlayers > 0"
+            >
+              Il manque
+              {{
+                tableau.maxNumberPlayers -
+                  (listJoueursTotal.length % tableau.maxNumberPlayers)
+              }}
+              joueur{{
+                tableau.maxNumberPlayers -
+                  (listJoueursTotal.length % tableau.maxNumberPlayers) >
+                1
+                  ? "s"
+                  : ""
+              }}
+              pour compléter le dernier binôme
+            </p>
             <h1 class="lobster center labelJoueursInscrits">
               Joueurs inscrits
             </h1>
@@ -157,10 +175,13 @@
               </div>
 
               <p
-                *ngIf="binome.joueurs.length === 1"
+                *ngIf="
+                  binome.joueurs.length > 0 &&
+                  binome.joueurs.length < tableau.maxNumberPlayers
+                "
                 class="center error_message"
               >
-                Binôme inqualifiable car unique joueur
+                Binôme inqualifiable car incomplet
               </p>
             </mat-card>
           </div>

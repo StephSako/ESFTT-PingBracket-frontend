@@ -2,9 +2,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { JoueurService } from '../../Service/joueur.service';
@@ -19,15 +21,15 @@ import { PoulesService } from '../../Service/poules.service';
 import { Subscription } from 'rxjs';
 import { TableauService } from '../../Service/tableau.service';
 import { AppService } from 'src/app/app.service';
-import { PariService } from 'src/app/Service/pari.service';
-import { IdNomInterface } from 'src/app/Interface/IdNomInterface';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-gestion-joueurs',
   templateUrl: './gestion-joueurs.component.html',
   styleUrls: ['./gestion-joueurs.component.scss'],
 })
-export class GestionJoueursComponent implements OnInit, OnDestroy {
+export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
   displayedColumns: string[] = [
     'pointage',
@@ -40,8 +42,10 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     'delete',
   ];
   @Input() allJoueurs: JoueurInterface[] = [];
+  dataSource = new MatTableDataSource(this.allJoueurs);
   private tableauxEventEmitter: Subscription;
   public alreadySubscribed = false;
+  @ViewChild(MatSort) sort = new MatSort();
 
   public joueur: JoueurInterface = {
     nom: null,
@@ -53,10 +57,6 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     tableaux: [],
   };
 
-  setAlreadySubscribed(isAlreadySubscribed: boolean): void {
-    this.alreadySubscribed = isAlreadySubscribed;
-  }
-
   constructor(
     private joueurService: JoueurService,
     private notifyService: NotifyService,
@@ -64,7 +64,6 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     private appService: AppService,
     public dialog: MatDialog,
     private poulesService: PoulesService,
-    private pariService: PariService,
     private tableauService: TableauService
   ) {}
 
@@ -73,6 +72,15 @@ export class GestionJoueursComponent implements OnInit, OnDestroy {
     this.tableauxEventEmitter = this.tableauService.tableauxChange.subscribe(
       () => this.getAllJoueurs.emit()
     );
+  }
+
+  ngOnChanges() {
+    this.dataSource = new MatTableDataSource(this.allJoueurs);
+    this.dataSource.sort = this.sort;
+  }
+
+  setAlreadySubscribed(isAlreadySubscribed: boolean): void {
+    this.alreadySubscribed = isAlreadySubscribed;
   }
 
   generatePoules(tableau: TableauInterface): void {

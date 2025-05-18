@@ -32,6 +32,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { LogsTableauComponent } from './logs-tableau/logs-tableau.component';
 import { GestionParisComponent } from './gestion-paris/gestion-paris.component';
 import { DetailsParisComponent } from './gestion-paris/details-paris/details-paris.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { DetailsParisComponent } from './gestion-paris/details-paris/details-par
     GestionRoutingModule,
     SharedModules,
     AngularEditorModule,
+    MatSortModule,
   ],
 })
 export class GestionModules {}
