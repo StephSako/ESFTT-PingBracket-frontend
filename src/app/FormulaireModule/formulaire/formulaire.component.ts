@@ -332,8 +332,8 @@ export class FormulaireComponent implements OnInit {
   disabledSubmit(): boolean {
     return (
       (this.listeJoueurs.length === 0 &&
-        this.buffet.enfant === 0 &&
-        this.buffet.ado_adulte === 0 &&
+        (this.buffet.enfant === 0 || this.buffet.enfant === null) &&
+        (this.buffet.ado_adulte === 0 || this.buffet.ado_adulte === null) &&
         this.buffet.plats.length === 0) ||
       this.spinnerShown ||
       this.isPlayerSubscribing() ||
