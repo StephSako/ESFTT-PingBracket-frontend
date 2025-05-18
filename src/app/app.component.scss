@@ -30,3 +30,26 @@ mat-toolbar {
 .mat-tab-link {
   color: white !important;
 }
+
+button {
+  &.mat-icon-button {
+    color: white;
+  }
+
+  &.active:hover {
+    color: black;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  button.mat-icon-button,
+  mat-menu {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .menu_toolbar {
+    display: none;
+  }
+}

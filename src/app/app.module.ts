@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormulaireModules } from './FormulaireModule/formulaire.modules';
 import { MatIconModule } from '@angular/material/icon';
 import { ParierModule } from './ParierModule/parier.modules';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { ParierModule } from './ParierModule/parier.modules';
     WildcardModules,
     CoreModules,
     ParierModule,
+    MatMenuModule,
   ],
   bootstrap: [AppComponent],
 })

@@ -15,9 +15,10 @@
       Imprimer toutes les poules
     </button>
 
-    <div fxLayout="row wrap">
+    <div fxLayout.gt-sm="row wrap" fxLayout.sm="column">
       <div
-        [fxFlex]="
+        fxFlex.sm="100%"
+        [fxFlex.gt-sm]="
           tableau.nbPoules > 2 ? '33%' : tableau.nbPoules === 2 ? '50%' : '100%'
         "
         *ngFor="let poule of poules; let indexList = index"

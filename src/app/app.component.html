@@ -1,5 +1,77 @@
 <mat-toolbar>
-  <div *ngIf="accountService.isLoggedIn()">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <!-- <button mat-menu-item>
+      <mat-icon>dialpad</mat-icon>
+      <span>Redial</span>
+    </button> -->
+
+    <div *ngIf="accountService.isLoggedIn()">
+      <button
+        mat-menu-item
+        *ngFor="let tableau of tableaux"
+        routerLinkActive="active"
+        (click)="refreshTableau(tableau)"
+        [routerLink]="'/tableau/' + tableau._id"
+      >
+        <span
+          >{{ tableau.nom | titlecase }}
+          <span *ngIf="tableau.age_minimum !== null">
+            - {{ tableau.age_minimum }} ans</span
+          >
+          <span
+            *ngIf="tableau.type_licence !== null && tableau.type_licence !== 1"
+          >
+            - {{ showTypeLicence(tableau.type_licence) }}</span
+          >
+        </span>
+        <mat-icon
+          class="state"
+          [class]="appService.getTableauStateColor(tableau.is_launched)"
+          >circle</mat-icon
+        >
+      </button>
+    </div>
+    <button mat-menu-item routerLink="/formulaire" routerLinkActive="active">
+      <mat-icon>person_add</mat-icon>
+      <span>Formulaire</span>
+    </button>
+    <button mat-menu-item routerLink="/parier" routerLinkActive="active">
+      <mat-icon>casino</mat-icon>
+      <span>Parier</span>
+    </button>
+    <button
+      mat-menu-item
+      *ngIf="accountService.isLoggedIn()"
+      routerLink="/gestion"
+      routerLinkActive="active"
+    >
+      <mat-icon>settings</mat-icon>
+      <span>Gestion</span>
+    </button>
+    <button
+      mat-menu-item
+      *ngIf="!accountService.isLoggedIn()"
+      routerLinkActive="active"
+      routerLink="/login"
+    >
+      <mat-icon>settings</mat-icon>
+      <span>Gestion</span>
+    </button>
+    <button
+      mat-menu-item
+      *ngIf="accountService.isLoggedIn()"
+      (click)="accountService.logout()"
+      color="warn"
+    >
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Déconnexion</span>
+    </button>
+  </mat-menu>
+
+  <div *ngIf="accountService.isLoggedIn()" class="menu_toolbar">
     <button
       *ngFor="let tableau of tableaux"
       mat-raised-button
@@ -26,36 +98,42 @@
     </button>
   </div>
 
-  <span class="spacer"></span>
-  <button mat-raised-button routerLink="/formulaire" routerLinkActive="active">
-    Formulaire
-  </button>
-  <button mat-raised-button routerLink="/parier" routerLinkActive="active">
-    Parier
-  </button>
-  <button
-    mat-raised-button
-    *ngIf="accountService.isLoggedIn()"
-    routerLinkActive="active"
-    routerLink="/gestion"
-  >
-    <mat-icon>settings</mat-icon>
-  </button>
-  <button
-    mat-raised-button
-    *ngIf="!accountService.isLoggedIn()"
-    routerLinkActive="active"
-    routerLink="/login"
-  >
-    <mat-icon><span class="material-icons">settings</span></mat-icon>
-  </button>
-  <button
-    mat-raised-button
-    *ngIf="accountService.isLoggedIn()"
-    (click)="accountService.logout()"
-    color="warn"
-  >
-    <mat-icon>power_settings_new</mat-icon>
-  </button>
+  <div class="menu_toolbar">
+    <span class="spacer"></span>
+    <button
+      mat-raised-button
+      routerLink="/formulaire"
+      routerLinkActive="active"
+    >
+      Formulaire
+    </button>
+    <button mat-raised-button routerLink="/parier" routerLinkActive="active">
+      Parier
+    </button>
+    <button
+      mat-raised-button
+      *ngIf="accountService.isLoggedIn()"
+      routerLinkActive="active"
+      routerLink="/gestion"
+    >
+      <mat-icon>settings</mat-icon>
+    </button>
+    <button
+      mat-raised-button
+      *ngIf="!accountService.isLoggedIn()"
+      routerLinkActive="active"
+      routerLink="/login"
+    >
+      <mat-icon><span class="material-icons">settings</span></mat-icon>
+    </button>
+    <button
+      mat-raised-button
+      *ngIf="accountService.isLoggedIn()"
+      (click)="accountService.logout()"
+      color="warn"
+    >
+      <mat-icon>power_settings_new</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
 <router-outlet></router-outlet>
