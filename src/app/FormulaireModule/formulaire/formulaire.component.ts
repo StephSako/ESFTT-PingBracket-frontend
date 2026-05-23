@@ -25,7 +25,7 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-formulaire',
   templateUrl: './formulaire.component.html',
-  styleUrls: ['./formulaire.component.scss'],
+  styleUrls: ['./formulaire.component.scss']
 })
 export class FormulaireComponent implements OnInit {
   /* Champs du formulaire pour les joueurs */
@@ -45,8 +45,9 @@ export class FormulaireComponent implements OnInit {
     texte_buffet: null,
     texte_fin: null,
     texte_contact: null,
+    texte_affiliation: null,
     consignes_tableaux: null,
-    open: null,
+    open: null
   };
 
   /* Paramètres de l'input avec les Chips */
@@ -59,10 +60,11 @@ export class FormulaireComponent implements OnInit {
     ado_adulte: 0,
     enfant: 0,
     _id: null,
-    plats: [],
+    plats: []
   };
   public platsAlreadyCooked: string[] = [];
   public email: string = '';
+  public joueurClubAffilie: string = '';
 
   /* Dupliquer le formulaire pour un nouveau joueur */
   public joueurData: JoueurInterface = {
@@ -72,7 +74,7 @@ export class FormulaireComponent implements OnInit {
     buffet: true,
     age: null,
     _id: null,
-    pointage: false,
+    pointage: false
   };
   public listeJoueurs: JoueurInterface[] = [];
   public joueursParticipantsBuffet = new MatTableDataSource<JoueurInterface>(
@@ -173,7 +175,7 @@ export class FormulaireComponent implements OnInit {
       buffet: true,
       age: null,
       _id: null,
-      pointage: false,
+      pointage: false
     };
     this.listeJoueurs.push(joueur);
     this.joueursParticipantsBuffet.data = this.listeJoueurs;
@@ -224,7 +226,7 @@ export class FormulaireComponent implements OnInit {
               )
             )
             .reduce((acc, val) => acc.concat(val), [])
-        ),
+        )
       ] as TableauInterface[];
       if (tableauxSubscribed.length > 0) {
         tableauxSubscribed.forEach((tabSub) =>
@@ -240,7 +242,7 @@ export class FormulaireComponent implements OnInit {
       await obs
         .toPromise()
         .then()
-        .catch((err) => errOf.push(err.error));
+        .catch((err: any) => errOf.push(err.error));
     }
 
     this.spinnerShown = false;
@@ -253,24 +255,16 @@ export class FormulaireComponent implements OnInit {
       );
     } else {
       this.router.navigate(['submitted'], {
-        state: { summary: this.getSubmitSummary() },
+        state: { summary: this.getSubmitSummary() }
       });
     }
   }
 
   getSubmitSummary(): string {
     let summary: string =
-      '<p><i>Inscription le ' +
+      "<p style='text-align: center;'><i>Inscription le " +
       this.datepipe.transform(new Date(), 'dd/MM/yyyy à HH:mm') +
-      '</i><br><h3 style="margin-bottom: 2px;"><b><u>Buffet :</u></b></h3><b>Nombre d\'enfants :</b> ' +
-      (!!this.buffet.enfant ? this.buffet.enfant : 0) +
-      "<br><b>Nombre d'ados/adultes :</b> " +
-      (!!this.buffet.ado_adulte ? this.buffet.ado_adulte : 0) +
-      '<br><b>Plats préparés :</b> ' +
-      (this.buffet.plats.length > 0
-        ? this.buffet.plats.join(', ')
-        : '<i>Aucun</i>') +
-      '<br><br><h3 style="margin-bottom: 2px;"><b><u>Inscription des joueurs :</u></b></h3>';
+      '</i><br><br><h3 style="margin-bottom: 2px;"><b><u>Inscription des joueurs :</u></b></h3>';
 
     if (this.listeJoueurs.length > 0) {
       this.listeJoueurs.forEach((joueur, i) => {
@@ -308,9 +302,27 @@ export class FormulaireComponent implements OnInit {
     }
 
     summary +=
-      '<br><br><h3 style="margin-bottom: 2px;"><b><u>Email :</u></b></h3> ' +
+      '<br><br><h3 style="margin-bottom: 2px;"><b><u>Buffet :</u></b></h3><b>Nombre d\'enfants :</b> ' +
+      (!!this.buffet.enfant ? this.buffet.enfant : 0) +
+      "<br><b>Nombre d'ados/adultes :</b> " +
+      (!!this.buffet.ado_adulte ? this.buffet.ado_adulte : 0) +
+      '<br><b>Plats préparés :</b> ' +
+      (this.buffet.plats.length > 0
+        ? this.buffet.plats.join(', ')
+        : '<i>Aucun</i>') +
+      '<br>';
+
+    summary +=
+      '<br><span style="margin-bottom: 2px; font-size: 16px;"><b><u>Email :</u></b></span> ' +
       this.email +
-      '<br><br></p>';
+      '<br></p>';
+
+    summary +=
+      '<br><span style="margin-bottom: 2px; font-size: 16px;"><b><u>Affiliation au club :</u></b></span> ' +
+      (this.joueurClubAffilie.trim().length > 0
+        ? this.joueurClubAffilie
+        : '/') +
+      '<br></p>';
 
     return summary;
   }
@@ -338,6 +350,7 @@ export class FormulaireComponent implements OnInit {
       this.spinnerShown ||
       this.isPlayerSubscribing() ||
       this.hasSameNamePlayers().length > 0 ||
+      this.hasDoubleInscriptionTableauxJeunesPlayers().length > 0 ||
       this.isAlreadySubscribed().length > 0 ||
       this.listeJoueursHasInvalidPlayer().length > 0 ||
       this.email.length === 0
@@ -392,6 +405,21 @@ export class FormulaireComponent implements OnInit {
     return sameNames;
   }
 
+  hasDoubleInscriptionTableauxJeunesPlayers(): string[] {
+    const doubleInscriptionTableauxJeunesPlayers: string[] = [];
+    this.listeJoueurs.forEach((j_f: JoueurInterface) => {
+      if (
+        this.doubleInscriptionTableauxJeunes(j_f.tableaux) &&
+        !doubleInscriptionTableauxJeunesPlayers.includes(
+          this.formatNom(j_f.nom)
+        )
+      ) {
+        doubleInscriptionTableauxJeunesPlayers.push(this.formatNom(j_f.nom));
+      }
+    });
+    return doubleInscriptionTableauxJeunesPlayers;
+  }
+
   isAlreadySubscribed(): string[] {
     const errorAlreadySubscribed: string[] = [];
     this.listeJoueurs.forEach((j_f: JoueurInterface) => {
@@ -424,6 +452,13 @@ export class FormulaireComponent implements OnInit {
     return tableaux.length === 0;
   }
 
+  doubleInscriptionTableauxJeunes(tableaux: TableauInterface[]): boolean {
+    return (
+      tableaux.filter((tableau: TableauInterface) => !!tableau.age_minimum)
+        .length >= 2
+    );
+  }
+
   openConfirmModale(): void {
     const playerToDelete: Dialog = {
       id: 'confirm',
@@ -431,13 +466,13 @@ export class FormulaireComponent implements OnInit {
       text: this.getSubmitSummary(),
       action_button_text: 'Confirmer',
       h1_class: 'form_modale',
-      close_button: 'Modifier',
+      close_button: 'Modifier'
     };
 
     this.dialog
       .open(DialogComponent, {
-        width: 'auto',
-        data: playerToDelete,
+        width: '35%',
+        data: playerToDelete
       })
       .afterClosed()
       .subscribe(
@@ -527,5 +562,22 @@ export class FormulaireComponent implements OnInit {
 
   showTypeLicence(idTypeLicence: number): string {
     return this.tableauService.showTypeLicence(idTypeLicence);
+  }
+
+  getColorErrorField(joueurItem: JoueurInterface, field: string): string {
+    if (field === 'nom') {
+      return this.isInSameNamePlayers(joueurItem.nom) ||
+        this.isInAlreadySubscribedPlayers(joueurItem.nom) ||
+        this.hasNoName(joueurItem.nom) ||
+        this.hasNoTableau(joueurItem.tableaux)
+        ? 'red'
+        : 'black';
+    } else if (field === 'tableaux') {
+      return this.doubleInscriptionTableauxJeunes(joueurItem.tableaux)
+        ? 'red'
+        : 'black';
+    } else {
+      return '';
+    }
   }
 }

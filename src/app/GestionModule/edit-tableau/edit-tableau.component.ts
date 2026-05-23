@@ -32,7 +32,7 @@ export class EditTableauComponent implements OnInit {
   typesLicenceTableau: any[] = typesLicenceTableau;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBar: MatSnackBar,
     private bracketService: BracketService,
     private notifyService: NotifyService,
@@ -40,20 +40,9 @@ export class EditTableauComponent implements OnInit {
     public dialog: MatDialog,
     private pariService: PariService,
     private poulesService: PoulesService,
-    private binomeService: BinomeService
+    private binomeService: BinomeService,
   ) {
     this.tableau = data.tableau;
-  }
-
-  filterStatus(): void {
-    this.statuts = statuts.filter(
-      (statut) =>
-        (this.value('poules') && statut.forNoPoule !== false) ||
-        (!this.value('poules') && statut.forNoPoule === undefined)
-    );
-  }
-
-  ngOnInit(): void {
     this.reactiveForm = new FormGroup({
       nom: new FormControl(this.tableau.nom),
       format: new FormControl(this.tableau.format),
@@ -61,7 +50,7 @@ export class EditTableauComponent implements OnInit {
       consolante: new FormControl(this.tableau.consolante),
       handicap: new FormControl(this.tableau.handicap),
       nbPoules: new FormControl(
-        this.tableau.poules ? this.tableau.nbPoules : 2
+        this.tableau.poules ? this.tableau.nbPoules : 2,
       ),
       age_minimum: new FormControl(this.tableau.age_minimum),
       type_licence: new FormControl(this.tableau.type_licence),
@@ -74,16 +63,27 @@ export class EditTableauComponent implements OnInit {
       bracketPariable: new FormControl(this.tableau.bracketPariable),
       consolantePariable: new FormControl(this.tableau.consolantePariable),
       ptsGagnesParisVainqueur: new FormControl(
-        this.tableau.ptsGagnesParisVainqueur
+        this.tableau.ptsGagnesParisVainqueur,
       ),
       ptsPerdusParisVainqueur: new FormControl(
-        this.tableau.ptsPerdusParisVainqueur
+        this.tableau.ptsPerdusParisVainqueur,
       ),
       ptsGagnesParisWB: new FormControl(this.tableau.ptsGagnesParisWB),
       ptsPerdusParisWB: new FormControl(this.tableau.ptsPerdusParisWB),
       ptsGagnesParisLB: new FormControl(this.tableau.ptsGagnesParisLB),
       ptsPerdusParisLB: new FormControl(this.tableau.ptsPerdusParisLB),
     });
+  }
+
+  filterStatus(): void {
+    this.statuts = statuts.filter(
+      (statut) =>
+        (this.value('poules') && statut.forNoPoule !== false) ||
+        (!this.value('poules') && statut.forNoPoule === undefined),
+    );
+  }
+
+  ngOnInit(): void {
     this.filterStatus();
   }
 
@@ -144,14 +144,14 @@ export class EditTableauComponent implements OnInit {
                 if (consolanteEdited) {
                   this.bracketService.deleteBracket(this.tableau._id).subscribe(
                     () => {},
-                    (err) => this.emitErrorSnackbar(err)
+                    (err) => this.emitErrorSnackbar(err),
                   );
                 }
 
                 if (poulesEdited && !this.tableau.poules) {
                   this.poulesService.deletePoules(this.tableau._id).subscribe(
                     () => {},
-                    (err) => this.emitErrorSnackbar(err)
+                    (err) => this.emitErrorSnackbar(err),
                   );
                 }
 
@@ -167,7 +167,7 @@ export class EditTableauComponent implements OnInit {
                         this.tableauService.tableauxChange.emit();
                         this.tableauService.nbInscritsChange.emit();
                       },
-                      (err) => this.emitErrorSnackbar(err)
+                      (err) => this.emitErrorSnackbar(err),
                     );
                 }
 
@@ -175,14 +175,14 @@ export class EditTableauComponent implements OnInit {
                   if (this.tableau.format === 'simple') {
                     this.binomeService.removeAll(this.tableau._id).subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err)
+                      (err) => this.emitErrorSnackbar(err),
                     );
                   } else if (this.tableau.format === 'double') {
                     this.binomeService
                       .generateBinomes(this.tableau._id)
                       .subscribe(
                         () => {},
-                        (err) => this.emitErrorSnackbar(err)
+                        (err) => this.emitErrorSnackbar(err),
                       );
                   }
                 }
@@ -193,7 +193,7 @@ export class EditTableauComponent implements OnInit {
                     .deleteParisTableauPhase('all', this.tableau._id)
                     .subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err)
+                      (err) => this.emitErrorSnackbar(err),
                     );
                 } else if (
                   bracketPariableEdited &&
@@ -203,7 +203,7 @@ export class EditTableauComponent implements OnInit {
                     .deleteParisTableauPhase('all_brackets', this.tableau._id)
                     .subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err)
+                      (err) => this.emitErrorSnackbar(err),
                     );
                 } else if (
                   consolantePariableEdited &&
@@ -213,7 +213,7 @@ export class EditTableauComponent implements OnInit {
                     .deleteParisTableauPhase('consolante', this.tableau._id)
                     .subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err)
+                      (err) => this.emitErrorSnackbar(err),
                     );
                 }
 
@@ -230,7 +230,7 @@ export class EditTableauComponent implements OnInit {
                   this.generatePoules(this.tableau);
                 }
               },
-              (err) => this.emitErrorSnackbar(err)
+              (err) => this.emitErrorSnackbar(err),
             );
           }
         });
@@ -243,7 +243,7 @@ export class EditTableauComponent implements OnInit {
           }
           this.tableauService.tableauxChange.emit();
         },
-        (err) => this.emitErrorSnackbar(err)
+        (err) => this.emitErrorSnackbar(err),
       );
     }
   }
@@ -309,7 +309,7 @@ export class EditTableauComponent implements OnInit {
   generatePoules(tableau: TableauInterface): void {
     this.poulesService.generatePoules(tableau).subscribe(
       () => {},
-      (err) => this.emitErrorSnackbar(err)
+      (err) => this.emitErrorSnackbar(err),
     );
   }
 
@@ -341,15 +341,14 @@ export class EditTableauComponent implements OnInit {
   }
 
   simpleFormatPouleOnChange(): void {
-    if (this.value('format') === 'simple') {
-      this.reactiveForm.patchValue({
-        poules: true,
-      });
+    if (this.reactiveForm.get('hasChapeau') != null) {
+      this.reactiveForm.get('hasChapeau').setValue(false);
     }
-    this.reactiveForm.get('hasChapeau').setValue(false);
   }
 
   value(field: string): any {
-    return this.reactiveForm.get(field).value;
+    if (this.reactiveForm.get(field) != null) {
+      return this.reactiveForm.get(field).value;
+    }
   }
 }

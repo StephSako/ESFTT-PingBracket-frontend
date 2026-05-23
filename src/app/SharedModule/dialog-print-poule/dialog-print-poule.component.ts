@@ -1,8 +1,8 @@
+import { PouleInterface } from './../../Interface/Poule';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ordresRencontres } from 'src/app/const/options-poules';
 import { Dialog } from 'src/app/Interface/Dialog';
-import { PouleInterface } from 'src/app/Interface/Poule';
 import { HandicapService } from 'src/app/Service/handicap.service';
 
 @Component({
@@ -17,9 +17,14 @@ export class DialogPrintPouleComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Dialog,
-    private readonly handicapService: HandicapService
+    private readonly handicapService: HandicapService,
   ) {
-    this.poules = data.poules;
+    data.poules.forEach((poule: PouleInterface, i: number) => {
+      if (poule.participants.length > 1) {
+        poule.i = i;
+        this.poules.push(poule);
+      }
+    });
     this.hasTableauHandicap = data.hasTableauHandicap;
     this.isSimpleFormat = data.format === 'simple';
   }

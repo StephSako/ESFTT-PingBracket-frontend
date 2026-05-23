@@ -5,7 +5,7 @@
 
   <mat-card *ngIf="parametres.open !== null && parametres.open">
     <p [innerHTML]="parametres.titre" class="center fromData"></p>
-    <h1 class="center lobster">{{ parametres.date | date : "dd/MM/yyyy" }}</h1>
+    <h1 class="center lobster">{{ parametres.date | date: "dd/MM/yyyy" }}</h1>
 
     <p [innerHTML]="parametres.texte_debut | noSanitize" class="fromData"></p>
 
@@ -116,15 +116,7 @@
           <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
               <mat-label
-                [ngStyle]="{
-                  color:
-                    isInSameNamePlayers(joueurItem.nom) ||
-                    isInAlreadySubscribedPlayers(joueurItem.nom) ||
-                    hasNoName(joueurItem.nom) ||
-                    hasNoTableau(joueurItem.tableaux)
-                      ? 'red'
-                      : 'black'
-                }"
+                [ngStyle]="{ color: getColorErrorField(joueurItem, 'nom') }"
                 >NOM Prénom *</mat-label
               >
               <input name="nom" [(ngModel)]="joueurItem.nom" matInput />
@@ -192,7 +184,12 @@
 
           <div fxFlex="20%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label>Tableau(x) *</mat-label>
+              <mat-label
+                [ngStyle]="{
+                  color: getColorErrorField(joueurItem, 'tableaux')
+                }"
+                >Tableau(x) *</mat-label
+              >
               <mat-select
                 name="tableaux"
                 [(ngModel)]="joueurItem.tableaux"
@@ -225,6 +222,13 @@
                 >
               </mat-select>
             </mat-form-field>
+
+            <p
+              class="error"
+              *ngIf="doubleInscriptionTableauxJeunes(joueurItem.tableaux)"
+            >
+              Le joueur ne peut participer qu'à un seul tableau Jeune
+            </p>
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
@@ -379,7 +383,24 @@
     </div>
     <br />
 
-    <h2 class="lobster">4. Validez le formulaire !</h2>
+    <br />
+    <h2 class="lobster">4. Êtes-vous connu du club ?</h2>
+    <p
+      [innerHTML]="parametres.texte_affiliation | noSanitize"
+      class="fromData"
+    ></p>
+
+    <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+      <div fxFlex="35%" fxFlex.lt-md="100%">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom du membre du club rattaché (facultatif)</mat-label>
+          <input type="text" matInput [(ngModel)]="joueurClubAffilie" />
+        </mat-form-field>
+      </div>
+    </div>
+    <br />
+
+    <h2 class="lobster">5. Validez le formulaire !</h2>
 
     <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">
       Un joueur est en cours d'inscription et n'a pas été validé.<br /><i
@@ -411,6 +432,17 @@
           (isAlreadySubscribed().length > 1
             ? " joueurs renseignés sont déjà inscrits"
             : " joueur renseigné est déjà inscrit")
+      }}
+    </p>
+    <p
+      class="alerte_pill center"
+      *ngIf="hasDoubleInscriptionTableauxJeunesPlayers().length > 0"
+    >
+      {{
+        hasDoubleInscriptionTableauxJeunesPlayers().length +
+          (hasDoubleInscriptionTableauxJeunesPlayers().length > 1
+            ? " joueurs renseignés sont inscrits dans plusieurs tableaux Jeunes"
+            : " joueur renseigné est inscrit dans plusieurs tableaux Jeunes")
       }}
     </p>
     <button

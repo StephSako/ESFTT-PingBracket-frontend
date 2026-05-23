@@ -51,6 +51,7 @@ export class GestionFormulaireComponent implements OnInit {
     titre: null,
     texte_fin: null,
     texte_contact: null,
+    texte_affiliation: null,
     consignes_tableaux: null,
     texte_buffet: null,
     open: null,
@@ -106,7 +107,7 @@ export class GestionFormulaireComponent implements OnInit {
     private parametreService: ParametresService,
     private notifyService: NotifyService,
     private snackBar: MatSnackBar,
-    private buffetService: BuffetService
+    private buffetService: BuffetService,
   ) {}
 
   ngOnInit(): void {
@@ -116,6 +117,7 @@ export class GestionFormulaireComponent implements OnInit {
       texte_buffet: new FormControl(''),
       texte_fin: new FormControl(''),
       texte_contact: new FormControl(''),
+      texte_affiliation: new FormControl(''),
       consignes_tableaux: new FormControl(''),
       date: new FormControl(''),
     });
@@ -138,13 +140,14 @@ export class GestionFormulaireComponent implements OnInit {
           texte_buffet: this.parametres.texte_buffet,
           texte_fin: this.parametres.texte_fin,
           texte_contact: this.parametres.texte_contact,
+          texte_affiliation: this.parametres.texte_affiliation,
           consignes_tableaux: this.parametres.consignes_tableaux,
           date: this.parametres.date,
         });
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
-      }
+      },
     );
   }
 
@@ -158,6 +161,8 @@ export class GestionFormulaireComponent implements OnInit {
       texte_buffet: this.reactiveFormFormulaire.get('texte_buffet').value,
       texte_fin: this.reactiveFormFormulaire.get('texte_fin').value,
       texte_contact: this.reactiveFormFormulaire.get('texte_contact').value,
+      texte_affiliation:
+        this.reactiveFormFormulaire.get('texte_affiliation').value,
       consignes_tableaux:
         this.reactiveFormFormulaire.get('consignes_tableaux').value,
     };
@@ -167,12 +172,12 @@ export class GestionFormulaireComponent implements OnInit {
           message.message,
           this.snackBar,
           'success',
-          'OK'
+          'OK',
         );
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
-      }
+      },
     );
   }
 
@@ -189,12 +194,12 @@ export class GestionFormulaireComponent implements OnInit {
           message.message,
           this.snackBar,
           'success',
-          'OK'
+          'OK',
         );
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
-      }
+      },
     );
   }
 
@@ -209,7 +214,7 @@ export class GestionFormulaireComponent implements OnInit {
       },
       (err) => {
         this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK');
-      }
+      },
     );
   }
 
@@ -220,12 +225,12 @@ export class GestionFormulaireComponent implements OnInit {
           result.message,
           this.snackBar,
           'success',
-          'OK'
+          'OK',
         );
         this.parametres.open = !this.parametres.open;
       },
       (err) =>
-        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK')
+        this.notifyService.notifyUser(err.error, this.snackBar, 'error', 'OK'),
     );
   }
 

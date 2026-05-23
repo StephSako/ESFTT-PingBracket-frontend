@@ -13,8 +13,8 @@
   </div>
 
   <div id="divToPrint">
-    <div *ngFor="let poule of poules; let indexPoule = index">
-      <h2>Poule n°{{ indexPoule + 1 }}</h2>
+    <div *ngFor="let poule of poules">
+      <h2>Poule n°{{ poule.i + 1 }}</h2>
 
       <table style="width: fit-content; border-collapse: collapse">
         <tr>
@@ -39,7 +39,7 @@
       <table
         [style]="
           'width: fit-content;border-collapse: collapse;page-break-after: ' +
-          ((indexPoule + 1) % (getMaxJoueursPoules() > 4 ? 1 : 2) == 0
+          ((poule.i + 1) % (getMaxJoueursPoules() > 4 ? 1 : 2) == 0
             ? 'always'
             : 'avoid')
         "

@@ -6,6 +6,7 @@ export interface ParametreInterface {
   texte_debut: string;
   texte_fin: string;
   texte_contact: string;
+  texte_affiliation: string;
   consignes_tableaux: string;
   open: boolean;
 }

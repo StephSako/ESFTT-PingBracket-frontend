@@ -6,5 +6,6 @@ export interface PouleInterface {
   tableau: string;
   locked: boolean;
   objectRef: string;
+  i?: number;
   participants: JoueurInterface[] | BinomeInterface[];
 }
