@@ -72,6 +72,7 @@ export class FormulaireComponent implements OnInit {
     classement: null,
     nom: null,
     buffet: true,
+    mail: null,
     age: null,
     _id: null,
     pointage: false
@@ -173,6 +174,7 @@ export class FormulaireComponent implements OnInit {
       classement: null,
       nom: null,
       buffet: true,
+      mail: null,
       age: null,
       _id: null,
       pointage: false
@@ -209,6 +211,7 @@ export class FormulaireComponent implements OnInit {
     if (this.listeJoueurs.length > 0) {
       // Inscription des joueurs
       this.listeJoueurs.forEach((joueur) => {
+        joueur.mail = this.email;
         tabOf.push(this.joueurService.create(joueur.tableaux, joueur));
       });
 

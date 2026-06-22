@@ -7,5 +7,6 @@ export interface JoueurInterface {
   age: number;
   pointage: boolean;
   buffet: boolean;
+  mail: string;
   tableaux: TableauInterface[];
 }

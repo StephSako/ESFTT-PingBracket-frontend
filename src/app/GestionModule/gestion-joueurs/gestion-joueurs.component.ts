@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { JoueurService } from '../../Service/joueur.service';
@@ -27,7 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-gestion-joueurs',
   templateUrl: './gestion-joueurs.component.html',
-  styleUrls: ['./gestion-joueurs.component.scss'],
+  styleUrls: ['./gestion-joueurs.component.scss']
 })
 export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
   @Output() getAllJoueurs: EventEmitter<any> = new EventEmitter();
@@ -39,7 +39,7 @@ export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
     'tableaux',
     'buffet',
     'edit',
-    'delete',
+    'delete'
   ];
   @Input() allJoueurs: JoueurInterface[] = [];
   dataSource = new MatTableDataSource(this.allJoueurs);
@@ -52,9 +52,10 @@ export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
     age: null,
     classement: null,
     buffet: null,
+    mail: null,
     pointage: false,
     _id: null,
-    tableaux: [],
+    tableaux: []
   };
 
   constructor(
@@ -121,8 +122,9 @@ export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
           age: null,
           _id: null,
           buffet: null,
+          mail: null,
           tableaux: [],
-          pointage: false,
+          pointage: false
         };
       },
       (err) =>
@@ -135,8 +137,8 @@ export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
       width: '90%',
       data: {
         joueur,
-        createMode: false,
-      },
+        createMode: false
+      }
     });
   }
 
@@ -146,13 +148,13 @@ export class GestionJoueursComponent implements OnInit, OnDestroy, OnChanges {
       action: 'Supprimer le joueur ?',
       option:
         'Les poules seront régénérées dans les tableaux auxquels il est inscrit. Régénérez manuellement les tableaux finaux.',
-      action_button_text: 'Supprimer',
+      action_button_text: 'Supprimer'
     };
 
     this.dialog
       .open(DialogComponent, {
         width: '55%',
-        data: playerToDelete,
+        data: playerToDelete
       })
       .afterClosed()
       .subscribe(

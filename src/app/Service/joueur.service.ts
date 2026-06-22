@@ -6,7 +6,7 @@ import { TableauInterface } from '../Interface/Tableau';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class JoueurService {
   private baseURL = environment.endpointNodeApi + 'joueur/';
@@ -68,17 +68,17 @@ export class JoueurService {
   ): Observable<any> {
     return this.http.put(this.baseURL + 'move', {
       previousTableauId,
-      newTableauId,
+      newTableauId
     });
   }
 
   public pointerPlayer(joueur: JoueurInterface): Observable<any> {
     return this.http.put(this.baseURL + `pointer/${joueur._id}`, {
-      pointage: !joueur.pointage,
+      pointage: !joueur.pointage
     });
   }
 
-  public checkIdParieur(idParieur): Observable<any> {
+  public checkIdParieur(idParieur: any): Observable<any> {
     return this.http.get(
       this.baseURL + `check/id_parieur/${idParieur.toLowerCase()}`
     );

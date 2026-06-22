@@ -16,7 +16,7 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-edit-joueur',
   templateUrl: './edit-joueur.component.html',
-  styleUrls: ['./edit-joueur.component.scss'],
+  styleUrls: ['./edit-joueur.component.scss']
 })
 export class EditJoueurComponent implements OnInit, OnDestroy {
   reactiveForm: FormGroup;
@@ -26,9 +26,10 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
     age: null,
     classement: null,
     buffet: null,
+    mail: null,
     _id: null,
     tableaux: null,
-    pointage: null,
+    pointage: null
   };
   createModeInput = false;
   private tableauxSubscription: Subscription;
@@ -57,6 +58,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       classement: new FormControl(this.joueur.classement),
       age: new FormControl(this.joueur.age),
       buffet: new FormControl(this.joueur.buffet),
+      mail: new FormControl(this.joueur.mail)
     });
   }
 
@@ -115,13 +117,13 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       id: tableau._id,
       action: 'Désinscrire le joueur du tableau ?',
       option: null,
-      action_button_text: 'Désinscrire',
+      action_button_text: 'Désinscrire'
     };
 
     this.dialog
       .open(DialogComponent, {
         width: '45%',
-        data: tableauToDelete,
+        data: tableauToDelete
       })
       .afterClosed()
       .subscribe((id_tableau) => {
@@ -180,13 +182,13 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       const playerToEdit: Dialog = {
         id: this.joueur._id,
         action: 'Modifier le joueur',
-        action_button_text: 'Valider',
+        action_button_text: 'Valider'
       };
 
       this.dialog
         .open(DialogComponent, {
           width: '85%',
-          data: playerToEdit,
+          data: playerToEdit
         })
         .afterClosed()
         .subscribe((id_action) => {
@@ -200,6 +202,7 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
             }
             this.joueur.age = this.value('age');
             this.joueur.buffet = this.value('buffet');
+            this.joueur.mail = this.value('mail');
 
             this.joueurService.edit(this.joueur).subscribe(
               () => {
@@ -293,6 +296,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       }
       this.joueur.age = this.value('age');
       this.joueur.buffet = this.value('buffet');
+      this.joueur.mail = this.value('mail');
+
       this.joueurService.edit(this.joueur).subscribe(
         () => {},
         (err) => {
@@ -316,7 +321,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       this.value('nom') !== this.joueur.nom ||
       this.classementModifying() ||
       this.ageModifying() ||
-      this.buffetModifying()
+      this.buffetModifying() ||
+      this.mailModifying()
     );
   }
 
@@ -330,6 +336,10 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
 
   buffetModifying(): boolean {
     return this.value('buffet') !== this.joueur.buffet;
+  }
+
+  mailModifying(): boolean {
+    return this.value('mail') !== this.joueur.mail;
   }
 
   enabled(tableau: TableauInterface): boolean {
@@ -352,8 +362,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
       ? this.joueur.age === null
         ? 'Âge requis'
         : this.joueur.age >= tableau.age_minimum
-        ? 'Âge supérieur à ' + tableau.age_minimum + ' ans'
-        : ''
+          ? 'Âge supérieur à ' + tableau.age_minimum + ' ans'
+          : ''
       : null;
   }
 
@@ -361,8 +371,8 @@ export class EditJoueurComponent implements OnInit, OnDestroy {
     return !this.joueur.classement && tableau.type_licence === 3
       ? "Requis d'être compétiteur"
       : this.joueur.classement && tableau.type_licence === 2
-      ? "Requis d'être loisir"
-      : null;
+        ? "Requis d'être loisir"
+        : null;
   }
 
   checkAge(): void {

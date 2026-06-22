@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { JoueurService } from '../../Service/joueur.service';
 import { JoueurInterface } from '../../Interface/Joueur';
@@ -30,7 +30,7 @@ import { ChapeauxInterface } from 'src/app/Interface/Binome';
 @Component({
   selector: 'app-list-players',
   templateUrl: './list-players.component.html',
-  styleUrls: ['./list-players.component.scss'],
+  styleUrls: ['./list-players.component.scss']
 })
 export class ListPlayersComponent implements OnInit, OnDestroy {
   displayedColumns: string[];
@@ -58,7 +58,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
     ptsGagnesParisWB: null,
     ptsPerdusParisWB: null,
     ptsGagnesParisLB: null,
-    ptsPerdusParisLB: null,
+    ptsPerdusParisLB: null
   };
   listJoueurs: JoueurInterface[] = [];
   listTableauHostable: TableauInterface[] = [];
@@ -99,6 +99,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
         _id: null,
         tableaux: null,
         pointage: null,
+        mail: null
       };
 
       this.getTableau(this.router.url.split('/').pop());
@@ -204,12 +205,13 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       () => {
         this.joueur = {
           classement: null,
+          mail: null,
           age: null,
           nom: null,
           _id: null,
           buffet: null,
           pointage: false,
-          tableaux: null,
+          tableaux: null
         };
         if (this.tableau.poules && this.tableau.format === 'simple') {
           this.generatePoules.emit();
@@ -269,13 +271,13 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       action:
         'Désinscrire le joueur du tableau et régénérer les poules du tableau ?',
       option: null,
-      action_button_text: 'Désinscrire',
+      action_button_text: 'Désinscrire'
     };
 
     this.dialog
       .open(DialogComponent, {
         width: '45%',
-        data: playerToDelete,
+        data: playerToDelete
       })
       .afterClosed()
       .subscribe((id_joueur) => {
@@ -299,13 +301,13 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       id: 'true',
       action: 'Désinscrire tous les joueurs du tableau ?',
       option: null,
-      action_button_text: 'Désinscrire',
+      action_button_text: 'Désinscrire'
     };
 
     this.dialog
       .open(DialogComponent, {
         width: '45%',
-        data: playersToDelete,
+        data: playersToDelete
       })
       .afterClosed()
       .subscribe((id_tableau) => {
@@ -330,13 +332,13 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
         this.hostableTableau.age_minimum +
         ' ans" et régénérer les poules ?',
       option: null,
-      action_button_text: 'Basculer',
+      action_button_text: 'Basculer'
     };
 
     this.dialog
       .open(DialogComponent, {
         width: '45%',
-        data: playersToDelete,
+        data: playersToDelete
       })
       .afterClosed()
       .subscribe((id_hostable_tableau) => {
@@ -435,7 +437,7 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
         i >= listJoueursLength ? 'chapeauBas' : 'chapeauHaut',
         i >= listJoueursLength
           ? chapeauBas.indexOf(id)
-          : chapeauHaut.indexOf(id),
+          : chapeauHaut.indexOf(id)
       ];
     }
     return ['', ''];
@@ -479,8 +481,8 @@ export class ListPlayersComponent implements OnInit, OnDestroy {
       width: '50%',
       data: {
         text: tableHTML,
-        printTitle: false,
-      },
+        printTitle: false
+      }
     });
   }
 }

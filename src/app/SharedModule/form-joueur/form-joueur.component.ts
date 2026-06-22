@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { JoueurInterface } from '../../Interface/Joueur';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-form-joueur',
   templateUrl: './form-joueur.component.html',
-  styleUrls: ['./form-joueur.component.scss'],
+  styleUrls: ['./form-joueur.component.scss']
 })
 export class FormJoueurComponent implements OnInit, OnDestroy {
   @Input() joueur: JoueurInterface = {
@@ -30,6 +30,7 @@ export class FormJoueurComponent implements OnInit, OnDestroy {
     _id: null,
     tableaux: null,
     pointage: null,
+    mail: null
   };
   @Input() joueursInscrits: JoueurInterface[];
   @Output() alreadySubscribedOutput = new EventEmitter<boolean>();

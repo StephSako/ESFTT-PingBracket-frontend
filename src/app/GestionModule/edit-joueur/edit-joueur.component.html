@@ -3,7 +3,7 @@
 
   <p class="center">
     <b>Identifiant parieur : </b
-    ><span class="id_parieur">{{ joueur._id | slice : -4 }}</span>
+    ><span class="id_parieur">{{ joueur._id | slice: -4 }}</span>
   </p>
   <br />
 
@@ -14,7 +14,7 @@
           <mat-form-field appearance="outline" class="center">
             <mat-icon matSuffix>title</mat-icon>
             <mat-label>Nom du joueur</mat-label>
-            <input formControlName="nom" matInput required />
+            <input formControlName="nom" type="text" matInput required />
           </mat-form-field>
         </div>
 
@@ -51,6 +51,15 @@
           <mat-slide-toggle color="primary" formControlName="buffet"
             >Buffet</mat-slide-toggle
           >
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="35%">
+          <mat-form-field appearance="outline" class="center">
+            <mat-icon matSuffix>title</mat-icon>
+            <mat-label>Mail du joueur</mat-label>
+            <input formControlName="mail" type="mail" matInput required />
+          </mat-form-field>
         </div>
       </div>
 
