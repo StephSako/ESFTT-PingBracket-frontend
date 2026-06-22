@@ -1,151 +1,29 @@
 <div class="container">
-  <mat-card *ngIf="parametres.open !== null && !parametres.open">
-    <h1 class="lobster center">Les inscriptions au tournoi sont fermées ...</h1>
-  </mat-card>
+  <mat-card>
+    <div *ngIf="parametres.open !== null && !parametres.open">
+      <h1 class="lobster center">
+        Les inscriptions au tournoi sont fermées ...
+      </h1>
 
-  <mat-card *ngIf="parametres.open !== null && parametres.open">
-    <p [innerHTML]="parametres.titre" class="center fromData"></p>
-    <h1 class="center lobster">{{ parametres.date | date: "dd/MM/yyyy" }}</h1>
+      <div [innerHTML]="parametres.texte_fin | noSanitize"></div>
+    </div>
+    <div *ngIf="parametres.open !== null && parametres.open">
+      <p [innerHTML]="parametres.titre" class="center fromData"></p>
+      <h1 class="center lobster">{{ parametres.date | date: "dd/MM/yyyy" }}</h1>
 
-    <p [innerHTML]="parametres.texte_debut | noSanitize" class="fromData"></p>
+      <p [innerHTML]="parametres.texte_debut | noSanitize" class="fromData"></p>
 
-    <br />
-    <h2 class="lobster">1. Inscription des joueurs aux tableaux</h2>
-    <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div>
+      <br />
+      <h2 class="lobster">1. Inscription des joueurs aux tableaux</h2>
+      <div [innerHTML]="parametres.consignes_tableaux | noSanitize"></div>
 
-    <form>
-      <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
-        <div fxFlex="25%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>NOM Prénom *</mat-label>
-            <input name="nom" [(ngModel)]="joueurData.nom" matInput />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="25%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>Points mensuels (si compétiteur)</mat-label>
-            <input
-              name="classement"
-              [(ngModel)]="joueurData.classement"
-              (blur)="setAuthorizedTableaux(joueurData)"
-              type="number"
-              min="0"
-              max="3000"
-              matInput
-            />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="15%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>Âge (si mineur)</mat-label>
-            <input
-              (blur)="checkAge(joueurData); setAuthorizedTableaux(joueurData)"
-              name="age"
-              [(ngModel)]="joueurData.age"
-              type="number"
-              min="5"
-              max="17"
-              matInput
-            />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="20%" fxFlex.lt-md="100%">
-          <mat-form-field appearance="outline" class="center">
-            <mat-label>Tableau(x) *</mat-label>
-            <mat-select
-              name="tableaux"
-              [(ngModel)]="joueurData.tableaux"
-              multiple
-            >
-              <mat-option
-                [disabled]="
-                  isTableauNotClickable(
-                    tableau,
-                    joueurData.age,
-                    joueurData.classement
-                  )
-                "
-                *ngFor="let tableau of tableaux"
-                [value]="tableau"
-                ><span
-                  >{{ tableau.nom | titlecase }}
-                  <span *ngIf="tableau.age_minimum !== null">
-                    - {{ tableau.age_minimum }} ans</span
-                  >
-                  <span
-                    *ngIf="
-                      tableau.type_licence !== null &&
-                      tableau.type_licence !== 1
-                    "
-                  >
-                    - {{ showTypeLicence(tableau.type_licence) }}</span
-                  >
-                </span></mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="15%" fxFlex.lt-md="100%">
-          <button
-            class="center btn_action"
-            [disabled]="disabledAddPlayer(joueurData)"
-            (click)="addJoueur(joueurData)"
-            mat-raised-button
-            color="primary"
-          >
-            Valider ce joueur
-          </button>
-        </div>
-      </div>
-    </form>
-    <br /><br />
-
-    <p>
-      <b><u>Joueurs validés :</u></b>
-    </p>
-    <p *ngIf="listeJoueurs.length === 0">
-      <i>Aucun joueur validé pour le moment</i>
-    </p>
-    <div *ngFor="let joueurItem of listeJoueurs">
       <form>
         <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
           <div fxFlex="25%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label
-                [ngStyle]="{ color: getColorErrorField(joueurItem, 'nom') }"
-                >NOM Prénom *</mat-label
-              >
-              <input name="nom" [(ngModel)]="joueurItem.nom" matInput />
+              <mat-label>NOM Prénom *</mat-label>
+              <input name="nom" [(ngModel)]="joueurData.nom" matInput />
             </mat-form-field>
-            <p
-              class="error"
-              *ngIf="
-                isInSameNamePlayers(joueurItem.nom) &&
-                !hasNoName(joueurItem.nom) &&
-                !isInAlreadySubscribedPlayers(joueurItem.nom)
-              "
-            >
-              Nom en doublon
-            </p>
-            <p
-              class="error"
-              *ngIf="
-                isInAlreadySubscribedPlayers(joueurItem.nom) &&
-                !hasNoName(joueurItem.nom)
-              "
-            >
-              <b>{{ joueurItem.nom | uppercase }}</b> est déjà inscrit
-            </p>
-            <p class="error" *ngIf="hasNoName(joueurItem.nom)">
-              Pas de nom renseigné
-            </p>
-            <p class="error" *ngIf="hasNoTableau(joueurItem.tableaux)">
-              Aucun tableau(x) coché(s)
-            </p>
           </div>
 
           <div fxFlex="25%" fxFlex.lt-md="100%">
@@ -153,8 +31,8 @@
               <mat-label>Points mensuels (si compétiteur)</mat-label>
               <input
                 name="classement"
-                [(ngModel)]="joueurItem.classement"
-                (blur)="setAuthorizedTableaux(joueurItem)"
+                [(ngModel)]="joueurData.classement"
+                (blur)="setAuthorizedTableaux(joueurData)"
                 type="number"
                 min="0"
                 max="3000"
@@ -167,13 +45,9 @@
             <mat-form-field appearance="outline" class="center">
               <mat-label>Âge (si mineur)</mat-label>
               <input
+                (blur)="checkAge(joueurData); setAuthorizedTableaux(joueurData)"
                 name="age"
-                [(ngModel)]="joueurItem.age"
-                (blur)="
-                  checkAge(joueurItem);
-                  setAuthorizedTableaux(joueurItem);
-                  updateMinAllParticipantsBuffet()
-                "
+                [(ngModel)]="joueurData.age"
                 type="number"
                 min="5"
                 max="17"
@@ -184,23 +58,18 @@
 
           <div fxFlex="20%" fxFlex.lt-md="100%">
             <mat-form-field appearance="outline" class="center">
-              <mat-label
-                [ngStyle]="{
-                  color: getColorErrorField(joueurItem, 'tableaux')
-                }"
-                >Tableau(x) *</mat-label
-              >
+              <mat-label>Tableau(x) *</mat-label>
               <mat-select
                 name="tableaux"
-                [(ngModel)]="joueurItem.tableaux"
+                [(ngModel)]="joueurData.tableaux"
                 multiple
               >
                 <mat-option
                   [disabled]="
                     isTableauNotClickable(
                       tableau,
-                      joueurItem.age,
-                      joueurItem.classement
+                      joueurData.age,
+                      joueurData.classement
                     )
                   "
                   *ngFor="let tableau of tableaux"
@@ -222,245 +91,391 @@
                 >
               </mat-select>
             </mat-form-field>
-
-            <p
-              class="error"
-              *ngIf="doubleInscriptionTableauxJeunes(joueurItem.tableaux)"
-            >
-              Le joueur ne peut participer qu'à un seul tableau Jeune
-            </p>
           </div>
 
           <div fxFlex="15%" fxFlex.lt-md="100%">
             <button
+              class="center btn_action"
+              [disabled]="disabledAddPlayer(joueurData)"
+              (click)="addJoueur(joueurData)"
               mat-raised-button
-              (click)="removeItem(joueurItem)"
-              class="center btn_action delete"
-              color="warn"
+              color="primary"
             >
-              Effacer ce joueur
+              Valider ce joueur
             </button>
           </div>
         </div>
       </form>
-    </div>
-    <br />
+      <br /><br />
 
-    <br />
-    <h2 class="lobster">2. Buffet du soir</h2>
-    <p [innerHTML]="parametres.texte_buffet | noSanitize" class="fromData"></p>
-
-    <div *ngIf="listeJoueurs.length">
-      <h3 class="lobster">Participation des joueurs au buffet</h3>
-
-      <table mat-table [dataSource]="joueursParticipantsBuffet">
-        <ng-container matColumnDef="nom">
-          <th mat-header-cell *matHeaderCellDef>Nom</th>
-          <td mat-cell *matCellDef="let joueur">{{ joueur.nom }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="buffet">
-          <th mat-header-cell *matHeaderCellDef>Buffet</th>
-          <td mat-cell *matCellDef="let joueur">
-            <mat-slide-toggle
-              color="primary"
-              (change)="changeSwitchBuffet(joueur)"
-              [checked]="joueur.buffet"
-            >
-            </mat-slide-toggle>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['nom', 'buffet']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['nom', 'buffet']"></tr>
-      </table>
-      <br />
-      <br />
-    </div>
-
-    <div class="nbParticipants">
-      <p>Nombre d'enfants (-14 ans) :</p>
       <p>
+        <b><u>Joueurs validés :</u></b>
+      </p>
+      <p *ngIf="listeJoueurs.length === 0">
+        <i>Aucun joueur validé pour le moment</i>
+      </p>
+      <div *ngFor="let joueurItem of listeJoueurs">
+        <form>
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            class="form_inputs_player"
+          >
+            <div fxFlex="25%" fxFlex.lt-md="100%">
+              <mat-form-field appearance="outline" class="center">
+                <mat-label
+                  [ngStyle]="{ color: getColorErrorField(joueurItem, 'nom') }"
+                  >NOM Prénom *</mat-label
+                >
+                <input name="nom" [(ngModel)]="joueurItem.nom" matInput />
+              </mat-form-field>
+              <p
+                class="error"
+                *ngIf="
+                  isInSameNamePlayers(joueurItem.nom) &&
+                  !hasNoName(joueurItem.nom) &&
+                  !isInAlreadySubscribedPlayers(joueurItem.nom)
+                "
+              >
+                Nom en doublon
+              </p>
+              <p
+                class="error"
+                *ngIf="
+                  isInAlreadySubscribedPlayers(joueurItem.nom) &&
+                  !hasNoName(joueurItem.nom)
+                "
+              >
+                <b>{{ joueurItem.nom | uppercase }}</b> est déjà inscrit
+              </p>
+              <p class="error" *ngIf="hasNoName(joueurItem.nom)">
+                Pas de nom renseigné
+              </p>
+              <p class="error" *ngIf="hasNoTableau(joueurItem.tableaux)">
+                Aucun tableau(x) coché(s)
+              </p>
+            </div>
+
+            <div fxFlex="25%" fxFlex.lt-md="100%">
+              <mat-form-field appearance="outline" class="center">
+                <mat-label>Points mensuels (si compétiteur)</mat-label>
+                <input
+                  name="classement"
+                  [(ngModel)]="joueurItem.classement"
+                  (blur)="setAuthorizedTableaux(joueurItem)"
+                  type="number"
+                  min="0"
+                  max="3000"
+                  matInput
+                />
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="15%" fxFlex.lt-md="100%">
+              <mat-form-field appearance="outline" class="center">
+                <mat-label>Âge (si mineur)</mat-label>
+                <input
+                  name="age"
+                  [(ngModel)]="joueurItem.age"
+                  (blur)="
+                    checkAge(joueurItem);
+                    setAuthorizedTableaux(joueurItem);
+                    updateMinAllParticipantsBuffet()
+                  "
+                  type="number"
+                  min="5"
+                  max="17"
+                  matInput
+                />
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="20%" fxFlex.lt-md="100%">
+              <mat-form-field appearance="outline" class="center">
+                <mat-label
+                  [ngStyle]="{
+                    color: getColorErrorField(joueurItem, 'tableaux')
+                  }"
+                  >Tableau(x) *</mat-label
+                >
+                <mat-select
+                  name="tableaux"
+                  [(ngModel)]="joueurItem.tableaux"
+                  multiple
+                >
+                  <mat-option
+                    [disabled]="
+                      isTableauNotClickable(
+                        tableau,
+                        joueurItem.age,
+                        joueurItem.classement
+                      )
+                    "
+                    *ngFor="let tableau of tableaux"
+                    [value]="tableau"
+                    ><span
+                      >{{ tableau.nom | titlecase }}
+                      <span *ngIf="tableau.age_minimum !== null">
+                        - {{ tableau.age_minimum }} ans</span
+                      >
+                      <span
+                        *ngIf="
+                          tableau.type_licence !== null &&
+                          tableau.type_licence !== 1
+                        "
+                      >
+                        - {{ showTypeLicence(tableau.type_licence) }}</span
+                      >
+                    </span></mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+
+              <p
+                class="error"
+                *ngIf="doubleInscriptionTableauxJeunes(joueurItem.tableaux)"
+              >
+                Le joueur ne peut participer qu'à un seul tableau Jeune
+              </p>
+            </div>
+
+            <div fxFlex="15%" fxFlex.lt-md="100%">
+              <button
+                mat-raised-button
+                (click)="removeItem(joueurItem)"
+                class="center btn_action delete"
+                color="warn"
+              >
+                Effacer ce joueur
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <br />
+
+      <br />
+      <h2 class="lobster">2. Buffet du soir</h2>
+      <p
+        [innerHTML]="parametres.texte_buffet | noSanitize"
+        class="fromData"
+      ></p>
+
+      <div *ngIf="listeJoueurs.length">
+        <h3 class="lobster">Participation des joueurs au buffet</h3>
+
+        <table mat-table [dataSource]="joueursParticipantsBuffet">
+          <ng-container matColumnDef="nom">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td mat-cell *matCellDef="let joueur">{{ joueur.nom }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="buffet">
+            <th mat-header-cell *matHeaderCellDef>Buffet</th>
+            <td mat-cell *matCellDef="let joueur">
+              <mat-slide-toggle
+                color="primary"
+                (change)="changeSwitchBuffet(joueur)"
+                [checked]="joueur.buffet"
+              >
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['nom', 'buffet']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['nom', 'buffet']"></tr>
+        </table>
+        <br />
+        <br />
+      </div>
+
+      <div class="nbParticipants">
+        <p>Nombre d'enfants (-14 ans) :</p>
+        <p>
+          <mat-form-field class="shorten" appearance="outline">
+            <input
+              matInput
+              type="number"
+              [min]="minParticipantsEnfantsBuffet"
+              [(ngModel)]="buffet.enfant"
+              (blur)="updateMinAllParticipantsBuffet()"
+              name="enfant"
+            />
+          </mat-form-field>
+        </p>
+      </div>
+
+      <div class="nbParticipants">
+        <p>Nombre d'ados (+14 ans) & adultes :</p>
         <mat-form-field class="shorten" appearance="outline">
           <input
             matInput
             type="number"
-            [min]="minParticipantsEnfantsBuffet"
-            [(ngModel)]="buffet.enfant"
+            [min]="minParticipantsAdosAdultesBuffet"
+            [(ngModel)]="buffet.ado_adulte"
             (blur)="updateMinAllParticipantsBuffet()"
-            name="enfant"
+            name="ado_adulte"
           />
         </mat-form-field>
+      </div>
+
+      <br />
+      <h3 class="lobster title_plat">
+        <b>Plat(s) <u>que vous aurez confectionné(s)</u></b>
+      </h3>
+
+      <p class="alerte_info">
+        <mat-icon aria-hidden="false">info</mat-icon>
+        <i>
+          Écrivez <b>un</b> plat, puis appuyez sur la touche
+          <strong>Entrée</strong> de votre clavier pour l'ajouter à votre liste,
+          et ainsi de suite <b>pour chaque plat</b> que vous voulez ajouter.</i
+        ><br />
+        <i
+          >Il est possible d'ajouter des plats même si vous ne participez pas au
+          buffet.</i
+        >
       </p>
-    </div>
 
-    <div class="nbParticipants">
-      <p>Nombre d'ados (+14 ans) & adultes :</p>
-      <mat-form-field class="shorten" appearance="outline">
-        <input
-          matInput
-          type="number"
-          [min]="minParticipantsAdosAdultesBuffet"
-          [(ngModel)]="buffet.ado_adulte"
-          (blur)="updateMinAllParticipantsBuffet()"
-          name="ado_adulte"
-        />
+      <mat-form-field class="chip-list" appearance="outline">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip
+            *ngFor="let plat of buffet.plats"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(plat)"
+            color="primary"
+            selected
+          >
+            {{ plat }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            type="text"
+            placeholder="Plats préparés"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
       </mat-form-field>
-    </div>
 
-    <br />
-    <h3 class="lobster title_plat">
-      <b>Plat(s) <u>que vous aurez confectionné(s)</u></b>
-    </h3>
-
-    <p class="alerte_info">
-      <mat-icon aria-hidden="false">info</mat-icon>
-      <i>
-        Écrivez <b>un</b> plat, puis appuyez sur la touche
-        <strong>Entrée</strong> de votre clavier pour l'ajouter à votre liste,
-        et ainsi de suite <b>pour chaque plat</b> que vous voulez ajouter.</i
-      ><br />
-      <i
-        >Il est possible d'ajouter des plats même si vous ne participez pas au
-        buffet.</i
+      <br />
+      <p><i>Plats déjà préparés :</i></p>
+      <mat-chip-list
+        *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked"
       >
-    </p>
-
-    <mat-form-field class="chip-list" appearance="outline">
-      <mat-chip-list #chipList aria-label="Fruit selection">
         <mat-chip
-          *ngFor="let plat of buffet.plats"
-          [selectable]="selectable"
-          [removable]="removable"
-          (removed)="remove(plat)"
+          *ngFor="let plat of platsAlreadyCooked"
           color="primary"
           selected
+          >{{ plat }}</mat-chip
         >
-          {{ plat }}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur"
-          type="text"
-          placeholder="Plats préparés"
-          (matChipInputTokenEnd)="add($event)"
-        />
       </mat-chip-list>
-    </mat-form-field>
+      <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br />
 
-    <br />
-    <p><i>Plats déjà préparés :</i></p>
-    <mat-chip-list
-      *ngIf="!platsAlreadyCookedEmpty(); else noPlatsAlreadyCooked"
-    >
-      <mat-chip
-        *ngFor="let plat of platsAlreadyCooked"
+      <br />
+      <h2 class="lobster">3. Vous contacter</h2>
+      <p
+        [innerHTML]="parametres.texte_contact | noSanitize"
+        class="fromData"
+      ></p>
+
+      <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+        <div fxFlex="35%" fxFlex.lt-md="100%">
+          <mat-form-field appearance="outline">
+            <mat-label>Adresse email *</mat-label>
+            <input
+              type="email"
+              matInput
+              [(ngModel)]="email"
+              placeholder="Ex: ping@pong.fr"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <br />
+
+      <br />
+      <h2 class="lobster">4. Êtes-vous connu du club ?</h2>
+      <p
+        [innerHTML]="parametres.texte_affiliation | noSanitize"
+        class="fromData"
+      ></p>
+
+      <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
+        <div fxFlex="35%" fxFlex.lt-md="100%">
+          <mat-form-field appearance="outline">
+            <mat-label>Nom du membre du club rattaché (facultatif)</mat-label>
+            <input type="text" matInput [(ngModel)]="joueurClubAffilie" />
+          </mat-form-field>
+        </div>
+      </div>
+      <br />
+
+      <h2 class="lobster">5. Validez le formulaire !</h2>
+
+      <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">
+        Un joueur est en cours d'inscription et n'a pas été validé.<br /><i
+          >(Rappel : cliquez sur le bouton bleu <b>Valider ce joueur</b> pour
+          inscrire chaque participant.)</i
+        >
+      </p>
+      <p class="alerte_pill center" *ngIf="hasSameNamePlayers().length > 0">
+        {{ hasSameNamePlayers().length * 2 }} joueurs possèdent le même nom :
+        différenciez-les par l'ajout d'un chiffre ou d'un surnom. <br />Pour
+        rappel, si un joueur participe à plusieurs tableaux, cochez-les tous
+        dans la liste des tableaux pour ce joueur.
+      </p>
+      <p
+        class="alerte_pill center"
+        *ngIf="listeJoueursHasInvalidPlayer().length > 0"
+      >
+        {{
+          listeJoueursHasInvalidPlayer().length +
+            (listeJoueursHasInvalidPlayer().length > 1
+              ? " joueurs n'ont pas de noms renseignés"
+              : " joueur n'a pas de nom renseigné")
+        }}
+        ou de tableau(x) coché(s)
+      </p>
+      <p class="alerte_pill center" *ngIf="isAlreadySubscribed().length > 0">
+        {{
+          isAlreadySubscribed().length +
+            (isAlreadySubscribed().length > 1
+              ? " joueurs renseignés sont déjà inscrits"
+              : " joueur renseigné est déjà inscrit")
+        }}
+      </p>
+      <p
+        class="alerte_pill center"
+        *ngIf="hasDoubleInscriptionTableauxJeunesPlayers().length > 0"
+      >
+        {{
+          hasDoubleInscriptionTableauxJeunesPlayers().length +
+            (hasDoubleInscriptionTableauxJeunesPlayers().length > 1
+              ? " joueurs renseignés sont inscrits dans plusieurs tableaux Jeunes"
+              : " joueur renseigné est inscrit dans plusieurs tableaux Jeunes")
+        }}
+      </p>
+      <button
+        [disabled]="disabledSubmit()"
+        class="center"
+        mat-raised-button
         color="primary"
-        selected
-        >{{ plat }}</mat-chip
+        (click)="openConfirmModale()"
       >
-    </mat-chip-list>
-    <ng-template #noPlatsAlreadyCooked><p>(Aucun)</p></ng-template><br />
+        <mat-icon *ngIf="spinnerShown">
+          <mat-spinner color="accent" [diameter]="20"></mat-spinner>
+        </mat-icon>
+        Envoyer !
+      </button>
+      <br />
+      <br />
 
-    <br />
-    <h2 class="lobster">3. Vous contacter</h2>
-    <p [innerHTML]="parametres.texte_contact | noSanitize" class="fromData"></p>
-
-    <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
-      <div fxFlex="35%" fxFlex.lt-md="100%">
-        <mat-form-field appearance="outline">
-          <mat-label>Adresse email *</mat-label>
-          <input
-            type="email"
-            matInput
-            [(ngModel)]="email"
-            placeholder="Ex: ping@pong.fr"
-          />
-        </mat-form-field>
-      </div>
+      <div [innerHTML]="parametres.texte_fin | noSanitize"></div>
+      <br />
     </div>
-    <br />
-
-    <br />
-    <h2 class="lobster">4. Êtes-vous connu du club ?</h2>
-    <p
-      [innerHTML]="parametres.texte_affiliation | noSanitize"
-      class="fromData"
-    ></p>
-
-    <div fxLayout="row" fxLayout.lt-md="column" class="form_inputs_player">
-      <div fxFlex="35%" fxFlex.lt-md="100%">
-        <mat-form-field appearance="outline">
-          <mat-label>Nom du membre du club rattaché (facultatif)</mat-label>
-          <input type="text" matInput [(ngModel)]="joueurClubAffilie" />
-        </mat-form-field>
-      </div>
-    </div>
-    <br />
-
-    <h2 class="lobster">5. Validez le formulaire !</h2>
-
-    <p class="alerte_pill center" *ngIf="isPlayerSubscribing()">
-      Un joueur est en cours d'inscription et n'a pas été validé.<br /><i
-        >(Rappel : cliquez sur le bouton bleu <b>Valider ce joueur</b> pour
-        inscrire chaque participant.)</i
-      >
-    </p>
-    <p class="alerte_pill center" *ngIf="hasSameNamePlayers().length > 0">
-      {{ hasSameNamePlayers().length * 2 }} joueurs possèdent le même nom :
-      différenciez-les par l'ajout d'un chiffre ou d'un surnom. <br />Pour
-      rappel, si un joueur participe à plusieurs tableaux, cochez-les tous dans
-      la liste des tableaux pour ce joueur.
-    </p>
-    <p
-      class="alerte_pill center"
-      *ngIf="listeJoueursHasInvalidPlayer().length > 0"
-    >
-      {{
-        listeJoueursHasInvalidPlayer().length +
-          (listeJoueursHasInvalidPlayer().length > 1
-            ? " joueurs n'ont pas de noms renseignés"
-            : " joueur n'a pas de nom renseigné")
-      }}
-      ou de tableau(x) coché(s)
-    </p>
-    <p class="alerte_pill center" *ngIf="isAlreadySubscribed().length > 0">
-      {{
-        isAlreadySubscribed().length +
-          (isAlreadySubscribed().length > 1
-            ? " joueurs renseignés sont déjà inscrits"
-            : " joueur renseigné est déjà inscrit")
-      }}
-    </p>
-    <p
-      class="alerte_pill center"
-      *ngIf="hasDoubleInscriptionTableauxJeunesPlayers().length > 0"
-    >
-      {{
-        hasDoubleInscriptionTableauxJeunesPlayers().length +
-          (hasDoubleInscriptionTableauxJeunesPlayers().length > 1
-            ? " joueurs renseignés sont inscrits dans plusieurs tableaux Jeunes"
-            : " joueur renseigné est inscrit dans plusieurs tableaux Jeunes")
-      }}
-    </p>
-    <button
-      [disabled]="disabledSubmit()"
-      class="center"
-      mat-raised-button
-      color="primary"
-      (click)="openConfirmModale()"
-    >
-      <mat-icon *ngIf="spinnerShown">
-        <mat-spinner color="accent" [diameter]="20"></mat-spinner>
-      </mat-icon>
-      Envoyer !
-    </button>
-    <br />
-    <br />
-
-    <div [innerHTML]="parametres.texte_fin | noSanitize"></div>
-    <br />
   </mat-card>
 </div>
