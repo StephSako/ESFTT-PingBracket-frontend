@@ -97,7 +97,13 @@
     <mat-form-field appearance="outline" class="center">
       <mat-icon matSuffix>title</mat-icon>
       <mat-label>Mail du joueur</mat-label>
-      <input name="mail" type="email" [(ngModel)]="joueur.mail" matInput />
+      <input
+        name="mail"
+        type="email"
+        [(ngModel)]="joueur.mail"
+        matInput
+        required
+      />
     </mat-form-field>
   </div>
 </div>
