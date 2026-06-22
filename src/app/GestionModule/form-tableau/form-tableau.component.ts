@@ -3,13 +3,13 @@ import { TableauInterface } from '../../Interface/Tableau';
 import {
   categoriesAge,
   formats,
-  typesLicenceTableau,
+  typesLicenceTableau
 } from 'src/app/const/options-tableaux';
 
 @Component({
   selector: 'app-form-tableau',
   templateUrl: './form-tableau.component.html',
-  styleUrls: ['./form-tableau.component.scss'],
+  styleUrls: ['./form-tableau.component.scss']
 })
 export class FormTableauComponent implements OnInit {
   @Input() tableau: TableauInterface;
@@ -25,5 +25,8 @@ export class FormTableauComponent implements OnInit {
 
   simpleFormatPouleOnChange(): void {
     this.tableau.hasChapeau = false;
+    if (this.tableau.format === 'simple') {
+      this.tableau.maxNumberPlayers = null;
+    }
   }
 }

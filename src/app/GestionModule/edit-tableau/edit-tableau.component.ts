@@ -14,14 +14,14 @@ import {
   categoriesAge,
   formats,
   statuts,
-  typesLicenceTableau,
+  typesLicenceTableau
 } from 'src/app/const/options-tableaux';
 import { PariService } from 'src/app/Service/pari.service';
 
 @Component({
   selector: 'app-edit-tableau',
   templateUrl: './edit-tableau.component.html',
-  styleUrls: ['./edit-tableau.component.scss'],
+  styleUrls: ['./edit-tableau.component.scss']
 })
 export class EditTableauComponent implements OnInit {
   tableau: TableauInterface;
@@ -40,7 +40,7 @@ export class EditTableauComponent implements OnInit {
     public dialog: MatDialog,
     private pariService: PariService,
     private poulesService: PoulesService,
-    private binomeService: BinomeService,
+    private binomeService: BinomeService
   ) {
     this.tableau = data.tableau;
     this.reactiveForm = new FormGroup({
@@ -50,7 +50,7 @@ export class EditTableauComponent implements OnInit {
       consolante: new FormControl(this.tableau.consolante),
       handicap: new FormControl(this.tableau.handicap),
       nbPoules: new FormControl(
-        this.tableau.poules ? this.tableau.nbPoules : 2,
+        this.tableau.poules ? this.tableau.nbPoules : 2
       ),
       age_minimum: new FormControl(this.tableau.age_minimum),
       type_licence: new FormControl(this.tableau.type_licence),
@@ -63,15 +63,15 @@ export class EditTableauComponent implements OnInit {
       bracketPariable: new FormControl(this.tableau.bracketPariable),
       consolantePariable: new FormControl(this.tableau.consolantePariable),
       ptsGagnesParisVainqueur: new FormControl(
-        this.tableau.ptsGagnesParisVainqueur,
+        this.tableau.ptsGagnesParisVainqueur
       ),
       ptsPerdusParisVainqueur: new FormControl(
-        this.tableau.ptsPerdusParisVainqueur,
+        this.tableau.ptsPerdusParisVainqueur
       ),
       ptsGagnesParisWB: new FormControl(this.tableau.ptsGagnesParisWB),
       ptsPerdusParisWB: new FormControl(this.tableau.ptsPerdusParisWB),
       ptsGagnesParisLB: new FormControl(this.tableau.ptsGagnesParisLB),
-      ptsPerdusParisLB: new FormControl(this.tableau.ptsPerdusParisLB),
+      ptsPerdusParisLB: new FormControl(this.tableau.ptsPerdusParisLB)
     });
   }
 
@@ -79,7 +79,7 @@ export class EditTableauComponent implements OnInit {
     this.statuts = statuts.filter(
       (statut) =>
         (this.value('poules') && statut.forNoPoule !== false) ||
-        (!this.value('poules') && statut.forNoPoule === undefined),
+        (!this.value('poules') && statut.forNoPoule === undefined)
     );
   }
 
@@ -126,13 +126,13 @@ export class EditTableauComponent implements OnInit {
       const tableauToEdit: Dialog = {
         id: this.tableau._id,
         action: 'Des informations ont été modifées.',
-        action_button_text: 'Confirmer',
+        action_button_text: 'Confirmer'
       };
 
       this.dialog
         .open(DialogComponent, {
           width: '75%',
-          data: tableauToEdit,
+          data: tableauToEdit
         })
         .afterClosed()
         .subscribe((id_action) => {
@@ -144,14 +144,14 @@ export class EditTableauComponent implements OnInit {
                 if (consolanteEdited) {
                   this.bracketService.deleteBracket(this.tableau._id).subscribe(
                     () => {},
-                    (err) => this.emitErrorSnackbar(err),
+                    (err) => this.emitErrorSnackbar(err)
                   );
                 }
 
                 if (poulesEdited && !this.tableau.poules) {
                   this.poulesService.deletePoules(this.tableau._id).subscribe(
                     () => {},
-                    (err) => this.emitErrorSnackbar(err),
+                    (err) => this.emitErrorSnackbar(err)
                   );
                 }
 
@@ -160,14 +160,14 @@ export class EditTableauComponent implements OnInit {
                     .unsubscribeInvalidPlayers(this.tableau, {
                       age_flag: ageMinimumEdited,
                       type_licence_flag: typeLicenceEdited,
-                      type_licence_to_unsubscribe: typeLicenceToUnsubscribe,
+                      type_licence_to_unsubscribe: typeLicenceToUnsubscribe
                     })
                     .subscribe(
                       () => {
                         this.tableauService.tableauxChange.emit();
                         this.tableauService.nbInscritsChange.emit();
                       },
-                      (err) => this.emitErrorSnackbar(err),
+                      (err) => this.emitErrorSnackbar(err)
                     );
                 }
 
@@ -175,14 +175,14 @@ export class EditTableauComponent implements OnInit {
                   if (this.tableau.format === 'simple') {
                     this.binomeService.removeAll(this.tableau._id).subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err),
+                      (err) => this.emitErrorSnackbar(err)
                     );
                   } else if (this.tableau.format === 'double') {
                     this.binomeService
                       .generateBinomes(this.tableau._id)
                       .subscribe(
                         () => {},
-                        (err) => this.emitErrorSnackbar(err),
+                        (err) => this.emitErrorSnackbar(err)
                       );
                   }
                 }
@@ -193,7 +193,7 @@ export class EditTableauComponent implements OnInit {
                     .deleteParisTableauPhase('all', this.tableau._id)
                     .subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err),
+                      (err) => this.emitErrorSnackbar(err)
                     );
                 } else if (
                   bracketPariableEdited &&
@@ -203,7 +203,7 @@ export class EditTableauComponent implements OnInit {
                     .deleteParisTableauPhase('all_brackets', this.tableau._id)
                     .subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err),
+                      (err) => this.emitErrorSnackbar(err)
                     );
                 } else if (
                   consolantePariableEdited &&
@@ -213,7 +213,7 @@ export class EditTableauComponent implements OnInit {
                     .deleteParisTableauPhase('consolante', this.tableau._id)
                     .subscribe(
                       () => {},
-                      (err) => this.emitErrorSnackbar(err),
+                      (err) => this.emitErrorSnackbar(err)
                     );
                 }
 
@@ -230,7 +230,7 @@ export class EditTableauComponent implements OnInit {
                   this.generatePoules(this.tableau);
                 }
               },
-              (err) => this.emitErrorSnackbar(err),
+              (err) => this.emitErrorSnackbar(err)
             );
           }
         });
@@ -243,7 +243,7 @@ export class EditTableauComponent implements OnInit {
           }
           this.tableauService.tableauxChange.emit();
         },
-        (err) => this.emitErrorSnackbar(err),
+        (err) => this.emitErrorSnackbar(err)
       );
     }
   }
@@ -309,7 +309,7 @@ export class EditTableauComponent implements OnInit {
   generatePoules(tableau: TableauInterface): void {
     this.poulesService.generatePoules(tableau).subscribe(
       () => {},
-      (err) => this.emitErrorSnackbar(err),
+      (err) => this.emitErrorSnackbar(err)
     );
   }
 
@@ -343,6 +343,9 @@ export class EditTableauComponent implements OnInit {
   simpleFormatPouleOnChange(): void {
     if (this.reactiveForm.get('hasChapeau') != null) {
       this.reactiveForm.get('hasChapeau').setValue(false);
+    }
+    if (this.reactiveForm.get('format') != null) {
+      this.reactiveForm.get('maxNumberPlayers').setValue(null);
     }
   }
 
